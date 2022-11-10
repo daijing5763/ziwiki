@@ -1,0 +1,12 @@
+version: "1"
+packages:
+  - name: "db"
+    path: "./db/sqlc" ##store generated golang file by sqlc
+    queries: "./db/query/" ##tell sqlc where to find  sql query file
+    schema: "./db/migration/" ### schema or migaretion folder
+    engine: "postgresql"      ### use database engine
+    emit_json_tags: true      #### set true allow sqlc generate json tag
+    emit_prepared_queries: false
+    emit_interface: true 
+    emit_exact_table_names: false ### 提取table名,而不是生成合适的(单数)
+    emit_empty_slices: true ### if true: null->[]

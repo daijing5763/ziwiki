@@ -1,3 +1,23 @@
+# ZIWIKI self-host 
+
+
+## 1. go module init
+
+```shell
+go mod init github.com/zdlpsina/ziwiki #init
+go mod tidy  #install deps
+```
+
+## database
+
+> database 用于存储用户表、markdown表等，本repo选择postgres，可以使用sqlc等工具
+
+### 安装依赖
+
+> database 使用sqlc、golang migrate等
+
+
+
 # ziwiki
 
 ## proxy
