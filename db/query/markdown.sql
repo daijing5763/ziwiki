@@ -2,7 +2,7 @@
 INSERT INTO markdowns (
   mdhref,
   user_id,
-  mdrepo,
+  repo_id,
   mdtext
 ) VALUES ($1, $2, $3, $4 ) 
 RETURNING *;

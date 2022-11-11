@@ -13,16 +13,16 @@ const createMarkdown = `-- name: CreateMarkdown :one
 INSERT INTO markdowns (
   mdhref,
   user_id,
-  mdrepo,
+  repo_id,
   mdtext
 ) VALUES ($1, $2, $3, $4 ) 
-RETURNING id, mdhref, user_id, mdrepo, mdtext, created_at
+RETURNING id, mdhref, user_id, repo_id, mdtext, created_at
 `
 
 type CreateMarkdownParams struct {
 	Mdhref string `json:"mdhref"`
 	UserID int32  `json:"user_id"`
-	Mdrepo string `json:"mdrepo"`
+	RepoID int32  `json:"repo_id"`
 	Mdtext string `json:"mdtext"`
 }
 
@@ -30,7 +30,7 @@ func (q *Queries) CreateMarkdown(ctx context.Context, arg CreateMarkdownParams) 
 	row := q.db.QueryRowContext(ctx, createMarkdown,
 		arg.Mdhref,
 		arg.UserID,
-		arg.Mdrepo,
+		arg.RepoID,
 		arg.Mdtext,
 	)
 	var i Markdown
@@ -38,7 +38,7 @@ func (q *Queries) CreateMarkdown(ctx context.Context, arg CreateMarkdownParams) 
 		&i.ID,
 		&i.Mdhref,
 		&i.UserID,
-		&i.Mdrepo,
+		&i.RepoID,
 		&i.Mdtext,
 		&i.CreatedAt,
 	)
@@ -56,7 +56,7 @@ func (q *Queries) DeleteMarkdown(ctx context.Context, mdhref string) error {
 }
 
 const getMarkdown = `-- name: GetMarkdown :one
-SELECT id, mdhref, user_id, mdrepo, mdtext, created_at FROM markdowns
+SELECT id, mdhref, user_id, repo_id, mdtext, created_at FROM markdowns
 WHERE mdhref = $1 LIMIT 1
 `
 
@@ -67,7 +67,7 @@ func (q *Queries) GetMarkdown(ctx context.Context, mdhref string) (Markdown, err
 		&i.ID,
 		&i.Mdhref,
 		&i.UserID,
-		&i.Mdrepo,
+		&i.RepoID,
 		&i.Mdtext,
 		&i.CreatedAt,
 	)
@@ -75,7 +75,7 @@ func (q *Queries) GetMarkdown(ctx context.Context, mdhref string) (Markdown, err
 }
 
 const getMarkdownForUpdate = `-- name: GetMarkdownForUpdate :one
-SELECT id, mdhref, user_id, mdrepo, mdtext, created_at FROM markdowns
+SELECT id, mdhref, user_id, repo_id, mdtext, created_at FROM markdowns
 WHERE mdhref = $1 LIMIT 1
 FOR NO KEY UPDATE
 `
@@ -87,7 +87,7 @@ func (q *Queries) GetMarkdownForUpdate(ctx context.Context, mdhref string) (Mark
 		&i.ID,
 		&i.Mdhref,
 		&i.UserID,
-		&i.Mdrepo,
+		&i.RepoID,
 		&i.Mdtext,
 		&i.CreatedAt,
 	)
@@ -98,7 +98,7 @@ const updateMarkdown = `-- name: UpdateMarkdown :one
 UPDATE markdowns
 SET mdtext=$2
 WHERE mdhref = $1
-RETURNING id, mdhref, user_id, mdrepo, mdtext, created_at
+RETURNING id, mdhref, user_id, repo_id, mdtext, created_at
 `
 
 type UpdateMarkdownParams struct {
@@ -113,7 +113,7 @@ func (q *Queries) UpdateMarkdown(ctx context.Context, arg UpdateMarkdownParams) 
 		&i.ID,
 		&i.Mdhref,
 		&i.UserID,
-		&i.Mdrepo,
+		&i.RepoID,
 		&i.Mdtext,
 		&i.CreatedAt,
 	)

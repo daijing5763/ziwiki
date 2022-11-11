@@ -43,7 +43,7 @@ func ChangeFile(input_path string, output_path string, mdtype int) {
 		arg := db.CreateMarkdownParams{
 			Mdhref: input_path,
 			UserID: 1,
-			Mdrepo: util.RandomString(32),
+			RepoID: 1,
 			Mdtext: html,
 		}
 		Markdown, err := store.CreateMarkdown(context.Background(), arg)

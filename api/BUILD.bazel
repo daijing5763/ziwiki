@@ -1,0 +1,41 @@
+load("@io_bazel_rules_go//go:def.bzl", "go_library", "go_test")
+
+go_library(
+    name = "api",
+    srcs = [
+        "middleware.go",
+        "server.go",
+        "token.go",
+        "user.go",
+    ],
+    importpath = "github.com/zdlpsina/ziwiki/api",
+    visibility = ["//visibility:public"],
+    deps = [
+        "//db/sqlc",
+        "//token",
+        "//util",
+        "@com_github_gin_gonic_gin//:gin",
+        "@com_github_google_uuid//:uuid",
+        "@com_github_lib_pq//:pq",
+    ],
+)
+
+go_test(
+    name = "api_test",
+    srcs = [
+        "main_test.go",
+        "middleware_test.go",
+        "user_test.go",
+    ],
+    embed = [":api"],
+    deps = [
+        "//db/mock",
+        "//db/sqlc",
+        "//token",
+        "//util",
+        "@com_github_gin_gonic_gin//:gin",
+        "@com_github_golang_mock//gomock",
+        "@com_github_lib_pq//:pq",
+        "@com_github_stretchr_testify//require",
+    ],
+)

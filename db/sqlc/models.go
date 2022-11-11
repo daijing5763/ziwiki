@@ -14,8 +14,15 @@ type Markdown struct {
 	ID        int32     `json:"id"`
 	Mdhref    string    `json:"mdhref"`
 	UserID    int32     `json:"user_id"`
-	Mdrepo    string    `json:"mdrepo"`
+	RepoID    int32     `json:"repo_id"`
 	Mdtext    string    `json:"mdtext"`
+	CreatedAt time.Time `json:"created_at"`
+}
+
+type Repo struct {
+	ID        int32     `json:"id"`
+	UserID    int32     `json:"user_id"`
+	RepoName  string    `json:"repo_name"`
 	CreatedAt time.Time `json:"created_at"`
 }
 

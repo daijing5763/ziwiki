@@ -1,0 +1,1 @@
+clang++ -std=c++17  -Wall -Wextra -pedantic test_monitor.cpp ./golib.so -o test_fs_watcher    -v

@@ -42,3 +42,48 @@ export hostip=$(cat /etc/resolv.conf | grep nameserver | awk '{ print $2 }')
 export https_proxy="http://${hostip}:1080" 
 export http_proxy="http://${hostip}:1080"
 ```
+
+
+# testgo
+
+## go module init
+
+1. go mod init github.com/zdlpsina/testgo
+2. go mod tidy
+
+## go run
+
+  go run main.go
+
+## go build
+
+  go build main.go
+
+## go test
+
+  go test -v -cover ./...
+
+## go export cgo
+
+go build -o golib.so -buildmode=c-shared main.go
+
+## bazel& gazelle
+
+### run
+
+```shell
+bazel run //:gazelle
+```
+
+### 添加依赖
+
+```shell
+bazel run //:gazelle -- update-repos -from_file=go.mod -to_macro=deps.bzl%go_dependencies
+bazel run //:gazelle
+```
+
+### test
+
+```shell
+bazel test //srcgo:srcgo_test
+```

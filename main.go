@@ -2,13 +2,17 @@ package main
 
 import (
 	"C"
+
 	"database/sql"
 	"log"
 
 	_ "github.com/lib/pq"
 	db "github.com/zdlpsina/ziwiki/db/sqlc"
-	lute "github.com/zdlpsina/ziwiki/lute"
 	"github.com/zdlpsina/ziwiki/util"
+)
+import (
+	"github.com/zdlpsina/ziwiki/api"
+	"github.com/zdlpsina/ziwiki/lute"
 )
 
 //export cFunc
@@ -18,6 +22,10 @@ func cFunc(src_path *C.char, dest *C.char, mdtype int) {
 	lute.ChangeFile(input_path, output_path, mdtype)
 }
 
+//export goMul
+func goMul(left int, right int) int {
+	return left + right
+}
 func main() {
 	config, err := util.LoadConfig(".")
 	if err != nil {
@@ -27,6 +35,14 @@ func main() {
 	if err != nil {
 		log.Fatal("cannot connect to db:", err)
 	}
-	db.NewStore(conn)
+	store := db.NewStore(conn)
+	server, err := api.NewServer(config, store)
+	if err != nil {
+		log.Fatal("cannot create server:", err)
+	}
 
+	err = server.Start(config.HTTPServerAddress)
+	if err != nil {
+		log.Fatal("cannot start server:", err)
+	}
 }

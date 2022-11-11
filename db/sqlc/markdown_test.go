@@ -12,10 +12,17 @@ import (
 
 func createRandomMarkdown(t *testing.T) Markdown {
 	user := createRandomUser(t)
+	arg_repo := CreateRepoParams{
+		UserID:   user.ID,
+		RepoName: util.RandomString(20),
+	}
+	repo, err := testQueries.CreateRepo(context.Background(), arg_repo)
+	require.NoError(t, err)
+
 	arg := CreateMarkdownParams{
 		Mdhref: util.RandomString(32),
 		UserID: user.ID,
-		Mdrepo: util.RandomString(32),
+		RepoID: repo.ID,
 		Mdtext: util.RandomString(3200),
 	}
 
@@ -24,7 +31,7 @@ func createRandomMarkdown(t *testing.T) Markdown {
 	require.NotEmpty(t, Markdown)
 	require.Equal(t, arg.Mdhref, Markdown.Mdhref)
 	require.Equal(t, arg.UserID, Markdown.UserID)
-	require.Equal(t, arg.Mdrepo, Markdown.Mdrepo)
+	require.Equal(t, arg.RepoID, Markdown.RepoID)
 	require.Equal(t, arg.Mdtext, Markdown.Mdtext)
 	require.NotZero(t, Markdown.CreatedAt)
 	return Markdown
@@ -42,7 +49,7 @@ func TestGetMarkdown(t *testing.T) {
 
 	require.Equal(t, md1.UserID, md2.UserID)
 	require.Equal(t, md1.Mdhref, md2.Mdhref)
-	require.Equal(t, md1.Mdrepo, md2.Mdrepo)
+	require.Equal(t, md1.RepoID, md2.RepoID)
 	require.Equal(t, md1.Mdtext, md2.Mdtext)
 	require.WithinDuration(t, md1.CreatedAt, md2.CreatedAt, time.Second)
 }
@@ -54,7 +61,7 @@ func TestGetMarkdownForUpdate(t *testing.T) {
 
 	require.Equal(t, md1.UserID, md2.UserID)
 	require.Equal(t, md1.Mdhref, md2.Mdhref)
-	require.Equal(t, md1.Mdrepo, md2.Mdrepo)
+	require.Equal(t, md1.RepoID, md2.RepoID)
 	require.Equal(t, md1.Mdtext, md2.Mdtext)
 	require.WithinDuration(t, md1.CreatedAt, md2.CreatedAt, time.Second)
 }
