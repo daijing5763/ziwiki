@@ -106,7 +106,7 @@ func (server *Server) loginUser(ctx *gin.Context) {
 	}
 
 	accessToken, accessPayload, err := server.tokenMaker.CreateToken(
-		user.Username,
+		user.ID,
 		server.config.AccessTokenDuration,
 	)
 	if err != nil {
@@ -115,7 +115,7 @@ func (server *Server) loginUser(ctx *gin.Context) {
 	}
 
 	refreshToken, refreshPayload, err := server.tokenMaker.CreateToken(
-		user.Username,
+		user.ID,
 		server.config.RefreshTokenDuration,
 	)
 	if err != nil {
@@ -125,7 +125,7 @@ func (server *Server) loginUser(ctx *gin.Context) {
 
 	session, err := server.store.CreateSession(ctx, db.CreateSessionParams{
 		ID:           refreshPayload.ID,
-		Username:     user.Username,
+		UserID:       user.ID,
 		RefreshToken: refreshToken,
 		UserAgent:    ctx.Request.UserAgent(),
 		ClientIp:     ctx.ClientIP(),
