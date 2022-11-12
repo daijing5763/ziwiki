@@ -111,7 +111,7 @@ func (mr *MockStoreMockRecorder) DeleteMarkdown(arg0, arg1 interface{}) *gomock.
 }
 
 // DeleteRepo mocks base method.
-func (m *MockStore) DeleteRepo(arg0 context.Context, arg1 int32) error {
+func (m *MockStore) DeleteRepo(arg0 context.Context, arg1 int64) error {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "DeleteRepo", arg0, arg1)
 	ret0, _ := ret[0].(error)
@@ -125,7 +125,7 @@ func (mr *MockStoreMockRecorder) DeleteRepo(arg0, arg1 interface{}) *gomock.Call
 }
 
 // DeleteUser mocks base method.
-func (m *MockStore) DeleteUser(arg0 context.Context, arg1 int32) error {
+func (m *MockStore) DeleteUser(arg0 context.Context, arg1 int64) error {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "DeleteUser", arg0, arg1)
 	ret0, _ := ret[0].(error)
@@ -169,7 +169,7 @@ func (mr *MockStoreMockRecorder) GetMarkdownForUpdate(arg0, arg1 interface{}) *g
 }
 
 // GetRepo mocks base method.
-func (m *MockStore) GetRepo(arg0 context.Context, arg1 int32) (db.Repo, error) {
+func (m *MockStore) GetRepo(arg0 context.Context, arg1 int64) (db.Repo, error) {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "GetRepo", arg0, arg1)
 	ret0, _ := ret[0].(db.Repo)
@@ -184,7 +184,7 @@ func (mr *MockStoreMockRecorder) GetRepo(arg0, arg1 interface{}) *gomock.Call {
 }
 
 // GetRepoForUpdate mocks base method.
-func (m *MockStore) GetRepoForUpdate(arg0 context.Context, arg1 int32) (db.Repo, error) {
+func (m *MockStore) GetRepoForUpdate(arg0 context.Context, arg1 int64) (db.Repo, error) {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "GetRepoForUpdate", arg0, arg1)
 	ret0, _ := ret[0].(db.Repo)
@@ -229,7 +229,7 @@ func (mr *MockStoreMockRecorder) GetUser(arg0, arg1 interface{}) *gomock.Call {
 }
 
 // GetUserForUpdate mocks base method.
-func (m *MockStore) GetUserForUpdate(arg0 context.Context, arg1 int32) (db.User, error) {
+func (m *MockStore) GetUserForUpdate(arg0 context.Context, arg1 int64) (db.User, error) {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "GetUserForUpdate", arg0, arg1)
 	ret0, _ := ret[0].(db.User)

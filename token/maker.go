@@ -7,7 +7,7 @@ import (
 // Maker is an interface for managing tokens
 type Maker interface {
 	// CreateToken creates a new token for a specific user_id and duration
-	CreateToken(user_id int32, duration time.Duration) (string, *Payload, error)
+	CreateToken(user_id int64, duration time.Duration) (string, *Payload, error)
 
 	// VerifyToken checks if the token is valid or not
 	VerifyToken(token string) (*Payload, error)

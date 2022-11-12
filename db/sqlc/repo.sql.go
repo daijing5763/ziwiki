@@ -18,7 +18,7 @@ RETURNING id, user_id, repo_name, created_at
 `
 
 type CreateRepoParams struct {
-	UserID   int32  `json:"user_id"`
+	UserID   int64  `json:"user_id"`
 	RepoName string `json:"repo_name"`
 }
 
@@ -39,7 +39,7 @@ DELETE FROM repos
 WHERE id = $1
 `
 
-func (q *Queries) DeleteRepo(ctx context.Context, id int32) error {
+func (q *Queries) DeleteRepo(ctx context.Context, id int64) error {
 	_, err := q.db.ExecContext(ctx, deleteRepo, id)
 	return err
 }
@@ -49,7 +49,7 @@ SELECT id, user_id, repo_name, created_at FROM repos
 WHERE id = $1 LIMIT 1
 `
 
-func (q *Queries) GetRepo(ctx context.Context, id int32) (Repo, error) {
+func (q *Queries) GetRepo(ctx context.Context, id int64) (Repo, error) {
 	row := q.db.QueryRowContext(ctx, getRepo, id)
 	var i Repo
 	err := row.Scan(
@@ -67,7 +67,7 @@ WHERE id = $1 LIMIT 1
 FOR NO KEY UPDATE
 `
 
-func (q *Queries) GetRepoForUpdate(ctx context.Context, id int32) (Repo, error) {
+func (q *Queries) GetRepoForUpdate(ctx context.Context, id int64) (Repo, error) {
 	row := q.db.QueryRowContext(ctx, getRepoForUpdate, id)
 	var i Repo
 	err := row.Scan(
@@ -87,7 +87,7 @@ RETURNING id, user_id, repo_name, created_at
 `
 
 type UpdateRepoParams struct {
-	ID       int32  `json:"id"`
+	ID       int64  `json:"id"`
 	RepoName string `json:"repo_name"`
 }
 

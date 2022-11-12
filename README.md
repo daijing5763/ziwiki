@@ -87,3 +87,41 @@ bazel run //:gazelle
 ```shell
 bazel test //srcgo:srcgo_test
 ```
+
+## POST MAN
+
+### CREATE_USE
+
+```shell
+post: 0.0.0.0:8080/users 
+json:-->body-->json
+{
+    "username":"guestwhat",
+    "password":"guestwhat",
+    "email":"guestwhat@zizdlp.com"
+}
+```
+
+### LOGIN
+
+```shell
+post: 0.0.0.0:8080/users/login
+json: -->body-->json
+{
+    "username":"guestwhat",
+    "password":"guestwhat",
+}
+```
+
+### CREATE_REPO
+
+auth:-->bear_token
+
+```shell
+post: 0.0.0.0:8080/repos
+json: -->body-->json
+{
+
+				"repo_name": "test"
+}
+```

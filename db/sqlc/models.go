@@ -11,24 +11,24 @@ import (
 )
 
 type Markdown struct {
-	ID        int32     `json:"id"`
+	ID        int64     `json:"id"`
 	Mdhref    string    `json:"mdhref"`
-	UserID    int32     `json:"user_id"`
-	RepoID    int32     `json:"repo_id"`
+	UserID    int64     `json:"user_id"`
+	RepoID    int64     `json:"repo_id"`
 	Mdtext    string    `json:"mdtext"`
 	CreatedAt time.Time `json:"created_at"`
 }
 
 type Repo struct {
-	ID        int32     `json:"id"`
-	UserID    int32     `json:"user_id"`
+	ID        int64     `json:"id"`
+	UserID    int64     `json:"user_id"`
 	RepoName  string    `json:"repo_name"`
 	CreatedAt time.Time `json:"created_at"`
 }
 
 type Session struct {
 	ID           uuid.UUID `json:"id"`
-	UserID       int32     `json:"user_id"`
+	UserID       int64     `json:"user_id"`
 	RefreshToken string    `json:"refresh_token"`
 	UserAgent    string    `json:"user_agent"`
 	ClientIp     string    `json:"client_ip"`
@@ -38,7 +38,7 @@ type Session struct {
 }
 
 type User struct {
-	ID             int32     `json:"id"`
+	ID             int64     `json:"id"`
 	Username       string    `json:"username"`
 	Email          string    `json:"email"`
 	HashedPassword string    `json:"hashed_password"`

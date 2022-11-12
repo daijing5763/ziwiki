@@ -21,8 +21,8 @@ RETURNING id, mdhref, user_id, repo_id, mdtext, created_at
 
 type CreateMarkdownParams struct {
 	Mdhref string `json:"mdhref"`
-	UserID int32  `json:"user_id"`
-	RepoID int32  `json:"repo_id"`
+	UserID int64  `json:"user_id"`
+	RepoID int64  `json:"repo_id"`
 	Mdtext string `json:"mdtext"`
 }
 

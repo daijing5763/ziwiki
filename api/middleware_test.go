@@ -17,7 +17,7 @@ func addAuthorization(
 	request *http.Request,
 	tokenMaker token.Maker,
 	authorizationType string,
-	user_id int32,
+	user_id int64,
 	duration time.Duration,
 ) {
 	token, payload, err := tokenMaker.CreateToken(user_id, duration)
