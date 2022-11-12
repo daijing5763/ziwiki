@@ -4,10 +4,10 @@ load("@rules_cc//cc:defs.bzl", "cc_binary", "cc_library")
 
 
 cc_binary(
-    name = "monitor_fs",
+    name = "monitor_gen_md",
     srcs = [
         "FileWatcher.h",
-        "test_monitor.cpp",
+        "monitorGenMd.cpp",
     ],
     copts = [
         "-std=c++17",
@@ -17,4 +17,17 @@ cc_binary(
         "//:golib",
     ],
 )
-
+cc_binary(
+    name = "init_gen_md",
+    srcs = [
+        "FileWatcher.h",
+        "initGenMd.cpp",
+    ],
+    copts = [
+        "-std=c++17",
+    ],
+    linkstatic=False,
+    deps = [
+        "//:golib",
+    ],
+)

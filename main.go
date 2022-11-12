@@ -15,11 +15,10 @@ import (
 	"github.com/zdlpsina/ziwiki/lute"
 )
 
-//export cFunc
-func cFunc(src_path *C.char, dest *C.char, mdtype int) {
+//export renderMd
+func renderMd(src_path *C.char, mdtype int) {
 	input_path := C.GoString(src_path)
-	output_path := C.GoString(dest)
-	lute.ChangeFile(input_path, output_path, mdtype)
+	lute.RenderMd(input_path, mdtype)
 }
 
 //export goMul

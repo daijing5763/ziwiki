@@ -5,8 +5,8 @@
 #include <unordered_map>
 #include <string>
 #include <functional>
-#include <experimental/filesystem>
-namespace fs = std::experimental::filesystem;
+#include <filesystem>
+namespace fs = std::filesystem;
 
 // Define available file changes
 enum class FileStatus { created, modified, erased };

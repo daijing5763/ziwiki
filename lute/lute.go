@@ -26,7 +26,7 @@ func buildConn(path string) db.Store {
 	store := db.NewStore(conn)
 	return store
 }
-func ChangeFile(input_path string, output_path string, mdtype int) {
+func RenderMd(input_path string, mdtype int) {
 	store := buildConn("../")
 	data, err := ioutil.ReadFile(input_path)
 	// if our program was unable to read the file
@@ -37,7 +37,6 @@ func ChangeFile(input_path string, output_path string, mdtype int) {
 	luteEngine := lute.New() // 默认已经启用 GFM 支持以及中文语境优化
 	html := luteEngine.MarkdownStr("demo", string(data))
 
-	mydata := []byte(html)
 	if mdtype == 0 {
 		// create
 		arg := db.CreateMarkdownParams{
@@ -69,23 +68,4 @@ func ChangeFile(input_path string, output_path string, mdtype int) {
 			fmt.Println(err)
 		}
 	}
-
-	// the WriteFile method returns an error if unsuccessful
-	err = ioutil.WriteFile(output_path, mydata, 0777)
-	// handle this error
-	if err != nil {
-		// print it out
-		fmt.Println(err)
-	}
 }
-
-// //export cFunc
-// func cFunc(src_path *C.char, dest *C.char) {
-// 	input_path := C.GoString(src_path)
-// 	output_path := C.GoString(dest)
-// 	changeFile(input_path, output_path)
-// }
-
-// func main() {
-// 	changeFile("../wiki/test.md", "../.ziwiki/test.md")
-// }

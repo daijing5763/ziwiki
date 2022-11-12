@@ -1,7 +1,7 @@
 #include <fstream>
 #include <iostream>
-#include <experimental/filesystem>
-namespace fs = std::experimental::filesystem;
+#include <filesystem>
+namespace fs = std::filesystem;
 using namespace std;
 int main() {
   for (auto& file : fs::recursive_directory_iterator("./wiki")) {
