@@ -1,0 +1,1 @@
+docker build -t ubuntu_ziwiki -f DockerfileUbuntu .

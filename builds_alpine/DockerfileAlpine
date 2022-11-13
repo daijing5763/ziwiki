@@ -1,0 +1,11 @@
+FROM alpine:3.16.3
+WORKDIR /app
+COPY . .
+RUN chmod +x alpine_build/deps.sh  \
+  && sh alpine_build/deps.sh \
+  && export GOPROXY=https://goproxy.cn/ \
+  && bazel run //:gazelle \
+  # && bazel run //:gazelle -- update-repos -from_file=go.mod -to_macro=deps.bzl%go_dependencies \
+  # && bazel run //:gazelle \
+  # && bazel build //:all \ 
+  # && bazel build //srccpp:all 

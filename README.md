@@ -125,3 +125,10 @@ json: -->body-->json
 				"repo_name": "test"
 }
 ```
+
+docker build -t b_ziwiki -f baseDockerfile .
+docker build -t alpine_ziwiki -f alpineDockerfile .
+
+//
+sed -i "s/dl-cdn.alpinelinux.org/mirrors.aliyun.com/g" /etc/apk/repositories \
+  && 

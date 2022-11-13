@@ -4,6 +4,7 @@ go_library(
     name = "api",
     srcs = [
         "middleware.go",
+        "repo.go",
         "server.go",
         "token.go",
         "user.go",
@@ -25,6 +26,7 @@ go_test(
     srcs = [
         "main_test.go",
         "middleware_test.go",
+        "repo_test.go",
         "user_test.go",
     ],
     embed = [":api"],
