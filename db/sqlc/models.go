@@ -20,10 +20,13 @@ type Markdown struct {
 }
 
 type Repo struct {
-	ID        int64     `json:"id"`
-	UserID    int64     `json:"user_id"`
-	RepoName  string    `json:"repo_name"`
-	CreatedAt time.Time `json:"created_at"`
+	ID              int64     `json:"id"`
+	UserID          int64     `json:"user_id"`
+	RepoName        string    `json:"repo_name"`
+	RepoGit         string    `json:"repo_git"`
+	RepoUserName    string    `json:"repo_user_name"`
+	RepoAccessToken string    `json:"repo_access_token"`
+	CreatedAt       time.Time `json:"created_at"`
 }
 
 type Session struct {

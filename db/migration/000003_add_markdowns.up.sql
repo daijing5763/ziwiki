@@ -2,6 +2,9 @@ CREATE TABLE "repos" (
   "id" bigserial PRIMARY KEY,
   "user_id" bigint NOT NULL,
   "repo_name" varchar NOT NULL,
+  "repo_git" varchar NOT NULL,
+  "repo_user_name" varchar NOT NULL,
+  "repo_access_token" varchar NOT NULL,
   "created_at" timestamptz NOT NULL DEFAULT 'now()'
 );
 

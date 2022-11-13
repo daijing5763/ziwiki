@@ -12,23 +12,38 @@ import (
 const createRepo = `-- name: CreateRepo :one
 INSERT INTO repos (
   user_id,
-  repo_name
-) VALUES ($1, $2) 
-RETURNING id, user_id, repo_name, created_at
+  repo_name,
+  repo_git,
+  repo_user_name,
+  repo_access_token
+) VALUES ($1,$2,$3,$4,$5) 
+RETURNING id, user_id, repo_name, repo_git, repo_user_name, repo_access_token, created_at
 `
 
 type CreateRepoParams struct {
-	UserID   int64  `json:"user_id"`
-	RepoName string `json:"repo_name"`
+	UserID          int64  `json:"user_id"`
+	RepoName        string `json:"repo_name"`
+	RepoGit         string `json:"repo_git"`
+	RepoUserName    string `json:"repo_user_name"`
+	RepoAccessToken string `json:"repo_access_token"`
 }
 
 func (q *Queries) CreateRepo(ctx context.Context, arg CreateRepoParams) (Repo, error) {
-	row := q.db.QueryRowContext(ctx, createRepo, arg.UserID, arg.RepoName)
+	row := q.db.QueryRowContext(ctx, createRepo,
+		arg.UserID,
+		arg.RepoName,
+		arg.RepoGit,
+		arg.RepoUserName,
+		arg.RepoAccessToken,
+	)
 	var i Repo
 	err := row.Scan(
 		&i.ID,
 		&i.UserID,
 		&i.RepoName,
+		&i.RepoGit,
+		&i.RepoUserName,
+		&i.RepoAccessToken,
 		&i.CreatedAt,
 	)
 	return i, err
@@ -45,7 +60,7 @@ func (q *Queries) DeleteRepo(ctx context.Context, id int64) error {
 }
 
 const getRepo = `-- name: GetRepo :one
-SELECT id, user_id, repo_name, created_at FROM repos
+SELECT id, user_id, repo_name, repo_git, repo_user_name, repo_access_token, created_at FROM repos
 WHERE id = $1 LIMIT 1
 `
 
@@ -56,13 +71,16 @@ func (q *Queries) GetRepo(ctx context.Context, id int64) (Repo, error) {
 		&i.ID,
 		&i.UserID,
 		&i.RepoName,
+		&i.RepoGit,
+		&i.RepoUserName,
+		&i.RepoAccessToken,
 		&i.CreatedAt,
 	)
 	return i, err
 }
 
 const getRepoForUpdate = `-- name: GetRepoForUpdate :one
-SELECT id, user_id, repo_name, created_at FROM repos
+SELECT id, user_id, repo_name, repo_git, repo_user_name, repo_access_token, created_at FROM repos
 WHERE id = $1 LIMIT 1
 FOR NO KEY UPDATE
 `
@@ -74,6 +92,9 @@ func (q *Queries) GetRepoForUpdate(ctx context.Context, id int64) (Repo, error) 
 		&i.ID,
 		&i.UserID,
 		&i.RepoName,
+		&i.RepoGit,
+		&i.RepoUserName,
+		&i.RepoAccessToken,
 		&i.CreatedAt,
 	)
 	return i, err
@@ -83,7 +104,7 @@ const updateRepo = `-- name: UpdateRepo :one
 UPDATE repos
 SET repo_name=$2
 WHERE id = $1
-RETURNING id, user_id, repo_name, created_at
+RETURNING id, user_id, repo_name, repo_git, repo_user_name, repo_access_token, created_at
 `
 
 type UpdateRepoParams struct {
@@ -98,6 +119,9 @@ func (q *Queries) UpdateRepo(ctx context.Context, arg UpdateRepoParams) (Repo, e
 		&i.ID,
 		&i.UserID,
 		&i.RepoName,
+		&i.RepoGit,
+		&i.RepoUserName,
+		&i.RepoAccessToken,
 		&i.CreatedAt,
 	)
 	return i, err

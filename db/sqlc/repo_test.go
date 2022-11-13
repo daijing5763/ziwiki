@@ -13,8 +13,11 @@ import (
 func createRandomRepo(t *testing.T) Repo {
 	user := createRandomUser(t)
 	arg := CreateRepoParams{
-		UserID:   user.ID,
-		RepoName: util.RandomString(20),
+		UserID:          user.ID,
+		RepoName:        util.RandomString(20),
+		RepoGit:         util.RandomString(20),
+		RepoUserName:    util.RandomString(20),
+		RepoAccessToken: util.RandomString(20),
 	}
 
 	Repo, err := testQueries.CreateRepo(context.Background(), arg)
@@ -22,6 +25,9 @@ func createRandomRepo(t *testing.T) Repo {
 	require.NotEmpty(t, Repo)
 	require.Equal(t, arg.UserID, Repo.UserID)
 	require.Equal(t, arg.RepoName, Repo.RepoName)
+	require.Equal(t, arg.RepoGit, Repo.RepoGit)
+	require.Equal(t, arg.RepoUserName, Repo.RepoUserName)
+	require.Equal(t, arg.RepoAccessToken, Repo.RepoAccessToken)
 	require.NotZero(t, Repo.CreatedAt)
 	return Repo
 }

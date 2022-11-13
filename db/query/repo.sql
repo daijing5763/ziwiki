@@ -1,8 +1,11 @@
 -- name: CreateRepo :one
 INSERT INTO repos (
   user_id,
-  repo_name
-) VALUES ($1, $2) 
+  repo_name,
+  repo_git,
+  repo_user_name,
+  repo_access_token
+) VALUES ($1,$2,$3,$4,$5) 
 RETURNING *;
 
 -- name: GetRepo :one
