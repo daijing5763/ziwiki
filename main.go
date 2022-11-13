@@ -16,9 +16,10 @@ import (
 )
 
 //export renderMd
-func renderMd(src_path *C.char, mdtype int) {
+func renderMd(config_path *C.char, src_path *C.char, mdtype int) {
 	input_path := C.GoString(src_path)
-	lute.RenderMd(input_path, mdtype)
+	db_path := C.GoString(config_path)
+	lute.RenderMd(db_path, input_path, mdtype)
 }
 
 //export goMul

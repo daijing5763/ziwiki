@@ -15,7 +15,7 @@ import (
 import "context"
 
 func buildConn(path string) db.Store {
-	config, err := util.LoadConfig("../")
+	config, err := util.LoadConfig(path)
 	if err != nil {
 		log.Fatal("cannot load config:", err)
 	}
@@ -26,8 +26,9 @@ func buildConn(path string) db.Store {
 	store := db.NewStore(conn)
 	return store
 }
-func RenderMd(input_path string, mdtype int) {
-	store := buildConn("../")
+
+func RenderMd(config_path string, input_path string, mdtype int) {
+	store := buildConn(config_path)
 	data, err := ioutil.ReadFile(input_path)
 	// if our program was unable to read the file
 	// print out the reason why it can't

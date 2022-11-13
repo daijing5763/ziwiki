@@ -6,6 +6,10 @@ services:
       - POSTGRES_USER=root
       - POSTGRES_PASSWORD=secret
       - POSTGRES_DB=ziwiki
+    expose:
+      - "5342"
+    ports:
+      - "5432:5432"
   api:
     build:
       context: .
@@ -24,3 +28,21 @@ services:
         "/app/start.sh"
       ]
     command: [ "/app/ziwiki" ]
+  monitor:
+    build:
+      context: .
+      dockerfile: DockerfileForMonitor
+    environment:
+      - DB_SOURCE=postgresql://root:secret@postgres:5432/ziwiki?sslmode=disable
+    depends_on:
+      - postgres
+    volumes:
+      - "./wiki:/app/wiki"
+    entrypoint:
+      [
+        "/app/wait-for.sh",
+        "postgres:5432",
+        "--",
+        "/app/start_monitor.sh"
+      ]
+    command: [ "/app/monitor_gen_md" ]
