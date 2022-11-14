@@ -12,7 +12,10 @@ import (
 )
 
 type createRepoRequest struct {
-	RepoName string `json:"repo_name" binding:"required"`
+	RepoName        string `json:"repo_name" binding:"required"`
+	RepoGit         string `json:"repo_git" binding:"required"`
+	RepoUserName    string `json:"repo_user_name" binding:"required"`
+	RepoAccessToken string `json:"repo_access_token" binding:"required"`
 }
 
 func (server *Server) createRepo(ctx *gin.Context) {
@@ -24,8 +27,11 @@ func (server *Server) createRepo(ctx *gin.Context) {
 
 	authPayload := ctx.MustGet(authorizationPayloadKey).(*token.Payload)
 	arg := db.CreateRepoParams{
-		UserID:   authPayload.UserID,
-		RepoName: req.RepoName,
+		UserID:          authPayload.UserID,
+		RepoName:        req.RepoName,
+		RepoGit:         req.RepoGit,
+		RepoUserName:    req.RepoUserName,
+		RepoAccessToken: req.RepoAccessToken,
 	}
 
 	repo, err := server.store.CreateRepo(ctx, arg)
