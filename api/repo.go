@@ -3,7 +3,9 @@ package api
 import (
 	"database/sql"
 	"errors"
+	"fmt"
 	"net/http"
+	"strconv"
 
 	"github.com/gin-gonic/gin"
 	"github.com/lib/pq"
@@ -47,8 +49,10 @@ func (server *Server) createRepo(ctx *gin.Context) {
 		ctx.JSON(http.StatusInternalServerError, errorResponse(err))
 		return
 	}
-	err = gitsync.Clone(string(rune(repo.UserID)), string(rune(repo.ID)), repo.RepoGit, repo.RepoUserName, repo.RepoAccessToken)
+
+	err = gitsync.Clone(strconv.FormatInt(repo.UserID, 10), strconv.FormatInt(repo.ID, 10), repo.RepoGit, repo.RepoUserName, repo.RepoAccessToken)
 	if err != nil {
+		fmt.Printf("error: %s", err)
 		ctx.JSON(http.StatusInternalServerError, errorResponse(err))
 		return
 	}

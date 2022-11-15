@@ -187,6 +187,8 @@ func TestCreateRepoAPI(t *testing.T) {
 					Return(repo, nil)
 			},
 			checkResponse: func(recorder *httptest.ResponseRecorder) {
+				t.Log("mydebug:", recorder.Code)
+				t.Log("mydebug:", recorder.Body)
 				require.Equal(t, http.StatusOK, recorder.Code)
 				requireBodyMatchRepo(t, recorder.Body, repo)
 			},
@@ -283,7 +285,7 @@ func TestCreateRepoAPI(t *testing.T) {
 
 func randomRepo(user_id int64) db.Repo {
 	return db.Repo{
-		ID:              util.RandomInt(1, 1000),
+		ID:              util.RandomInt(1, 10000),
 		UserID:          user_id,
 		RepoName:        util.RandomString(20),
 		RepoGit:         "https://gitee.com/zizdlp/wiki.git",
