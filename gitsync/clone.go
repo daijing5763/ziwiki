@@ -12,7 +12,7 @@ func Clone(UserID string, RepoID string, RepoGit string, RepoUserName string, Re
 	url := RepoGit
 	username := RepoUserName
 	password := RepoAccessToken
-	directory := "/app/" + UserID + "/" + RepoID + "/"
+	directory := "/tmp/wiki/" + UserID + "/" + RepoID + "/"
 
 	_, err := git.PlainClone(directory, false, &git.CloneOptions{
 		Auth: &http.BasicAuth{

@@ -165,15 +165,21 @@ func TestCreateRepoAPI(t *testing.T) {
 		{
 			name: "OK",
 			body: gin.H{
-				"repo_name": repo.RepoName,
+				"repo_name":         repo.RepoName,
+				"repo_git":          repo.RepoGit,
+				"repo_user_name":    repo.RepoUserName,
+				"repo_access_token": repo.RepoAccessToken,
 			},
 			setupAuth: func(t *testing.T, request *http.Request, tokenMaker token.Maker) {
 				addAuthorization(t, request, tokenMaker, authorizationTypeBearer, user.ID, time.Minute)
 			},
 			buildStubs: func(store *mockdb.MockStore) {
 				arg := db.CreateRepoParams{
-					UserID:   repo.UserID,
-					RepoName: repo.RepoName,
+					UserID:          repo.UserID,
+					RepoName:        repo.RepoName,
+					RepoGit:         repo.RepoGit,
+					RepoUserName:    repo.RepoUserName,
+					RepoAccessToken: repo.RepoAccessToken,
 				}
 				store.EXPECT().
 					CreateRepo(gomock.Any(), gomock.Eq(arg)).
@@ -188,7 +194,10 @@ func TestCreateRepoAPI(t *testing.T) {
 		{
 			name: "NoAuthorization",
 			body: gin.H{
-				"repo_name": repo.RepoName,
+				"repo_name":         repo.RepoName,
+				"repo_git":          repo.RepoGit,
+				"repo_user_name":    repo.RepoUserName,
+				"repo_access_token": repo.RepoAccessToken,
 			},
 			setupAuth: func(t *testing.T, request *http.Request, tokenMaker token.Maker) {
 			},
@@ -204,7 +213,10 @@ func TestCreateRepoAPI(t *testing.T) {
 		{
 			name: "InternalError",
 			body: gin.H{
-				"repo_name": repo.RepoName,
+				"repo_name":         repo.RepoName,
+				"repo_git":          repo.RepoGit,
+				"repo_user_name":    repo.RepoUserName,
+				"repo_access_token": repo.RepoAccessToken,
 			},
 			setupAuth: func(t *testing.T, request *http.Request, tokenMaker token.Maker) {
 				addAuthorization(t, request, tokenMaker, authorizationTypeBearer, user.ID, time.Minute)
@@ -220,9 +232,12 @@ func TestCreateRepoAPI(t *testing.T) {
 			},
 		},
 		{
-			name: "InvalidCurrency",
+			name: "InvalidRepoName",
 			body: gin.H{
-				"repo_name": 342,
+				"repo_name":         342,
+				"repo_git":          repo.RepoGit,
+				"repo_user_name":    repo.RepoUserName,
+				"repo_access_token": repo.RepoAccessToken,
 			},
 			setupAuth: func(t *testing.T, request *http.Request, tokenMaker token.Maker) {
 				addAuthorization(t, request, tokenMaker, authorizationTypeBearer, user.ID, time.Minute)
@@ -268,9 +283,12 @@ func TestCreateRepoAPI(t *testing.T) {
 
 func randomRepo(user_id int64) db.Repo {
 	return db.Repo{
-		ID:       util.RandomInt(1, 1000),
-		UserID:   user_id,
-		RepoName: util.RandomString(20),
+		ID:              util.RandomInt(1, 1000),
+		UserID:          user_id,
+		RepoName:        util.RandomString(20),
+		RepoUserName:    util.RandomUsername(),
+		RepoGit:         util.RandomString(32),
+		RepoAccessToken: util.RandomString(20),
 	}
 }
 func requireBodyMatchRepo(t *testing.T, body *bytes.Buffer, repo db.Repo) {
