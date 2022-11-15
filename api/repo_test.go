@@ -286,9 +286,9 @@ func randomRepo(user_id int64) db.Repo {
 		ID:              util.RandomInt(1, 1000),
 		UserID:          user_id,
 		RepoName:        util.RandomString(20),
-		RepoUserName:    util.RandomUsername(),
-		RepoGit:         util.RandomString(32),
-		RepoAccessToken: util.RandomString(20),
+		RepoGit:         "https://gitee.com/zizdlp/wiki.git",
+		RepoUserName:    "zizdlp",
+		RepoAccessToken: "zzz123",
 	}
 }
 func requireBodyMatchRepo(t *testing.T, body *bytes.Buffer, repo db.Repo) {

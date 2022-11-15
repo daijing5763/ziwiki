@@ -8,6 +8,7 @@ import (
 	"github.com/gin-gonic/gin"
 	"github.com/lib/pq"
 	db "github.com/zdlpsina/ziwiki/db/sqlc"
+	"github.com/zdlpsina/ziwiki/gitsync"
 	"github.com/zdlpsina/ziwiki/token"
 )
 
@@ -46,11 +47,11 @@ func (server *Server) createRepo(ctx *gin.Context) {
 		ctx.JSON(http.StatusInternalServerError, errorResponse(err))
 		return
 	}
-	// err = gitsync.Clone(string(rune(repo.UserID)), string(rune(repo.ID)), repo.RepoGit, repo.RepoUserName, repo.RepoAccessToken)
-	// if err != nil {
-	// 	ctx.JSON(http.StatusInternalServerError, errorResponse(err))
-	// 	return
-	// }
+	err = gitsync.Clone(string(rune(repo.UserID)), string(rune(repo.ID)), repo.RepoGit, repo.RepoUserName, repo.RepoAccessToken)
+	if err != nil {
+		ctx.JSON(http.StatusInternalServerError, errorResponse(err))
+		return
+	}
 	ctx.JSON(http.StatusOK, repo)
 }
 
