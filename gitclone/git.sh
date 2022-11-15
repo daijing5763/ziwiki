@@ -11,4 +11,4 @@ if [ ! -d "wiki/$1/$2" ];then
 
 mkdir -p wiki/$1/$2
 fi
-cd wiki/$1/$2 && /usr/bin/expect /root/ziwiki/git_expect.sh $3 $4 $5
+cd wiki/$1/$2 && /usr/bin/expect ../../../git_expect.sh $3 $4 $5
