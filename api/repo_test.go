@@ -194,6 +194,37 @@ func TestCreateRepoAPI(t *testing.T) {
 			},
 		},
 		{
+			name: "InvalidRepo",
+			body: gin.H{
+				"repo_name":         repo.RepoName,
+				"repo_git":          "212",
+				"repo_user_name":    repo.RepoUserName,
+				"repo_access_token": repo.RepoAccessToken,
+			},
+			setupAuth: func(t *testing.T, request *http.Request, tokenMaker token.Maker) {
+				addAuthorization(t, request, tokenMaker, authorizationTypeBearer, user.ID, time.Minute)
+			},
+			buildStubs: func(store *mockdb.MockStore) {
+				arg := db.CreateRepoParams{
+					UserID:          repo.UserID,
+					RepoName:        repo.RepoName,
+					RepoGit:         "212",
+					RepoUserName:    repo.RepoUserName,
+					RepoAccessToken: repo.RepoAccessToken,
+				}
+				store.EXPECT().
+					CreateRepo(gomock.Any(), gomock.Eq(arg)).
+					Times(1).
+					Return(db.Repo{}, nil)
+			},
+			checkResponse: func(recorder *httptest.ResponseRecorder) {
+				t.Log("mydebug:", recorder.Code)
+				t.Log("mydebug:", recorder.Body)
+				require.Equal(t, http.StatusInternalServerError, recorder.Code)
+				requireBodyMatchRepo(t, recorder.Body, db.Repo{})
+			},
+		},
+		{
 			name: "NoAuthorization",
 			body: gin.H{
 				"repo_name":         repo.RepoName,

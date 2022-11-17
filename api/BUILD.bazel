@@ -13,6 +13,7 @@ go_library(
     visibility = ["//visibility:public"],
     deps = [
         "//db/sqlc",
+        "//gitsync",
         "//token",
         "//util",
         "@com_github_gin_gonic_gin//:gin",

@@ -13,8 +13,11 @@ import (
 func createRandomMarkdown(t *testing.T) Markdown {
 	user := createRandomUser(t)
 	arg_repo := CreateRepoParams{
-		UserID:   user.ID,
-		RepoName: util.RandomString(20),
+		UserID:          user.ID,
+		RepoName:        util.RandomString(20),
+		RepoGit:         util.RandomString(20),
+		RepoUserName:    util.RandomUsername(),
+		RepoAccessToken: util.RandomString(20),
 	}
 	repo, err := testQueries.CreateRepo(context.Background(), arg_repo)
 	require.NoError(t, err)

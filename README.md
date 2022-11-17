@@ -131,4 +131,10 @@ docker build -t alpine_ziwiki -f alpineDockerfile .
 
 //
 sed -i "s/dl-cdn.alpinelinux.org/mirrors.aliyun.com/g" /etc/apk/repositories \
-  && 
+  &&
+
+&& bazel run //:gazelle \
+&& bazel run //:gazelle -- update-repos -from_file=go.mod -to_macro=deps.bzl%go_dependencies \
+&& bazel run //:gazelle \
+bazel run //:gazelle
+bazel test ... && bazel build ...

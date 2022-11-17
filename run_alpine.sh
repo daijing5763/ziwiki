@@ -1,0 +1,1 @@
+docker run -it -v /Users/wangxili/github/ziwiki:/root/wiki base_image_alpine bash 
