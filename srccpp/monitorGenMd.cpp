@@ -8,7 +8,7 @@
 #include "golib.h"
 int main(int argc, char *argv[]) {
   std::cout << "______start monitor gen md_______\n";
-  std::string src_path = "./wiki";
+  std::string src_path = "/tmp";
   std::string config_path = ".";
   // std::string src_path = "";
   // std::string config_path = "";
@@ -22,7 +22,9 @@ int main(int argc, char *argv[]) {
   //   return 0;
   // }
   // Create a FileWatcher instance that will check the current folder for changes every 5 seconds
-  FileWatcher fw{src_path, std::chrono::milliseconds(10)};
+  std::cout << "1\n";
+  FileWatcher fw{src_path, std::chrono::milliseconds(1000)};
+  std::cout << "2\n";
   fw.start([src_path, config_path](std::string path_to_watch, FileStatus status) -> void {
     // Process only regular files, all other file types are ignored
     if (!fs::is_regular_file(fs::path(path_to_watch)) && status != FileStatus::erased) {

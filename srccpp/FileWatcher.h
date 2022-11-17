@@ -20,9 +20,14 @@ class FileWatcher {
   // Keep a record of files from the base directory and their last modification time
   FileWatcher(std::string path_to_watch, std::chrono::duration<int, std::milli> delay)
       : path_to_watch{path_to_watch}, delay{delay} {
+    std::cout << "3\n";
+    std::cout << path_to_watch << "\n";
     for (auto &file : fs::recursive_directory_iterator(path_to_watch)) {
+      std::cout << "5\n";
       paths_[file.path().string()] = fs::last_write_time(file);
+      std::cout << "6\n";
     }
+    std::cout << "4\n";
   }
 
   // Monitor "path_to_watch" for changes and in case of a change execute the user supplied "action" function

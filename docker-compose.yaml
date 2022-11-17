@@ -11,15 +11,19 @@ services:
     ports:
       - "5432:5432"
   api:
-    build:
-      context: .
-      dockerfile: ./build_image_on_alpine/DockerfileRun
+    image: 
+      run_image_alpine
+    # build:
+    #   context: .
+    #   dockerfile: ./build_image_on_alpine/DockerfileRun
     ports:
       - "8080:8080"
     environment:
       - DB_SOURCE=postgresql://root:secret@postgres:5432/ziwiki?sslmode=disable
     depends_on:
       - postgres
+    volumes:
+      - "./wiki:/wiki"
     entrypoint:
       [
         "/app/wait-for.sh",
@@ -29,15 +33,17 @@ services:
       ]
     command: [ "/app/ziwiki" ]
   monitor:
-    build:
-      context: .
-      dockerfile: DockerfileForMonitor
+    image: 
+      monitor_image_alpine
+    # build:
+      # context: .
+      # dockerfile: DockerfileForMonitor
     environment:
       - DB_SOURCE=postgresql://root:secret@postgres:5432/ziwiki?sslmode=disable
     depends_on:
       - postgres
     volumes:
-      - "./wiki:/app/wiki"
+      - "./wiki:/wiki"
     entrypoint:
       [
         "/app/wait-for.sh",
