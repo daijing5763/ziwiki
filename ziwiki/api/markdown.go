@@ -10,16 +10,15 @@ import (
 )
 
 type getMarkdownRequest struct {
-	Href string `uri:"mdhref" binding:"required,min=1"`
+	Href string `json:"mdhref" binding:"required,min=1"`
 }
 
 func (server *Server) getMarkdown(ctx *gin.Context) {
 	var req getMarkdownRequest
-	if err := ctx.ShouldBindUri(&req); err != nil {
+	if err := ctx.ShouldBindJSON(&req); err != nil {
 		ctx.JSON(http.StatusBadRequest, errorResponse(err))
 		return
 	}
-
 	markdown, err := server.store.GetMarkdown(ctx, req.Href)
 	if err != nil {
 		if err == sql.ErrNoRows {

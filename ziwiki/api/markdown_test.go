@@ -11,6 +11,7 @@ import (
 	"testing"
 	"time"
 
+	"github.com/gin-gonic/gin"
 	"github.com/golang/mock/gomock"
 	"github.com/stretchr/testify/require"
 	mockdb "github.com/zdlpsina/ziwiki/db/mock"
@@ -25,14 +26,16 @@ func TestGetMarkdownAPI(t *testing.T) {
 	markdown := randomMarkdown(user.ID, repo.ID)
 	testCases := []struct {
 		name          string
-		mdhref        string
+		body          gin.H
 		setupAuth     func(t *testing.T, request *http.Request, tokenMaker token.Maker)
 		buildStubs    func(store *mockdb.MockStore)
 		checkResponse func(t *testing.T, recoder *httptest.ResponseRecorder)
 	}{
 		{
-			name:   "OK",
-			mdhref: markdown.Mdhref,
+			name: "OK",
+			body: gin.H{
+				"mdhref": markdown.Mdhref,
+			},
 			setupAuth: func(t *testing.T, request *http.Request, tokenMaker token.Maker) {
 				addAuthorization(t, request, tokenMaker, authorizationTypeBearer, user.ID, time.Minute)
 			},
@@ -48,8 +51,10 @@ func TestGetMarkdownAPI(t *testing.T) {
 			},
 		},
 		{
-			name:   "UnauthorizedUser",
-			mdhref: markdown.Mdhref,
+			name: "UnauthorizedUser",
+			body: gin.H{
+				"mdhref": markdown.Mdhref,
+			},
 			setupAuth: func(t *testing.T, request *http.Request, tokenMaker token.Maker) {
 				addAuthorization(t, request, tokenMaker, authorizationTypeBearer, 12345, time.Minute)
 			},
@@ -64,8 +69,10 @@ func TestGetMarkdownAPI(t *testing.T) {
 			},
 		},
 		{
-			name:   "NoAuthorization",
-			mdhref: markdown.Mdhref,
+			name: "NoAuthorization",
+			body: gin.H{
+				"mdhref": markdown.Mdhref,
+			},
 			setupAuth: func(t *testing.T, request *http.Request, tokenMaker token.Maker) {
 			},
 			buildStubs: func(store *mockdb.MockStore) {
@@ -78,8 +85,10 @@ func TestGetMarkdownAPI(t *testing.T) {
 			},
 		},
 		{
-			name:   "NotFound",
-			mdhref: "nohref",
+			name: "NotFound",
+			body: gin.H{
+				"mdhref": "nohref",
+			},
 			setupAuth: func(t *testing.T, request *http.Request, tokenMaker token.Maker) {
 				addAuthorization(t, request, tokenMaker, authorizationTypeBearer, user.ID, time.Minute)
 			},
@@ -95,8 +104,10 @@ func TestGetMarkdownAPI(t *testing.T) {
 			},
 		},
 		{
-			name:   "InternalError",
-			mdhref: markdown.Mdhref,
+			name: "InternalError",
+			body: gin.H{
+				"mdhref": markdown.Mdhref,
+			},
 			setupAuth: func(t *testing.T, request *http.Request, tokenMaker token.Maker) {
 				addAuthorization(t, request, tokenMaker, authorizationTypeBearer, user.ID, time.Minute)
 			},
@@ -111,7 +122,6 @@ func TestGetMarkdownAPI(t *testing.T) {
 			},
 		},
 	}
-
 	for i := range testCases {
 		tc := testCases[i]
 
@@ -125,10 +135,15 @@ func TestGetMarkdownAPI(t *testing.T) {
 			server := newTestServer(t, store)
 			recorder := httptest.NewRecorder()
 
-			url := fmt.Sprintf("/markdowns/%s", tc.mdhref)
-			request, err := http.NewRequest(http.MethodGet, url, nil)
+			// Marshal body data to JSON
+			data, err := json.Marshal(tc.body)
 			require.NoError(t, err)
 
+			url := "/markdowns"
+			request, err := http.NewRequest(http.MethodPost, url, bytes.NewReader(data))
+
+			require.NoError(t, err)
+			fmt.Println("mydebug:req body:", request.Body)
 			tc.setupAuth(t, request, server.tokenMaker)
 			server.router.ServeHTTP(recorder, request)
 			tc.checkResponse(t, recorder)
