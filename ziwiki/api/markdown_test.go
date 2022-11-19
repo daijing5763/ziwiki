@@ -1,8 +1,11 @@
 package api
 
 import (
+	"bytes"
 	"database/sql"
+	"encoding/json"
 	"fmt"
+	"io/ioutil"
 	"net/http"
 	"net/http/httptest"
 	"testing"
@@ -41,7 +44,7 @@ func TestGetMarkdownAPI(t *testing.T) {
 			},
 			checkResponse: func(t *testing.T, recorder *httptest.ResponseRecorder) {
 				require.Equal(t, http.StatusOK, recorder.Code)
-				requireBodyMatchRepo(t, recorder.Body, markdown)
+				requireBodyMatchMarkdown(t, recorder.Body, markdown)
 			},
 		},
 		{
@@ -52,9 +55,9 @@ func TestGetMarkdownAPI(t *testing.T) {
 			},
 			buildStubs: func(store *mockdb.MockStore) {
 				store.EXPECT().
-					GetRepo(gomock.Any(), gomock.Eq(repo.ID)).
+					GetMarkdown(gomock.Any(), gomock.Eq(markdown.Mdhref)).
 					Times(1).
-					Return(repo, nil)
+					Return(db.Markdown{}, nil)
 			},
 			checkResponse: func(t *testing.T, recorder *httptest.ResponseRecorder) {
 				require.Equal(t, http.StatusUnauthorized, recorder.Code)
@@ -67,7 +70,7 @@ func TestGetMarkdownAPI(t *testing.T) {
 			},
 			buildStubs: func(store *mockdb.MockStore) {
 				store.EXPECT().
-					GetRepo(gomock.Any(), gomock.Any()).
+					GetMarkdown(gomock.Any(), gomock.Any()).
 					Times(0)
 			},
 			checkResponse: func(t *testing.T, recorder *httptest.ResponseRecorder) {
@@ -76,16 +79,16 @@ func TestGetMarkdownAPI(t *testing.T) {
 		},
 		{
 			name:   "NotFound",
-			mdhref: markdown.Mdhref,
+			mdhref: "nohref",
 			setupAuth: func(t *testing.T, request *http.Request, tokenMaker token.Maker) {
 				addAuthorization(t, request, tokenMaker, authorizationTypeBearer, user.ID, time.Minute)
 			},
 
 			buildStubs: func(store *mockdb.MockStore) {
 				store.EXPECT().
-					GetRepo(gomock.Any(), gomock.Eq(repo.ID)).
+					GetMarkdown(gomock.Any(), gomock.Eq("nohref")).
 					Times(1).
-					Return(db.Repo{}, sql.ErrNoRows)
+					Return(db.Markdown{}, sql.ErrNoRows)
 			},
 			checkResponse: func(t *testing.T, recorder *httptest.ResponseRecorder) {
 				require.Equal(t, http.StatusNotFound, recorder.Code)
@@ -99,27 +102,12 @@ func TestGetMarkdownAPI(t *testing.T) {
 			},
 			buildStubs: func(store *mockdb.MockStore) {
 				store.EXPECT().
-					GetRepo(gomock.Any(), gomock.Eq(repo.ID)).
+					GetMarkdown(gomock.Any(), gomock.Eq(markdown.Mdhref)).
 					Times(1).
-					Return(db.Repo{}, sql.ErrConnDone)
+					Return(db.Markdown{}, sql.ErrConnDone)
 			},
 			checkResponse: func(t *testing.T, recorder *httptest.ResponseRecorder) {
 				require.Equal(t, http.StatusInternalServerError, recorder.Code)
-			},
-		},
-		{
-			name:   "InvalidID",
-			mdhref: markdown.Mdhref,
-			setupAuth: func(t *testing.T, request *http.Request, tokenMaker token.Maker) {
-				addAuthorization(t, request, tokenMaker, authorizationTypeBearer, user.ID, time.Minute)
-			},
-			buildStubs: func(store *mockdb.MockStore) {
-				store.EXPECT().
-					GetRepo(gomock.Any(), gomock.Any()).
-					Times(0)
-			},
-			checkResponse: func(t *testing.T, recorder *httptest.ResponseRecorder) {
-				require.Equal(t, http.StatusBadRequest, recorder.Code)
 			},
 		},
 	}
@@ -137,7 +125,7 @@ func TestGetMarkdownAPI(t *testing.T) {
 			server := newTestServer(t, store)
 			recorder := httptest.NewRecorder()
 
-			url := fmt.Sprintf("/markdowns/%d", tc.mdhref)
+			url := fmt.Sprintf("/markdowns/%s", tc.mdhref)
 			request, err := http.NewRequest(http.MethodGet, url, nil)
 			require.NoError(t, err)
 
@@ -156,4 +144,14 @@ func randomMarkdown(user_id int64, repo_id int64) db.Markdown {
 		Mdtext: util.RandomString(20),
 		RepoID: repo_id,
 	}
+}
+
+func requireBodyMatchMarkdown(t *testing.T, body *bytes.Buffer, markdown db.Markdown) {
+	data, err := ioutil.ReadAll(body)
+	require.NoError(t, err)
+
+	var gotMarkdown db.Markdown
+	err = json.Unmarshal(data, &gotMarkdown)
+	require.NoError(t, err)
+	require.Equal(t, markdown, gotMarkdown)
 }
