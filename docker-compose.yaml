@@ -23,7 +23,7 @@ services:
     depends_on:
       - postgres
     volumes:
-      - "./wiki:/wiki"
+      - wiki_data:/tmp/wiki
     entrypoint:
       [
         "/app/wait-for.sh",
@@ -31,19 +31,21 @@ services:
         "--",
         "/app/start.sh"
       ]
-    command: [ "/app/ziwiki" ]
+    command: [ "/app/server" ]
+
   monitor:
     image: 
       monitor_image_alpine
     # build:
-      # context: .
-      # dockerfile: DockerfileForMonitor
+    #   context: .
+    #   dockerfile: ./build_image_on_alpine/DockerfileRun
     environment:
       - DB_SOURCE=postgresql://root:secret@postgres:5432/ziwiki?sslmode=disable
     depends_on:
       - postgres
+      - api
     volumes:
-      - "./wiki:/wiki"
+      - wiki_data:/tmp/wiki
     entrypoint:
       [
         "/app/wait-for.sh",
@@ -51,4 +53,7 @@ services:
         "--",
         "/app/start_monitor.sh"
       ]
-    command: [ "/app/monitor_gen_md" ]
+    command: [ "/app/monitor" ]
+volumes:
+  wiki_data:
+  

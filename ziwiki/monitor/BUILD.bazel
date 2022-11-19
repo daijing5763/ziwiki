@@ -1,0 +1,29 @@
+load("@io_bazel_rules_go//go:def.bzl", "go_library", "go_test")
+
+go_library(
+    name = "monitor",
+    srcs = ["monitor.go"],
+    importpath = "github.com/zdlpsina/ziwiki/monitor",
+    visibility = ["//visibility:public"],
+    deps = [
+        "//ziwiki/db/sqlc",
+        "//ziwiki/lute",
+        "@com_github_dietsche_rfsnotify//:rfsnotify",
+        "@in_gopkg_fsnotify_v1//:fsnotify_v1",
+    ],
+)
+
+go_test(
+    name = "monitor_test",
+    srcs = [
+        "main_test.go",
+        "monitor_test.go",
+    ],
+    embed = [":monitor"],
+    deps = [
+        "//ziwiki/db/sqlc",
+        "//ziwiki/gitsync",
+        "//ziwiki/util",
+        "@com_github_stretchr_testify//require",
+    ],
+)
