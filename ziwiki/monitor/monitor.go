@@ -24,7 +24,7 @@ func RenderLayout(UserID string, RepoID string, store db.Store) bool {
 		return false
 	}
 
-	path := "/tmp/wiki/" + UserID + "/" + RepoID + "/"
+	path := "/tmp/wiki/" + UserID + "/" + RepoID
 	string_layout, err := genlayout.LayoutToString(path)
 
 	if err != nil {
