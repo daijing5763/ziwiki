@@ -7,6 +7,7 @@ go_library(
     visibility = ["//visibility:public"],
     deps = [
         "//ziwiki/db/sqlc",
+        "//ziwiki/jsonlayout",
         "//ziwiki/lute",
         "@com_github_dietsche_rfsnotify//:rfsnotify",
         "@in_gopkg_fsnotify_v1//:fsnotify_v1",
