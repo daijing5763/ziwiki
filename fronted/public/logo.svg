@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg id="_图层_1" data-name="图层 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1024">
+  <defs>
+    <style>
+      .cls-1, .cls-2 {
+        fill: #fff;
+      }
+
+      .cls-3 {
+        fill: #ff0;
+      }
+
+      .cls-4 {
+        fill: #8aa8e5;
+      }
+
+      .cls-5 {
+        fill: #b9e6d7;
+      }
+
+      .cls-6 {
+        fill: #b9e679;
+      }
+
+      .cls-7 {
+        fill: #cfffb5;
+      }
+
+      .cls-8 {
+        fill: #15ff98;
+      }
+
+      .cls-9 {
+        fill: #3ffcff;
+      }
+
+      .cls-10 {
+        fill: #99b7f1;
+      }
+
+      .cls-11 {
+        fill: #5ce6d7;
+      }
+
+      .cls-12 {
+        opacity: 0;
+      }
+
+      .cls-12, .cls-13 {
+        fill: none;
+      }
+
+      .cls-13 {
+        stroke: #fff;
+        stroke-miterlimit: 10;
+        stroke-width: 100px;
+      }
+
+      .cls-2 {
+        font-family: ArialRoundedMTBold, 'Arial Rounded MT Bold';
+        font-size: 545.01px;
+      }
+    </style>
+  </defs>
+  <rect class="cls-12" width="1024" height="1024"/>
+  <ellipse class="cls-3" cx="417.5" cy="575.5" rx="278.5" ry="421.5"/>
+  <ellipse class="cls-9" cx="418.39" cy="310.85" rx="223.34" ry="371.13" transform="translate(-55.67 527.51) rotate(-61.17)"/>
+  <ellipse class="cls-8" cx="605.5" cy="672.5" rx="381" ry="283"/>
+  <ellipse class="cls-7" cx="620" cy="368.98" rx="366.5" ry="345.52"/>
+  <ellipse class="cls-10" cx="344.51" cy="549.59" rx="364.77" ry="246.72" transform="translate(-277.32 365.04) rotate(-41.39)"/>
+  <ellipse class="cls-6" cx="619.47" cy="614.42" rx="235.5" ry="424.39" transform="translate(-202.66 322.25) rotate(-25.2)"/>
+  <ellipse class="cls-5" cx="658.9" cy="421.63" rx="424.39" ry="235.5" transform="translate(142.88 1009.54) rotate(-81.34)"/>
+  <ellipse class="cls-11" cx="455.01" cy="405.59" rx="235.5" ry="424.39" transform="translate(-93.57 671.29) rotate(-67.56)"/>
+  <circle class="cls-4" cx="504.5" cy="511.5" r="448"/>
+  <path class="cls-13" d="M504.68,286.33s-37.04,98.78-148.17,98.78c-54.55,0-98.78-44.23-98.78-98.78s44.23-98.78,98.78-98.78c111.13,0,148.17,98.78,148.17,98.78"/>
+  <path class="cls-13" d="M504.68,286.33s37.04,98.78,148.17,98.78c54.55,0,98.78-44.23,98.78-98.78,0-54.55-44.23-98.78-98.78-98.78-111.13,0-148.17,98.78-148.17,98.78Z"/>
+  <path class="cls-1" d="M356.51,426.27v-82.32c33.3,0,61.51-11.58,83.86-34.42,17.66-18.05,25.47-36.92,25.88-37.94,1.71-4.48,13.52-33.69,40.81-62.8,38.27-40.82,88.68-62.4,145.78-62.4v82.32c-33.3,0-61.51,11.58-83.86,34.42-17.66,18.05-25.47,36.92-25.88,37.94-1.71,4.48-13.52,33.69-40.81,62.8-38.27,40.82-88.68,62.4-145.78,62.4Z"/>
+  <path class="cls-1" d="M652.85,426.27c-57.1,0-107.51-21.58-145.78-62.4-27.29-29.11-39.1-58.32-40.81-62.8-.41-1.01-8.23-19.89-25.88-37.94-22.35-22.84-50.56-34.42-83.86-34.42v-82.32c57.1,0,107.51,21.58,145.78,62.4,27.29,29.11,39.1,58.32,40.81,62.8,.41,1.01,8.23,19.89,25.88,37.94,22.35,22.84,50.56,34.42,83.86,34.42v82.32Z"/>
+  <text class="cls-2" transform="translate(189.65 837.54)"><tspan x="0" y="0">AI</tspan></text>
+</svg>
