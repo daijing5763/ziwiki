@@ -2,9 +2,9 @@ import Link from 'next/link'
 import { useState } from 'react';
 import { signIn, signOut } from "next-auth/react"
 import { useFormik } from 'formik';
-import login_validate from '../lib/validate';
+import login_validate from '../../lib/validate';
 import { useRouter } from 'next/router';
-import PopNav from "../components/popnav"
+import PopNav from "../../components/popnav"
 import { HiAtSymbol, HiFingerPrint, HiOutlineUser } from "react-icons/hi";
 export default function Login(){
 
@@ -64,8 +64,8 @@ export default function Login(){
                     </h1>
                 </div>
             </Link>
-            <h2 className="font-bold pt-5 mt-5 text-2xl ">注册</h2>
-            <p className="text-xs mt-4 ">若您未注册，请注册</p>
+            <h2 className="font-bold pt-5 mt-5 text-2xl ">登录</h2>
+            <p className="text-xs mt-4 ">若您已经注册，请登录</p>
             {/* <form action="" className="flex flex-col gap-4" onSubmit={formik.handleSubmit}>
     
               <input autoComplete="email" className="p-2 mt-8 rounded-xl border" type="email" name="email" placeholder="邮箱"/>
@@ -109,7 +109,7 @@ export default function Login(){
                 {/* login buttons */}
                 <div className="input-button">
                     <button type='submit' className="p-2 rounded-md border dark:text-slate-800">
-                        Login
+                        登录
                     </button>
                 </div>
                 <div className="input-button">
@@ -129,7 +129,7 @@ export default function Login(){
 
 
             <div className="mt-3 text-xs flex justify-between items-center ">
-              <p>已经注册账户?</p>
+              <p>未注册账户?</p>
               <Link href="/auth/register">
                 <button className="py-2 px-5 bg-white  rounded-xl hover:scale-110 duration-300 dark:bg-[#002D74]">登录</button>
               </Link>

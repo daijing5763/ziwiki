@@ -3,8 +3,8 @@ import { useState } from 'react';
 import { useFormik } from 'formik';
 import { useRouter } from 'next/router';
 import { HiAtSymbol, HiFingerPrint, HiOutlineUser } from "react-icons/hi";
-import { registerValidate } from '../lib/validate'
-import PopNav from "../components/popnav"
+import { registerValidate } from '../../lib/validate'
+import PopNav from "../../components/popnav"
 export default function Register() {
   const [show, setShow] = useState({ password: false, cpassword: false })
   const router = useRouter()
