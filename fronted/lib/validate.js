@@ -1,12 +1,8 @@
 export default function login_validate(values) {
-    console.log("login_valid")
 
     const errors = {};
-    return errors;
-    if (!values.email) {
-        errors.email = 'Required';
-    } else if (!/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(values.email)) {
-        errors.email = 'Invalid email address';
+    if (!values.username) {
+        errors.username = 'Required';
     }
     // validation for password
     if(!values.password){
@@ -16,9 +12,7 @@ export default function login_validate(values) {
     } else if(values.password.includes(" ")){
         errors.password = "Invalid Password";
     }
-
     return errors;
-
 }
 
 export function registerValidate(values) {

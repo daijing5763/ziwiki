@@ -19,9 +19,7 @@ const config = {
 };
 import { MdDarkMode, MdLightMode ,MdLogin,MdMenu,MdClose} from "react-icons/md"
 export default function Home({data}) {
-  
   const { data: session } = useSession()
-  console.log(session)
   function handleSignOut(){
     signOut()
   }
@@ -73,12 +71,12 @@ function User({ session, handleSignOut }){
           <h3 className='text-4xl font-bold'>Authorize User Homepage</h3>
 
           <div className='details'>
-            <h5>{session.user.name}</h5>
-            <h5>{session.user.email}</h5>
+            <h5>{session.username}</h5>
+            <h5>{session.email}</h5>
           </div>
 
           <div className="flex justify-center">
-            <button onClick={handleSignOut} className='mt-5 px-10 py-1 rounded-sm bg-indigo-500 bg-gray-50'>Sign Out</button>
+            <button onClick={handleSignOut} className='mt-5 px-10 py-1 rounded-sm bg-indigo-500 text-gray-50'>Sign Out</button>
           </div>
 
           <div className='flex justify-center'>
