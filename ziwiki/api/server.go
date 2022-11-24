@@ -46,8 +46,8 @@ func (server *Server) setupRouter() {
 	authRoutes := router.Group("/").Use(authMiddleware(server.tokenMaker))
 	authRoutes.POST("/repos", server.createRepo)
 	authRoutes.GET("/repos/:id", server.getRepo)
+	authRoutes.GET("/repos", server.listRepos)
 	authRoutes.POST("/markdowns", server.getMarkdown)
-
 	server.router = router
 }
 
