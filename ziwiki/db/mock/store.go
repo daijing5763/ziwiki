@@ -243,6 +243,21 @@ func (mr *MockStoreMockRecorder) GetUserForUpdate(arg0, arg1 interface{}) *gomoc
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetUserForUpdate", reflect.TypeOf((*MockStore)(nil).GetUserForUpdate), arg0, arg1)
 }
 
+// ListRepos mocks base method.
+func (m *MockStore) ListRepos(arg0 context.Context, arg1 db.ListReposParams) ([]db.Repo, error) {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "ListRepos", arg0, arg1)
+	ret0, _ := ret[0].([]db.Repo)
+	ret1, _ := ret[1].(error)
+	return ret0, ret1
+}
+
+// ListRepos indicates an expected call of ListRepos.
+func (mr *MockStoreMockRecorder) ListRepos(arg0, arg1 interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "ListRepos", reflect.TypeOf((*MockStore)(nil).ListRepos), arg0, arg1)
+}
+
 // UpdateMarkdown mocks base method.
 func (m *MockStore) UpdateMarkdown(arg0 context.Context, arg1 db.UpdateMarkdownParams) (db.Markdown, error) {
 	m.ctrl.T.Helper()

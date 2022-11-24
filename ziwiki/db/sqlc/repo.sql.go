@@ -100,6 +100,51 @@ func (q *Queries) GetRepoForUpdate(ctx context.Context, id int64) (Repo, error) 
 	return i, err
 }
 
+const listRepos = `-- name: ListRepos :many
+SELECT id, user_id, repo_name, repo_git, repo_user_name, repo_access_token, created_at FROM repos
+WHERE user_id = $1
+ORDER BY id
+LIMIT $2
+OFFSET $3
+`
+
+type ListReposParams struct {
+	UserID int64 `json:"user_id"`
+	Limit  int32 `json:"limit"`
+	Offset int32 `json:"offset"`
+}
+
+func (q *Queries) ListRepos(ctx context.Context, arg ListReposParams) ([]Repo, error) {
+	rows, err := q.db.QueryContext(ctx, listRepos, arg.UserID, arg.Limit, arg.Offset)
+	if err != nil {
+		return nil, err
+	}
+	defer rows.Close()
+	items := []Repo{}
+	for rows.Next() {
+		var i Repo
+		if err := rows.Scan(
+			&i.ID,
+			&i.UserID,
+			&i.RepoName,
+			&i.RepoGit,
+			&i.RepoUserName,
+			&i.RepoAccessToken,
+			&i.CreatedAt,
+		); err != nil {
+			return nil, err
+		}
+		items = append(items, i)
+	}
+	if err := rows.Close(); err != nil {
+		return nil, err
+	}
+	if err := rows.Err(); err != nil {
+		return nil, err
+	}
+	return items, nil
+}
+
 const updateRepo = `-- name: UpdateRepo :one
 UPDATE repos
 SET repo_name=$2

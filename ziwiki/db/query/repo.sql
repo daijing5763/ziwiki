@@ -27,3 +27,10 @@ RETURNING *;
 -- name: DeleteRepo :exec
 DELETE FROM repos
 WHERE id = $1;
+
+-- name: ListRepos :many
+SELECT * FROM repos
+WHERE user_id = $1
+ORDER BY id
+LIMIT $2
+OFFSET $3;

@@ -84,3 +84,25 @@ func TestUpdateRepo(t *testing.T) {
 	require.Equal(t, repo2.ID, arg.ID)
 	require.Equal(t, repo2.RepoName, arg.RepoName)
 }
+
+func TestListRepos(t *testing.T) {
+	var lastRepo Repo
+	for i := 0; i < 10; i++ {
+		lastRepo = createRandomRepo(t)
+	}
+
+	arg := ListReposParams{
+		UserID: lastRepo.UserID,
+		Limit:  5,
+		Offset: 0,
+	}
+
+	repos, err := testQueries.ListRepos(context.Background(), arg)
+	require.NoError(t, err)
+	require.NotEmpty(t, repos)
+
+	for _, repo := range repos {
+		require.NotEmpty(t, repo)
+		require.Equal(t, lastRepo.UserID, repo.UserID)
+	}
+}

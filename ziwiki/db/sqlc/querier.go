@@ -25,6 +25,7 @@ type Querier interface {
 	GetSession(ctx context.Context, id uuid.UUID) (Session, error)
 	GetUser(ctx context.Context, username string) (User, error)
 	GetUserForUpdate(ctx context.Context, id int64) (User, error)
+	ListRepos(ctx context.Context, arg ListReposParams) ([]Repo, error)
 	UpdateMarkdown(ctx context.Context, arg UpdateMarkdownParams) (Markdown, error)
 	UpdateRepo(ctx context.Context, arg UpdateRepoParams) (Repo, error)
 	UpdateUser(ctx context.Context, arg UpdateUserParams) (User, error)
