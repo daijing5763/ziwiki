@@ -4,7 +4,6 @@ import (
 	"bytes"
 	"database/sql"
 	"encoding/json"
-	"fmt"
 	"io/ioutil"
 	"net/http"
 	"net/http/httptest"
@@ -26,14 +25,16 @@ func TestGetRepoAPI(t *testing.T) {
 
 	testCases := []struct {
 		name          string
-		repoID        int64
+		body          gin.H
 		setupAuth     func(t *testing.T, request *http.Request, tokenMaker token.Maker)
 		buildStubs    func(store *mockdb.MockStore)
 		checkResponse func(t *testing.T, recoder *httptest.ResponseRecorder)
 	}{
 		{
-			name:   "OK",
-			repoID: repo.ID,
+			name: "OK",
+			body: gin.H{
+				"id": repo.ID,
+			},
 			setupAuth: func(t *testing.T, request *http.Request, tokenMaker token.Maker) {
 				addAuthorization(t, request, tokenMaker, authorizationTypeBearer, user.ID, time.Minute)
 			},
@@ -49,8 +50,10 @@ func TestGetRepoAPI(t *testing.T) {
 			},
 		},
 		{
-			name:   "UnauthorizedUser",
-			repoID: repo.ID,
+			name: "UnauthorizedUser",
+			body: gin.H{
+				"id": repo.ID,
+			},
 			setupAuth: func(t *testing.T, request *http.Request, tokenMaker token.Maker) {
 				addAuthorization(t, request, tokenMaker, authorizationTypeBearer, 12345, time.Minute)
 			},
@@ -65,8 +68,10 @@ func TestGetRepoAPI(t *testing.T) {
 			},
 		},
 		{
-			name:   "NoAuthorization",
-			repoID: repo.ID,
+			name: "NoAuthorization",
+			body: gin.H{
+				"id": repo.ID,
+			},
 			setupAuth: func(t *testing.T, request *http.Request, tokenMaker token.Maker) {
 			},
 			buildStubs: func(store *mockdb.MockStore) {
@@ -79,8 +84,10 @@ func TestGetRepoAPI(t *testing.T) {
 			},
 		},
 		{
-			name:   "NotFound",
-			repoID: repo.ID,
+			name: "NotFound",
+			body: gin.H{
+				"id": repo.ID,
+			},
 			setupAuth: func(t *testing.T, request *http.Request, tokenMaker token.Maker) {
 				addAuthorization(t, request, tokenMaker, authorizationTypeBearer, user.ID, time.Minute)
 			},
@@ -96,8 +103,10 @@ func TestGetRepoAPI(t *testing.T) {
 			},
 		},
 		{
-			name:   "InternalError",
-			repoID: repo.ID,
+			name: "InternalError",
+			body: gin.H{
+				"id": repo.ID,
+			},
 			setupAuth: func(t *testing.T, request *http.Request, tokenMaker token.Maker) {
 				addAuthorization(t, request, tokenMaker, authorizationTypeBearer, user.ID, time.Minute)
 			},
@@ -112,8 +121,10 @@ func TestGetRepoAPI(t *testing.T) {
 			},
 		},
 		{
-			name:   "InvalidID",
-			repoID: 0,
+			name: "InvalidID",
+			body: gin.H{
+				"id": 0,
+			},
 			setupAuth: func(t *testing.T, request *http.Request, tokenMaker token.Maker) {
 				addAuthorization(t, request, tokenMaker, authorizationTypeBearer, user.ID, time.Minute)
 			},
@@ -141,8 +152,13 @@ func TestGetRepoAPI(t *testing.T) {
 			server := newTestServer(t, store)
 			recorder := httptest.NewRecorder()
 
-			url := fmt.Sprintf("/repos/%d", tc.repoID)
-			request, err := http.NewRequest(http.MethodGet, url, nil)
+			// Marshal body data to JSON
+			data, err := json.Marshal(tc.body)
+			require.NoError(t, err)
+
+			url := "/get_repo"
+
+			request, err := http.NewRequest(http.MethodPost, url, bytes.NewReader(data))
 			require.NoError(t, err)
 
 			tc.setupAuth(t, request, server.tokenMaker)
@@ -303,7 +319,7 @@ func TestCreateRepoAPI(t *testing.T) {
 			data, err := json.Marshal(tc.body)
 			require.NoError(t, err)
 
-			url := "/repos"
+			url := "/create_repo"
 			request, err := http.NewRequest(http.MethodPost, url, bytes.NewReader(data))
 			require.NoError(t, err)
 
@@ -323,23 +339,19 @@ func TestListReposAPI(t *testing.T) {
 		repos[i] = randomRepo(user.ID)
 	}
 
-	type Query struct {
-		pageID   int
-		pageSize int
-	}
-
 	testCases := []struct {
-		name          string
-		query         Query
+		name string
+
+		body          gin.H
 		setupAuth     func(t *testing.T, request *http.Request, tokenMaker token.Maker)
 		buildStubs    func(store *mockdb.MockStore)
 		checkResponse func(recoder *httptest.ResponseRecorder)
 	}{
 		{
 			name: "OK",
-			query: Query{
-				pageID:   1,
-				pageSize: n,
+			body: gin.H{
+				"page_id":   1,
+				"page_size": n,
 			},
 			setupAuth: func(t *testing.T, request *http.Request, tokenMaker token.Maker) {
 				addAuthorization(t, request, tokenMaker, authorizationTypeBearer, user.ID, time.Minute)
@@ -363,9 +375,9 @@ func TestListReposAPI(t *testing.T) {
 		},
 		{
 			name: "NoAuthorization",
-			query: Query{
-				pageID:   1,
-				pageSize: n,
+			body: gin.H{
+				"page_id":   1,
+				"page_size": n,
 			},
 			setupAuth: func(t *testing.T, request *http.Request, tokenMaker token.Maker) {
 			},
@@ -380,9 +392,9 @@ func TestListReposAPI(t *testing.T) {
 		},
 		{
 			name: "InternalError",
-			query: Query{
-				pageID:   1,
-				pageSize: n,
+			body: gin.H{
+				"page_id":   1,
+				"page_size": n,
 			},
 			setupAuth: func(t *testing.T, request *http.Request, tokenMaker token.Maker) {
 				addAuthorization(t, request, tokenMaker, authorizationTypeBearer, user.ID, time.Minute)
@@ -399,9 +411,9 @@ func TestListReposAPI(t *testing.T) {
 		},
 		{
 			name: "InvalidPageID",
-			query: Query{
-				pageID:   -1,
-				pageSize: n,
+			body: gin.H{
+				"page_id":   -1,
+				"page_size": n,
 			},
 			setupAuth: func(t *testing.T, request *http.Request, tokenMaker token.Maker) {
 				addAuthorization(t, request, tokenMaker, authorizationTypeBearer, user.ID, time.Minute)
@@ -417,9 +429,9 @@ func TestListReposAPI(t *testing.T) {
 		},
 		{
 			name: "InvalidPageSize",
-			query: Query{
-				pageID:   1,
-				pageSize: 100000,
+			body: gin.H{
+				"page_id":   1,
+				"page_size": 1000000,
 			},
 			setupAuth: func(t *testing.T, request *http.Request, tokenMaker token.Maker) {
 				addAuthorization(t, request, tokenMaker, authorizationTypeBearer, user.ID, time.Minute)
@@ -448,15 +460,13 @@ func TestListReposAPI(t *testing.T) {
 			server := newTestServer(t, store)
 			recorder := httptest.NewRecorder()
 
-			url := "/repos"
-			request, err := http.NewRequest(http.MethodGet, url, nil)
+			// Marshal body data to JSON
+			data, err := json.Marshal(tc.body)
 			require.NoError(t, err)
 
-			// Add query parameters to request URL
-			q := request.URL.Query()
-			q.Add("page_id", fmt.Sprintf("%d", tc.query.pageID))
-			q.Add("page_size", fmt.Sprintf("%d", tc.query.pageSize))
-			request.URL.RawQuery = q.Encode()
+			url := "/get_repo_list"
+			request, err := http.NewRequest(http.MethodPost, url, bytes.NewReader(data))
+			require.NoError(t, err)
 
 			tc.setupAuth(t, request, server.tokenMaker)
 			server.router.ServeHTTP(recorder, request)

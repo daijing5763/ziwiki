@@ -139,7 +139,7 @@ func TestGetMarkdownAPI(t *testing.T) {
 			data, err := json.Marshal(tc.body)
 			require.NoError(t, err)
 
-			url := "/markdowns"
+			url := "/get_markdown"
 			request, err := http.NewRequest(http.MethodPost, url, bytes.NewReader(data))
 
 			require.NoError(t, err)

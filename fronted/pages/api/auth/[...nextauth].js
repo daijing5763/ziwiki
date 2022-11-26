@@ -58,9 +58,9 @@ export default NextAuth({
             // Initial sign in
             if (user) {
                 return {
-                    accessToken: user.access_token,
+                    access_token: user.access_token,
                     accessTokenExpires: user.access_token_expires_at,
-                    refreshToken: user.refresh_token,
+                    refresh_token: user.refresh_token,
                     refresh_token_expires_at:user.refresh_token_expires_at,
                     username: user.username,
                     email: user.email,
@@ -79,7 +79,7 @@ export default NextAuth({
         // 1. getsession 会调用这个，不过之前先call jwt，更新token，默认是有user{},expires
         async session({ session, token }) {
             console.log("session called")
-            session.accessToken = token.accessToken
+            session.access_token = token.access_token
             session.error = token.error
             session.expires = token.refresh_token_expires_at
             session.username = token.username
@@ -105,7 +105,7 @@ async function refreshAccessToken(token) {
             error: 'RefreshAccessTokenError'
         }
     }
-    token.accessToken = result.access_token
+    token.access_token = result.access_token
     token.accessTokenExpires = result.access_token_expires_at
     return {
         ...token,

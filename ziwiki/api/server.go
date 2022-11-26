@@ -36,7 +36,7 @@ func (server *Server) setupRouter() {
 	router.Use(cors.New(cors.Config{
 		AllowOrigins: []string{"*"},
 		AllowMethods: []string{"POST", "PUT", "PATCH", "DELETE"},
-		AllowHeaders: []string{"Content-Type,access-control-allow-origin, access-control-allow-headers"},
+		AllowHeaders: []string{"Content-Type,access-control-allow-origin, access-control-allow-headers", "Authorization"},
 	}))
 	//add routes
 	router.POST("/users", server.createUser)
@@ -44,10 +44,10 @@ func (server *Server) setupRouter() {
 	router.POST("/tokens/renew_access", server.renewAccessToken)
 
 	authRoutes := router.Group("/").Use(authMiddleware(server.tokenMaker))
-	authRoutes.POST("/repos", server.createRepo)
-	authRoutes.GET("/repos/:id", server.getRepo)
-	authRoutes.GET("/repos", server.listRepos)
-	authRoutes.POST("/markdowns", server.getMarkdown)
+	authRoutes.POST("/create_repo", server.createRepo)
+	authRoutes.POST("/get_repo", server.getRepo)
+	authRoutes.POST("/get_repo_list", server.listRepos)
+	authRoutes.POST("/get_markdown", server.getMarkdown)
 	server.router = router
 }
 

@@ -120,7 +120,7 @@ export default function Register() {
 
                 {/* login buttons */}
                 {/* <div className="flex w-full"> */}
-                    <button className="bg-[#002D74]  rounded-xl text-white py-2 mt-2 hover:scale-105 duration-300" type='submit' >
+                <button className="bg-[#002D74]  rounded-xl text-white py-2 mt-2 hover:scale-105 duration-300" type='submit' >
                         Sign Up
                     </button>
                 {/* </div> */}
@@ -132,7 +132,7 @@ export default function Register() {
 
             <div className="mt-3 text-xs flex justify-between items-center ">
               <p>已经注册账户?</p>
-              <Link href="/auth/register">
+              <Link href="/auth/login">
                 <button className="py-2 px-5 bg-white  rounded-xl hover:scale-110 duration-300 dark:bg-[#002D74]">登录</button>
               </Link>
             </div>

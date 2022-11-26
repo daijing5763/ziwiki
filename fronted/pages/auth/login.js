@@ -8,7 +8,7 @@ import PopNav from "../../components/popnav"
 import { HiAtSymbol, HiFingerPrint, HiOutlineUser } from "react-icons/hi";
 export default function Login(){
 
-    const [show, setShow] = useState(false)
+  const [show, setShow] = useState(false)
     const router = useRouter()
     // formik hook
     const formik = useFormik({
@@ -25,16 +25,16 @@ export default function Login(){
      * admin123
      */
 
-    async function onSubmit(values) {
-        const status = await signIn('credentials', {
-            redirect: false,
-            username: values.username,
-            password: values.password,
-            callbackUrl: "/"
-        })
-        if(status.ok) router.push(status.url)
-        
-    }
+     async function onSubmit(values) {
+      const status = await signIn('credentials', {
+          redirect: false,
+          username: values.username,
+          password: values.password,
+          callbackUrl: "/"
+      })
+      if(status.ok) router.push(status.url)
+      
+  }
 
     // Google Handler function
     async function handleGoogleSignin(){
@@ -107,21 +107,11 @@ export default function Login(){
 
                 {/* {formik.errors.password && formik.touched.password ? <span className='text-rose-500'>{formik.errors.password}</span> : <></>} */}
                 {/* login buttons */}
-                <div className="input-button">
-                    <button type='submit' className="p-2 rounded-md border dark:text-slate-800">
-                        登录
-                    </button>
-                </div>
-                <div className="input-button">
-                    <button type='button' onClick={handleGoogleSignin} className="p-2 rounded-md border dark:text-slate-800">
-                        Sign In with Google 
-                    </button>
-                </div>
-                <div className="input-button">
-                    <button type='button' onClick={handleGithubSignin} className="p-2 rounded-md border dark:text-slate-800">
-                        Sign In with Github  
-                    </button>
-                </div>
+        
+                <button className="bg-[#002D74]  rounded-xl text-white py-2 mt-2 hover:scale-105 duration-300" type='submit' >
+                      登录
+                </button>
+  
             </form>
             <div className="mt-5 text-xs border-b border-[#002D74] dark:border-slate-300 py-4 ">
             <Link href="/auth/forgetPassword"><p className="font-medium  hover:text-indigo-500">忘记密码?</p></Link>
@@ -131,7 +121,7 @@ export default function Login(){
             <div className="mt-3 text-xs flex justify-between items-center ">
               <p>未注册账户?</p>
               <Link href="/auth/register">
-                <button className="py-2 px-5 bg-white  rounded-xl hover:scale-110 duration-300 dark:bg-[#002D74]">登录</button>
+                <button className="py-2 px-5 bg-white  rounded-xl hover:scale-110 duration-300 dark:bg-[#002D74]">注册</button>
               </Link>
             </div>
           </div>
