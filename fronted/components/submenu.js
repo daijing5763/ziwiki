@@ -3,7 +3,7 @@ import React, { useState, useEffect } from 'react';
 import { getIndex, acccompare, compare } from '../utils'
 import { BiChevronLeft, BiChevronDown } from "react-icons/bi"
 import Link from 'next/link'
-export default function SubMenu({menus,layer,offset,SideBarIndex, setSideBarIndex}) {
+export default function SubMenu({ menus, layer, offset, SideBarIndex, setSideBarIndex }) {
   const [open, setOpen] = useState(Array(menus.length).fill(false));
   const [SideBarMaxWidth, setSideBarMaxWidth] = useState(100);
   function setOpenWrap(index) {
@@ -15,7 +15,7 @@ export default function SubMenu({menus,layer,offset,SideBarIndex, setSideBarInde
   return (
     <ul className="ml-2 mt-4 text-xl lg:text-lg font-semibold lg:mt-1 space-y-4 lg:space-y-2 border-l border-slate-100 dark:border-slate-700  ">
       {menus.map((menu, index) => (
-        menu.submenu ? (
+        menu.isdir ? (
           <li key={index}>
             <div>
               <div className="flex justify-between items-center ">
@@ -31,16 +31,16 @@ export default function SubMenu({menus,layer,offset,SideBarIndex, setSideBarInde
                   </a>
 
 
-                    <div className={`${(open[index] || !menu.submenu) && 'hidden'}`} onClick={() => { setOpenWrap(index) }}>
+                    <div className={`${(open[index] || !menu.sublayouts) && 'hidden'}`} onClick={() => { setOpenWrap(index) }}>
                       <BiChevronLeft  className='hover:text-sky-500 duration-300 cursor-pointer h-9 w-9'/>
                     </div>
-                    <div className={`${(!open[index] ||!menu.submenu ) && 'hidden'}`} onClick={() => { setOpenWrap(index) }}>
+                    <div className={`${(!open[index] ||!menu.sublayouts ) && 'hidden'}`} onClick={() => { setOpenWrap(index) }}>
                       <BiChevronDown  className='hover:text-sky-500 duration-300 cursor-pointer h-9 w-9'/>
                     </div>
               </div>
                 {open[index] && (
                   <div >
-                    <SubMenu menus={menu.submenuItems} layer={layer + 1} offset={offset * SideBarMaxWidth + index} SideBarIndex={SideBarIndex} setSideBarIndex={setSideBarIndex} />
+                    <SubMenu menus={menu.sublayouts} layer={layer + 1} offset={offset * SideBarMaxWidth + index} SideBarIndex={SideBarIndex} setSideBarIndex={setSideBarIndex} />
                   </div>
                 )}
 
@@ -50,7 +50,7 @@ export default function SubMenu({menus,layer,offset,SideBarIndex, setSideBarInde
           <li key={index}>
           <div>
             <div className="flex justify-between items-center ">
-              <Link href={"/wiki/"+menu.href}>
+              {/* <Link href={"/wiki/"+menu.href}> */}
                 <a onClick={() => {setSideBarIndex(getIndex(layer, offset*SideBarMaxWidth+index, SideBarMaxWidth),menu.href) }}
                       className={` block border-l pl-4 -ml-px cursor-pointer 
                         ${acccompare(SideBarIndex, getIndex(layer, offset * SideBarMaxWidth + index,SideBarMaxWidth), SideBarMaxWidth)
@@ -61,7 +61,7 @@ export default function SubMenu({menus,layer,offset,SideBarIndex, setSideBarInde
                           : 'border-transparent hover:border-slate-400'}
                       `}> {menu.title} 
                 </a>
-              </Link>
+              {/* </Link> */}
 
 
                   <div className={`${(open[index] || !menu.submenu) && 'hidden'}`} onClick={() => { setOpenWrap(index) }}>

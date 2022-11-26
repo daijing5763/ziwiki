@@ -2,27 +2,36 @@ import Link from "next/link";
 import { getSession } from 'next-auth/react'
 import PopNav from "../../components/popnav"
 import CreateRepo from '../../components/createrepo'
-import { Fragment, useRef, useState } from 'react'
+import { Fragment, useRef, useState,useEffect } from 'react'
 import { AiFillGithub, AiFillGitlab ,AiFillDelete} from "react-icons/ai"
 import { SiGitee } from "react-icons/si"
 // import Example from "../../components/dialog"
+
 export default ({ session }) => {
+  const [repolist, setrepolist] = useState([])
   async function getRepoList(values) {
     const options = {
-      method: "GET",
+      method: "POST",
       headers: {
         'Content-Type': 'application/json',
         'Authorization': `Bearer ${session.access_token}`
       },
       body: JSON.stringify(values)
   }
-  console.log("options:",options)
-  await fetch('http://0.0.0.0:8080/repos', options)
+  await fetch('http://0.0.0.0:8080/get_repo_list', options)
       .then(res => res.json())
       .then((data) => {
-        console.log(data);
+        setrepolist(data);
+        console.log("repolist:", data);
       })
-}
+  }
+
+
+
+  useEffect(() => { 
+    getRepoList( { "page_id": 1, "page_size": 10 })
+  },[]);
+  
   const repos = [
     {
       id: 1,
@@ -51,13 +60,12 @@ export default ({ session }) => {
       type: "github",
       describe:"a repo used for record something"
     },
-    
   ]
   console.log("session:",session)
   const [open, setOpen] = useState(false)
-    function  showCreateRepo() {
-      setOpen(!open)
-    }
+  function  showCreateRepo() {
+    setOpen(!open)
+  }
     return (
 
 <div className="antialiased text-slate-500 dark:text-slate-400 bg-white dark:bg-slate-900 min-h-screen">
@@ -103,13 +111,13 @@ export default ({ session }) => {
                     </div>
                     <div className="group relative rounded-md dark:bg-slate-700 dark:highlight-white/10 dark:focus-within:bg-transparent">
                       <svg width="20" height="20" fill="currentColor" className="absolute left-3 top-1/2 -mt-2.5 text-slate-400 pointer-events-none group-focus-within:text-blue-500 dark:text-slate-500">
-                        <path fill-rule="evenodd" clip-rule="evenodd" d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z"></path>
+                        <path fillRule="evenodd" clipRule="evenodd" d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z"></path>
                       </svg>
                       <input type="text" aria-label="Filter projects" placeholder="Filter projects..." className="appearance-none w-full text-sm leading-6 bg-transparent text-slate-900 placeholder:text-slate-400 rounded-md py-2 pl-10 ring-1 ring-slate-200 shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 dark:text-slate-100 dark:placeholder:text-slate-500 dark:ring-0 dark:focus:ring-2"/>
                     </div>
                   </header>
                   <ul className="bg-slate-50 p-4 sm:px-8 sm:pt-6 sm:pb-8 lg:p-4 xl:px-8 xl:pt-6 xl:pb-8 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3  lg:grid-cols-5 xl:grid-cols-5 gap-4 text-sm leading-6 dark:bg-slate-900/40 dark:ring-1 dark:ring-white/5">
-                      {repos.map((repo,index) => (
+                      {repolist.map((repo,index) => (
                           <li key={index} className="group cursor-pointer rounded-md p-3 bg-white ring-1 ring-slate-200
                           shadow-sm hover:bg-blue-500 hover:ring-blue-500 hover:shadow-md
                         dark:bg-slate-700 dark:ring-0 dark:highlight-white/10 dark:hover:bg-blue-500">
@@ -171,6 +179,7 @@ export async function getServerSideProps({ req }){
             }
         }
     }
+  
     // authorize user return session
     return {
         props: { session }
