@@ -5,7 +5,7 @@ import (
 	"database/sql"
 	"encoding/json"
 	"fmt"
-	"io/ioutil"
+	"io"
 	"net/http"
 	"net/http/httptest"
 	"testing"
@@ -162,7 +162,7 @@ func randomMarkdown(user_id int64, repo_id int64) db.Markdown {
 }
 
 func requireBodyMatchMarkdown(t *testing.T, body *bytes.Buffer, markdown db.Markdown) {
-	data, err := ioutil.ReadAll(body)
+	data, err := io.ReadAll(body)
 	require.NoError(t, err)
 
 	var gotMarkdown db.Markdown

@@ -4,7 +4,7 @@ import (
 	"bytes"
 	"database/sql"
 	"encoding/json"
-	"io/ioutil"
+	"io"
 	"net/http"
 	"net/http/httptest"
 	"testing"
@@ -486,7 +486,7 @@ func randomRepo(user_id int64) db.Repo {
 	}
 }
 func requireBodyMatchRepo(t *testing.T, body *bytes.Buffer, repo db.Repo) {
-	data, err := ioutil.ReadAll(body)
+	data, err := io.ReadAll(body)
 	require.NoError(t, err)
 
 	var gotRepo db.Repo
@@ -496,7 +496,7 @@ func requireBodyMatchRepo(t *testing.T, body *bytes.Buffer, repo db.Repo) {
 }
 
 func requireBodyMatchRepos(t *testing.T, body *bytes.Buffer, accounts []db.Repo) {
-	data, err := ioutil.ReadAll(body)
+	data, err := io.ReadAll(body)
 	require.NoError(t, err)
 
 	var gotRepos []db.Repo
