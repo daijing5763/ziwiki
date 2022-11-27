@@ -4,6 +4,7 @@ import (
 	"context"
 	"fmt"
 	"log"
+	"os"
 	"strconv"
 	"strings"
 
@@ -76,7 +77,6 @@ func RenderLogic(path string, op uint32, store db.Store) bool {
 			}
 			//logic code
 			if op == 1 {
-				log.Printf("mydebug: created: %s %d\n", path, op)
 				render.RenderMd(store, path, 0, user_id, repo_id)
 				RenderLayout(index[3], index[4], store)
 			} else if op == 2 {
@@ -95,6 +95,24 @@ func RenderLogic(path string, op uint32, store db.Store) bool {
 	}
 	return false
 }
+func iterFS(path string, mdtype int, store db.Store) {
+	files, err := os.ReadDir(path)
+	if err != nil {
+		log.Fatal(err)
+	}
+	for _, f := range files {
+		if f.Type().IsRegular() && strings.HasSuffix(f.Name(), ".md") {
+			if mdtype == 1 {
+				RenderLogic(path+"/"+f.Name(), 1, store)
+			} else if mdtype == 3 {
+				RenderLogic(path+"/"+f.Name(), 3, store)
+			}
+		}
+		if f.IsDir() {
+			iterFS(path+"/"+f.Name(), mdtype, store)
+		}
+	}
+}
 func MonitorFS(store db.Store, wiki_path string) {
 	// watcher, err := fsnotify.NewWatcher()
 	watcher, err := rfsnotify.NewWatcher()
@@ -112,9 +130,19 @@ func MonitorFS(store db.Store, wiki_path string) {
 				if !ok {
 					return
 				}
-
+				_, err := os.ReadDir(event.Name)
+				if err != nil {
+					// log.Printf("mydebug readfail:%s", event.Name)
+				} else {
+					if event.Op == 1 {
+						//create folder
+						iterFS(event.Name, 1, store)
+					} else if event.Op == 3 {
+						// delete folder
+						iterFS(event.Name, 3, store)
+					}
+				}
 				RenderLogic(event.Name, uint32(event.Op), store)
-				log.Printf("%s %s\n", event.Name, event.Op)
 			case err, ok := <-watcher.Errors:
 				if !ok {
 					return
