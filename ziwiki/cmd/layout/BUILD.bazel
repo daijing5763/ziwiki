@@ -5,7 +5,7 @@ go_library(
     srcs = ["main.go"],
     importpath = "github.com/zdlpsina/ziwiki/cmd/layout",
     visibility = ["//visibility:private"],
-    deps = ["//ziwiki/jsonlayout"],
+    deps = ["//jsonlayout"],
 )
 
 go_binary(

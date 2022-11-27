@@ -26,10 +26,7 @@ go_local_sdk(
     path = "/usr/local/go",
 )
 
-load("//:deps.bzl", "g", "go_dependencies")
-
-# gazelle:repository_macro deps.bzl%g
-g()
+load("//:deps.bzl", "go_dependencies")
 
 # gazelle:repository_macro deps.bzl%go_dependencies
 go_dependencies()

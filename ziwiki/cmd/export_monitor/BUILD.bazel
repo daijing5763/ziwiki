@@ -1,0 +1,38 @@
+load("@io_bazel_rules_go//go:def.bzl", "go_binary", "go_library")
+
+go_library(
+    name = "export_monitor_lib",
+    srcs = ["main.go"],
+    cgo = True,
+    importpath = "github.com/zdlpsina/ziwiki/cmd/export_monitor",
+    visibility = ["//visibility:private"],
+    deps = [
+        "//api",
+        "//db/sqlc",
+        "//monitor",
+        "//util",
+        "@com_github_lib_pq//:pq",
+    ],
+)
+
+go_binary(
+    name = "export_monitor",
+    embed = [":export_monitor_lib"],
+    visibility = ["//visibility:public"],
+)
+
+go_binary(
+    name = "monitor_lib",
+    srcs = ["main.go"],
+    cgo = True,
+    importpath = "github.com/zdlpsina/ziwiki",
+    linkmode = "c-archive",
+    visibility = ["//visibility:public"],
+    deps = [
+        "//api",
+        "//db/sqlc",
+        "//monitor",
+        "//util",
+        "@com_github_lib_pq//:pq",
+    ],
+)

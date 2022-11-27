@@ -91,8 +91,8 @@ export default function Home({ session }) {
         document.documentElement.classList.add('dark')
         document.body.style.backgroundColor = "#0B1120";
     }
-    getLayout({ "mdhref": "/tmp/wiki/1/4/layout.json" });
-    getMarkdown({"mdhref":"/tmp/wiki/1/1/README.en.md"});
+    getLayout({ "mdhref": "/tmp/wiki/1/1/layout.json" });
+    getMarkdown({"mdhref":"/tmp/wiki/1/1/README.md"});
 },[]);
 
   function isContains(str, substr) {
@@ -215,9 +215,9 @@ const options = {
         <div className="fixed lg:hidden inset-0 bg-white w-[20rem] p-6 dark:bg-slate-900" ></div>
         <nav  className="lg:px-3 pt-8 lg:pt-8 pb-3 lg:text-sm lg:leading-6 relative  duration-300  first-letter:
         ">
-            <ul>
+            {/* <ul>
               {layout.map((menu, index) => (<li key={index}>{menu['title']}</li>))}
-            </ul>
+            </ul> */}
             {/* {layout} */}
           <SubMenu menus={layout} layer={1} offset={0} SideBarIndex={SideBarIndex} setSideBarIndex={setSideBarIndex} />
         </nav>

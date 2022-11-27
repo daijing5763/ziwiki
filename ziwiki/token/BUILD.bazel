@@ -26,7 +26,7 @@ go_test(
     ],
     embed = [":token"],
     deps = [
-        "//ziwiki/util",
+        "//util",
         "@com_github_golang_jwt_jwt_v4//:jwt",
         "@com_github_stretchr_testify//require",
     ],

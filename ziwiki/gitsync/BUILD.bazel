@@ -19,7 +19,7 @@ go_test(
     ],
     embed = [":gitsync"],
     deps = [
-        "//ziwiki/util",
+        "//util",
         "@com_github_stretchr_testify//require",
     ],
 )

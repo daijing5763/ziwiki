@@ -11,7 +11,6 @@ import (
 	db "github.com/zdlpsina/ziwiki/db/sqlc"
 	genlayout "github.com/zdlpsina/ziwiki/jsonlayout"
 	render "github.com/zdlpsina/ziwiki/lute"
-	"gopkg.in/fsnotify.v1"
 )
 
 func RenderLayout(UserID string, RepoID string, store db.Store) bool {
@@ -41,12 +40,22 @@ func RenderLayout(UserID string, RepoID string, store db.Store) bool {
 	Markdown, err := store.CreateMarkdown(context.Background(), arg)
 	_ = Markdown
 	if err != nil {
-		fmt.Println(err)
-		return false
+		fmt.Println(err) //create fail may exist
+		arg_update := db.UpdateMarkdownParams{
+			Mdhref: "/tmp/wiki/" + UserID + "/" + RepoID + "/layout.json",
+			Mdtext: string_layout,
+		}
+		Markdown, err := store.UpdateMarkdown(context.Background(), arg_update)
+		_ = Markdown
+		if err != nil {
+			fmt.Println(err) //create fail may exist
+			return false
+		}
+		return true
 	}
 	return true
 }
-func RenderLogic(path string, op fsnotify.Op, store db.Store) bool {
+func RenderLogic(path string, op uint32, store db.Store) bool {
 	if strings.HasSuffix(path, ".md") {
 		index := strings.Split(path, "/")
 		if len(index) >= 5 {
@@ -67,7 +76,7 @@ func RenderLogic(path string, op fsnotify.Op, store db.Store) bool {
 			}
 			//logic code
 			if op == 1 {
-				log.Printf("mydebug: created: %s %s\n", path, op)
+				log.Printf("mydebug: created: %s %d\n", path, op)
 				render.RenderMd(store, path, 0, user_id, repo_id)
 				RenderLayout(index[3], index[4], store)
 			} else if op == 2 {
@@ -104,7 +113,7 @@ func MonitorFS(store db.Store, wiki_path string) {
 					return
 				}
 
-				RenderLogic(event.Name, event.Op, store)
+				RenderLogic(event.Name, uint32(event.Op), store)
 				log.Printf("%s %s\n", event.Name, event.Op)
 			case err, ok := <-watcher.Errors:
 				if !ok {

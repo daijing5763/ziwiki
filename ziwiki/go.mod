@@ -18,7 +18,7 @@ require (
 	golang.org/x/crypto v0.3.0
 )
 
-require gopkg.in/fsnotify.v1 v1.4.7
+require gopkg.in/fsnotify.v1 v1.4.7 // indirect
 
 require (
 	github.com/Microsoft/go-winio v0.4.16 // indirect

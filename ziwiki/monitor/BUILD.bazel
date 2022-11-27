@@ -6,11 +6,10 @@ go_library(
     importpath = "github.com/zdlpsina/ziwiki/monitor",
     visibility = ["//visibility:public"],
     deps = [
-        "//ziwiki/db/sqlc",
-        "//ziwiki/jsonlayout",
-        "//ziwiki/lute",
+        "//db/sqlc",
+        "//jsonlayout",
+        "//lute",
         "@com_github_dietsche_rfsnotify//:rfsnotify",
-        "@in_gopkg_fsnotify_v1//:fsnotify_v1",
     ],
 )
 
@@ -22,9 +21,9 @@ go_test(
     ],
     embed = [":monitor"],
     deps = [
-        "//ziwiki/db/sqlc",
-        "//ziwiki/gitsync",
-        "//ziwiki/util",
+        "//db/sqlc",
+        "//gitsync",
+        "//util",
         "@com_github_stretchr_testify//require",
     ],
 )

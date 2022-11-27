@@ -7,9 +7,9 @@ go_library(
     importpath = "github.com/zdlpsina/ziwiki/cmd/server",
     visibility = ["//visibility:private"],
     deps = [
-        "//ziwiki/api",
-        "//ziwiki/db/sqlc",
-        "//ziwiki/util",
+        "//api",
+        "//db/sqlc",
+        "//util",
         "@com_github_lib_pq//:pq",
     ],
 )
