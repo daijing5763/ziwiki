@@ -185,6 +185,8 @@ func TestCreateRepoAPI(t *testing.T) {
 				"repo_git":          repo.RepoGit,
 				"repo_user_name":    repo.RepoUserName,
 				"repo_access_token": repo.RepoAccessToken,
+				"repo_from":         repo.RepoFrom,
+				"repo_describe":     repo.RepoDescribe,
 			},
 			setupAuth: func(t *testing.T, request *http.Request, tokenMaker token.Maker) {
 				addAuthorization(t, request, tokenMaker, authorizationTypeBearer, user.ID, time.Minute)
@@ -196,6 +198,8 @@ func TestCreateRepoAPI(t *testing.T) {
 					RepoGit:         repo.RepoGit,
 					RepoUserName:    repo.RepoUserName,
 					RepoAccessToken: repo.RepoAccessToken,
+					RepoFrom:        repo.RepoFrom,
+					RepoDescribe:    repo.RepoDescribe,
 				}
 				store.EXPECT().
 					CreateRepo(gomock.Any(), gomock.Eq(arg)).
@@ -216,6 +220,8 @@ func TestCreateRepoAPI(t *testing.T) {
 				"repo_git":          "212",
 				"repo_user_name":    repo.RepoUserName,
 				"repo_access_token": repo.RepoAccessToken,
+				"repo_from":         repo.RepoFrom,
+				"repo_describe":     repo.RepoDescribe,
 			},
 			setupAuth: func(t *testing.T, request *http.Request, tokenMaker token.Maker) {
 				addAuthorization(t, request, tokenMaker, authorizationTypeBearer, user.ID, time.Minute)
@@ -227,6 +233,8 @@ func TestCreateRepoAPI(t *testing.T) {
 					RepoGit:         "212",
 					RepoUserName:    repo.RepoUserName,
 					RepoAccessToken: repo.RepoAccessToken,
+					RepoFrom:        repo.RepoFrom,
+					RepoDescribe:    repo.RepoDescribe,
 				}
 				store.EXPECT().
 					CreateRepo(gomock.Any(), gomock.Eq(arg)).
@@ -247,6 +255,8 @@ func TestCreateRepoAPI(t *testing.T) {
 				"repo_git":          repo.RepoGit,
 				"repo_user_name":    repo.RepoUserName,
 				"repo_access_token": repo.RepoAccessToken,
+				"repo_from":         repo.RepoFrom,
+				"repo_describe":     repo.RepoDescribe,
 			},
 			setupAuth: func(t *testing.T, request *http.Request, tokenMaker token.Maker) {
 			},
@@ -266,6 +276,8 @@ func TestCreateRepoAPI(t *testing.T) {
 				"repo_git":          repo.RepoGit,
 				"repo_user_name":    repo.RepoUserName,
 				"repo_access_token": repo.RepoAccessToken,
+				"repo_from":         repo.RepoFrom,
+				"repo_describe":     repo.RepoDescribe,
 			},
 			setupAuth: func(t *testing.T, request *http.Request, tokenMaker token.Maker) {
 				addAuthorization(t, request, tokenMaker, authorizationTypeBearer, user.ID, time.Minute)
@@ -287,6 +299,8 @@ func TestCreateRepoAPI(t *testing.T) {
 				"repo_git":          repo.RepoGit,
 				"repo_user_name":    repo.RepoUserName,
 				"repo_access_token": repo.RepoAccessToken,
+				"repo_from":         repo.RepoFrom,
+				"repo_describe":     repo.RepoDescribe,
 			},
 			setupAuth: func(t *testing.T, request *http.Request, tokenMaker token.Maker) {
 				addAuthorization(t, request, tokenMaker, authorizationTypeBearer, user.ID, time.Minute)
@@ -483,6 +497,8 @@ func randomRepo(user_id int64) db.Repo {
 		RepoGit:         "https://gitee.com/zizdlp/wiki.git",
 		RepoUserName:    "zizdlp",
 		RepoAccessToken: "zzz123",
+		RepoFrom:        "gitee",
+		RepoDescribe:    "this is a wiki from gitee",
 	}
 }
 func requireBodyMatchRepo(t *testing.T, body *bytes.Buffer, repo db.Repo) {

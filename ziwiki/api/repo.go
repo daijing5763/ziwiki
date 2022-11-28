@@ -19,6 +19,8 @@ type createRepoRequest struct {
 	RepoGit         string `json:"repo_git" binding:"required"`
 	RepoUserName    string `json:"repo_user_name" binding:"required"`
 	RepoAccessToken string `json:"repo_access_token" binding:"required"`
+	RepoFrom        string `json:"repo_from" binding:"required"`
+	RepoDescribe    string `json:"repo_describe" binding:"required"`
 }
 
 func (server *Server) createRepo(ctx *gin.Context) {
@@ -35,6 +37,8 @@ func (server *Server) createRepo(ctx *gin.Context) {
 		RepoGit:         req.RepoGit,
 		RepoUserName:    req.RepoUserName,
 		RepoAccessToken: req.RepoAccessToken,
+		RepoFrom:        req.RepoFrom,
+		RepoDescribe:    req.RepoDescribe,
 	}
 
 	repo, err := server.store.CreateRepo(ctx, arg)

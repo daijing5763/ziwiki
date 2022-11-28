@@ -26,6 +26,8 @@ type Repo struct {
 	RepoGit         string    `json:"repo_git"`
 	RepoUserName    string    `json:"repo_user_name"`
 	RepoAccessToken string    `json:"repo_access_token"`
+	RepoFrom        string    `json:"repo_from"`
+	RepoDescribe    string    `json:"repo_describe"`
 	CreatedAt       time.Time `json:"created_at"`
 }
 

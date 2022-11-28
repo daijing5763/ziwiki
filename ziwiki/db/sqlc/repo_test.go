@@ -18,6 +18,8 @@ func createRandomRepo(t *testing.T) Repo {
 		RepoGit:         util.RandomString(20),
 		RepoUserName:    util.RandomString(20),
 		RepoAccessToken: util.RandomString(20),
+		RepoFrom:        util.RandomString(20),
+		RepoDescribe:    util.RandomString(20),
 	}
 
 	Repo, err := testQueries.CreateRepo(context.Background(), arg)
@@ -28,6 +30,8 @@ func createRandomRepo(t *testing.T) Repo {
 	require.Equal(t, arg.RepoGit, Repo.RepoGit)
 	require.Equal(t, arg.RepoUserName, Repo.RepoUserName)
 	require.Equal(t, arg.RepoAccessToken, Repo.RepoAccessToken)
+	require.Equal(t, arg.RepoFrom, Repo.RepoFrom)
+	require.Equal(t, arg.RepoDescribe, Repo.RepoDescribe)
 	require.NotZero(t, Repo.CreatedAt)
 	return Repo
 }

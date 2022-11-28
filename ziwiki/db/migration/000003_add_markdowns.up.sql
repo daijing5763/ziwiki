@@ -5,12 +5,14 @@ CREATE TABLE "repos" (
   "repo_git" varchar NOT NULL,
   "repo_user_name" varchar NOT NULL,
   "repo_access_token" varchar NOT NULL,
+  "repo_from" varchar NOT NULL,
+  "repo_describe" varchar NOT NULL,
   "created_at" timestamptz NOT NULL DEFAULT 'now()'
 );
 
 CREATE TABLE "markdowns" (
   "id" bigserial PRIMARY KEY,
-  "mdhref" varchar UNIQUE NOT NULL,
+  "mdhref" varchar NOT NULL,
   "user_id" bigint NOT NULL,
   "repo_id" bigint NOT NULL,
   "mdtext" varchar NOT NULL,

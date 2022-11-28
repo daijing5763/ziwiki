@@ -4,8 +4,10 @@ INSERT INTO repos (
   repo_name,
   repo_git,
   repo_user_name,
-  repo_access_token
-) VALUES ($1,$2,$3,$4,$5) 
+  repo_access_token,
+  repo_from,
+  repo_describe
+) VALUES ($1,$2,$3,$4,$5,$6,$7) 
 RETURNING *;
 
 -- name: GetRepo :one
