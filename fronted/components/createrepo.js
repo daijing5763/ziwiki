@@ -103,6 +103,25 @@ export default function CreateRepo({ open, setOpen,token }) {
                     className="p-2 rounded-md border dark:text-slate-800"
                     {...formik.getFieldProps('repo_access_token')}
                     />
+                    </div>
+                    
+                    <div className="flex justify-center items-center">
+                    <input 
+                    type="text"
+                    name='repo_from'
+                    placeholder='repo_from'
+                    className="p-2 rounded-md border dark:text-slate-800"
+                    {...formik.getFieldProps('repo_from')}
+                    />
+                    </div>
+                    <div className="flex justify-center items-center">
+                    <input 
+                    type="text"
+                    name='repo_describe'
+                    placeholder='repo_describe'
+                    className="p-2 rounded-md border dark:text-slate-800"
+                    {...formik.getFieldProps('repo_describe')}
+                    />
                   </div>
                   <div className="bg-gray-50 px-4 py-3 sm:flex sm:flex-row-reverse sm:px-6">
                     <button

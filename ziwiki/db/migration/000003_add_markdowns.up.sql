@@ -12,7 +12,7 @@ CREATE TABLE "repos" (
 
 CREATE TABLE "markdowns" (
   "id" bigserial PRIMARY KEY,
-  "mdhref" varchar NOT NULL,
+  "mdhref" varchar UNIQUE NOT NULL,
   "user_id" bigint NOT NULL,
   "repo_id" bigint NOT NULL,
   "mdtext" varchar NOT NULL,

@@ -28,7 +28,7 @@ const config = {
   }
 };
 
-export default function Home({ session }) {
+export default function Home({ session,slugs }) {
   const [layout, setlayout] = useState([]); 
   const [markdowntext, setmarkdown] = useState(''); 
   function refreshPage() {
@@ -48,7 +48,7 @@ export default function Home({ session }) {
     .then((data) => {
       var myObject = JSON.parse(data.mdtext);
       setlayout(myObject['sublayouts'])
-      // console.log("obj:",obj)
+      console.log("mydebug:layout:",slugs)
       })
   }
 
@@ -91,8 +91,21 @@ export default function Home({ session }) {
         document.documentElement.classList.add('dark')
         document.body.style.backgroundColor = "#0B1120";
     }
-    getLayout({ "mdhref": "/tmp/wiki/1/1/layout.json" });
-    getMarkdown({"mdhref":"/tmp/wiki/1/1/README.md"});
+    console.log("===============slugs:", slugs)
+    if (typeof slugs == 'undefined' || slugs.length<3) {
+      getLayout({ "mdhref": "/tmp/wiki/1/1/layout.json" });
+      getMarkdown({ "mdhref": "/tmp/wiki/1/1/README.md" });
+    } else {
+      const user = slugs[0];
+      const repo = slugs[1];
+      const mdhref = "/tmp/wiki/" + user + "/" + repo + "/layout.json";
+      console.log("============mdhref:", mdhref)
+      const mddown = "/tmp/wiki/" + slugs.join("/");
+      console.log("============mdhref down:", mddown);
+      getLayout({ "mdhref": "/tmp/wiki/"+user+"/"+repo+"/layout.json" });
+      getMarkdown({ "mdhref": "/tmp/wiki/"+slugs.join("/") });
+    }
+
 },[]);
 
   function isContains(str, substr) {
@@ -279,8 +292,38 @@ const options = {
 //   ]);
 //   return { props: { menus, data } };
 // }
-export async function getServerSideProps({ req }){
-  const session = await getSession({ req })
+
+// export async function getServerSideProps({req}){
+//   const session = await getSession({ req })
+
+
+//   const slugs = params.slug
+//   console.log("mydebug:slugs:", slugs)
+//   if(!session){
+//       return {
+//           redirect : {
+//               destination : "/auth/login",
+//               premanent: false
+//           }
+//       }
+//   }
+
+//   // authorize user return session
+//   return {
+//       props: { session }
+//   }
+// }
+
+// This gets called on every request
+export async function getServerSideProps(context) {
+  // Fetch data from external API
+
+
+
+
+  const req = context.req
+  const session = await getSession({ req } )
+
   if(!session){
       return {
           redirect : {
@@ -289,9 +332,12 @@ export async function getServerSideProps({ req }){
           }
       }
   }
-
+  const { params } = context;
+  const slugs = params.slug
+  console.log("mydebug:slugs:", slugs)
   // authorize user return session
   return {
-      props: { session }
+      props: { session,slugs }
   }
+
 }

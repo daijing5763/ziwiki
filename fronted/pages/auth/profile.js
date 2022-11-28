@@ -124,15 +124,15 @@ export default ({ session }) => {
                           <dl className="grid sm:block lg:grid xl:block grid-cols-1 grid-rows-3 items-center">
 
                           <div className="flex items-center">
-                              <AiFillGithub className={`w-12 h-12 p-2 ${repo.type!="github" && "hidden"}` } />
-                              <AiFillGitlab className={`w-12 h-12 p-2 ${repo.type!="gitlab" && "hidden"}` } />
-                              <SiGitee className={`w-12 h-12 p-2 ${repo.type!="gitee" && "hidden"}` }/>
+                              <AiFillGithub className={`w-12 h-12 p-2 ${repo.repo_from!="github" && "hidden"}` } />
+                              <AiFillGitlab className={`w-12 h-12 p-2 ${repo.repo_from!="gitlab" && "hidden"}` } />
+                              <SiGitee className={`w-12 h-12 p-2 ${repo.repo_from!="gitee" && "hidden"}` }/>
                             <dd className="font-semibold text-xl text-slate-900 group-hover:text-white dark:text-slate-100">
                               {repo.repo_name}
                             </dd>
                           </div>
                           <div>
-                              <dd className="group-hover:text-blue-200 text-base">{repo.describe}</dd>
+                              <dd className="group-hover:text-blue-200 text-base">{repo.repo_describe}</dd>
                             </div>
                             <div className="col-start-2 row-start-1 row-end-3 sm:mt-4 lg:mt-0 xl:mt-4">
                                 <dd className="flex justify-end sm:justify-end lg:justify-end xl:justify-end -space-x-1.5">
