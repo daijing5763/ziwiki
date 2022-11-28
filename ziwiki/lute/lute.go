@@ -9,6 +9,7 @@ import (
 	"github.com/88250/lute"
 	_ "github.com/lib/pq"
 	db "github.com/zdlpsina/ziwiki/db/sqlc"
+	render "github.com/zdlpsina/ziwiki/postrender"
 )
 import "log"
 
@@ -20,7 +21,11 @@ func RenderMd(store db.Store, input_path string, mdtype int, UserID int64, RepoI
 		fmt.Println(err)
 	}
 	luteEngine := lute.New() // 默认已经启用 GFM 支持以及中文语境优化
+	luteEngine.SetCodeSyntaxHighlightInlineStyle(false)
+	luteEngine.SetCodeSyntaxHighlightDetectLang(true)
+	luteEngine.SetCodeSyntaxHighlightLineNum(true)
 	html := luteEngine.MarkdownStr("demo", string(data))
+	html = render.Render(html)
 
 	if mdtype == 0 {
 		// create
