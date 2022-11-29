@@ -50,8 +50,8 @@ export default function SubMenu({ menus, layer, offset, SideBarIndex, setSideBar
           <li key={index}>
           <div>
             <div className="flex justify-between items-center ">
-              {/* <Link href={"/wiki/"+menu.href}> */}
-                <a onClick={() => {setSideBarIndex(getIndex(layer, offset*SideBarMaxWidth+index, SideBarMaxWidth),menu.href) }}
+              <Link href={"/wiki/"+menu.href.substring(9)}
+                onClick={() => {setSideBarIndex(getIndex(layer, offset*SideBarMaxWidth+index, SideBarMaxWidth),menu.href) }}
                       className={` block border-l pl-4 -ml-px cursor-pointer 
                         ${acccompare(SideBarIndex, getIndex(layer, offset * SideBarMaxWidth + index,SideBarMaxWidth), SideBarMaxWidth)
                         ? 'text-sky-500 dark:text-sky-400 font-semibold'
@@ -60,8 +60,7 @@ export default function SubMenu({ menus, layer, offset, SideBarIndex, setSideBar
                         ? 'border-sky-500 dark:border-sky-400'
                           : 'border-transparent hover:border-slate-400'}
                       `}> {menu.title} 
-                </a>
-              {/* </Link> */}
+              </Link>
 
 
                   <div className={`${(open[index] || !menu.submenu) && 'hidden'}`} onClick={() => { setOpenWrap(index) }}>
