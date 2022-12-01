@@ -37,7 +37,6 @@ export https_proxy="http://${hostip}:1080"
 export http_proxy="http://${hostip}:1080"
 ```
 
-
 # testgo
 
 ## go module init

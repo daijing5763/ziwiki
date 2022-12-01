@@ -5,10 +5,11 @@ import CreateRepo from '../../components/createrepo'
 import { Fragment, useRef, useState,useEffect } from 'react'
 import { AiFillGithub, AiFillGitlab ,AiFillDelete} from "react-icons/ai"
 import { SiGitee } from "react-icons/si"
-// import Example from "../../components/dialog"
 
 export default ({ session }) => {
+
   const [repolist, setrepolist] = useState([])
+
   async function getRepoList(values) {
     const options = {
       method: "POST",
@@ -17,60 +18,29 @@ export default ({ session }) => {
         'Authorization': `Bearer ${session.access_token}`
       },
       body: JSON.stringify(values)
-  }
-  await fetch('http://0.0.0.0:8080/get_repo_list', options)
-      .then(res => res.json())
+    }
+    await fetch('http://0.0.0.0:8080/get_repo_list', options)
+        .then(res => res.json())
       .then((data) => {
-        setrepolist(data);
-        console.log("repolist:", data);
-      })
+          console.log("mydebug:repolist is:",data)
+          setrepolist(data);
+        })
   }
-
-
 
   useEffect(() => { 
     getRepoList( { "page_id": 1, "page_size": 10 })
   },[]);
   
-  const repos = [
-    {
-      id: 1,
-      repo_name: 'ziwiki',
-      repo_href: 'https://github.com/zdlpsina/ziwiki',
-      repo_git:"https://github.com/zdlpsina/ziwiki.git",
-      vicibility: "public",
-      type: "gitee",
-      describe:"a repo used for record something"
-    },
-    {
-      id: 2,
-      repo_name: 'demos',
-      repo_href: 'https://github.com/zdlpsina/demos',
-      repo_git:"https://github.com/zdlpsina/demos.git",
-      vicibility: "private",
-      type: "gitlab",
-      describe:"a repo used for record something"
-    },
-    {
-      id: 3,
-      repo_name: 'cpps',
-      repo_href: 'https://github.com/zdlpsina/ziwiki',
-      repo_git:"https://github.com/zdlpsina/ziwiki.git",
-      vicibility: "public",
-      type: "github",
-      describe:"a repo used for record something"
-    },
-  ]
-  console.log("session:",session)
   const [open, setOpen] = useState(false)
   function  showCreateRepo() {
     setOpen(!open)
   }
-    return (
+
+return (
 
 <div className="antialiased text-slate-500 dark:text-slate-400 bg-white dark:bg-slate-900 min-h-screen">
-        <PopNav />
-        <CreateRepo open={open} setOpen={setOpen} token={session.access_token} />
+  <PopNav />
+  <CreateRepo open={open} setOpen={setOpen} token={session.access_token} />
   <div className="overflow-hidden">
     <div className='mx-3 md:mx-4 sm:px-6 md:px-8'>
             <div className="overflow-hidden " >
@@ -121,6 +91,7 @@ export default ({ session }) => {
                           <li key={index} className="group cursor-pointer rounded-md p-3 bg-white ring-1 ring-slate-200
                           shadow-sm hover:bg-blue-500 hover:ring-blue-500 hover:shadow-md
                         dark:bg-slate-700 dark:ring-0 dark:highlight-white/10 dark:hover:bg-blue-500">
+                          <Link href={"/wiki/"+repo.id+"/"}>
                           <dl className="grid sm:block lg:grid xl:block grid-cols-1 grid-rows-3 items-center">
 
                           <div className="flex items-center">
@@ -133,12 +104,13 @@ export default ({ session }) => {
                           </div>
                           <div>
                               <dd className="group-hover:text-blue-200 text-base">{repo.repo_describe}</dd>
-                            </div>
-                            <div className="col-start-2 row-start-1 row-end-3 sm:mt-4 lg:mt-0 xl:mt-4">
+                          </div>
+                          <div className="col-start-2 row-start-1 row-end-3 sm:mt-4 lg:mt-0 xl:mt-4">
                                 <dd className="flex justify-end sm:justify-end lg:justify-end xl:justify-end -space-x-1.5">
                               </dd>
-                            </div>
+                          </div>
                           </dl>
+                          </Link>
                           </li>
                       ))}
 
@@ -157,13 +129,11 @@ export default ({ session }) => {
                       </li>
                   </ul>
                 </section>
-</div></div>
-                  
       </div>
     </div>
-      </div>
-      
-
+  </div>
+  </div>
+  </div>
 </div>
 
     )

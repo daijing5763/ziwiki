@@ -1,4 +1,4 @@
-import NavBar from "../../components/navbar"
+import NavBar from "../../../components/navbar"
 import { MathJaxContext,MathJax } from "better-react-mathjax";
 import React, { useState, useEffect } from 'react';
 import { getSession } from 'next-auth/react'
@@ -9,10 +9,11 @@ import {RiMenu4Line,RiMenuLine} from  "react-icons/ri"
 import { MdDarkMode, MdLightMode ,MdLogin,MdMenu,MdClose,MdContentCopy} from "react-icons/md"
 import { AiFillGithub,AiOutlineSearch } from "react-icons/ai"
 import { CgProfile } from "react-icons/cg"
-import SubMenu from "../../components/submenu"
-import Search from "../../components/search"
+import SubMenu from "../../../components/submenu"
+import Search from "../../../components/search"
 import parse, { domToReact } from 'html-react-parser';
-import Mermaid from "../../Mermaid";
+import Mermaid from "../../../Mermaid";
+import { useRouter } from "next/router"
 const config = {
   loader: { load: ["[tex]/html"] },
   tex: {
@@ -28,7 +29,8 @@ const config = {
   }
 };
 
-export default function Home({ session,slugs }) {
+export default function Home({ session}) {
+  const router = useRouter();
   const [layout, setlayout] = useState([]); 
   const [markdowntext, setmarkdown] = useState(''); 
   function refreshPage() {
@@ -42,14 +44,14 @@ export default function Home({ session,slugs }) {
         'Authorization': `Bearer ${session.access_token}`
       },
       body: JSON.stringify(values)
-  }
-  await fetch('http://0.0.0.0:8080/get_markdown', options)
+    }
+
+    await fetch('http://0.0.0.0:8080/get_markdown', options)
       .then(res => res.json())
-    .then((data) => {
+      .then((data) => {
       var myObject = JSON.parse(data.mdtext);
       setlayout(myObject['sublayouts'])
-      console.log("mydebug:layout:",slugs)
-      })
+    })
   }
 
   async function getMarkdown(values) {
@@ -63,11 +65,9 @@ export default function Home({ session,slugs }) {
   }
   await fetch('http://0.0.0.0:8080/get_markdown', options)
       .then(res => res.json())
-    .then((data) => {
-      // const obj = JSON.parse(data);
+      .then((data) => {
       console.log("markdown:", data)
       setmarkdown(data['mdtext'])
-      // console.log("obj:",obj)
       })
   }
   
@@ -91,23 +91,22 @@ export default function Home({ session,slugs }) {
         document.documentElement.classList.add('dark')
         document.body.style.backgroundColor = "#0B1120";
     }
-    console.log("===============slugs:", slugs)
-    if (typeof slugs == 'undefined' || slugs.length<3) {
-      getLayout({ "mdhref": "/tmp/wiki/1/1/layout.json" });
-      getMarkdown({ "mdhref": "/tmp/wiki/1/1/README.md" });
-    } else {
-      const user = slugs[0];
-      const repo = slugs[1];
-      const mdhref = "/tmp/wiki/" + user + "/" + repo + "/layout.json";
-      console.log("============mdhref:", mdhref)
-      const mddown = "/tmp/wiki/" + slugs.join("/");
-      console.log("============mdhref down:", mddown);
-      getLayout({ "mdhref": "/tmp/wiki/"+user+"/"+repo+"/layout.json" });
-      getMarkdown({ "mdhref": "/tmp/wiki/"+slugs.join("/") });
-    }
-
+    const slugs = router.query.slug;
+    getLayout({ "mdhref": "/tmp/wiki/1/" + router.query.repoid + "/layout.json" });
+    getMarkdown({ "mdhref": "/tmp/wiki/"+router.query.repoid+"/"+slugs.join("/") });
 },[]);
 
+
+useEffect(() => {
+  const slugs = router.query.slug;
+  getMarkdown({ "mdhref": "/tmp/wiki/"+router.query.repoid+"/"+slugs.join("/") });
+}, [router.query.slug]);
+useEffect(() => {
+  getLayout({ "mdhref": "/tmp/wiki/1/" + router.query.repoid + "/layout.json" });
+},[router.query.repoid]);
+
+  
+  
   function isContains(str, substr) {
     if (typeof str == "undefined") {
       return false
@@ -146,9 +145,8 @@ const options = {
   
   
   return (
-
     <div className="antialiased  text-slate-500 dark:text-slate-400 bg-white dark:bg-slate-900 min-h-screen"           
-     >
+    >
   <div  className="	sticky top-0 z-50 w-full backdrop-blur flex-none transition-colors 
         duration-500  lg:border-b lg:border-slate-900/10 
       bg-white/95 supports-backdrop-blur:bg-white/60 dark:border-slate-50/[0.06] dark:bg-transparent">  
@@ -182,7 +180,6 @@ const options = {
                         document.body.style.backgroundColor = "white";
                     }
                   setTheme(!themeDark);
-                  // refreshPage();
                     }
                 }
             />
@@ -199,7 +196,6 @@ const options = {
                         document.body.style.backgroundColor = "white";
                     }
                     setTheme(!themeDark);
-                  // refreshPage();
                     }
                 }
             />
@@ -228,10 +224,6 @@ const options = {
         <div className="fixed lg:hidden inset-0 bg-white w-[20rem] p-6 dark:bg-slate-900" ></div>
         <nav  className="lg:px-3 pt-8 lg:pt-8 pb-3 lg:text-sm lg:leading-6 relative  duration-300  first-letter:
         ">
-            {/* <ul>
-              {layout.map((menu, index) => (<li key={index}>{menu['title']}</li>))}
-            </ul> */}
-            {/* {layout} */}
           <SubMenu menus={layout} layer={1} offset={0} SideBarIndex={SideBarIndex} setSideBarIndex={setSideBarIndex} />
         </nav>
       </div>
@@ -252,92 +244,21 @@ const options = {
 </div>
   )
 }
-// export async function getStaticPaths() {
-//   return {
-//     paths: [
-//     ],
-//     fallback:'blocking'
-//   }
-// }
-
-// export async function getStaticProps( context ) {
-//   const { params } = context;
-//   const slugs = params.slug
-//   if (typeof slugs == 'undefined') {
-//     const [operationsRes, incidentsRes] = await Promise.all([
-//       fetch(`http://0.0.0.0:8000/api/wiki/layout?href=layout.json`),
-//     ]);
-//     const [menus] = await Promise.all([
-//       operationsRes.json(), 
-//     ]);
-//     const data={'data':''}
-//     return { props: { menus, data } };
-//   }
-//   const [operationsRes, incidentsRes] = await Promise.all([
-//     fetch(`http://0.0.0.0:8000/api/wiki/layout?href=layout.json`),
-//     fetch(`http://0.0.0.0:8000/api/wiki/postcontent`, {
-//         method: 'POST',
-//         headers: {
-//           'Accept': 'application/json',
-//           'Content-Type': 'application/json'
-//         },
-//         body: JSON.stringify({"href": `${slugs.join("/")}`})
-//     }),
-
-//     console.log(slugs.join("/"))
-//   ]);
-//   const [menus, data] = await Promise.all([
-//     operationsRes.json(), 
-//     incidentsRes.json()
-//   ]);
-//   return { props: { menus, data } };
-// }
-
-// export async function getServerSideProps({req}){
-//   const session = await getSession({ req })
-
-
-//   const slugs = params.slug
-//   console.log("mydebug:slugs:", slugs)
-//   if(!session){
-//       return {
-//           redirect : {
-//               destination : "/auth/login",
-//               premanent: false
-//           }
-//       }
-//   }
-
-//   // authorize user return session
-//   return {
-//       props: { session }
-//   }
-// }
 
 // This gets called on every request
-export async function getServerSideProps(context) {
+export async function getServerSideProps({req}) {
   // Fetch data from external API
-
-
-
-
-  const req = context.req
-  const session = await getSession({ req } )
-
+  const session = await getSession({ req })
   if(!session){
-      return {
-          redirect : {
-              destination : "/auth/login",
-              premanent: false
-          }
-      }
-  }
-  const { params } = context;
-  const slugs = params.slug
-  console.log("mydebug:slugs:", slugs)
-  // authorize user return session
-  return {
-      props: { session,slugs }
+    return {
+        redirect : {
+            destination : "/auth/login",
+            premanent: false
+        }
+    }
   }
 
+  return {
+      props: {session}
+  }
 }

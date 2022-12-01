@@ -50,7 +50,7 @@ export default function SubMenu({ menus, layer, offset, SideBarIndex, setSideBar
           <li key={index}>
           <div>
             <div className="flex justify-between items-center ">
-              <Link href={"/wiki/"+menu.href.substring(9)}
+              <Link href={"/wiki/"+menu.href.substring(10)}
                 onClick={() => {setSideBarIndex(getIndex(layer, offset*SideBarMaxWidth+index, SideBarMaxWidth),menu.href) }}
                       className={` block border-l pl-4 -ml-px cursor-pointer 
                         ${acccompare(SideBarIndex, getIndex(layer, offset * SideBarMaxWidth + index,SideBarMaxWidth), SideBarMaxWidth)
