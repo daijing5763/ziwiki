@@ -11,12 +11,13 @@ CREATE TABLE "repos" (
 );
 
 CREATE TABLE "markdowns" (
-  "id" bigserial PRIMARY KEY,
+  "id" bigserial UNIQUE NOT NULL,
   "mdhref" varchar NOT NULL,
   "user_id" bigint NOT NULL,
   "repo_id" bigint NOT NULL,
   "mdtext" varchar NOT NULL,
-  "created_at" timestamptz NOT NULL DEFAULT 'now()'
+  "created_at" timestamptz NOT NULL DEFAULT 'now()',
+  PRIMARY KEY ("mdhref", "user_id","repo_id")
 );
 
 ALTER TABLE "repos" ADD FOREIGN KEY ("user_id") REFERENCES "users" ("id");
@@ -24,3 +25,5 @@ ALTER TABLE "repos" ADD FOREIGN KEY ("user_id") REFERENCES "users" ("id");
 ALTER TABLE "markdowns" ADD FOREIGN KEY ("user_id") REFERENCES "users" ("id");
 
 ALTER TABLE "markdowns" ADD FOREIGN KEY ("repo_id") REFERENCES "repos" ("id");
+
+CREATE UNIQUE INDEX ON "markdowns" ("repo_id", "user_id", "mdhref");
