@@ -47,7 +47,8 @@ export default function Home({ session }) {
     await fetch('http://0.0.0.0:8080/get_markdown', options)
       .then(res => res.json())
       .then((data) => {
-      var myObject = JSON.parse(data.mdtext);
+        var myObject = JSON.parse(data.mdtext);
+        console.log("mydebug:myobj:",myObject)
       setlayout(myObject['sublayouts'])
     })
   }
@@ -72,7 +73,10 @@ export default function Home({ session }) {
         document.documentElement.classList.add('dark')
         document.body.style.backgroundColor = "#0B1120";
     }
-    getLayout({ "mdhref": "/tmp/wiki/1/" + router.query.repoid +"/layout.json" });
+    getLayout({
+      "mdhref": "layout.json",
+      "repo_id":parseInt(router.query.repoid),
+    });
   },[]);
 
   function isContains(str, substr) {
@@ -191,7 +195,7 @@ export default function Home({ session }) {
         <div className="fixed lg:hidden inset-0 bg-white w-[20rem] p-6 dark:bg-slate-900" ></div>
         <nav  className="lg:px-3 pt-8 lg:pt-8 pb-3 lg:text-sm lg:leading-6 relative  duration-300  first-letter:
         ">
-          <SubMenu menus={layout} layer={1} offset={0} SideBarIndex={SideBarIndex} setSideBarIndex={setSideBarIndex} />
+            <SubMenu repo_id={parseInt(router.query.repoid)} menus={layout} layer={1} offset={0} SideBarIndex={SideBarIndex} setSideBarIndex={setSideBarIndex} />
         </nav>
       </div>
 

@@ -47,21 +47,33 @@ func (q *Queries) CreateMarkdown(ctx context.Context, arg CreateMarkdownParams) 
 
 const deleteMarkdown = `-- name: DeleteMarkdown :exec
 DELETE FROM markdowns
-WHERE mdhref = $1
+WHERE mdhref = $1 and user_id = $2 and repo_id = $3
 `
 
-func (q *Queries) DeleteMarkdown(ctx context.Context, mdhref string) error {
-	_, err := q.db.ExecContext(ctx, deleteMarkdown, mdhref)
+type DeleteMarkdownParams struct {
+	Mdhref string `json:"mdhref"`
+	UserID int64  `json:"user_id"`
+	RepoID int64  `json:"repo_id"`
+}
+
+func (q *Queries) DeleteMarkdown(ctx context.Context, arg DeleteMarkdownParams) error {
+	_, err := q.db.ExecContext(ctx, deleteMarkdown, arg.Mdhref, arg.UserID, arg.RepoID)
 	return err
 }
 
 const getMarkdown = `-- name: GetMarkdown :one
 SELECT id, mdhref, user_id, repo_id, mdtext, created_at FROM markdowns
-WHERE mdhref = $1 LIMIT 1
+WHERE mdhref = $1 and user_id = $2 and repo_id = $3 LIMIT 1
 `
 
-func (q *Queries) GetMarkdown(ctx context.Context, mdhref string) (Markdown, error) {
-	row := q.db.QueryRowContext(ctx, getMarkdown, mdhref)
+type GetMarkdownParams struct {
+	Mdhref string `json:"mdhref"`
+	UserID int64  `json:"user_id"`
+	RepoID int64  `json:"repo_id"`
+}
+
+func (q *Queries) GetMarkdown(ctx context.Context, arg GetMarkdownParams) (Markdown, error) {
+	row := q.db.QueryRowContext(ctx, getMarkdown, arg.Mdhref, arg.UserID, arg.RepoID)
 	var i Markdown
 	err := row.Scan(
 		&i.ID,
@@ -76,12 +88,18 @@ func (q *Queries) GetMarkdown(ctx context.Context, mdhref string) (Markdown, err
 
 const getMarkdownForUpdate = `-- name: GetMarkdownForUpdate :one
 SELECT id, mdhref, user_id, repo_id, mdtext, created_at FROM markdowns
-WHERE mdhref = $1 LIMIT 1
+WHERE mdhref = $1 and user_id = $2 and repo_id = $3 LIMIT 1
 FOR NO KEY UPDATE
 `
 
-func (q *Queries) GetMarkdownForUpdate(ctx context.Context, mdhref string) (Markdown, error) {
-	row := q.db.QueryRowContext(ctx, getMarkdownForUpdate, mdhref)
+type GetMarkdownForUpdateParams struct {
+	Mdhref string `json:"mdhref"`
+	UserID int64  `json:"user_id"`
+	RepoID int64  `json:"repo_id"`
+}
+
+func (q *Queries) GetMarkdownForUpdate(ctx context.Context, arg GetMarkdownForUpdateParams) (Markdown, error) {
+	row := q.db.QueryRowContext(ctx, getMarkdownForUpdate, arg.Mdhref, arg.UserID, arg.RepoID)
 	var i Markdown
 	err := row.Scan(
 		&i.ID,
@@ -96,18 +114,25 @@ func (q *Queries) GetMarkdownForUpdate(ctx context.Context, mdhref string) (Mark
 
 const updateMarkdown = `-- name: UpdateMarkdown :one
 UPDATE markdowns
-SET mdtext=$2
-WHERE mdhref = $1
+SET mdtext=$4
+WHERE mdhref = $1 and user_id = $2 and repo_id = $3
 RETURNING id, mdhref, user_id, repo_id, mdtext, created_at
 `
 
 type UpdateMarkdownParams struct {
 	Mdhref string `json:"mdhref"`
+	UserID int64  `json:"user_id"`
+	RepoID int64  `json:"repo_id"`
 	Mdtext string `json:"mdtext"`
 }
 
 func (q *Queries) UpdateMarkdown(ctx context.Context, arg UpdateMarkdownParams) (Markdown, error) {
-	row := q.db.QueryRowContext(ctx, updateMarkdown, arg.Mdhref, arg.Mdtext)
+	row := q.db.QueryRowContext(ctx, updateMarkdown,
+		arg.Mdhref,
+		arg.UserID,
+		arg.RepoID,
+		arg.Mdtext,
+	)
 	var i Markdown
 	err := row.Scan(
 		&i.ID,

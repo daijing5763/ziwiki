@@ -46,7 +46,12 @@ func TestCreateMarkdown(t *testing.T) {
 
 func TestGetMarkdown(t *testing.T) {
 	md1 := createRandomMarkdown(t)
-	md2, err := testQueries.GetMarkdown(context.Background(), md1.Mdhref)
+	arg := GetMarkdownParams{
+		Mdhref: md1.Mdhref,
+		UserID: md1.UserID,
+		RepoID: md1.RepoID,
+	}
+	md2, err := testQueries.GetMarkdown(context.Background(), arg)
 	require.NoError(t, err)
 	require.NotEmpty(t, md2)
 
@@ -58,7 +63,12 @@ func TestGetMarkdown(t *testing.T) {
 }
 func TestGetMarkdownForUpdate(t *testing.T) {
 	md1 := createRandomMarkdown(t)
-	md2, err := testQueries.GetMarkdown(context.Background(), md1.Mdhref)
+	arg := GetMarkdownParams{
+		Mdhref: md1.Mdhref,
+		UserID: md1.UserID,
+		RepoID: md1.RepoID,
+	}
+	md2, err := testQueries.GetMarkdown(context.Background(), arg)
 	require.NoError(t, err)
 	require.NotEmpty(t, md2)
 
@@ -71,10 +81,19 @@ func TestGetMarkdownForUpdate(t *testing.T) {
 
 func TestDeleteMarkdown(t *testing.T) {
 	md1 := createRandomMarkdown(t)
-
-	err := testQueries.DeleteMarkdown(context.Background(), md1.Mdhref)
+	arg1 := DeleteMarkdownParams{
+		Mdhref: md1.Mdhref,
+		UserID: md1.UserID,
+		RepoID: md1.RepoID,
+	}
+	arg2 := GetMarkdownParams{
+		Mdhref: md1.Mdhref,
+		UserID: md1.UserID,
+		RepoID: md1.RepoID,
+	}
+	err := testQueries.DeleteMarkdown(context.Background(), arg1)
 	require.NoError(t, err)
-	md2, err := testQueries.GetMarkdown(context.Background(), md1.Mdhref)
+	md2, err := testQueries.GetMarkdown(context.Background(), arg2)
 	require.Empty(t, md2)
 	require.Error(t, err)
 	require.EqualError(t, err, sql.ErrNoRows.Error())
@@ -86,6 +105,8 @@ func TestUpdateMarkdown(t *testing.T) {
 	arg := UpdateMarkdownParams{
 		Mdhref: md1.Mdhref,
 		Mdtext: util.RandomString(3200),
+		RepoID: md1.RepoID,
+		UserID: md1.UserID,
 	}
 	md2, err := testQueries.UpdateMarkdown(context.Background(), arg)
 

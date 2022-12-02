@@ -20,7 +20,9 @@ func LayoutToString(path string) (string, error) {
 		Title: "wiki",
 		Isdir: true,
 	}
-	GenLayout(path, &layout)
+
+	prefix := len(path) + 1
+	GenLayout(prefix, path, &layout)
 	json_layout, err := json.Marshal(layout)
 	if err != nil {
 		return "", err
@@ -38,17 +40,22 @@ func OwnMd(Layout *Layout) bool {
 	}
 	return false
 }
-func GenLayout(path string, layout *Layout) {
+func GenLayout(prefix int, path string, layout *Layout) {
 	files, err := os.ReadDir(path)
 	if err != nil {
 		log.Fatal(err)
 	}
+	left_path := ""
+	if prefix < len(path) {
+		left_path = path[prefix:] + "/"
+	}
+
 	for _, f := range files {
 		if f.Type().IsRegular() && strings.HasSuffix(f.Name(), ".md") {
 			current_layout := Layout{
 				Title: f.Name(),
 				Isdir: false,
-				Href:  path + "/" + f.Name(),
+				Href:  left_path + f.Name(),
 			}
 			layout.Sublayouts = append(layout.Sublayouts, current_layout)
 		}
@@ -57,7 +64,7 @@ func GenLayout(path string, layout *Layout) {
 				Title: f.Name(),
 				Isdir: true,
 			}
-			GenLayout(path+"/"+f.Name(), &current_layout)
+			GenLayout(prefix, path+"/"+f.Name(), &current_layout)
 			if OwnMd(&current_layout) {
 				layout.Sublayouts = append(layout.Sublayouts, current_layout)
 			}

@@ -11,10 +11,18 @@ import (
 	db "github.com/zdlpsina/ziwiki/db/sqlc"
 	render "github.com/zdlpsina/ziwiki/postrender"
 )
-import "log"
+import (
+	"log"
+	"strings"
+)
 
 func RenderMd(store db.Store, input_path string, mdtype int, UserID int64, RepoID int64) {
 	data, err := os.ReadFile(input_path)
+	index := strings.Split(input_path, "/")
+	if len(index) <= 4 {
+		return
+	}
+	trim_path := strings.Join(index[5:], "/")
 	// if our program was unable to read the file
 	// print out the reason why it can't
 	if err != nil {
@@ -30,7 +38,7 @@ func RenderMd(store db.Store, input_path string, mdtype int, UserID int64, RepoI
 	if mdtype == 0 {
 		// create
 		arg := db.CreateMarkdownParams{
-			Mdhref: input_path,
+			Mdhref: trim_path,
 			UserID: UserID,
 			RepoID: RepoID,
 			Mdtext: html,
@@ -44,8 +52,10 @@ func RenderMd(store db.Store, input_path string, mdtype int, UserID int64, RepoI
 	} else if mdtype == 1 {
 		//edit
 		arg := db.UpdateMarkdownParams{
-			Mdhref: input_path,
+			Mdhref: trim_path,
 			Mdtext: html,
+			UserID: UserID,
+			RepoID: RepoID,
 		}
 		log.Printf("mydebug: update:%s", input_path)
 		Markdown, err := store.UpdateMarkdown(context.Background(), arg)
@@ -56,7 +66,12 @@ func RenderMd(store db.Store, input_path string, mdtype int, UserID int64, RepoI
 	} else if mdtype == 2 {
 		//delete
 		log.Printf("mydebug: delete:%s", input_path)
-		err := store.DeleteMarkdown(context.Background(), input_path)
+		arg := db.DeleteMarkdownParams{
+			Mdhref: trim_path,
+			UserID: UserID,
+			RepoID: RepoID,
+		}
+		err := store.DeleteMarkdown(context.Background(), arg)
 		if err != nil {
 			fmt.Println(err)
 		}

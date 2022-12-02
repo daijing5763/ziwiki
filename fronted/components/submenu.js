@@ -3,7 +3,7 @@ import React, { useState, useEffect } from 'react';
 import { getIndex, acccompare, compare } from '../utils'
 import { BiChevronLeft, BiChevronDown } from "react-icons/bi"
 import Link from 'next/link'
-export default function SubMenu({ menus, layer, offset, SideBarIndex, setSideBarIndex }) {
+export default function SubMenu({repo_id, menus, layer, offset, SideBarIndex, setSideBarIndex }) {
   const [open, setOpen] = useState(Array(menus.length).fill(false));
   const [SideBarMaxWidth, setSideBarMaxWidth] = useState(100);
   function setOpenWrap(index) {
@@ -40,7 +40,7 @@ export default function SubMenu({ menus, layer, offset, SideBarIndex, setSideBar
               </div>
                 {open[index] && (
                   <div >
-                    <SubMenu menus={menu.sublayouts} layer={layer + 1} offset={offset * SideBarMaxWidth + index} SideBarIndex={SideBarIndex} setSideBarIndex={setSideBarIndex} />
+                  <SubMenu repo_id={repo_id} menus={menu.sublayouts} layer={layer + 1} offset={offset * SideBarMaxWidth + index} SideBarIndex={SideBarIndex} setSideBarIndex={setSideBarIndex} />
                   </div>
                 )}
 
@@ -50,7 +50,7 @@ export default function SubMenu({ menus, layer, offset, SideBarIndex, setSideBar
           <li key={index}>
           <div>
             <div className="flex justify-between items-center ">
-              <Link href={"/wiki/"+menu.href.substring(10)}
+              <Link href={"/wiki/"+repo_id+"/"+menu.href}
                 onClick={() => {setSideBarIndex(getIndex(layer, offset*SideBarMaxWidth+index, SideBarMaxWidth),menu.href) }}
                       className={` block border-l pl-4 -ml-px cursor-pointer 
                         ${acccompare(SideBarIndex, getIndex(layer, offset * SideBarMaxWidth + index,SideBarMaxWidth), SideBarMaxWidth)

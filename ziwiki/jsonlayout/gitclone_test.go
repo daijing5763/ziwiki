@@ -12,8 +12,8 @@ func TestGenLayout(t *testing.T) {
 		Isdir: true,
 	}
 
-	path := "/tmp/wiki/18/18"
-	GenLayout(path, &layout)
+	path := "/tmp/wiki/1/1"
+	GenLayout(len(path), path, &layout)
 	fmt.Println(layout)
 	b, err := json.Marshal(layout)
 	if err != nil {

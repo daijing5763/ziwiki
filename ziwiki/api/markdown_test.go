@@ -34,14 +34,20 @@ func TestGetMarkdownAPI(t *testing.T) {
 		{
 			name: "OK",
 			body: gin.H{
-				"mdhref": markdown.Mdhref,
+				"mdhref":  markdown.Mdhref,
+				"repo_id": markdown.RepoID,
 			},
 			setupAuth: func(t *testing.T, request *http.Request, tokenMaker token.Maker) {
 				addAuthorization(t, request, tokenMaker, authorizationTypeBearer, user.ID, time.Minute)
 			},
 			buildStubs: func(store *mockdb.MockStore) {
+				arg := db.GetMarkdownParams{
+					Mdhref: markdown.Mdhref,
+					RepoID: markdown.RepoID,
+					UserID: markdown.UserID,
+				}
 				store.EXPECT().
-					GetMarkdown(gomock.Any(), gomock.Eq(markdown.Mdhref)).
+					GetMarkdown(gomock.Any(), gomock.Eq(arg)).
 					Times(1).
 					Return(markdown, nil)
 			},
@@ -51,27 +57,10 @@ func TestGetMarkdownAPI(t *testing.T) {
 			},
 		},
 		{
-			name: "UnauthorizedUser",
-			body: gin.H{
-				"mdhref": markdown.Mdhref,
-			},
-			setupAuth: func(t *testing.T, request *http.Request, tokenMaker token.Maker) {
-				addAuthorization(t, request, tokenMaker, authorizationTypeBearer, 12345, time.Minute)
-			},
-			buildStubs: func(store *mockdb.MockStore) {
-				store.EXPECT().
-					GetMarkdown(gomock.Any(), gomock.Eq(markdown.Mdhref)).
-					Times(1).
-					Return(db.Markdown{}, nil)
-			},
-			checkResponse: func(t *testing.T, recorder *httptest.ResponseRecorder) {
-				require.Equal(t, http.StatusUnauthorized, recorder.Code)
-			},
-		},
-		{
 			name: "NoAuthorization",
 			body: gin.H{
-				"mdhref": markdown.Mdhref,
+				"mdhref":  markdown.Mdhref,
+				"repo_id": markdown.RepoID,
 			},
 			setupAuth: func(t *testing.T, request *http.Request, tokenMaker token.Maker) {
 			},
@@ -87,15 +76,22 @@ func TestGetMarkdownAPI(t *testing.T) {
 		{
 			name: "NotFound",
 			body: gin.H{
-				"mdhref": "nohref",
+				"mdhref":  "nohref",
+				"repo_id": markdown.RepoID,
+				"user_id": markdown.UserID,
 			},
 			setupAuth: func(t *testing.T, request *http.Request, tokenMaker token.Maker) {
 				addAuthorization(t, request, tokenMaker, authorizationTypeBearer, user.ID, time.Minute)
 			},
 
 			buildStubs: func(store *mockdb.MockStore) {
+				arg := db.GetMarkdownParams{
+					Mdhref: "nohref",
+					RepoID: markdown.RepoID,
+					UserID: markdown.UserID,
+				}
 				store.EXPECT().
-					GetMarkdown(gomock.Any(), gomock.Eq("nohref")).
+					GetMarkdown(gomock.Any(), gomock.Eq(arg)).
 					Times(1).
 					Return(db.Markdown{}, sql.ErrNoRows)
 			},
@@ -106,14 +102,20 @@ func TestGetMarkdownAPI(t *testing.T) {
 		{
 			name: "InternalError",
 			body: gin.H{
-				"mdhref": markdown.Mdhref,
+				"mdhref":  markdown.Mdhref,
+				"repo_id": markdown.RepoID,
 			},
 			setupAuth: func(t *testing.T, request *http.Request, tokenMaker token.Maker) {
 				addAuthorization(t, request, tokenMaker, authorizationTypeBearer, user.ID, time.Minute)
 			},
 			buildStubs: func(store *mockdb.MockStore) {
+				arg := db.GetMarkdownParams{
+					Mdhref: markdown.Mdhref,
+					RepoID: markdown.RepoID,
+					UserID: markdown.UserID,
+				}
 				store.EXPECT().
-					GetMarkdown(gomock.Any(), gomock.Eq(markdown.Mdhref)).
+					GetMarkdown(gomock.Any(), gomock.Eq(arg)).
 					Times(1).
 					Return(db.Markdown{}, sql.ErrConnDone)
 			},
@@ -137,6 +139,7 @@ func TestGetMarkdownAPI(t *testing.T) {
 
 			// Marshal body data to JSON
 			data, err := json.Marshal(tc.body)
+			fmt.Println("mydebug:req tcbody:", tc.body)
 			require.NoError(t, err)
 
 			url := "/get_markdown"

@@ -80,7 +80,7 @@ function User({ session, handleSignOut }){
           </div>
 
           <div className='flex justify-center'>
-            <Link href={'/auth/profile'} className='mt-5 px-10 py-1 rounded-sm bg-indigo-500 text-gray-50'>Profile Page</Link>
+            <Link href={'/wiki'} className='mt-5 px-10 py-1 rounded-sm bg-indigo-500 text-gray-50'>Profile Page</Link>
           </div>
       </main>
   )

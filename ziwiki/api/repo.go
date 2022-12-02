@@ -3,7 +3,6 @@ package api
 import (
 	"database/sql"
 	"errors"
-	"fmt"
 	"net/http"
 	"strconv"
 
@@ -56,7 +55,6 @@ func (server *Server) createRepo(ctx *gin.Context) {
 
 	err = gitsync.Clone("/tmp/wiki/", strconv.FormatInt(repo.UserID, 10), strconv.FormatInt(repo.ID, 10), repo.RepoGit, repo.RepoUserName, repo.RepoAccessToken)
 	if err != nil {
-		fmt.Printf("error: %s", err)
 		ctx.JSON(http.StatusInternalServerError, errorResponse(err))
 		return
 	}
@@ -103,7 +101,6 @@ type listRepoRequest struct {
 func (server *Server) listRepos(ctx *gin.Context) {
 	var req listRepoRequest
 	if err := ctx.ShouldBindJSON(&req); err != nil {
-		fmt.Println("mydebug:", req)
 		ctx.JSON(http.StatusBadRequest, errorResponse(err))
 		return
 	}

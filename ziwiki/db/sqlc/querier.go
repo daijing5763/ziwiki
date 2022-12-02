@@ -15,11 +15,11 @@ type Querier interface {
 	CreateRepo(ctx context.Context, arg CreateRepoParams) (Repo, error)
 	CreateSession(ctx context.Context, arg CreateSessionParams) (Session, error)
 	CreateUser(ctx context.Context, arg CreateUserParams) (User, error)
-	DeleteMarkdown(ctx context.Context, mdhref string) error
+	DeleteMarkdown(ctx context.Context, arg DeleteMarkdownParams) error
 	DeleteRepo(ctx context.Context, id int64) error
 	DeleteUser(ctx context.Context, id int64) error
-	GetMarkdown(ctx context.Context, mdhref string) (Markdown, error)
-	GetMarkdownForUpdate(ctx context.Context, mdhref string) (Markdown, error)
+	GetMarkdown(ctx context.Context, arg GetMarkdownParams) (Markdown, error)
+	GetMarkdownForUpdate(ctx context.Context, arg GetMarkdownForUpdateParams) (Markdown, error)
 	GetRepo(ctx context.Context, id int64) (Repo, error)
 	GetRepoForUpdate(ctx context.Context, id int64) (Repo, error)
 	GetSession(ctx context.Context, id uuid.UUID) (Session, error)

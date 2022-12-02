@@ -97,7 +97,7 @@ func (mr *MockStoreMockRecorder) CreateUser(arg0, arg1 interface{}) *gomock.Call
 }
 
 // DeleteMarkdown mocks base method.
-func (m *MockStore) DeleteMarkdown(arg0 context.Context, arg1 string) error {
+func (m *MockStore) DeleteMarkdown(arg0 context.Context, arg1 db.DeleteMarkdownParams) error {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "DeleteMarkdown", arg0, arg1)
 	ret0, _ := ret[0].(error)
@@ -139,7 +139,7 @@ func (mr *MockStoreMockRecorder) DeleteUser(arg0, arg1 interface{}) *gomock.Call
 }
 
 // GetMarkdown mocks base method.
-func (m *MockStore) GetMarkdown(arg0 context.Context, arg1 string) (db.Markdown, error) {
+func (m *MockStore) GetMarkdown(arg0 context.Context, arg1 db.GetMarkdownParams) (db.Markdown, error) {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "GetMarkdown", arg0, arg1)
 	ret0, _ := ret[0].(db.Markdown)
@@ -154,7 +154,7 @@ func (mr *MockStoreMockRecorder) GetMarkdown(arg0, arg1 interface{}) *gomock.Cal
 }
 
 // GetMarkdownForUpdate mocks base method.
-func (m *MockStore) GetMarkdownForUpdate(arg0 context.Context, arg1 string) (db.Markdown, error) {
+func (m *MockStore) GetMarkdownForUpdate(arg0 context.Context, arg1 db.GetMarkdownForUpdateParams) (db.Markdown, error) {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "GetMarkdownForUpdate", arg0, arg1)
 	ret0, _ := ret[0].(db.Markdown)

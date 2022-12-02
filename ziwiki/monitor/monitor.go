@@ -33,7 +33,7 @@ func RenderLayout(UserID string, RepoID string, store db.Store) bool {
 	}
 
 	arg := db.CreateMarkdownParams{
-		Mdhref: "/tmp/wiki/" + UserID + "/" + RepoID + "/layout.json",
+		Mdhref: "layout.json",
 		UserID: user_id,
 		RepoID: repo_id,
 		Mdtext: string_layout,
@@ -43,8 +43,10 @@ func RenderLayout(UserID string, RepoID string, store db.Store) bool {
 	if err != nil {
 		fmt.Println(err) //create fail may exist
 		arg_update := db.UpdateMarkdownParams{
-			Mdhref: "/tmp/wiki/" + UserID + "/" + RepoID + "/layout.json",
+			Mdhref: "layout.json",
 			Mdtext: string_layout,
+			UserID: user_id,
+			RepoID: repo_id,
 		}
 		Markdown, err := store.UpdateMarkdown(context.Background(), arg_update)
 		_ = Markdown

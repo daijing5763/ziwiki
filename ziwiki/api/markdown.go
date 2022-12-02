@@ -6,11 +6,13 @@ import (
 	"net/http"
 
 	"github.com/gin-gonic/gin"
+	db "github.com/zdlpsina/ziwiki/db/sqlc"
 	"github.com/zdlpsina/ziwiki/token"
 )
 
 type getMarkdownRequest struct {
-	Href string `json:"mdhref" binding:"required,min=1"`
+	Href   string `json:"mdhref" binding:"required"`
+	RepoID int64  `json:"repo_id" binding:"required"`
 }
 
 func (server *Server) getMarkdown(ctx *gin.Context) {
@@ -19,18 +21,23 @@ func (server *Server) getMarkdown(ctx *gin.Context) {
 		ctx.JSON(http.StatusBadRequest, errorResponse(err))
 		return
 	}
-	markdown, err := server.store.GetMarkdown(ctx, req.Href)
+	authPayload := ctx.MustGet(authorizationPayloadKey).(*token.Payload)
+
+	arg := db.GetMarkdownParams{
+		Mdhref: req.Href,
+		RepoID: req.RepoID,
+		UserID: authPayload.UserID,
+	}
+	markdown, err := server.store.GetMarkdown(ctx, arg)
 	if err != nil {
 		if err == sql.ErrNoRows {
 			ctx.JSON(http.StatusNotFound, errorResponse(err))
 			return
 		}
-
 		ctx.JSON(http.StatusInternalServerError, errorResponse(err))
 		return
 	}
 
-	authPayload := ctx.MustGet(authorizationPayloadKey).(*token.Payload)
 	if markdown.UserID != authPayload.UserID {
 		err := errors.New("account doesn't belong to the authenticated user")
 		ctx.JSON(http.StatusUnauthorized, errorResponse(err))
