@@ -6,8 +6,15 @@ go_library(
     importpath = "github.com/zdlpsina/ziwiki/cmd/goldmark",
     visibility = ["//visibility:public"],
     deps = [
+        "//chromahtml",
+        "//highlight",
+        "//mathjax",
+        "//mdextensions",
+        "@com_github_abhinav_goldmark_toc//:go_default_library",
         "@com_github_yuin_goldmark//:goldmark",
-        "@com_github_yuin_goldmark_highlighting//:go_default_library",
-        "@com_github_yuin_goldmark_highlighting_v2//:go_default_library",
+        "@com_github_yuin_goldmark//extension",
+        "@com_github_yuin_goldmark//parser",
+        "@com_github_yuin_goldmark//renderer",
+        "@com_github_yuin_goldmark//util",
     ],
 )

@@ -144,11 +144,11 @@ const options = {
       return (
         <MdContentCopy className="w-6 h-6 cursor-pointer text-slate-600 dark:text-slate-300"/>
       );
-    } else if (isContains(attribs.class,"mathcode_inline")) {
+    } else if (isContains(attribs.class,"math inline")) {
       return (
         <MathJax inline>{domToReact(children, options)}</MathJax>
       )
-    }else if (isContains(attribs.class,"mathcode")) {
+    }else if (isContains(attribs.class,"math display")) {
       return (
         <MathJax>{domToReact(children, options)}</MathJax>
       )

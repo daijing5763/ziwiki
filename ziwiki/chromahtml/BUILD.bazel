@@ -1,0 +1,9 @@
+load("@io_bazel_rules_go//go:def.bzl", "go_library")
+
+go_library(
+    name = "chromahtml",
+    srcs = ["chromahtml.go"],
+    importpath = "github.com/zdlpsina/ziwiki/chromahtml",
+    visibility = ["//visibility:public"],
+    deps = ["@com_github_alecthomas_chroma//v2:chroma"],
+)

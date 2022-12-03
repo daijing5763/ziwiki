@@ -1,0 +1,38 @@
+load("@io_bazel_rules_go//go:def.bzl", "go_library", "go_test")
+
+go_library(
+    name = "mathjax",
+    srcs = [
+        "block.go",
+        "block_inline.go",
+        "block_node.go",
+        "block_renderer.go",
+        "block_tex_renderer.go",
+        "inline.go",
+        "inline_renderer.go",
+        "inline_tex_renderer.go",
+        "mathjax.go",
+        "tex.go",
+        "tex_renderer.go",
+    ],
+    importpath = "github.com/zdlpsina/ziwiki/mathjax",
+    visibility = ["//visibility:public"],
+    deps = [
+        "@com_github_yuin_goldmark//:goldmark",
+        "@com_github_yuin_goldmark//ast",
+        "@com_github_yuin_goldmark//parser",
+        "@com_github_yuin_goldmark//renderer",
+        "@com_github_yuin_goldmark//text",
+        "@com_github_yuin_goldmark//util",
+    ],
+)
+
+go_test(
+    name = "mathjax_test",
+    srcs = ["mathjax_test.go"],
+    embed = [":mathjax"],
+    deps = [
+        "@com_github_stretchr_testify//assert",
+        "@com_github_yuin_goldmark//:goldmark",
+    ],
+)

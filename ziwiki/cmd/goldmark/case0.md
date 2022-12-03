@@ -86,9 +86,14 @@ L1,L2，
 ## 2 - L2 Regularization
 
 The standard way to avoid overfitting is called **L2 regularization**. It consists of appropriately modifying your cost function, from:
-$$J = -\frac{1}{m} \sum\limits_{i = 1}^{m} \large{(}\small  y^{(i)}\log\left(a^{[L](i)}\right) + (1-y^{(i)})\log\left(1- a^{[L](i)}\right) \large{)} \tag{1}$$
+$$
+J = -\frac{1}{m} \sum\limits_{i = 1}^{m} \large{(}\small  y^{(i)}\log\left(a^{[L](i)}\right) + (1-y^{(i)})\log\left(1- a^{[L](i)}\right) \large{)} \tag{1}
+$$
 To:
-$$J_{regularized} = \small \underbrace{-\frac{1}{m} \sum\limits_{i = 1}^{m} \large{(}\small y^{(i)}\log\left(a^{[L](i)}\right) + (1-y^{(i)})\log\left(1- a^{[L](i)}\right) \large{)} }_\text{cross-entropy cost} + \underbrace{\frac{1}{m} \frac{\lambda}{2} \sum\limits_l\sum\limits_k\sum\limits_j W_{k,j}^{[l]2} }_\text{L2 regularization cost} \tag{2}$$
+
+$$
+J_{regularized} = \small \underbrace{-\frac{1}{m} \sum\limits_{i = 1}^{m} \large{(}\small y^{(i)}\log\left(a^{[L](i)}\right) + (1-y^{(i)})\log\left(1- a^{[L](i)}\right) \large{)} }_\text{cross-entropy cost} + \underbrace{\frac{1}{m} \frac{\lambda}{2} \sum\limits_l\sum\limits_k\sum\limits_j W_{k,j}^{[l]2} }_\text{L2 regularization cost} \tag{2}
+$$
 
 Let's modify your cost and observe the consequences.
 
@@ -178,3 +183,18 @@ Backpropagation with dropout is actually quite easy. You will have to carry out 
 ```python
 
 ```
+
+
+```mermaid
+  graph TD
+  start_es-->es_start_multi_porcess_server
+  ExecTaskCover-->es_stubExecTask[es_cover调用es,184]
+
+  main-->ESDaemon:start_es_cover-->insecureCred-->serverCred-->grpcinit
+  task_service-->task_service_monitor_cs_server
+```
+
+| Syntax      | Description |
+| ----------- | ----------- |
+| Header      | Title       |
+| Paragraph   | Text        |

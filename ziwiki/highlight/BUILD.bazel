@@ -1,0 +1,21 @@
+load("@io_bazel_rules_go//go:def.bzl", "go_library")
+
+go_library(
+    name = "highlight",
+    srcs = ["hightlight.go"],
+    importpath = "github.com/zdlpsina/ziwiki/highlight",
+    visibility = ["//visibility:public"],
+    deps = [
+        "//chromahtml",
+        "@com_github_alecthomas_chroma//v2:chroma",
+        "@com_github_alecthomas_chroma//v2/lexers",
+        "@com_github_alecthomas_chroma//v2/styles",
+        "@com_github_yuin_goldmark//:goldmark",
+        "@com_github_yuin_goldmark//ast",
+        "@com_github_yuin_goldmark//parser",
+        "@com_github_yuin_goldmark//renderer",
+        "@com_github_yuin_goldmark//renderer/html",
+        "@com_github_yuin_goldmark//text",
+        "@com_github_yuin_goldmark//util",
+    ],
+)

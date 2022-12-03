@@ -1,0 +1,22 @@
+load("@io_bazel_rules_go//go:def.bzl", "go_library")
+
+go_library(
+    name = "mdextensions",
+    srcs = [
+        "footnote.go",
+        "html.go",
+        "table.go",
+    ],
+    importpath = "github.com/zdlpsina/ziwiki/mdextensions",
+    visibility = ["//visibility:public"],
+    deps = [
+        "@com_github_yuin_goldmark//:goldmark",
+        "@com_github_yuin_goldmark//ast",
+        "@com_github_yuin_goldmark//extension/ast",
+        "@com_github_yuin_goldmark//parser",
+        "@com_github_yuin_goldmark//renderer",
+        "@com_github_yuin_goldmark//renderer/html",
+        "@com_github_yuin_goldmark//text",
+        "@com_github_yuin_goldmark//util",
+    ],
+)
