@@ -20,7 +20,10 @@ require (
 
 require github.com/alecthomas/chroma/v2 v2.2.0
 
-require gopkg.in/fsnotify.v1 v1.4.7 // indirect
+require (
+	github.com/alecthomas/chroma v0.10.0 // indirect
+	gopkg.in/fsnotify.v1 v1.4.7 // indirect
+)
 
 require (
 	github.com/Microsoft/go-winio v0.4.16 // indirect
@@ -29,7 +32,7 @@ require (
 	github.com/acomagu/bufpipe v1.0.3 // indirect
 	github.com/aead/chacha20 v0.0.0-20180709150244-8b13a72661da // indirect
 	github.com/aead/poly1305 v0.0.0-20180717145839-3fee0db0b635 // indirect
-	github.com/alecthomas/chroma v0.10.0 // indirect
+	// github.com/alecthomas/chroma v0.10.0 // indirect
 	github.com/davecgh/go-spew v1.1.1 // indirect
 	github.com/dietsche/rfsnotify v0.0.0-20200716145600-b37be6e4177f
 	github.com/dlclark/regexp2 v1.7.0 // indirect
@@ -69,7 +72,6 @@ require (
 	github.com/ugorji/go/codec v1.2.7 // indirect
 	github.com/xanzy/ssh-agent v0.3.0 // indirect
 	github.com/yuin/goldmark v1.5.3
-	github.com/yuin/goldmark-highlighting/v2 v2.0.0-20220924101305-151362477c87
 	golang.org/x/net v0.2.0 // indirect
 	golang.org/x/sys v0.2.0 // indirect
 	golang.org/x/text v0.4.0 // indirect
@@ -80,6 +82,6 @@ require (
 	gopkg.in/yaml.v3 v3.0.1 // indirect
 )
 
-replace github.com/alecthomas/chroma/v2 v2.2.0 => ../chroma
+// replace github.com/alecthomas/chroma/v2 v2.2.0 => ../chroma
 
 // replace github.com/yuin/goldmark v1.5.3 => ../goldmark

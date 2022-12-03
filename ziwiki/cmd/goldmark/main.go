@@ -5,21 +5,24 @@ import (
 	"os"
 
 	toc "github.com/abhinav/goldmark-toc"
-	"github.com/alecthomas/chroma/v2/formatters/html"
+	// "github.com/alecthomas/chroma/v2/formatters/html"
 	mathjax "github.com/litao91/goldmark-mathjax"
 	"github.com/yuin/goldmark"
-	highlighting "github.com/yuin/goldmark-highlighting/v2"
+	html "github.com/zdlpsina/ziwiki/chromahtml"
+
+	// highlighting "github.com/yuin/goldmark-highlighting/v2"
 	"github.com/yuin/goldmark/extension"
 	"github.com/yuin/goldmark/parser"
 	"github.com/yuin/goldmark/renderer"
 	"github.com/yuin/goldmark/util"
+	highlighting "github.com/zdlpsina/ziwiki/highlight"
 
 	// "github.com/zdlpsina/ziwiki/html"
 	"github.com/zdlpsina/ziwiki/mdextensions"
 )
 
 func main() {
-	input_path := "./case1.md"
+	input_path := "./case0.md"
 	data, err := os.ReadFile(input_path)
 	if err != nil {
 		fmt.Println("err:", err)

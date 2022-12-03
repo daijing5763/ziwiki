@@ -1,71 +1,29 @@
 <h1 class='text-3xl font-black text-slate-900 tracking-tight text-center dark:text-slate-200  pb-6 my-3'>Contents</h1>
 <ul class='list-disc  text-base text-slate-800 dark:text-slate-300  pl-4'>
 <li>
-<a href="#heading">这是一篇示范文</a><ul class='list-disc  text-base text-slate-800 dark:text-slate-300  pl-4'>
+<a href="#font-color--darkbluecentercenterfont">归一化以及正则化</a><ul class='list-disc  text-base text-slate-800 dark:text-slate-300  pl-4'>
 <li>
-<a href="#heading-1">第一章</a><ul class='list-disc  text-base text-slate-800 dark:text-slate-300  pl-4'>
+<ul class='list-disc  text-base text-slate-800 dark:text-slate-300  pl-4'>
 <li>
-<a href="#heading-2">史记</a><ul class='list-disc  text-base text-slate-800 dark:text-slate-300  pl-4'>
+<a href="#batchnorm">batchnorm</a></li>
 <li>
-<a href="#heading-3">第一节：遗志</a></li>
+<a href="#layer-norm">layer norm</a></li>
 <li>
-<a href="#heading-4">第二节：春秋精神</a></li>
-<li>
-<a href="#heading-5">第三节：史家职责</a><ul class='list-disc  text-base text-slate-800 dark:text-slate-300  pl-4'>
-<li>
-<a href="#heading-6">孙子吴起列传</a></li>
-<li>
-<a href="#heading-7">项羽本纪</a></li>
-</ul>
-</li>
-</ul>
-</li>
+<a href="#heading">正则化</a></li>
 </ul>
 </li>
 <li>
-<a href="#heading-8">第二章</a><ul class='list-disc  text-base text-slate-800 dark:text-slate-300  pl-4'>
-<li>
-<a href="#heading-9">代码</a></li>
-<li>
-<a href="#python-">Python 代码</a></li>
-</ul>
-</li>
-<li>
-<a href="#heading-10">第三章</a></li>
-<li>
-<a href="#heading-11">第四章</a><ul class='list-disc  text-base text-slate-800 dark:text-slate-300  pl-4'>
-<li>
-<a href="#math-span">math span</a></li>
-<li>
-<a href="#math-block">math block</a></li>
+<a href="#2---l2-regularization">2 - L2 Regularization</a></li>
 </ul>
 </li>
 </ul>
-</li>
-</ul>
-<h1 class='text-3xl font-black text-slate-900 tracking-tight text-center dark:text-slate-200  pb-6 my-3' id="heading">这是一篇示范文</h1>
-<blockquote class='border-l-8 px-2  my-3 mx-1 indent-8  py-0.5 border-sky-500 bg-slate-100 dark:bg-slate-800 rounded-md'>
-<p class='my-2 indent-8 text-base  text-slate-900 dark:text-slate-200'><strong>摘要</strong>：战城南，死郭北，野死不葬乌可食。为我谓乌：且为客豪！野死谅不葬，俯腐肉安能去子逃？水深激激，蒲苇冥冥；枭骑战斗死，驽马徘徊鸣。
-梁筑室，何以南？何以北？禾黍不获君何食？愿为忠臣安可得？思子良臣，良臣诚可思：朝行出攻，暮不夜归！?</p>
-</blockquote>
-<h2 class='text-2xl font-extrabold text-slate-900 tracking-tight dark:text-slate-200  py-2' id="heading-1">第一章</h2>
-<h3 class='text-xl  font-extrabold	text-slate-900 tracking-tight dark:text-slate-200  py-1.5' id="heading-2">史记</h3>
-<p class='my-2 indent-8 text-base  text-slate-900 dark:text-slate-200'>司马迁著《史记》，其史学观念在于“究天人之际，通古今之变，成一家之言”。司马迁探求的天人之际，并非承认天的神秘力量反而重视天人之间关系的演变，从而了解“古今之变”的关键，探求出历史动态发展变化的层面，最终完成“一家之言”。而他的撰述动机，主要有以下三方面：</p>
-<h4 class='text-lg  font-bold	    text-slate-900 tracking-tight  dark:text-slate-200  py-1.5' id="heading-3">第一节：遗志</h4>
-<p class='my-2 indent-8 text-base  text-slate-900 dark:text-slate-200'>司马迁为了继承其父司马谈编订史书的遗志，完成撰述《史记》的宏愿。司马氏在周朝时世为史官，春秋时期虽然失去官职，司马谈却把修撰史书视为自己的神圣职责，一心继承先人久绝的世业—太史令，重现孔子撰述《春秋》的精神，整理和论述上代历史。《隋书·经籍志》说：“谈乃据《左氏春秋》、《国语》、《世本》、《战国策》、《楚汉春秋》，接其后事，成一家之言。”可见司马谈有意继续编订《春秋》以后的史事。汉武帝元封元年，武帝进行封禅大典，司马谈身为太史令，却无缘参与当世盛事，引为终生之憾，忧愤而死。他死前将遗志嘱咐儿子司马迁说：“今天子接千岁之统，封泰山，而余不得从行，是命也夫！余死，汝必为太史，无忘吾所欲论著矣……”司马迁则回答道：“小子不敏，请悉论先人所次旧闻。”可知司马迁乃秉承父亲的遗志完成史著。而《史记》以“封禅书”为其八书之一，即见其秉先父之意。</p>
-<h4 class='text-lg  font-bold	    text-slate-900 tracking-tight  dark:text-slate-200  py-1.5' id="heading-4">第二节：春秋精神</h4>
-<p class='my-2 indent-8 text-base  text-slate-900 dark:text-slate-200'>司马迁想继承《春秋》精神。司马迁在《太史公自序》说：“先人有言，自周公卒，五百岁而有孔子，孔子卒后，至于今五百岁，有能绍明世，正《易传》、继《春秋》、本《诗》、《书》、《礼》、《乐》之际，意在斯乎？意在斯乎？小子何敢让焉？”此正暗示其有明道义，显扬志业人物的使命。《春秋》的下限，到鲁哀公获麟之年，此后的史事就没有完整的史籍记载。司马迁是绍继《春秋》，并以汉武帝元狩元年“获麟”及太初元年改历下限，撰写史记。然而，司马迁继承《春秋》，不仅是要形式上承继周公以来的道统，反而是重视《春秋》的性质，他在《太史公自序》说：“夫《春秋》，上明三王之道，下辨人事之纪，别嫌疑，明是非，定犹豫，善善恶恶，贤贤贱不肖，存亡国，继绝世，补敝起废，王道之大者也……《春秋》以道义，拨乱世，反之正，莫近于《春秋》。”可见司马迁对“春秋之义”和“春秋笔法”心仪已久，这是他要承孔子的真意、秉承《春秋》褒贬精神，撰述《史记》。</p>
-<h4 class='text-lg  font-bold	    text-slate-900 tracking-tight  dark:text-slate-200  py-1.5' id="heading-5">第三节：史家职责</h4>
-<p class='my-2 indent-8 text-base  text-slate-900 dark:text-slate-200'>司马迁要肩负史家职责。据《后汉书·百官志》载，“太史令”只是俸禄六百石的小官，职责仅在于管理图籍，掌管星象天文，最多也只是记录上代及当代事情，并无著述的责任。然而，司马谈和司马迁明显不满足于“拾遗补蓺”。司马谈早有整理上代历史的计划，可惜却“发愤而卒”，临终前叮嘱司马迁，认为“自获麟以来，史记放绝。今汉兴，海内一统，明主、贤君、忠臣、死义之士”甚多，身为太史令，有完成论载上代历史的任务。司马迁在《太史公自序》也指出身为太史的职责说：“且余尝掌其官，废明圣盛德不载，灭功臣、世家、贤大夫之不述，隳先人之言，罪莫大焉。”因此，司马迁一心秉承先人世传及“述往事以思来者”的责任感，决意撰述《史记》。在《报任安书》中亦透露著述《史记》的目的，他说“凡百三十篇，亦欲以究天人之际，通古今之变，成一家之言。”可见他不但要完成太史令的责任，更要尽史学家的职责。</p>
-<h5 class='text-base font-bold 	  text-slate-900 tracking-tight  dark:text-slate-200  py-1' id="heading-6">孙子吴起列传</h5>
-<p class='my-2 indent-8 text-base  text-slate-900 dark:text-slate-200'>孙子武者，齐人也。以兵法见于吴王阖庐。阖庐曰：“子之十三篇，吾尽观之矣，可以小试勒兵乎<sup id="footnote-fnref:1"><a href="#footnote-fn:1" class="text-sky-400 px-0.5 hover:decoration-sky-500 hover:text-sky-500 hover:decoration-2	hover:underline underline-offset-4" title="跳转至脚注1" role="doc-noteref">[1]</a></sup>  ？”对曰：“可。”阖庐曰：“可试以妇人乎？”曰：“可。”于是许之，出宫中美女，得百八十人。孙子分为二队，以王之宠姬二人各为队长，皆令持戟。令之曰：“汝知而心与左右手背乎？”妇人曰：“知之。”孙子曰：“前，则视心；左，视左手；右，视右手；后，即视背。”妇人曰：“诺。”约束既布，乃设鈇钺，即三令五申之。于是鼓之右，妇人大笑。孙子曰：“约束不明，申令不熟，将之罪也。”复三令五申而鼓之左，妇人复大笑。孙子曰：“约束不明，申令不熟，将之罪也；既已明而不如法者，吏士之罪也。”乃欲斩左右队长。吴王从台上观，见且斩爱姬，大骇。趣使使下令曰：“寡人已知将军能用兵矣。寡人非此二姬，食不甘味，愿勿斩也。”孙子曰：“臣既已受命为将，将在军，君命有所不受。”遂斩队长二人以徇。用其次为队长，于是复鼓之。妇人左右前后跪起皆中规矩绳墨，无敢出声。于是孙子使使报王曰：“兵既整齐，王可试下观之，唯王所欲用之，虽赴水火犹可也。”吴王曰：“将军罢休就舍，寡人不愿下观。”孙子曰：“王徒好其言，不能用其实。”于是阖庐知孙子能用兵，卒以为将。西破强楚，入郢，北威齐晋，显名诸侯，孙子与有力焉。</p>
-<h5 class='text-base font-bold 	  text-slate-900 tracking-tight  dark:text-slate-200  py-1' id="heading-7">项羽本纪</h5>
-<p class='my-2 indent-8 text-base  text-slate-900 dark:text-slate-200'>项籍者，下相人也，字羽。初起时，年二十四。其季父项梁，梁父即楚将项燕，为秦将王翦所戮者也。项氏世世为楚将，封于项，故姓项氏。
-项籍少时，学书不成，去学剑，又不成。项梁怒之。籍曰：“书足以记名姓而已。剑一人敌，不足学，学万人敌。”于是项梁乃教籍兵法，籍大喜，略知其意，又不肯竟学。项梁尝有栎阳逮，乃请蕲狱掾曹咎书抵栎阳狱掾司马欣，以故事得已。项梁杀人，与籍避仇于吴中。吴中贤士大夫皆出项梁下。每吴中有大繇役及丧，项梁常为主办，阴以兵法部勒宾客及子弟，以是知其能。秦始皇帝游会稽，渡浙江，梁与籍俱观。籍曰：“彼可取而代也。”梁掩其口，曰：“毋妄言，族矣。”梁以此奇籍。籍长八尺余，力能扛鼎，才气过人，虽吴中子弟皆已惮籍矣。</p>
-<p class='my-2 indent-8 text-base  text-slate-900 dark:text-slate-200'>太史公曰：吾闻之周生曰“舜目盖重瞳子”，又闻项羽亦重瞳子。羽岂其苗裔邪？何兴之暴也！夫秦失其政，陈涉首难，豪杰蜂起，相与并争，不可胜数。然羽非有尺寸，乘势起陇亩之中，三年，遂将五诸侯灭秦，分裂天下，而封王侯，政由羽出，号为“霸王”，位虽不终，近古以来未尝有也，及羽背关怀楚，放逐义帝而自立，怨王侯叛己，难矣。自矜功伐，奋其私智而不师古。谓霸王之业，欲以力征经营天下。五年卒亡其国，身死东城，尚不觉寤而不自责，过矣。乃引“天亡我，非用兵之罪也”，岂不谬哉！<sup id="footnote-fnref:2"><a href="#footnote-fn:2" class="text-sky-400 px-0.5 hover:decoration-sky-500 hover:text-sky-500 hover:decoration-2	hover:underline underline-offset-4" title="跳转至脚注2" role="doc-noteref">[2]</a></sup></p>
-<h2 class='text-2xl font-extrabold text-slate-900 tracking-tight dark:text-slate-200  py-2' id="heading-8">第二章</h2>
-<h3 class='text-xl  font-extrabold	text-slate-900 tracking-tight dark:text-slate-200  py-1.5' id="heading-9">代码</h3>
-<h3 class='text-xl  font-extrabold	text-slate-900 tracking-tight dark:text-slate-200  py-1.5' id="python-">Python 代码</h3>
+<h1 class='text-3xl font-black text-slate-900 tracking-tight text-center dark:text-slate-200  pb-6 my-3' id="font-color--darkbluecentercenterfont"><!-- raw HTML omitted --><!-- raw HTML omitted -->归一化以及正则化<!-- raw HTML omitted --><!-- raw HTML omitted --></h1>
+<ol class='list-decimal text-base text-slate-800 dark:text-slate-300  pl-4'>
+<li>归一化的必要性:
+考虑梯度下降优化，未归一化两个维度更新幅度不一样，导致收敛慢</li>
+</ol>
+<h3 class='text-xl  font-extrabold	text-slate-900 tracking-tight dark:text-slate-200  py-1.5' id="batchnorm">batchnorm</h3>
+<!-- raw HTML omitted -->
 <div class="relative z-10 mx-2 my-6 col-span-3 dark:bg-slate-800 bg-white font-semibold rounded-md shadow-lg  ring-1 ring-black/10 dark:ring-1 dark:ring-white/10 dark:ring-inset">
 				<div class="relative flex text-slate-400 text-sm leading-6">
 						<div class="mt-2 flex-none dark:text-sky-300 text-slate-800 border-t border-b border-t-transparent border-b-slate-600 dark:border-b-sky-300 px-4 py-1 flex items-center">
@@ -85,53 +43,180 @@
 							scrollbar-thin  scrollbar-thumb-rounded-md scrollbar-track-rounded-md
 							scrollbar-track-white scrollbar-thumb-slate-200 
 							dark:scrollbar-track-slate-800 dark:scrollbar-thumb-slate-500
-	"><pre><code><span class="flex"><span class="whitespace-pre select-none mr-1.5 px-1.5 text-[#7f7f7f]"> 1</span><span class="cl">  <span class="dark:text-[#89DDFF] text-[#a90d91]">import</span> <span class="dark:text-[#FFCB6B] text-[#000000]">pandas</span> <span class="dark:text-[#BB80B3] text-[#a90d91]">as</span> <span class="dark:text-[#FFCB6B] text-[#000000]">pd</span>
-</span></span><span class="flex"><span class="whitespace-pre select-none mr-1.5 px-1.5 text-[#7f7f7f]"> 2</span><span class="cl">  <span class="dark:text-[#89DDFF] text-[#a90d91]">import</span> <span class="dark:text-[#FFCB6B] text-[#000000]">numpy</span> <span class="dark:text-[#BB80B3] text-[#a90d91]">as</span> <span class="dark:text-[#FFCB6B] text-[#000000]">np</span>
-</span></span><span class="flex"><span class="whitespace-pre select-none mr-1.5 px-1.5 text-[#7f7f7f]"> 3</span><span class="cl">
-</span></span><span class="flex"><span class="whitespace-pre select-none mr-1.5 px-1.5 text-[#7f7f7f]"> 4</span><span class="cl">  <span class="dark:text-[#BB80B3] text-[#a90d91]">def</span> <span class="dark:text-[#82AAFF] text-[#000000]">func</span><span class="dark:text-[#89DDFF]">(</span><span class="dark:text-[#EEFFFF] text-[#000000]">a</span><span class="dark:text-[#89DDFF]">,</span><span class="dark:text-[#EEFFFF] text-[#000000]">b</span><span class="dark:text-[#89DDFF]">):</span>
-</span></span><span class="flex"><span class="whitespace-pre select-none mr-1.5 px-1.5 text-[#7f7f7f]"> 5</span><span class="cl">    <span class="dark:text-[#EEFFFF] text-[#000000]">c</span><span class="dark:text-[#89DDFF] text-[#000000]">=</span><span class="dark:text-[#EEFFFF] text-[#000000]">np</span><span class="dark:text-[#89DDFF] text-[#000000]">.</span><span class="dark:text-[#EEFFFF] text-[#000000]">array</span><span class="dark:text-[#89DDFF]">([</span><span class="dark:text-[#F78C6C] text-[#1c01ce]">1</span><span class="dark:text-[#89DDFF]">,</span><span class="dark:text-[#F78C6C] text-[#1c01ce]">2</span><span class="dark:text-[#89DDFF]">,</span><span class="dark:text-[#F78C6C] text-[#1c01ce]">3</span><span class="dark:text-[#89DDFF]">,</span><span class="dark:text-[#F78C6C] text-[#1c01ce]">4</span><span class="dark:text-[#89DDFF]">,</span><span class="dark:text-[#F78C6C] text-[#1c01ce]">5</span><span class="dark:text-[#89DDFF]">,</span><span class="dark:text-[#F78C6C] text-[#1c01ce]">6.8</span><span class="dark:text-[#89DDFF]">])</span>
-</span></span><span class="flex"><span class="whitespace-pre select-none mr-1.5 px-1.5 text-[#7f7f7f]"> 6</span><span class="cl">    <span class="dark:text-[#EEFFFF] text-[#000000]">a</span><span class="dark:text-[#89DDFF] text-[#000000]">=</span><span class="dark:text-[#EEFFFF] text-[#000000]">b</span><span class="dark:text-[#89DDFF] text-[#000000]">+</span><span class="dark:text-[#EEFFFF] text-[#000000]">c</span>
-</span></span><span class="flex"><span class="whitespace-pre select-none mr-1.5 px-1.5 text-[#7f7f7f]"> 7</span><span class="cl">    <span class="dark:text-[#BB80B3] text-[#a90d91]">return</span> <span class="dark:text-[#EEFFFF] text-[#000000]">a</span>
+	"><pre><code><span class="flex"><span class="whitespace-pre select-none mr-1.5 px-1.5 text-[#7f7f7f]">1</span><span class="cl"><span class="dark:text-[#89DDFF] text-[#a90d91]">import</span> <span class="dark:text-[#FFCB6B] text-[#000000]">numpy</span> <span class="dark:text-[#BB80B3] text-[#a90d91]">as</span> <span class="dark:text-[#FFCB6B] text-[#000000]">np</span>
+</span></span><span class="flex"><span class="whitespace-pre select-none mr-1.5 px-1.5 text-[#7f7f7f]">2</span><span class="cl"><span class="dark:text-[#EEFFFF] text-[#000000]">x</span><span class="dark:text-[#89DDFF] text-[#000000]">=</span><span class="dark:text-[#EEFFFF] text-[#000000]">np</span><span class="dark:text-[#89DDFF] text-[#000000]">.</span><span class="dark:text-[#EEFFFF] text-[#000000]">random</span><span class="dark:text-[#89DDFF] text-[#000000]">.</span><span class="dark:text-[#EEFFFF] text-[#000000]">random</span><span class="dark:text-[#89DDFF]">([</span><span class="dark:text-[#F78C6C] text-[#1c01ce]">10</span><span class="dark:text-[#89DDFF]">,</span><span class="dark:text-[#F78C6C] text-[#1c01ce]">4</span><span class="dark:text-[#89DDFF]">])</span>
+</span></span></code></pre></div></div><div class="relative z-10 mx-2 my-6 col-span-3 dark:bg-slate-800 bg-white font-semibold rounded-md shadow-lg  ring-1 ring-black/10 dark:ring-1 dark:ring-white/10 dark:ring-inset">
+				<div class="relative flex text-slate-400 text-sm leading-6">
+						<div class="mt-2 flex-none dark:text-sky-300 text-slate-800 border-t border-b border-t-transparent border-b-slate-600 dark:border-b-sky-300 px-4 py-1 flex items-center">
+								language:$2
+						</div>
+						<div class="flex-auto flex pt-2 rounded-tr-xl overflow-hidden">
+								<div class="flex-auto -mr-px bg-slate-100 dark:bg-slate-700/50 border border-slate-500/30 rounded-tl">
+								</div>
+						</div>
+						<div class="absolute top-2 right-0 h-8 flex items-center pr-4">
+								<div class="relative flex -mr-2">
+								<span class="copycontent"/>
+								</div>
+						</div>
+				</div>
+	<div class="highlight p-4  text-sm  overflow-x-auto  text-slate-800 dark:text-slate-200
+							scrollbar-thin  scrollbar-thumb-rounded-md scrollbar-track-rounded-md
+							scrollbar-track-white scrollbar-thumb-slate-200 
+							dark:scrollbar-track-slate-800 dark:scrollbar-thumb-slate-500
+	"><pre><code><span class="flex"><span class="whitespace-pre select-none mr-1.5 px-1.5 text-[#7f7f7f]"> 1</span><span class="cl"><span class="dark:text-[#BB80B3] text-[#a90d91]">def</span> <span class="dark:text-[#82AAFF] text-[#000000]">batchnorm</span><span class="dark:text-[#89DDFF]">(</span><span class="dark:text-[#EEFFFF] text-[#000000]">x</span><span class="dark:text-[#89DDFF]">):</span>
+</span></span><span class="flex"><span class="whitespace-pre select-none mr-1.5 px-1.5 text-[#7f7f7f]"> 2</span><span class="cl">    <span class="dark:text-[#C3E88D] text-[#c41a16]">&#34;&#34;&#34;
+</span></span></span><span class="flex"><span class="whitespace-pre select-none mr-1.5 px-1.5 text-[#7f7f7f]"> 3</span><span class="cl"><span class="dark:text-[#C3E88D] text-[#c41a16]">    x.shape:b,dim
+</span></span></span><span class="flex"><span class="whitespace-pre select-none mr-1.5 px-1.5 text-[#7f7f7f]"> 4</span><span class="cl"><span class="dark:text-[#C3E88D] text-[#c41a16]">    &#34;&#34;&#34;</span>
+</span></span><span class="flex"><span class="whitespace-pre select-none mr-1.5 px-1.5 text-[#7f7f7f]"> 5</span><span class="cl">    <span class="dark:text-[#EEFFFF] text-[#000000]">mu</span><span class="dark:text-[#89DDFF] text-[#000000]">=</span><span class="dark:text-[#EEFFFF] text-[#000000]">np</span><span class="dark:text-[#89DDFF] text-[#000000]">.</span><span class="dark:text-[#EEFFFF] text-[#000000]">sum</span><span class="dark:text-[#89DDFF]">(</span><span class="dark:text-[#EEFFFF] text-[#000000]">x</span><span class="dark:text-[#89DDFF]">,</span><span class="dark:text-[#F78C6C] text-[#1c01ce]">0</span><span class="dark:text-[#89DDFF]">)</span><span class="dark:text-[#89DDFF] text-[#000000]">/</span><span class="dark:text-[#EEFFFF] text-[#000000]">x</span><span class="dark:text-[#89DDFF] text-[#000000]">.</span><span class="dark:text-[#EEFFFF] text-[#000000]">shape</span><span class="dark:text-[#89DDFF]">[</span><span class="dark:text-[#F78C6C] text-[#1c01ce]">0</span><span class="dark:text-[#89DDFF]">]</span>
+</span></span><span class="flex"><span class="whitespace-pre select-none mr-1.5 px-1.5 text-[#7f7f7f]"> 6</span><span class="cl">
+</span></span><span class="flex"><span class="whitespace-pre select-none mr-1.5 px-1.5 text-[#7f7f7f]"> 7</span><span class="cl">    <span class="dark:text-[#EEFFFF] text-[#000000]">var</span><span class="dark:text-[#89DDFF] text-[#000000]">=</span><span class="dark:text-[#F78C6C] text-[#1c01ce]">0</span>
+</span></span><span class="flex"><span class="whitespace-pre select-none mr-1.5 px-1.5 text-[#7f7f7f]"> 8</span><span class="cl">    <span class="dark:text-[#BB80B3] text-[#a90d91]">for</span> <span class="dark:text-[#EEFFFF] text-[#000000]">i</span> <span class="ow">in</span> <span class="dark:text-[#82AAFF] text-[#a90d91]">range</span><span class="dark:text-[#89DDFF]">(</span><span class="dark:text-[#82AAFF] text-[#a90d91]">len</span><span class="dark:text-[#89DDFF]">(</span><span class="dark:text-[#EEFFFF] text-[#000000]">x</span><span class="dark:text-[#89DDFF]">)):</span>
+</span></span><span class="flex"><span class="whitespace-pre select-none mr-1.5 px-1.5 text-[#7f7f7f]"> 9</span><span class="cl">        <span class="dark:text-[#EEFFFF] text-[#000000]">var</span><span class="dark:text-[#89DDFF] text-[#000000]">+=</span><span class="dark:text-[#89DDFF]">(</span><span class="dark:text-[#EEFFFF] text-[#000000]">x</span><span class="dark:text-[#89DDFF]">[</span><span class="dark:text-[#EEFFFF] text-[#000000]">i</span><span class="dark:text-[#89DDFF]">]</span><span class="dark:text-[#89DDFF] text-[#000000]">-</span><span class="dark:text-[#EEFFFF] text-[#000000]">mu</span><span class="dark:text-[#89DDFF]">)</span><span class="dark:text-[#89DDFF] text-[#000000]">*</span><span class="dark:text-[#89DDFF]">(</span><span class="dark:text-[#EEFFFF] text-[#000000]">x</span><span class="dark:text-[#89DDFF]">[</span><span class="dark:text-[#EEFFFF] text-[#000000]">i</span><span class="dark:text-[#89DDFF]">]</span><span class="dark:text-[#89DDFF] text-[#000000]">-</span><span class="dark:text-[#EEFFFF] text-[#000000]">mu</span><span class="dark:text-[#89DDFF]">)</span> 
+</span></span><span class="flex"><span class="whitespace-pre select-none mr-1.5 px-1.5 text-[#7f7f7f]">10</span><span class="cl">    <span class="dark:text-[#EEFFFF] text-[#000000]">var</span><span class="dark:text-[#89DDFF] text-[#000000]">=</span><span class="dark:text-[#EEFFFF] text-[#000000]">var</span><span class="dark:text-[#89DDFF] text-[#000000]">/</span><span class="dark:text-[#EEFFFF] text-[#000000]">x</span><span class="dark:text-[#89DDFF] text-[#000000]">.</span><span class="dark:text-[#EEFFFF] text-[#000000]">shape</span><span class="dark:text-[#89DDFF]">[</span><span class="dark:text-[#F78C6C] text-[#1c01ce]">0</span><span class="dark:text-[#89DDFF]">]</span>
+</span></span><span class="flex"><span class="whitespace-pre select-none mr-1.5 px-1.5 text-[#7f7f7f]">11</span><span class="cl">    <span class="dark:text-[#EEFFFF] text-[#000000]">e</span><span class="dark:text-[#89DDFF] text-[#000000]">=</span><span class="dark:text-[#F78C6C] text-[#1c01ce]">0.000000001</span>
+</span></span><span class="flex"><span class="whitespace-pre select-none mr-1.5 px-1.5 text-[#7f7f7f]">12</span><span class="cl">    <span class="dark:text-[#BB80B3] text-[#a90d91]">return</span> <span class="dark:text-[#89DDFF]">(</span><span class="dark:text-[#EEFFFF] text-[#000000]">x</span><span class="dark:text-[#89DDFF] text-[#000000]">-</span><span class="dark:text-[#EEFFFF] text-[#000000]">mu</span><span class="dark:text-[#89DDFF]">)</span><span class="dark:text-[#89DDFF] text-[#000000]">/</span><span class="dark:text-[#89DDFF]">(</span><span class="dark:text-[#EEFFFF] text-[#000000]">np</span><span class="dark:text-[#89DDFF] text-[#000000]">.</span><span class="dark:text-[#EEFFFF] text-[#000000]">sqrt</span><span class="dark:text-[#89DDFF]">(</span><span class="dark:text-[#EEFFFF] text-[#000000]">var</span><span class="dark:text-[#89DDFF]">)</span><span class="dark:text-[#89DDFF] text-[#000000]">+</span><span class="dark:text-[#EEFFFF] text-[#000000]">e</span><span class="dark:text-[#89DDFF]">)</span>
+</span></span><span class="flex"><span class="whitespace-pre select-none mr-1.5 px-1.5 text-[#7f7f7f]">13</span><span class="cl"><span class="dark:text-[#EEFFFF] text-[#000000]">batchnorm</span><span class="dark:text-[#89DDFF]">(</span><span class="dark:text-[#EEFFFF] text-[#000000]">x</span><span class="dark:text-[#89DDFF]">)</span><span class="dark:text-[#89DDFF] text-[#000000]">.</span><span class="dark:text-[#EEFFFF] text-[#000000]">shape</span>
+</span></span></code></pre></div></div><pre><code>(10, 4)
+</code></pre>
+<h3 class='text-xl  font-extrabold	text-slate-900 tracking-tight dark:text-slate-200  py-1.5' id="layer-norm">layer norm</h3>
+<!-- raw HTML omitted -->
+<div class="relative z-10 mx-2 my-6 col-span-3 dark:bg-slate-800 bg-white font-semibold rounded-md shadow-lg  ring-1 ring-black/10 dark:ring-1 dark:ring-white/10 dark:ring-inset">
+				<div class="relative flex text-slate-400 text-sm leading-6">
+						<div class="mt-2 flex-none dark:text-sky-300 text-slate-800 border-t border-b border-t-transparent border-b-slate-600 dark:border-b-sky-300 px-4 py-1 flex items-center">
+								language:$2
+						</div>
+						<div class="flex-auto flex pt-2 rounded-tr-xl overflow-hidden">
+								<div class="flex-auto -mr-px bg-slate-100 dark:bg-slate-700/50 border border-slate-500/30 rounded-tl">
+								</div>
+						</div>
+						<div class="absolute top-2 right-0 h-8 flex items-center pr-4">
+								<div class="relative flex -mr-2">
+								<span class="copycontent"/>
+								</div>
+						</div>
+				</div>
+	<div class="highlight p-4  text-sm  overflow-x-auto  text-slate-800 dark:text-slate-200
+							scrollbar-thin  scrollbar-thumb-rounded-md scrollbar-track-rounded-md
+							scrollbar-track-white scrollbar-thumb-slate-200 
+							dark:scrollbar-track-slate-800 dark:scrollbar-thumb-slate-500
+	"><pre><code><span class="flex"><span class="whitespace-pre select-none mr-1.5 px-1.5 text-[#7f7f7f]"> 1</span><span class="cl"><span class="dark:text-[#BB80B3] text-[#a90d91]">def</span> <span class="dark:text-[#82AAFF] text-[#000000]">layernorm</span><span class="dark:text-[#89DDFF]">(</span><span class="dark:text-[#EEFFFF] text-[#000000]">x</span><span class="dark:text-[#89DDFF]">):</span>
+</span></span><span class="flex"><span class="whitespace-pre select-none mr-1.5 px-1.5 text-[#7f7f7f]"> 2</span><span class="cl">    <span class="dark:text-[#C3E88D] text-[#c41a16]">&#34;&#34;&#34;
+</span></span></span><span class="flex"><span class="whitespace-pre select-none mr-1.5 px-1.5 text-[#7f7f7f]"> 3</span><span class="cl"><span class="dark:text-[#C3E88D] text-[#c41a16]">    x.shape:b,dim
+</span></span></span><span class="flex"><span class="whitespace-pre select-none mr-1.5 px-1.5 text-[#7f7f7f]"> 4</span><span class="cl"><span class="dark:text-[#C3E88D] text-[#c41a16]">    &#34;&#34;&#34;</span>
+</span></span><span class="flex"><span class="whitespace-pre select-none mr-1.5 px-1.5 text-[#7f7f7f]"> 5</span><span class="cl">    <span class="dark:text-[#546E7A] text-[#177500]">####维度交换</span>
+</span></span><span class="flex"><span class="whitespace-pre select-none mr-1.5 px-1.5 text-[#7f7f7f]"> 6</span><span class="cl">    <span class="dark:text-[#EEFFFF] text-[#000000]">x</span><span class="dark:text-[#89DDFF] text-[#000000]">=</span><span class="dark:text-[#EEFFFF] text-[#000000]">x</span><span class="dark:text-[#89DDFF] text-[#000000]">.</span><span class="dark:text-[#EEFFFF] text-[#000000]">transpose</span><span class="dark:text-[#89DDFF]">(</span><span class="dark:text-[#F78C6C] text-[#1c01ce]">1</span><span class="dark:text-[#89DDFF]">,</span><span class="dark:text-[#F78C6C] text-[#1c01ce]">0</span><span class="dark:text-[#89DDFF]">)</span>
+</span></span><span class="flex"><span class="whitespace-pre select-none mr-1.5 px-1.5 text-[#7f7f7f]"> 7</span><span class="cl">    <span class="dark:text-[#EEFFFF] text-[#000000]">mu</span><span class="dark:text-[#89DDFF] text-[#000000]">=</span><span class="dark:text-[#EEFFFF] text-[#000000]">np</span><span class="dark:text-[#89DDFF] text-[#000000]">.</span><span class="dark:text-[#EEFFFF] text-[#000000]">sum</span><span class="dark:text-[#89DDFF]">(</span><span class="dark:text-[#EEFFFF] text-[#000000]">x</span><span class="dark:text-[#89DDFF]">,</span><span class="dark:text-[#F78C6C] text-[#1c01ce]">0</span><span class="dark:text-[#89DDFF]">)</span><span class="dark:text-[#89DDFF] text-[#000000]">/</span><span class="dark:text-[#EEFFFF] text-[#000000]">x</span><span class="dark:text-[#89DDFF] text-[#000000]">.</span><span class="dark:text-[#EEFFFF] text-[#000000]">shape</span><span class="dark:text-[#89DDFF]">[</span><span class="dark:text-[#F78C6C] text-[#1c01ce]">0</span><span class="dark:text-[#89DDFF]">]</span>
 </span></span><span class="flex"><span class="whitespace-pre select-none mr-1.5 px-1.5 text-[#7f7f7f]"> 8</span><span class="cl">
-</span></span><span class="flex"><span class="whitespace-pre select-none mr-1.5 px-1.5 text-[#7f7f7f]"> 9</span><span class="cl">  <span class="dark:text-[#BB80B3] text-[#a90d91]">if</span> <span class="vm">__name__</span> <span class="dark:text-[#89DDFF] text-[#000000]">==</span> <span class="dark:text-[#C3E88D] text-[#c41a16]">&#34;__main__&#34;</span><span class="dark:text-[#89DDFF]">:</span>
-</span></span><span class="flex"><span class="whitespace-pre select-none mr-1.5 px-1.5 text-[#7f7f7f]">10</span><span class="cl">    <span class="dark:text-[#EEFFFF] text-[#000000]">a</span><span class="dark:text-[#89DDFF] text-[#000000]">=</span> <span class="dark:text-[#EEFFFF] text-[#000000]">np</span><span class="dark:text-[#89DDFF] text-[#000000]">.</span><span class="dark:text-[#EEFFFF] text-[#000000]">array</span><span class="dark:text-[#89DDFF]">([</span><span class="dark:text-[#F78C6C] text-[#1c01ce]">2</span><span class="dark:text-[#89DDFF]">,</span><span class="dark:text-[#F78C6C] text-[#1c01ce]">3</span><span class="dark:text-[#89DDFF]">,</span><span class="dark:text-[#F78C6C] text-[#1c01ce]">4</span><span class="dark:text-[#89DDFF]">])</span>
-</span></span><span class="flex"><span class="whitespace-pre select-none mr-1.5 px-1.5 text-[#7f7f7f]">11</span><span class="cl">    <span class="dark:text-[#EEFFFF] text-[#000000]">b</span><span class="dark:text-[#89DDFF] text-[#000000]">=</span><span class="dark:text-[#EEFFFF] text-[#000000]">np</span><span class="dark:text-[#89DDFF] text-[#000000]">.</span><span class="dark:text-[#EEFFFF] text-[#000000]">array</span><span class="dark:text-[#89DDFF]">([</span><span class="dark:text-[#F78C6C] text-[#1c01ce]">5</span><span class="dark:text-[#89DDFF]">,</span><span class="dark:text-[#F78C6C] text-[#1c01ce]">6</span><span class="dark:text-[#89DDFF]">,</span><span class="dark:text-[#F78C6C] text-[#1c01ce]">7</span><span class="dark:text-[#89DDFF]">])</span>
-</span></span><span class="flex"><span class="whitespace-pre select-none mr-1.5 px-1.5 text-[#7f7f7f]">12</span><span class="cl">    <span class="dark:text-[#EEFFFF] text-[#000000]">e</span><span class="dark:text-[#89DDFF] text-[#000000]">=</span><span class="dark:text-[#EEFFFF] text-[#000000]">func</span><span class="dark:text-[#89DDFF]">(</span><span class="dark:text-[#EEFFFF] text-[#000000]">a</span><span class="dark:text-[#89DDFF]">,</span><span class="dark:text-[#EEFFFF] text-[#000000]">b</span><span class="dark:text-[#89DDFF]">)</span>
-</span></span><span class="flex"><span class="whitespace-pre select-none mr-1.5 px-1.5 text-[#7f7f7f]">13</span><span class="cl">    <span class="dark:text-[#82AAFF] text-[#a90d91]">print</span><span class="dark:text-[#89DDFF]">(</span><span class="dark:text-[#EEFFFF] text-[#000000]">e</span><span class="dark:text-[#89DDFF]">)</span>
-</span></span></code></pre></div></div><h2 class='text-2xl font-extrabold text-slate-900 tracking-tight dark:text-slate-200  py-2' id="heading-10">第三章</h2>
-<ul class='list-disc  text-base text-slate-800 dark:text-slate-300  pl-4'>
-<li>list 1 my list
-<ul class='list-disc  text-base text-slate-800 dark:text-slate-300  pl-4'>
-<li>list 1.1 hello work</li>
-<li>list 1.2 hello world</li>
-</ul>
-</li>
-</ul>
-<ol class='list-decimal text-base text-slate-800 dark:text-slate-300  pl-4'>
-<li>lsit desic
-<ol class='list-decimal text-base text-slate-800 dark:text-slate-300  pl-4'>
-<li>abc def</li>
-<li>safs asdf</li>
-<li>sdaf s daf a</li>
-</ol>
-</li>
-</ol>
-<h2 class='text-2xl font-extrabold text-slate-900 tracking-tight dark:text-slate-200  py-2' id="heading-11">第四章</h2>
-<h3 class='text-xl  font-extrabold	text-slate-900 tracking-tight dark:text-slate-200  py-1.5' id="math-span">math span</h3>
-<p class='my-2 indent-8 text-base  text-slate-900 dark:text-slate-200'>this is a span math:<span class="math inline">\(A_i+B_i\)</span></p>
-<h3 class='text-xl  font-extrabold	text-slate-900 tracking-tight dark:text-slate-200  py-1.5' id="math-block">math block</h3>
-<p class='my-2 indent-8 text-base  text-slate-900 dark:text-slate-200'>this is a math block:</p>
-<p><span class="math display">\[  A_i+B_i
+</span></span><span class="flex"><span class="whitespace-pre select-none mr-1.5 px-1.5 text-[#7f7f7f]"> 9</span><span class="cl">    <span class="dark:text-[#EEFFFF] text-[#000000]">var</span><span class="dark:text-[#89DDFF] text-[#000000]">=</span><span class="dark:text-[#F78C6C] text-[#1c01ce]">0</span>
+</span></span><span class="flex"><span class="whitespace-pre select-none mr-1.5 px-1.5 text-[#7f7f7f]">10</span><span class="cl">    <span class="dark:text-[#BB80B3] text-[#a90d91]">for</span> <span class="dark:text-[#EEFFFF] text-[#000000]">i</span> <span class="ow">in</span> <span class="dark:text-[#82AAFF] text-[#a90d91]">range</span><span class="dark:text-[#89DDFF]">(</span><span class="dark:text-[#82AAFF] text-[#a90d91]">len</span><span class="dark:text-[#89DDFF]">(</span><span class="dark:text-[#EEFFFF] text-[#000000]">x</span><span class="dark:text-[#89DDFF]">)):</span>
+</span></span><span class="flex"><span class="whitespace-pre select-none mr-1.5 px-1.5 text-[#7f7f7f]">11</span><span class="cl">        <span class="dark:text-[#EEFFFF] text-[#000000]">var</span><span class="dark:text-[#89DDFF] text-[#000000]">+=</span><span class="dark:text-[#89DDFF]">(</span><span class="dark:text-[#EEFFFF] text-[#000000]">x</span><span class="dark:text-[#89DDFF]">[</span><span class="dark:text-[#EEFFFF] text-[#000000]">i</span><span class="dark:text-[#89DDFF]">]</span><span class="dark:text-[#89DDFF] text-[#000000]">-</span><span class="dark:text-[#EEFFFF] text-[#000000]">mu</span><span class="dark:text-[#89DDFF]">)</span><span class="dark:text-[#89DDFF] text-[#000000]">*</span><span class="dark:text-[#89DDFF]">(</span><span class="dark:text-[#EEFFFF] text-[#000000]">x</span><span class="dark:text-[#89DDFF]">[</span><span class="dark:text-[#EEFFFF] text-[#000000]">i</span><span class="dark:text-[#89DDFF]">]</span><span class="dark:text-[#89DDFF] text-[#000000]">-</span><span class="dark:text-[#EEFFFF] text-[#000000]">mu</span><span class="dark:text-[#89DDFF]">)</span> 
+</span></span><span class="flex"><span class="whitespace-pre select-none mr-1.5 px-1.5 text-[#7f7f7f]">12</span><span class="cl">    <span class="dark:text-[#EEFFFF] text-[#000000]">var</span><span class="dark:text-[#89DDFF] text-[#000000]">=</span><span class="dark:text-[#EEFFFF] text-[#000000]">var</span><span class="dark:text-[#89DDFF] text-[#000000]">/</span><span class="dark:text-[#EEFFFF] text-[#000000]">x</span><span class="dark:text-[#89DDFF] text-[#000000]">.</span><span class="dark:text-[#EEFFFF] text-[#000000]">shape</span><span class="dark:text-[#89DDFF]">[</span><span class="dark:text-[#F78C6C] text-[#1c01ce]">0</span><span class="dark:text-[#89DDFF]">]</span>
+</span></span><span class="flex"><span class="whitespace-pre select-none mr-1.5 px-1.5 text-[#7f7f7f]">13</span><span class="cl">    <span class="dark:text-[#EEFFFF] text-[#000000]">e</span><span class="dark:text-[#89DDFF] text-[#000000]">=</span><span class="dark:text-[#F78C6C] text-[#1c01ce]">0.000000001</span>
+</span></span><span class="flex"><span class="whitespace-pre select-none mr-1.5 px-1.5 text-[#7f7f7f]">14</span><span class="cl">    <span class="dark:text-[#BB80B3] text-[#a90d91]">return</span> <span class="dark:text-[#89DDFF]">(</span><span class="dark:text-[#EEFFFF] text-[#000000]">x</span><span class="dark:text-[#89DDFF] text-[#000000]">-</span><span class="dark:text-[#EEFFFF] text-[#000000]">mu</span><span class="dark:text-[#89DDFF]">)</span><span class="dark:text-[#89DDFF] text-[#000000]">/</span><span class="dark:text-[#89DDFF]">(</span><span class="dark:text-[#EEFFFF] text-[#000000]">np</span><span class="dark:text-[#89DDFF] text-[#000000]">.</span><span class="dark:text-[#EEFFFF] text-[#000000]">sqrt</span><span class="dark:text-[#89DDFF]">(</span><span class="dark:text-[#EEFFFF] text-[#000000]">var</span><span class="dark:text-[#89DDFF]">)</span><span class="dark:text-[#89DDFF] text-[#000000]">+</span><span class="dark:text-[#EEFFFF] text-[#000000]">e</span><span class="dark:text-[#89DDFF]">)</span>
+</span></span><span class="flex"><span class="whitespace-pre select-none mr-1.5 px-1.5 text-[#7f7f7f]">15</span><span class="cl"><span class="dark:text-[#EEFFFF] text-[#000000]">layernorm</span><span class="dark:text-[#89DDFF]">(</span><span class="dark:text-[#EEFFFF] text-[#000000]">x</span><span class="dark:text-[#89DDFF]">)</span><span class="dark:text-[#89DDFF] text-[#000000]">.</span><span class="dark:text-[#EEFFFF] text-[#000000]">shape</span>
+</span></span></code></pre></div></div><pre><code>(4, 10)
+</code></pre>
+<h3 class='text-xl  font-extrabold	text-slate-900 tracking-tight dark:text-slate-200  py-1.5' id="heading">正则化</h3>
+<p class='my-2 indent-8 text-base  text-slate-900 dark:text-slate-200'>L1,L2，
+正则化:<span class="math inline">\(loss=(lossold+a*||w||^2_2)\)</span>
+考虑梯度更新:dw=dw_old+a<em>2</em>w;
+更新时w_new=w_old-k*dw</p>
+<p class='my-2 indent-8 text-base  text-slate-900 dark:text-slate-200'><img src="./assets/regu.png" alt="Figure [robot]: Gelu">
+为啥 正则化降低过拟合(高方差),考虑线性拟合，正则化对权重做了限制（比如取值0，网络结构缩小，高级拟合变低级拟合），防止过学习细节。</p>
+<p class='my-2 indent-8 text-base  text-slate-900 dark:text-slate-200'>考虑正则化项的权重参数a:
+考虑tanh 激活函数， a设置过大，会导致w小，tanh的取值是接近线性部分，也就是没有激活函数，也就是只有一层线性层，欠拟合。；a设置的小，w取得大，tanh接近0，也就是没有激活函数，也就是只有一层线性层，欠拟合。</p>
+<h2 class='text-2xl font-extrabold text-slate-900 tracking-tight dark:text-slate-200  py-2' id="2---l2-regularization">2 - L2 Regularization</h2>
+<p class='my-2 indent-8 text-base  text-slate-900 dark:text-slate-200'>The standard way to avoid overfitting is called <strong>L2 regularization</strong>. It consists of appropriately modifying your cost function, from:</p>
+<p><span class="math display">\[To:
+$$J_{regularized} = \small \underbrace{-\frac{1}{m} \sum\limits_{i = 1}^{m} \large{(}\small y^{(i)}\log\left(a^{[L](i)}\right) + (1-y^{(i)})\log\left(1- a^{[L](i)}\right) \large{)} }_\text{cross-entropy cost} + \underbrace{\frac{1}{m} \frac{\lambda}{2} \sum\limits_l\sum\limits_k\sum\limits_j W_{k,j}^{[l]2} }_\text{L2 regularization cost} \tag{2}$$
+
+Let's modify your cost and observe the consequences.
+
+**Exercise**: Implement `compute_cost_with_regularization()` which computes the cost given by formula (2). To calculate $\sum\limits_k\sum\limits_j W_{k,j}^{[l]2}$  , use :
+```python
+np.sum(np.square(Wl))
+```
+Note that you have to do this for $W^{[1]}$, $W^{[2]}$ and $W^{[3]}$, then sum the three terms and multiply by $ \frac{1}{m} \frac{\lambda}{2} $.
+
+### dropout
+防止过拟合的原因；可以认为dropout 使得模型结构每次都不一样；类似于baging
+
+训练时采用，测试时不采用；
+前向传播，使得一部分神经元失活D，反向传播同样da *D;D是0,1矩阵
+
+## 3 - Dropout
+
+Finally, **dropout** is a widely used regularization technique that is specific to deep learning. 
+**It randomly shuts down some neurons in each iteration.** Watch these two videos to see what this means!
+
+<!--
+To understand drop-out, consider this conversation with a friend:
+- Friend: "Why do you need all these neurons to train your network and classify images?". 
+- You: "Because each neuron contains a weight and can learn specific features/details/shape of an image. The more neurons I have, the more featurse my model learns!"
+- Friend: "I see, but are you sure that your neurons are learning different features and not all the same features?"
+- You: "Good point... Neurons in the same layer actually don't talk to each other. It should be definitly possible that they learn the same image features/shapes/forms/details... which would be redundant. There should be a solution."
+!--> 
+
+
+<center>
+<video width="620" height="440" src="images/dropout1_kiank.mp4" type="video/mp4" controls>
+</video>
+</center>
+<br>
+<caption><center> <u> Figure 2 </u>: Drop-out on the second hidden layer. <br> At each iteration, you shut down (= set to zero) each neuron of a layer with probability $1 - keep\_prob$ or keep it with probability $keep\_prob$ (50% here). The dropped neurons don't contribute to the training in both the forward and backward propagations of the iteration. </center></caption>
+
+<center>
+<video width="620" height="440" src="images/dropout2_kiank.mp4" type="video/mp4" controls>
+</video>
+</center>
+
+<caption><center> <u> Figure 3 </u>: Drop-out on the first and third hidden layers. <br> $1^{st}$ layer: we shut down on average 40% of the neurons.  $3^{rd}$ layer: we shut down on average 20% of the neurons. </center></caption>
+
+
+When you shut some neurons down, you actually modify your model. The idea behind drop-out is that at each iteration, you train a different model that uses only a subset of your neurons. With dropout, your neurons thus become less sensitive to the activation of one other specific neuron, because that other neuron might be shut down at any time. 
+
+### 3.1 - Forward propagation with dropout
+
+**Exercise**: Implement the forward propagation with dropout. You are using a 3 layer neural network, and will add dropout to the first and second hidden layers. We will not apply dropout to the input layer or output layer. 
+
+**Instructions**:
+You would like to shut down some neurons in the first and second layers. To do that, you are going to carry out 4 Steps:
+1. In lecture, we dicussed creating a variable $d^{[1]}$ with the same shape as $a^{[1]}$ using `np.random.rand()` to randomly get numbers between 0 and 1. Here, you will use a vectorized implementation, so create a random matrix $D^{[1]} = [d^{[1](1)} d^{[1](2)} ... d^{[1](m)}] $ of the same dimension as $A^{[1]}$.
+2. Set each entry of $D^{[1]}$ to be 1 with probability (`keep_prob`), and 0 otherwise.
+
+**Hint:** Let's say that keep_prob = 0.8, which means that we want to keep about 80% of the neurons and drop out about 20% of them.  We want to generate a vector that has 1's and 0's, where about 80% of them are 1 and about 20% are 0.
+This python statement:  
+`X = (X < keep_prob).astype(int)`  
+
+is conceptually the same as this if-else statement (for the simple case of a one-dimensional array) :
+
+```
+for i,v in enumerate(x):
+    if v < keep_prob:
+        x[i] = 1
+    else: # v >= keep_prob
+        x[i] = 0
+```
+Note that the `X = (X < keep_prob).astype(int)` works with multi-dimensional arrays, and the resulting output preserves the dimensions of the input array.
+
+Also note that without using `.astype(int)`, the result is an array of booleans `True` and `False`, which Python automatically converts to 1 and 0 if we multiply it with numbers.  (However, it's better practice to convert data into the data type that we intend, so try using `.astype(int)`.)
+
+3. Set $A^{[1]}$ to $A^{[1]} * D^{[1]}$. (You are shutting down some neurons). You can think of $D^{[1]}$ as a mask, so that when it is multiplied with another matrix, it shuts down some of the values.
+4. Divide $A^{[1]}$ by `keep_prob`. By doing this you are assuring that the result of the cost will still have the same expected value as without drop-out. (This technique is also called inverted dropout.)
+
+### 3.2 - Backward propagation with dropout
+
+**Exercise**: Implement the backward propagation with dropout. As before, you are training a 3 layer network. Add dropout to the first and second hidden layers, using the masks $D^{[1]}$ and $D^{[2]}$ stored in the cache. 
+
+**Instruction**:
+Backpropagation with dropout is actually quite easy. You will have to carry out 2 Steps:
+1. You had previously shut down some neurons during forward propagation, by applying a mask $D^{[1]}$ to `A1`. In backpropagation, you will have to shut down the same neurons, by reapplying the same mask $D^{[1]}$ to `dA1`. 
+2. During forward propagation, you had divided `A1` by `keep_prob`. In backpropagation, you'll therefore have to divide `dA1` by `keep_prob` again (the calculus interpretation is that if $A^{[1]}$ is scaled by `keep_prob`, then its derivative $dA^{[1]}$ is also scaled by the same `keep_prob`).
+
+
+
+```python
+
+```
 \]</span></p>
-<p class='my-2 indent-8 text-base  text-slate-900 dark:text-slate-200'>done</p>
-<div class="mx-2 my-6" role="doc-endnotes">
-<hr>
-<ol class='list-decimal mt-1 text-base text-slate-800 dark:text-slate-300 py-2 pl-4'>
-<li id="footnote-fn:1">
-<p class='my-2 indent-8 text-base  text-slate-900 dark:text-slate-200'>汉羽本纪 汉典古籍[引用日期2021-03-16]&#160;<a href="#footnote-fnref:1" class="text-sky-400 px-0.5 hover:decoration-sky-500 hover:text-sky-500 hover:decoration-2" title="跳转引用内容" role="doc-backlink">^</a></p>
-</li>
-<li id="footnote-fn:2">
-<p class='my-2 indent-8 text-base  text-slate-900 dark:text-slate-200'>项羽本纪 汉典古籍[引用日期2021-03-16]&#160;<a href="#footnote-fnref:2" class="text-sky-400 px-0.5 hover:decoration-sky-500 hover:text-sky-500 hover:decoration-2" title="跳转引用内容" role="doc-backlink">^</a></p>
-</li>
-</ol>
-</div>

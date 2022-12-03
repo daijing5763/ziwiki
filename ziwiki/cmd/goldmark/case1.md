@@ -39,19 +39,19 @@
 ### Python 代码
 
 ```python
-  import pandas as pd
-  import numpy as np
+import pandas as pd
+import numpy as np
 
-  def func(a,b):
-    c=np.array([1,2,3,4,5,6.8])
-    a=b+c
-    return a
+def func(a,b):
+  c=np.array([1,2,3,4,5,6.8])
+  a=b+c
+  return a
 
-  if __name__ == "__main__":
-    a= np.array([2,3,4])
-    b=np.array([5,6,7])
-    e=func(a,b)
-    print(e)
+if __name__ == "__main__":
+  a= np.array([2,3,4])
+  b=np.array([5,6,7])
+  e=func(a,b)
+  print(e)
 ```
 
 ## 第三章
