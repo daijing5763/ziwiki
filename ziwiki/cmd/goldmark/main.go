@@ -16,7 +16,6 @@ import (
 
 	// "github.com/zdlpsina/ziwiki/html"
 	"github.com/zdlpsina/ziwiki/mdextensions"
-	"github.com/zdlpsina/ziwiki/wikirender"
 )
 
 func main() {
@@ -27,7 +26,7 @@ func main() {
 	}
 	// 自定义解析器
 	markdown := goldmark.New(
-		goldmark.WithRenderer(renderer.NewRenderer(renderer.WithNodeRenderers(util.Prioritized(wikirender.NewRenderer(), 1000)))),
+		goldmark.WithRenderer(renderer.NewRenderer(renderer.WithNodeRenderers(util.Prioritized(mdextensions.NewRenderer(), 1000)))),
 		// 支持 GFM
 		goldmark.WithExtensions(extension.GFM),
 		goldmark.WithExtensions(extension.NewCJK(extension.WithEastAsianLineBreaks(), extension.WithEscapedSpace())),

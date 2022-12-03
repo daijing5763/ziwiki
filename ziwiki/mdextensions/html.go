@@ -1,4 +1,4 @@
-package wikirender
+package mdextensions
 
 import (
 	"bytes"
