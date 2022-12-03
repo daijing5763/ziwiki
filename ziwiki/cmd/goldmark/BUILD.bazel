@@ -1,0 +1,13 @@
+load("@io_bazel_rules_go//go:def.bzl", "go_library")
+
+go_library(
+    name = "goldmark",
+    srcs = ["main.go"],
+    importpath = "github.com/zdlpsina/ziwiki/cmd/goldmark",
+    visibility = ["//visibility:public"],
+    deps = [
+        "@com_github_yuin_goldmark//:goldmark",
+        "@com_github_yuin_goldmark_highlighting//:go_default_library",
+        "@com_github_yuin_goldmark_highlighting_v2//:go_default_library",
+    ],
+)

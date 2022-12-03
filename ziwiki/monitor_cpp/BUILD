@@ -16,4 +16,3 @@ cc_binary(
         "//cmd/export_monitor:monitor_lib",
     ],
 )
-

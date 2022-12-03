@@ -8,6 +8,7 @@ go_library(
     visibility = ["//visibility:public"],
     deps = [
         "//db/sqlc",
+        "//postrender",
         "@com_github_88250_lute//:lute",
         "@com_github_lib_pq//:pq",
     ],
