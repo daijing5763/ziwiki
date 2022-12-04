@@ -80,7 +80,7 @@ const DEFAULT_CONFIG_BASE = {
     axisFormat: "%Y-%m-%d",
   },
 }
-function Mermaid({ graphDefinition}) {
+function MermaidCode({ graphDefinition}) {
   const [html, setHtml] = useState('');
   useEffect(() => {
     var themeDark = localStorage.getItem("themeDark");
@@ -133,4 +133,4 @@ function Mermaid({ graphDefinition}) {
   }, [graphDefinition]);
   return graphDefinition ? <div dangerouslySetInnerHTML={{ __html: html }} /> : null;
 }
-export default Mermaid;
+export default MermaidCode;

@@ -114,7 +114,7 @@ auth:-->bear_token
 post: 0.0.0.0:8080/repos
 json: -->body-->json
 {
-				"repo_name": "test"
+	"repo_name": "test"
 }
 ```
 

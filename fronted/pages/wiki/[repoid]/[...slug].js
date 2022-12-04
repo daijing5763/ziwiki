@@ -1,13 +1,14 @@
 
 import NavBar from "../../../components/navbar"
+import MermaidCode from "../../../mermaid"
 import { MathJaxContext,MathJax } from "better-react-mathjax";
 import React, { useState, useEffect } from 'react';
 import { getSession } from 'next-auth/react'
-import { MdDarkMode, MdLightMode ,MdLogin,MdMenu,MdClose,MdContentCopy} from "react-icons/md"
+import {MdContentCopy} from "react-icons/md"
 import SideBar from "../../../components/sidebar"
 import Search from "../../../components/search"
 import parse, { domToReact } from 'html-react-parser';
-import Mermaid from "../../../Mermaid";
+
 import { useRouter } from "next/router"
 const config = {
   loader: { load: ["[tex]/html"] },
@@ -117,7 +118,7 @@ const options = {
     }
     if (isContains(attribs.class,"mermaid")) {
       return (
-        <Mermaid graphDefinition={domToReact(children, options)}/>
+        <MermaidCode graphDefinition={domToReact(children, options)}/>
       );
     } else if (attribs.class === 'copycontent') {
       return (
