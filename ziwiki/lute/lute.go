@@ -77,15 +77,15 @@ func RenderMd(store db.Store, input_path string, mdtype int, UserID int64, RepoI
 		),
 		goldmark.WithExtensions(mathjax.MathJax),
 	)
-	markdown.Parser().AddOptions(parser.WithAutoHeadingID())
-	// markdown.Parser().AddOptions(
-	// 	parser.WithAutoHeadingID(),
-	// 	parser.WithASTTransformers(
-	// 		util.Prioritized(&toc.Transformer{
-	// 			Title: "Contents",
-	// 		}, 100),
-	// 	),
-	// )
+	// markdown.Parser().AddOptions(parser.WithAutoHeadingID())
+	markdown.Parser().AddOptions(
+		parser.WithAutoHeadingID(),
+		parser.WithASTTransformers(
+			util.Prioritized(&toc.Transformer{
+				Title: "Contents",
+			}, 100),
+		),
+	)
 
 	doc := markdown.Parser().Parse(text.NewReader(data))
 	tree, err := toc.Inspect(doc, data)
@@ -99,7 +99,7 @@ func RenderMd(store db.Store, input_path string, mdtype int, UserID int64, RepoI
 	var t bytes.Buffer
 	// Render the Markdown list into HTML.
 	markdown.Renderer().Render(&t, data, treeList)
-
+	fmt.Println("mydebug===================:t", t.String())
 	var b bytes.Buffer
 	err = markdown.Convert(data, &b)
 	if err != nil {
