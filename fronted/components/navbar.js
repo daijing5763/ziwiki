@@ -38,7 +38,7 @@ return (
 <div  className="	sticky top-0 z-50 w-full backdrop-blur flex-none transition-colors 
   duration-500  lg:border-b lg:border-slate-900/10 
 bg-white/95 supports-backdrop-blur:bg-white/60 dark:border-slate-50/[0.06] dark:bg-transparent">  
-  <div className="flex flex-row justify-between items-center py-3 lg:py-4 border-b border-slate-900/10 lg:px-8 lg:border-0  mx-3 md:mx-4 dark:border-slate-300/10 ">
+  <div className="flex flex-row justify-between items-center py-2 lg:py-3 border-b border-slate-900/10 lg:px-8 lg:border-0  mx-3 md:mx-4 dark:border-slate-300/10 ">
     <div className="flex flex-row items-center ">
       <RiMenuLine className={`${NavBarOpen && "hidden"} mr-2 md:mr-3 block w-7 h-7  dark:text-slate-200  hover:text-sky-500  cursor-pointer`} onClick={() => { localStorage.setItem('NavBarOpen', JSON.stringify(!NavBarOpen));setNavBarOpen(!NavBarOpen); }} />
       <RiMenu4Line className={`${!NavBarOpen && "hidden"} mr-2 md:mr-3 block w-7 h-7  dark:text-slate-200  hover:text-sky-500  cursor-pointer`} onClick={() => { localStorage.setItem('NavBarOpen', JSON.stringify(!NavBarOpen)); setNavBarOpen(!NavBarOpen); }}  />
