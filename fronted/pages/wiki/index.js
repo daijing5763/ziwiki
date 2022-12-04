@@ -106,8 +106,8 @@ return (
                   <ul className="bg-slate-50 p-4 sm:px-8 sm:pt-6 sm:pb-8 lg:p-4 xl:px-8 xl:pt-6 xl:pb-8 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3  lg:grid-cols-5 xl:grid-cols-5 gap-4 text-sm leading-6 dark:bg-slate-900/40 dark:ring-1 dark:ring-white/5">
                       {repolist.map((repo,index) => (
                           <li key={index} className="group cursor-pointer rounded-md p-3 bg-white ring-1 ring-slate-200
-                          shadow-sm hover:bg-blue-500 hover:ring-blue-500 hover:shadow-md
-                        dark:bg-slate-700 dark:ring-0 dark:highlight-white/10 dark:hover:bg-blue-500">
+                          shadow-sm hover:bg-sky-500 hover:ring-sky-500 hover:shadow-md
+                        dark:bg-slate-700 dark:ring-0 dark:highlight-white/10 dark:hover:bg-slate-800">
 
                           <dl className="grid sm:block lg:grid xl:block grid-cols-1 grid-rows-4 items-center">
                           <Link href={"/wiki/"+repo.id+"/"}>

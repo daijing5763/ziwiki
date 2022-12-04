@@ -30,7 +30,7 @@ func (r *MathBlockRenderer) writeLines(w util.BufWriter, source []byte, n gast.N
 func (r *MathBlockRenderer) renderMathBlock(w util.BufWriter, source []byte, node gast.Node, entering bool) (gast.WalkStatus, error) {
 	n := node.(*MathBlock)
 	if entering {
-		_, _ = w.WriteString(`<div class="math display"><div class="overflow-x-auto overflow-y-hidden scrollbar-thin  scrollbar-thumb-rounded-md scrollbar-track-rounded-md scrollbar-track-white scrollbar-thumb-slate-200 dark:scrollbar-track-slate-800 dark:scrollbar-thumb-slate-500">` + r.startDelim)
+		_, _ = w.WriteString(`<div class="math display"><div class="overflow-x-auto overflow-y-hidden scrollbar-thin  scrollbar-thumb-rounded-md scrollbar-track-rounded-md">` + r.startDelim)
 		r.writeLines(w, source, n)
 	} else {
 		_, _ = w.WriteString(r.endDelim + `</div></div>` + "\n")

@@ -8,18 +8,18 @@ import (
 	mathjax "github.com/zdlpsina/ziwiki/mathjax"
 
 	"github.com/yuin/goldmark"
-	html "github.com/zdlpsina/ziwiki/chromahtml"
-
 	"github.com/yuin/goldmark/extension"
 	"github.com/yuin/goldmark/parser"
 	"github.com/yuin/goldmark/renderer"
+	"github.com/yuin/goldmark/text"
 	"github.com/yuin/goldmark/util"
+	html "github.com/zdlpsina/ziwiki/chromahtml"
 	highlighting "github.com/zdlpsina/ziwiki/highlight"
 	"github.com/zdlpsina/ziwiki/mdextensions"
 )
 
 func main() {
-	input_path := "./case0.md"
+	input_path := "./case4.md"
 	data, err := os.ReadFile(input_path)
 	if err != nil {
 		fmt.Println("err:", err)
@@ -53,17 +53,28 @@ func main() {
 		),
 		goldmark.WithExtensions(mathjax.MathJax),
 	)
+	markdown.Parser().AddOptions(parser.WithAutoHeadingID())
+	// markdown.Parser().AddOptions(
+	// 	parser.WithAutoHeadingID(),
+	// 	parser.WithASTTransformers(
+	// 		util.Prioritized(&toc.Transformer{
+	// 			Title: "Contents",
+	// 		}, 100),
+	// 	),
+	// )
 
-	markdown.Parser().AddOptions(
-		parser.WithAutoHeadingID(),
-		parser.WithASTTransformers(
-			util.Prioritized(&toc.Transformer{
-				Title: "Contents",
-			}, 100),
-		),
-	)
+	doc := markdown.Parser().Parse(text.NewReader(data))
+	tree, err := toc.Inspect(doc, data)
+	if err != nil {
+		panic(err)
+	}
+	// Render the tree as-is into a Markdown list.
+	treeList := toc.RenderList(tree)
 
-	f, err := os.Create("guide3.html")
+	// Render the Markdown list into HTML.
+	markdown.Renderer().Render(os.Stdout, data, treeList)
+
+	f, err := os.Create("guide0.html")
 	if err != nil {
 		panic(err)
 	}

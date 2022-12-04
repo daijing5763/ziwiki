@@ -15,7 +15,7 @@ type InlineMathRenderer struct {
 
 func (r *InlineMathRenderer) renderInlineMath(w util.BufWriter, source []byte, n ast.Node, entering bool) (ast.WalkStatus, error) {
 	if entering {
-		_, _ = w.WriteString(`<span class="overflow-x-auto  scrollbar-thin  scrollbar-thumb-rounded-md scrollbar-track-rounded-md  scrollbar-track-white scrollbar-thumb-slate-200 dark:scrollbar-track-slate-800 dark:scrollbar-thumb-slate-500"><span class="math inline">` + r.startDelim)
+		_, _ = w.WriteString(`<span class="overflow-x-auto  scrollbar-thin  scrollbar-thumb-rounded-md scrollbar-track-rounded-md"><span class="math inline">` + r.startDelim)
 		for c := n.FirstChild(); c != nil; c = c.NextSibling() {
 			segment := c.(*ast.Text).Segment
 			value := segment.Value(source)
