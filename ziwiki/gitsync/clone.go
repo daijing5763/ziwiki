@@ -23,3 +23,28 @@ func Clone(RootPath string, UserID string, RepoID string, RepoGit string, RepoUs
 	})
 	return err
 }
+
+func Pull(RootPath string, UserID string, RepoID string, RepoGit string, RepoUserName string, RepoAccessToken string) error {
+	directory := RootPath + UserID + "/" + RepoID + "/"
+	username := RepoUserName
+	password := RepoAccessToken
+	// We instantiate a new repository targeting the given path (the .git folder)
+	r, err := git.PlainOpen(directory)
+	if err != nil {
+		return err
+	}
+	// Get the working directory for the repository
+	w, err := r.Worktree()
+	if err != nil {
+		return err
+	}
+	// Pull the latest changes from the origin remote and merge into the current branch
+	err = w.Pull(&git.PullOptions{RemoteName: "origin", Auth: &http.BasicAuth{
+		Username: username,
+		Password: password,
+	}})
+	if err != nil {
+		return err
+	}
+	return err
+}

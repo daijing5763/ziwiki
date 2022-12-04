@@ -19,6 +19,19 @@ func TestCloneShouldOK(t *testing.T) {
 	require.NoError(t, err)
 }
 
+func TestPullShouldOK(t *testing.T) {
+	RootPath := "/tmp/wiki/"
+	UserID := util.RandomInt(1, 10000)
+	RepoID := util.RandomInt(1, 10000)
+	RepoGit := "https://gitee.com/zizdlp/ziwiki.git"
+	RepoUserName := "zizdlp"
+	RepoAccessToken := "zzz123"
+	err := Clone(RootPath, strconv.FormatInt(UserID, 10), strconv.FormatInt(RepoID, 10), RepoGit, RepoUserName, RepoAccessToken)
+	require.NoError(t, err)
+	err = Pull(RootPath, strconv.FormatInt(UserID, 10), strconv.FormatInt(RepoID, 10), RepoGit, RepoUserName, RepoAccessToken)
+	require.NoError(t, err)
+}
+
 func TestCloneShouldError(t *testing.T) {
 	RootPath := "/tmp/wiki/"
 	UserID := util.RandomInt(1, 10000)

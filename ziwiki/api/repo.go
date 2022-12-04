@@ -120,3 +120,40 @@ func (server *Server) listRepos(ctx *gin.Context) {
 
 	ctx.JSON(http.StatusOK, repos)
 }
+
+type pullRepoRequest struct {
+	RepoID int64 `json:"repo_id" binding:"required"`
+}
+
+func (server *Server) pullRepo(ctx *gin.Context) {
+	var req pullRepoRequest
+	if err := ctx.ShouldBindJSON(&req); err != nil {
+		ctx.JSON(http.StatusBadRequest, errorResponse(err))
+		return
+	}
+	authPayload := ctx.MustGet(authorizationPayloadKey).(*token.Payload)
+
+	repo, err := server.store.GetRepo(ctx, req.RepoID)
+	if err != nil {
+		if err == sql.ErrNoRows {
+			ctx.JSON(http.StatusNotFound, errorResponse(err))
+			return
+		}
+		ctx.JSON(http.StatusInternalServerError, errorResponse(err))
+		return
+	}
+
+	if repo.UserID != authPayload.UserID {
+		err := errors.New("account doesn't belong to the authenticated user")
+		ctx.JSON(http.StatusUnauthorized, errorResponse(err))
+		return
+	}
+
+	err = gitsync.Pull("/tmp/wiki/", strconv.FormatInt(authPayload.UserID, 10), strconv.FormatInt(req.RepoID, 10), repo.RepoGit, repo.RepoUserName, repo.RepoAccessToken)
+	if err != nil {
+		ctx.JSON(http.StatusInternalServerError, errorResponse(err))
+		return
+	}
+	ctx.JSON(http.StatusOK, repo)
+
+}

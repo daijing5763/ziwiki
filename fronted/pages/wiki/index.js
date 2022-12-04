@@ -3,7 +3,7 @@ import { getSession } from 'next-auth/react'
 import PopNav from "../../components/popnav"
 import CreateRepo from '../../components/createrepo'
 import { Fragment, useRef, useState,useEffect } from 'react'
-import { AiFillGithub, AiFillGitlab ,AiFillDelete} from "react-icons/ai"
+import { AiFillGithub, AiFillGitlab ,AiFillDelete,AiOutlineDelete,AiOutlineSync,AiOutlineEdit} from "react-icons/ai"
 import { SiGitee } from "react-icons/si"
 
 export default ({ session }) => {
@@ -25,6 +25,22 @@ export default ({ session }) => {
       .then((data) => {
           console.log("mydebug:repolist is:",data)
           setrepolist(data);
+        })
+  }
+
+  async function syncRepo(values) {
+    const options = {
+      method: "POST",
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${session.access_token}`
+      },
+      body: JSON.stringify(values)
+    }
+    await fetch('http://0.0.0.0:8080/pull_repo', options)
+        .then(res => res.json())
+      .then((data) => {
+          console.log(data)
         })
   }
 
@@ -92,26 +108,34 @@ return (
                           <li key={index} className="group cursor-pointer rounded-md p-3 bg-white ring-1 ring-slate-200
                           shadow-sm hover:bg-blue-500 hover:ring-blue-500 hover:shadow-md
                         dark:bg-slate-700 dark:ring-0 dark:highlight-white/10 dark:hover:bg-blue-500">
-                          <Link href={"/wiki/"+repo.id+"/"}>
-                          <dl className="grid sm:block lg:grid xl:block grid-cols-1 grid-rows-3 items-center">
 
-                          <div className="flex items-center">
+                          <dl className="grid sm:block lg:grid xl:block grid-cols-1 grid-rows-4 items-center">
+                          <Link href={"/wiki/"+repo.id+"/"}>
+                            <div className="flex items-center">
                               <AiFillGithub className={`w-12 h-12 p-2 ${repo.repo_from!="github" && "hidden"}` } />
                               <AiFillGitlab className={`w-12 h-12 p-2 ${repo.repo_from!="gitlab" && "hidden"}` } />
                               <SiGitee className={`w-12 h-12 p-2 ${repo.repo_from!="gitee" && "hidden"}` }/>
-                            <dd className="font-semibold text-xl text-slate-900 group-hover:text-white dark:text-slate-100">
-                              {repo.repo_name}
-                            </dd>
-                          </div>
-                          <div>
-                              <dd className="group-hover:text-blue-200 text-base">{repo.repo_describe}</dd>
-                          </div>
-                          <div className="col-start-2 row-start-1 row-end-3 sm:mt-4 lg:mt-0 xl:mt-4">
-                                <dd className="flex justify-end sm:justify-end lg:justify-end xl:justify-end -space-x-1.5">
+                              <dd className="font-semibold text-xl text-slate-900 group-hover:text-white dark:text-slate-100">
+                                {repo.repo_name}
                               </dd>
-                          </div>
-                          </dl>
+                            </div>
+                            <div>
+                                <dd className="group-hover:text-blue-200 text-base">{repo.repo_describe}</dd>
+                              </div>
                           </Link>
+                            <div className="col-start-2 row-start-1 row-end-3">
+                                <dd className="flex justify-end sm:justify-end lg:justify-end xl:justify-end -space-x-1.5">
+                                <AiOutlineDelete className={`w-9 h-9 p-2 `} />
+                                <Link href="#" onClick={()=>syncRepo( { "repo_id": repo.id  })}>
+                                  <AiOutlineSync className={`w-9 h-9 p-2 `} />
+                                </Link>
+                                  <AiOutlineEdit className={`w-9 h-9 p-2 ` } />
+                                </dd>
+                            </div>
+                            
+                          </dl>
+                        
+    
                           </li>
                       ))}
 
