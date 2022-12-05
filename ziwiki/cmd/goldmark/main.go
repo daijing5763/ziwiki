@@ -174,4 +174,5 @@ func main() {
 	}
 	html_list := t.String()
 	fmt.Println(html_list)
+	fmt.Println(b.String())
 }

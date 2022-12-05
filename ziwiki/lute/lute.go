@@ -41,11 +41,11 @@ func RenderMd(store db.Store, input_path string, mdtype int, UserID int64, RepoI
 	if err != nil {
 		fmt.Println(err)
 	}
-	list_buffer := RenderList(store, input_path, mdtype, UserID, RepoID)
-	if list_buffer != nil {
-		html_list := list_buffer.String()
-		RenderType(store, trim_path+".list", mdtype, html_list, UserID, RepoID)
-	}
+	// list_buffer := RenderList(store, input_path, mdtype, UserID, RepoID)
+	// if list_buffer != nil {
+	// 	html_list := list_buffer.String()
+	// 	RenderType(store, trim_path+".list", mdtype, html_list, UserID, RepoID)
+	// }
 
 	// luteEngine := lute.New() // 默认已经启用 GFM 支持以及中文语境优化
 	// luteEngine.SetCodeSyntaxHighlightInlineStyle(false)
@@ -82,6 +82,23 @@ func RenderMd(store db.Store, input_path string, mdtype int, UserID int64, RepoI
 		),
 		goldmark.WithExtensions(mathjax.MathJax),
 	)
+	markdown.Parser().AddOptions(parser.WithAutoHeadingID())
+
+	doc := markdown.Parser().Parse(text.NewReader(data))
+	tree, err := toc.Inspect(doc, data)
+	if err == nil {
+		treeList := toc.RenderList(tree)
+		if treeList != nil {
+			var list_buffer bytes.Buffer
+			// Render the Markdown list into HTML.
+			err = markdown.Renderer().Render(&list_buffer, data, treeList)
+			if err == nil {
+				html_list := list_buffer.String()
+				RenderType(store, trim_path+".list", mdtype, html_list, UserID, RepoID)
+			}
+		}
+	}
+
 	// markdown.Parser().AddOptions(
 	// 	parser.WithAutoHeadingID(),
 	// 	parser.WithASTTransformers(

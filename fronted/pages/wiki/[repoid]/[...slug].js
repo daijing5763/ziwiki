@@ -7,7 +7,7 @@ import { getSession, SessionContext } from 'next-auth/react'
 import {MdContentCopy} from "react-icons/md"
 import SideBar from "../../../components/sidebar"
 import Search from "../../../components/search"
-import parse, { domToReact } from 'html-react-parser';
+import parse, { domToReact, attributesToProps  } from 'html-react-parser';
 
 import { useRouter } from "next/router"
 const config = {
@@ -29,6 +29,7 @@ export default function Home({ session}) {
   const router = useRouter();
   const [layout, setlayout] = useState([]); 
   const [markdowntext, setmarkdown] = useState(''); 
+  const [markdownlist, setmarkdownlist] = useState(''); 
   
   async function getLayout(values) {
     const options = {
@@ -43,9 +44,11 @@ export default function Home({ session}) {
     await fetch('http://0.0.0.0:8080/get_markdown', options)
       .then(res => res.json())
       .then((data) => {
-        var myObject = JSON.parse(data.mdtext);
-      console.log("mydebug:layouts:",myObject['sublayouts'])
-      setlayout(myObject['sublayouts'])
+        if (data && !data.error) {
+          var myObject = JSON.parse(data.mdtext);
+          setlayout(myObject['sublayouts'])
+        }
+
     })
   }
 
@@ -62,7 +65,33 @@ export default function Home({ session}) {
     await fetch('http://0.0.0.0:8080/get_markdown', options)
       .then(res => res.json())
       .then((data) => {
-        setmarkdown(data.mdtext)
+        if (data && !data.error) {
+          setmarkdown(data.mdtext)
+        } else {
+          console.log(data)
+        }
+    })
+  }
+
+  async function getMarkdownList(values) {
+    const options = {
+      method: "POST",
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${session.access_token}`
+      },
+      body: JSON.stringify(values)
+    }
+
+    await fetch('http://0.0.0.0:8080/get_markdown', options)
+      .then(res => res.json())
+      .then((data) => {
+        if (data && !data.error) {
+          console.log(data.mdtext)
+          setmarkdownlist(data.mdtext)
+        } else {
+          console.log(data)
+        }
     })
   }
 
@@ -90,6 +119,10 @@ export default function Home({ session}) {
       "mdhref":slugs.join("/"),
       "repo_id":parseInt(router.query.repoid),
     });
+    getMarkdownList({
+      "mdhref":slugs.join("/")+".list",
+      "repo_id":parseInt(router.query.repoid),
+    });
   }, [router.query.slug]);
     
   useEffect(() => {
@@ -107,34 +140,54 @@ export default function Home({ session}) {
     } 
   return str.indexOf(substr) >= 0;
   }
-const options = {
-  replace: ({ attribs, children }) => {
-    if (!attribs) {
-      return;
+  const options = {
+    replace: ({ attribs, children }) => {
+      if (!attribs) {
+        return;
+      }
+  
+      if (attribs.id === 'main') {
+        return <h1 style={{ fontSize: 42 }}>{domToReact(children, options)}</h1>;
+      }
+      if (isContains(attribs.class,"mermaid")) {
+        return (
+          <MermaidCode graphDefinition={domToReact(children, options)}/>
+        );
+      } else if (attribs.class === 'copycontent') {
+        return (
+          <MdContentCopy className="w-6 h-6 cursor-pointer text-slate-600 dark:text-slate-300"/>
+        );
+      } else if (isContains(attribs.class,"math inline")) {
+        return (
+          <MathJax inline>{domToReact(children, options)}</MathJax>
+        )
+      }else if (isContains(attribs.class,"math display")) {
+        return (
+          <MathJax>{domToReact(children, options)}</MathJax>
+        )
+      }
     }
+  };
 
-    if (attribs.id === 'main') {
-      return <h1 style={{ fontSize: 42 }}>{domToReact(children, options)}</h1>;
+  
+  const options_list = {
+    replace: domNode => {
+      if (domNode.name === 'ul') {
+        return <ul className="text-slate-700 text-sm leading-6"  >{domToReact(domNode.children, options_list)}</ul>;
+      }
+      if (domNode.name === 'li') {
+        return <ul className="ml-4"  >{domToReact(domNode.children, options_list)}</ul>;
+      }
+      else if (domNode.name === 'a') {
+        const props = attributesToProps(domNode.attribs);
+        return <a {...props} className="group flex items-start py-1 hover:text-sky-500 dark:text-slate-400 dark:hover:text-sky-500"  >
+          <svg width="3" height="24" viewBox="0 -9 3 24" className="mr-2 text-slate-400 overflow-visible group-hover:text-slate-600 dark:text-slate-600 dark:group-hover:text-slate-500">
+            <path d="M0 0L3 3L0 6" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round"></path>
+          </svg>
+          {domToReact(domNode.children, options_list)}</a>;
+      }
     }
-    if (isContains(attribs.class,"mermaid")) {
-      return (
-        <MermaidCode graphDefinition={domToReact(children, options)}/>
-      );
-    } else if (attribs.class === 'copycontent') {
-      return (
-        <MdContentCopy className="w-6 h-6 cursor-pointer text-slate-600 dark:text-slate-300"/>
-      );
-    } else if (isContains(attribs.class,"math inline")) {
-      return (
-        <MathJax inline>{domToReact(children, options)}</MathJax>
-      )
-    }else if (isContains(attribs.class,"math display")) {
-      return (
-        <MathJax>{domToReact(children, options)}</MathJax>
-      )
-    }
-  }
-};
+  };
 
   
   
@@ -152,7 +205,7 @@ return (
       <SideBar repo_id={parseInt(router.query.repoid)} access_token={session.access_token} layout={layout} SideBarIndex={SideBarIndex} setSideBarIndex={setSideBarIndex}/>
     </div>
 
-    <div className={`overflow-hidden ${NavBarOpen?'lg:pl-[20rem]':'px-4 pb-6'}` } >
+    <div className={`overflow-hidden ${NavBarOpen?'lg:pl-[20rem] lg:pr-[20rem]':'px-4 pb-6'}` } >
       <div className=" mx-auto relative z-5 pt-10  ">
         <div className="mb-16 md:flex items-center justify-center">
           <div className="flex-auto max-w-2xl">
@@ -163,6 +216,34 @@ return (
         </div>
       </div>
     </div>
+      
+
+      
+
+
+
+
+
+
+      <div className="fixed z-20 top-[3.8125rem] bottom-0 right-[max(0px,calc(50%-45rem))] w-[19.5rem] py-10 overflow-y-auto hidden xl:block">
+        <div className="px-8">
+          <h5 className="text-slate-900 font-semibold mb-4 text-sm leading-6 dark:text-slate-100">
+            本页目录
+          </h5>
+          {parse(markdownlist,options_list)}
+        </div>
+      </div>
+
+
+
+
+
+
+
+
+
+
+
   </div>
   {useSearch && <Search useSearch={useSearch} setUseSearch={setUseSearch} /> }
 </div>
