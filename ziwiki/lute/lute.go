@@ -23,7 +23,6 @@ import (
 )
 import (
 	"bytes"
-	"log"
 	"strings"
 
 	toc "github.com/abhinav/goldmark-toc"
@@ -42,6 +41,12 @@ func RenderMd(store db.Store, input_path string, mdtype int, UserID int64, RepoI
 	if err != nil {
 		fmt.Println(err)
 	}
+	list_buffer := RenderList(store, input_path, mdtype, UserID, RepoID)
+	if list_buffer != nil {
+		html_list := list_buffer.String()
+		RenderType(store, trim_path+".list", mdtype, html_list, UserID, RepoID)
+	}
+
 	// luteEngine := lute.New() // 默认已经启用 GFM 支持以及中文语境优化
 	// luteEngine.SetCodeSyntaxHighlightInlineStyle(false)
 	// luteEngine.SetCodeSyntaxHighlightDetectLang(true)
@@ -77,36 +82,26 @@ func RenderMd(store db.Store, input_path string, mdtype int, UserID int64, RepoI
 		),
 		goldmark.WithExtensions(mathjax.MathJax),
 	)
-	// markdown.Parser().AddOptions(parser.WithAutoHeadingID())
-	markdown.Parser().AddOptions(
-		parser.WithAutoHeadingID(),
-		parser.WithASTTransformers(
-			util.Prioritized(&toc.Transformer{
-				Title: "Contents",
-			}, 100),
-		),
-	)
+	// markdown.Parser().AddOptions(
+	// 	parser.WithAutoHeadingID(),
+	// 	parser.WithASTTransformers(
+	// 		util.Prioritized(&toc.Transformer{
+	// 			Title: "Contents",
+	// 		}, 100),
+	// 	),
+	// )
 
-	doc := markdown.Parser().Parse(text.NewReader(data))
-	tree, err := toc.Inspect(doc, data)
-	if err != nil {
-		panic(err)
-	}
-	// Render the tree as-is into a Markdown list.
-	treeList := toc.RenderList(tree)
-
-	// Table content
-	var t bytes.Buffer
-	// Render the Markdown list into HTML.
-	markdown.Renderer().Render(&t, data, treeList)
-	fmt.Println("mydebug===================:t", t.String())
 	var b bytes.Buffer
 	err = markdown.Convert(data, &b)
 	if err != nil {
-		panic(err)
+		fmt.Println("error:", err)
+		return
 	}
 	html := b.String()
-	html_list := t.String()
+	RenderType(store, trim_path, mdtype, html, UserID, RepoID)
+}
+
+func RenderType(store db.Store, trim_path string, mdtype int, html string, UserID int64, RepoID int64) {
 	if mdtype == 0 {
 		// create
 		arg := db.CreateMarkdownParams{
@@ -115,26 +110,12 @@ func RenderMd(store db.Store, input_path string, mdtype int, UserID int64, RepoI
 			RepoID: RepoID,
 			Mdtext: html,
 		}
-		log.Printf("mydebug: create:%s", input_path)
 		Markdown, err := store.CreateMarkdown(context.Background(), arg)
 		_ = Markdown
 		if err != nil {
 			fmt.Println(err)
 		}
 
-		// list
-		arg_list := db.CreateMarkdownParams{
-			Mdhref: trim_path + ".list",
-			UserID: UserID,
-			RepoID: RepoID,
-			Mdtext: html_list,
-		}
-		log.Printf("mydebug: create list:%s", input_path)
-		Markdown_list, err := store.CreateMarkdown(context.Background(), arg_list)
-		_ = Markdown_list
-		if err != nil {
-			fmt.Println(err)
-		}
 	} else if mdtype == 1 {
 		//edit
 		arg := db.UpdateMarkdownParams{
@@ -143,28 +124,14 @@ func RenderMd(store db.Store, input_path string, mdtype int, UserID int64, RepoI
 			UserID: UserID,
 			RepoID: RepoID,
 		}
-		log.Printf("mydebug: update:%s", input_path)
 		Markdown, err := store.UpdateMarkdown(context.Background(), arg)
 		_ = Markdown
 		if err != nil {
 			fmt.Println(err)
 		}
 
-		arg_list := db.UpdateMarkdownParams{
-			Mdhref: trim_path + ".list",
-			Mdtext: html_list,
-			UserID: UserID,
-			RepoID: RepoID,
-		}
-		log.Printf("mydebug: update:%s", input_path)
-		Markdown_list, err := store.UpdateMarkdown(context.Background(), arg_list)
-		_ = Markdown_list
-		if err != nil {
-			fmt.Println(err)
-		}
 	} else if mdtype == 2 {
 		//delete
-		log.Printf("mydebug: delete:%s", input_path)
 		arg := db.DeleteMarkdownParams{
 			Mdhref: trim_path,
 			UserID: UserID,
@@ -174,15 +141,32 @@ func RenderMd(store db.Store, input_path string, mdtype int, UserID int64, RepoI
 		if err != nil {
 			fmt.Println(err)
 		}
-
-		arg_list := db.DeleteMarkdownParams{
-			Mdhref: trim_path + ".list",
-			UserID: UserID,
-			RepoID: RepoID,
-		}
-		err = store.DeleteMarkdown(context.Background(), arg_list)
-		if err != nil {
-			fmt.Println(err)
-		}
 	}
+}
+
+func RenderList(store db.Store, input_path string, mdtype int, UserID int64, RepoID int64) *bytes.Buffer {
+	data, err := os.ReadFile(input_path)
+	if err != nil {
+		return nil
+	}
+	markdown := goldmark.New()
+	markdown.Parser().AddOptions(parser.WithAutoHeadingID())
+	doc := markdown.Parser().Parse(text.NewReader(data))
+	tree, err := toc.Inspect(doc, data)
+	if err != nil {
+		return nil
+	}
+	// Render the tree as-is into a Markdown list.
+	treeList := toc.RenderList(tree)
+	if treeList == nil {
+		return nil
+	}
+	// Table content
+	var t bytes.Buffer
+	// Render the Markdown list into HTML.
+	err = markdown.Renderer().Render(&t, data, treeList)
+	if err != nil {
+		panic(err)
+	}
+	return &t
 }

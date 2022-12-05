@@ -24,6 +24,7 @@ func main() {
 	data, err := os.ReadFile(input_path)
 	if err != nil {
 		fmt.Println("err:", err)
+		return
 	}
 	// // 自定义解析器
 	// markdown := goldmark.New(
@@ -100,6 +101,7 @@ func main() {
 	// print out the reason why it can't
 	if err != nil {
 		fmt.Println(err)
+		return
 	}
 	// luteEngine := lute.New() // 默认已经启用 GFM 支持以及中文语境优化
 	// luteEngine.SetCodeSyntaxHighlightInlineStyle(false)
@@ -147,24 +149,29 @@ func main() {
 	// )
 
 	doc := markdown.Parser().Parse(text.NewReader(data))
+
 	tree, err := toc.Inspect(doc, data)
 	if err != nil {
-		panic(err)
+		fmt.Println("mydebug:", err)
+		return
 	}
-	// Render the tree as-is into a Markdown list.
+	// // Render the tree as-is into a Markdown list.
 	treeList := toc.RenderList(tree)
-
 	// Table content
 	var t bytes.Buffer
 	// Render the Markdown list into HTML.
-	markdown.Renderer().Render(&t, data, treeList)
-	fmt.Println("mydebug===================:t", t.String())
+	if treeList == nil {
+		return
+	}
+	err = markdown.Renderer().Render(&t, data, treeList)
+	if err != nil {
+		return
+	}
 	var b bytes.Buffer
 	err = markdown.Convert(data, &b)
 	if err != nil {
-		panic(err)
+		return
 	}
-	// html := b.String()
 	html_list := t.String()
 	fmt.Println(html_list)
 }
