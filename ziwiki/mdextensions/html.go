@@ -526,7 +526,7 @@ func (r *Renderer) renderCodeSpan(w util.BufWriter, source []byte, n ast.Node, e
 			RenderAttributes(w, n, CodeAttributeFilter)
 			_ = w.WriteByte('>')
 		} else {
-			_, _ = w.WriteString("<code>")
+			_, _ = w.WriteString("<code class='dark:text-slate-200 text-stone-900'>")
 		}
 		for c := n.FirstChild(); c != nil; c = c.NextSibling() {
 			segment := c.(*ast.Text).Segment

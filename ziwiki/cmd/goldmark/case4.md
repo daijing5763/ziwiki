@@ -7,3 +7,14 @@
 ![rebot](rebot.jpeg)
 
 [link](http://example.com#fragment)
+
+```
+  def hello():
+    return hello
+```
+
+`asdfas` dsaf 
+
+```mermaid
+  hhhh
+```

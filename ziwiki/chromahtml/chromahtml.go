@@ -171,10 +171,10 @@ var (
 	defaultPreWrapper = preWrapper{
 		start: func(code bool, styleAttr string) string {
 			if code {
-				return fmt.Sprintf(`<div class="relative z-10 mx-2 my-6 col-span-3 dark:bg-slate-800 bg-white font-semibold rounded-md shadow-lg  ring-1 ring-black/10 dark:ring-1 dark:ring-white/10 dark:ring-inset">
+				return fmt.Sprintf(`<div class="relative z-10 mx-2 my-6 col-span-3 dark:bg-slate-800 bg-white font-base rounded-md shadow-lg  ring-1 ring-black/10 dark:ring-1 dark:ring-white/10 dark:ring-inset">
 				<div class="relative flex text-slate-400 text-sm leading-6">
 						<div class="mt-2 flex-none dark:text-sky-300 text-slate-800 border-t border-b border-t-transparent border-b-slate-600 dark:border-b-sky-300 px-4 py-1 flex items-center">
-								language:$2
+								language:code
 						</div>
 						<div class="flex-auto flex pt-2 rounded-tr-xl overflow-hidden">
 								<div class="flex-auto -mr-px bg-slate-100 dark:bg-slate-700/50 border border-slate-500/30 rounded-tl">
@@ -188,15 +188,13 @@ var (
 				</div>
 	<div class="highlight p-4  text-sm  overflow-x-auto  text-slate-800 dark:text-slate-200
 							scrollbar-thin  scrollbar-thumb-rounded-md scrollbar-track-rounded-md
-							scrollbar-track-white scrollbar-thumb-slate-200 
-							dark:scrollbar-track-slate-800 dark:scrollbar-thumb-slate-500
 	"><pre><code>`)
 			}
 
-			return fmt.Sprintf(`<div class="relative z-10 mx-2 my-6 col-span-3 dark:bg-slate-800 bg-white font-semibold rounded-md shadow-lg  ring-1 ring-black/10 dark:ring-1 dark:ring-white/10 dark:ring-inset">
+			return fmt.Sprintf(`<div class="relative z-10 mx-2 my-6 col-span-3 dark:bg-slate-800 bg-white font-base rounded-md shadow-lg  ring-1 ring-black/10 dark:ring-1 dark:ring-white/10 dark:ring-inset">
 			<div class="relative flex text-slate-400 text-sm leading-6">
 					<div class="mt-2 flex-none dark:text-sky-300 text-slate-800 border-t border-b border-t-transparent border-b-slate-600 dark:border-b-sky-300 px-4 py-1 flex items-center">
-							language:$2
+							languge:code
 					</div>
 					<div class="flex-auto flex pt-2 rounded-tr-xl overflow-hidden">
 							<div class="flex-auto -mr-px bg-slate-100 dark:bg-slate-700/50 border border-slate-500/30 rounded-tl">
@@ -210,8 +208,6 @@ var (
 			</div>
 <div class="highlight p-4  text-sm  overflow-x-auto  text-slate-800 dark:text-slate-200
 						scrollbar-thin  scrollbar-thumb-rounded-md scrollbar-track-rounded-md
-						scrollbar-track-white scrollbar-thumb-slate-200 
-						dark:scrollbar-track-slate-800 dark:scrollbar-thumb-slate-500
 "><pre>`)
 		},
 		end: func(code bool) string {
