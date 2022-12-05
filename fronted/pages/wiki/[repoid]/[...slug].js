@@ -10,6 +10,7 @@ import Search from "../../../components/search"
 import parse, { domToReact, attributesToProps  } from 'html-react-parser';
 
 import { useRouter } from "next/router"
+import { CLIENT_STATIC_FILES_RUNTIME_POLYFILLS_SYMBOL } from "next/dist/shared/lib/constants";
 const config = {
   loader: { load: ["[tex]/html"] },
   tex: {
@@ -87,7 +88,6 @@ export default function Home({ session}) {
       .then(res => res.json())
       .then((data) => {
         if (data && !data.error) {
-          console.log(data.mdtext)
           setmarkdownlist(data.mdtext)
         } else {
           console.log(data)
@@ -165,6 +165,20 @@ export default function Home({ session}) {
         return (
           <MathJax>{domToReact(children, options)}</MathJax>
         )
+      } else if (attribs.class == "image_link") {
+        const slugs = router.query.slug;
+        if (slugs && !attribs.src.startsWith('http')) {
+          const prefix="http://0.0.0.0:8080/static_get/1/"+router.query.repoid+"/"+slugs.slice(0,-1).join("/")+"/"+attribs.src
+          return (
+            <img className="px-3" src={prefix} />
+          )
+        } else {
+          return (
+            <img className="px-3" src={attribs.src} />
+          )
+        }
+        
+
       }
     }
   };

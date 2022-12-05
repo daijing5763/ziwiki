@@ -301,11 +301,11 @@ var BlockquoteAttributeFilter = GlobalAttributeFilter.Extend(
 func (r *Renderer) renderBlockquote(w util.BufWriter, source []byte, n ast.Node, entering bool) (ast.WalkStatus, error) {
 	if entering {
 		if n.Attributes() != nil {
-			_, _ = w.WriteString("<blockquote class='border-l-8 px-2  my-3 mx-1 indent-8  py-0.5 border-sky-500 bg-slate-100 dark:bg-slate-800 rounded-md'")
+			_, _ = w.WriteString("<blockquote class='border-l-8 px-2  my-3 mx-1 indent-8  py-0.5 border-sky-500 bg-slate-100 dark:bg-slate-800 rounded-md ring-1 ring-slate-900/10 shadow-sm'")
 			RenderAttributes(w, n, BlockquoteAttributeFilter)
 			_ = w.WriteByte('>')
 		} else {
-			_, _ = w.WriteString("<blockquote class='border-l-8 px-2  my-3 mx-1 indent-8  py-0.5 border-sky-500 bg-slate-100 dark:bg-slate-800 rounded-md'>\n")
+			_, _ = w.WriteString("<blockquote class='border-l-8 px-2  my-3 mx-1 indent-8  py-0.5 border-sky-500 bg-slate-100 dark:bg-slate-800 rounded-md ring-1 ring-slate-900/10 shadow-sm'>\n")
 		}
 	} else {
 		_, _ = w.WriteString("</blockquote>\n")
@@ -433,11 +433,11 @@ var ParagraphAttributeFilter = GlobalAttributeFilter
 func (r *Renderer) renderParagraph(w util.BufWriter, source []byte, n ast.Node, entering bool) (ast.WalkStatus, error) {
 	if entering {
 		if n.Attributes() != nil {
-			_, _ = w.WriteString("<p class='my-2 indent-8 text-base  text-slate-900 dark:text-slate-200'")
+			_, _ = w.WriteString("<p class='my-2 indent-8 text-base  text-slate-700 dark:text-slate-400'")
 			RenderAttributes(w, n, ParagraphAttributeFilter)
 			_ = w.WriteByte('>')
 		} else {
-			_, _ = w.WriteString("<p class='my-2 indent-8 text-base  text-slate-900 dark:text-slate-200'>")
+			_, _ = w.WriteString("<p class='my-2 indent-8 text-base  text-slate-700 dark:text-slate-400'>")
 		}
 	} else {
 		_, _ = w.WriteString("</p>\n")
@@ -571,7 +571,7 @@ func (r *Renderer) renderEmphasis(w util.BufWriter, source []byte, node ast.Node
 func (r *Renderer) renderLink(w util.BufWriter, source []byte, node ast.Node, entering bool) (ast.WalkStatus, error) {
 	n := node.(*ast.Link)
 	if entering {
-		_, _ = w.WriteString("<a href=\"")
+		_, _ = w.WriteString("<a className='text-sky-400 px-0.5 hover:decoration-sky-500 hover:text-sky-500 hover:decoration-2	hover:underline underline-offset-4' href=\"")
 		if r.Unsafe || !IsDangerousURL(n.Destination) {
 			_, _ = w.Write(util.EscapeHTML(util.URLEscape(n.Destination, true)))
 		}
@@ -614,7 +614,7 @@ func (r *Renderer) renderImage(w util.BufWriter, source []byte, node ast.Node, e
 		return ast.WalkContinue, nil
 	}
 	n := node.(*ast.Image)
-	_, _ = w.WriteString("<img src=\"")
+	_, _ = w.WriteString("<img class='image_link' src=\"")
 	if r.Unsafe || !IsDangerousURL(n.Destination) {
 		_, _ = w.Write(util.EscapeHTML(util.URLEscape(n.Destination, true)))
 	}

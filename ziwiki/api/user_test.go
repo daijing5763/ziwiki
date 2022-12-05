@@ -338,5 +338,6 @@ func requireBodyMatchUser(t *testing.T, body *bytes.Buffer, user db.User) {
 	require.NoError(t, err)
 	require.Equal(t, user.Username, gotUser.Username)
 	require.Equal(t, user.Email, gotUser.Email)
+	require.Equal(t, user.ID, gotUser.ID)
 	require.Empty(t, gotUser.HashedPassword)
 }

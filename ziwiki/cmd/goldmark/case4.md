@@ -2,4 +2,8 @@
 
 ## A2
 
-asaaf
+![flower](assets/flower.jpg)
+
+![rebot](rebot.jpeg)
+
+[link](http://example.com#fragment)

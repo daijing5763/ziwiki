@@ -40,7 +40,7 @@ export default NextAuth({
                     "refresh_token_expires_at": result.refresh_token_expires_at,
                     "username": result.user.username,
                     "email": result.user.email,
-                    "created_at":result.user.created_at
+                    "created_at": result.user.created_at,
                 }
                 return user;
             }

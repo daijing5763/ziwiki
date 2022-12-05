@@ -42,6 +42,10 @@ func (server *Server) setupRouter() {
 	router.POST("/users", server.createUser)
 	router.POST("/users/login", server.loginUser)
 	router.POST("/tokens/renew_access", server.renewAccessToken)
+	router.Static("/static_get", "/tmp/wiki")
+	// router.GET("/static", func(c *gin.Context) {
+	// 	c.File("/tmp/wiki/0/4/case1.md")
+	// })
 
 	authRoutes := router.Group("/").Use(authMiddleware(server.tokenMaker))
 	authRoutes.POST("/create_repo", server.createRepo)
@@ -49,6 +53,7 @@ func (server *Server) setupRouter() {
 	authRoutes.POST("/pull_repo", server.pullRepo)
 	authRoutes.POST("/get_repo_list", server.listRepos)
 	authRoutes.POST("/get_markdown", server.getMarkdown)
+	authRoutes.Static("/static", "/tmp/wiki")
 	server.router = router
 }
 
