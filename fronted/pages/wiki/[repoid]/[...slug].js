@@ -11,6 +11,7 @@ import parse, { domToReact, attributesToProps  } from 'html-react-parser';
 
 import { useRouter } from "next/router"
 import { CLIENT_STATIC_FILES_RUNTIME_POLYFILLS_SYMBOL } from "next/dist/shared/lib/constants";
+
 const config = {
   loader: { load: ["[tex]/html"] },
   tex: {

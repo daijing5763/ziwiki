@@ -8,7 +8,6 @@ import {MdContentCopy} from "react-icons/md"
 import SideBar from "../../../components/sidebar"
 import Search from "../../../components/search"
 import parse, { domToReact } from 'html-react-parser';
-
 import { useRouter } from "next/router"
 const config = {
   loader: { load: ["[tex]/html"] },
@@ -44,7 +43,7 @@ export default function Home({ session}) {
       .then(res => res.json())
       .then((data) => {
         var myObject = JSON.parse(data.mdtext);
-      console.log("mydebug:layouts:",myObject['sublayouts'])
+      // console.log("mydebug:layouts:",myObject['sublayouts'])
       setlayout(myObject['sublayouts'])
     })
   }
@@ -169,10 +168,10 @@ export async function getServerSideProps({req}) {
   const session = await getSession({ req })
   if(!session){
     return {
-        redirect : {
-            destination : "/auth/login",
-            premanent: false
-        }
+      redirect : {
+        destination : "/auth/login",
+        premanent: false
+    }
     }
   }
 

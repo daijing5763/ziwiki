@@ -5,6 +5,7 @@ import { useFormik } from 'formik';
 import login_validate from '../../lib/validate';
 import { useRouter } from 'next/router';
 import PopNav from "../../components/popnav"
+import { toast } from "react-toastify";
 import { HiAtSymbol, HiFingerPrint, HiOutlineUser } from "react-icons/hi";
 export default function Login(){
 
@@ -25,15 +26,20 @@ export default function Login(){
      * admin123
      */
 
-     async function onSubmit(values) {
+  async function onSubmit(values) {
+    const id =  toast("正在登录...", {type: toast.TYPE.INFO});
       const status = await signIn('credentials', {
           redirect: false,
           username: values.username,
           password: values.password,
           callbackUrl: "/"
       })
-      if(status.ok) router.push(status.url)
-      
+    if (status.ok) {
+      toast.update(id, { render: "登录成功:" , type: toast.TYPE.SUCCESS, isLoading: false});
+      router.push(status.url)
+    } else {
+      toast.update(id, { render: "登录失败" , type: toast.TYPE.ERROR, isLoading: false});
+    }
   }
 
     // Google Handler function

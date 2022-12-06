@@ -5,6 +5,7 @@ import { useRouter } from 'next/router';
 import { HiAtSymbol, HiFingerPrint, HiOutlineUser } from "react-icons/hi";
 import { registerValidate } from '../../lib/validate'
 import PopNav from "../../components/popnav"
+import { toast } from "react-toastify";
 export default function Register() {
   const [show, setShow] = useState({ password: false, cpassword: false })
   const router = useRouter()
@@ -19,7 +20,8 @@ export default function Register() {
       onSubmit:onSubmit
   })
   async function onSubmit(values) {
-    console.log("mydebug: onSubmit:",values)
+    console.log("mydebug: onSubmit:", values)
+    const id =  toast("正在注册...", {type: toast.TYPE.INFO});
     const options = {
         method: "POST",
         headers : { 'Content-Type': 'application/json'},
@@ -29,8 +31,14 @@ export default function Register() {
     await fetch('http://0.0.0.0:8080/users', options)
         .then(res => res.json())
       .then((data) => {
-        console.log(data);
-            if(data) router.push('http://localhost:3000')
+        console.log(data)
+        if (data.error) {
+          toast.update(id, { render: "注册失败:" + data.error, type: toast.TYPE.ERROR, isLoading: false });
+        } else {
+          
+          toast.update(id, { render: "注册成功:" , type: toast.TYPE.SUCCESS, isLoading: false});
+          router.push('http://localhost:3000')
+        }
         })
 }
 

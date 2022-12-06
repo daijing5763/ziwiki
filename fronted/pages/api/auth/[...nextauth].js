@@ -3,8 +3,7 @@ import GoogleProvider from "next-auth/providers/google";
 import GithubProvider from 'next-auth/providers/github';
 import CredentialsProvider from 'next-auth/providers/credentials';
 // import { compare } from 'bcryptjs';
-
-export default NextAuth({
+export const authOptions  = {
     providers : [
         // Google Provider
         GoogleProvider({
@@ -31,16 +30,16 @@ export default NextAuth({
                 if (result.error) {
                     throw new Error(result.error)
                 }
-
                 const user = {
                     "session_id": result.session_id,
                     "access_token": result.access_token,
-                    "access_token_expires_at": result.access_token_expires_at,
+                    "access_token_expires_at": new Date(result.access_token_expires_at).getTime(),
                     "refresh_token": result.refresh_token,
-                    "refresh_token_expires_at": result.refresh_token_expires_at,
+                    "refresh_token_expires_at": new Date(result.refresh_token_expires_at).getTime(),
                     "username": result.user.username,
                     "email": result.user.email,
                     "created_at": result.user.created_at,
+                    "user_id":result.user.id,
                 }
                 return user;
             }
@@ -54,7 +53,8 @@ export default NextAuth({
         
         // token 一开始没有，user 有；返回的是token
         async jwt({ token, user }) {
-            console.log("token:",token)
+            // console.log("mydebug jwt callback:token:", token)
+            // console.log("mydebug jwt callback:user:",user)
             // Initial sign in
             if (user) {
                 return {
@@ -64,6 +64,7 @@ export default NextAuth({
                     refresh_token_expires_at:user.refresh_token_expires_at,
                     username: user.username,
                     email: user.email,
+                    user_id:user.user_id,
                 }
             }
             
@@ -71,23 +72,27 @@ export default NextAuth({
             if (Date.now() < token.accessTokenExpires) {
                 return token
             }
-
             // Access token has expired, try to update it
             return refreshAccessToken(token)
         },
             
         // 1. getsession 会调用这个，不过之前先call jwt，更新token，默认是有user{},expires
         async session({ session, token }) {
-            console.log("session called")
+            // console.log("mydebug: session callback: session:", session)
+            // console.log("mydebug: session callback: token:",token)
+
             session.access_token = token.access_token
             session.error = token.error
             session.expires = token.refresh_token_expires_at
             session.username = token.username
             session.email = token.email
+            session.user_id = token.user_id
             return session
         }
     }
-})
+}
+
+export default NextAuth(authOptions);
 async function refreshAccessToken(token) {
     const options = {
         method: "POST",
@@ -97,7 +102,7 @@ async function refreshAccessToken(token) {
 
     const result = await fetch('http://0.0.0.0:8080/tokens/renew_access', options)
         .then(res => res.json())
-    console.log("result is:",result)
+    // console.log("mydebug refresh callback result:",result)
 
     if (!result) {
         return {
@@ -106,9 +111,9 @@ async function refreshAccessToken(token) {
         }
     }
     token.access_token = result.access_token
-    token.accessTokenExpires = result.access_token_expires_at
+    token.accessTokenExpires = new Date(result.access_token_expires_at).getTime()
     return {
         ...token,
     }
-    
+
 }

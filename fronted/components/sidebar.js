@@ -2,9 +2,12 @@ import React, { useState, useEffect } from 'react';
 import { AiOutlineSync, AiOutlineDelete, AiOutlineEdit } from "react-icons/ai"
 import Link from "next/link";
 import SubMenu from "./submenu"
+import { toast } from "react-toastify";
 export default function SideBar({ repo_id,access_token, layout, SideBarIndex, setSideBarIndex }) {
   
   async function syncRepo() {
+    // toast('开始同步仓库', { hideProgressBar: true, autoClose: 2000, type: 'success' })
+    const id =  toast("正在同步仓库...", {toastId: "customId",type: toast.TYPE.INFO});
     const options = {
       method: "POST",
       headers: {
@@ -16,8 +19,12 @@ export default function SideBar({ repo_id,access_token, layout, SideBarIndex, se
     await fetch('http://0.0.0.0:8080/pull_repo', options)
         .then(res => res.json())
       .then((data) => {
-        console.log(data)
-        })
+        if (data.error){
+          toast.update(id, { render: "同步失败:" + data.error, type: toast.TYPE.ERROR, isLoading: false});
+        } else {
+          toast.update(id, { render: "同步成功", type: "success", isLoading: false });
+        }
+      })
   }
 
 
