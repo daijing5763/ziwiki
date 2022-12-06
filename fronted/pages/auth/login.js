@@ -35,7 +35,7 @@ export default function Login(){
           callbackUrl: "/"
       })
     if (status.ok) {
-      toast.update(id, { render: "登录成功:" , type: toast.TYPE.SUCCESS, isLoading: false});
+      toast.update(id, { render: "登录成功" , type: toast.TYPE.SUCCESS, isLoading: false});
       router.push(status.url)
     } else {
       toast.update(id, { render: "登录失败" , type: toast.TYPE.ERROR, isLoading: false});
