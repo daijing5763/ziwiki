@@ -1,0 +1,13 @@
+# Build stage
+FROM postgres:14-alpine
+WORKDIR /app
+COPY pg_jieba .
+
+RUN apk add g++ && \
+  apk add cmake && \
+  apk add build-base && \
+  mkdir build && \ 
+  cd build && \
+  cmake .. && \
+  make && \
+  make install  

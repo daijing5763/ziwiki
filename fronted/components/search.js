@@ -4,22 +4,45 @@ import {MdSearch, MdCancel} from "react-icons/md"
 import { CgHashtag } from "react-icons/cg"
 import { BiChevronRight } from "react-icons/bi"
 import parse, { domToReact } from 'html-react-parser';
-export default function Search({useSearch,setUseSearch}) {
+export default function Search({useSearch,setUseSearch,access_token}) {
   const [query, setquery] = useState('');
-  const [searchedDoc, setSearchedDoc] = useState([{ "href": "a.md", "title": "a","content":"content" }, { "href": "b.md", "title": "b","content":"content" }])
-  useEffect(() => {
-    fetch(`http://0.0.0.0:8000/api/wiki/search?query=${query}`).then((res) => res.json()).then(
-      (data) => {
-        if (typeof data != 'undefined') {
-          if (data['data'].length > 0) {
-            data['data'].map((doc, index) => { console.log(index, doc); console.log("href is:",doc['href'])})
-            setSearchedDoc(data['data'])
-          } else {
-            setSearchedDoc([])
-          }
+  const [searchedDoc, setSearchedDoc] = useState([{ "mdhref": "a.md", "coalesce": "a" }, { "mdhref": "b.md", "coalesce": "b"}])
+  
+  async function queryMarkdownUser(values) {
+    const options = {
+      method: "POST",
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${access_token}`
+      },
+      body: JSON.stringify(values)
+    }
+
+    await fetch('http://0.0.0.0:8080/query_markdown_user', options)
+      .then(res => res.json())
+      .then((data) => {
+        if (data && !data.error) {
+          setSearchedDoc(data)
+          console.log("mydebug query:", data)
         }
-      }
-    )
+    })
+  }
+
+
+  useEffect(() => {
+    queryMarkdownUser({"plainto_tsquery":`${query}`})
+    // fetch(`http://0.0.0.0:8000/api/wiki/search?query=${query}`).then((res) => res.json()).then(
+    //   (data) => {
+    //     if (typeof data != 'undefined') {
+    //       if (data['data'].length > 0) {
+    //         data['data'].map((doc, index) => { console.log(index, doc); console.log("href is:",doc['href'])})
+    //         setSearchedDoc(data['data'])
+    //       } else {
+    //         setSearchedDoc([])
+    //       }
+    //     }
+    //   }
+    // )
 },[query]);
 const clearquery = async (event) => {
   event.preventDefault();
@@ -52,10 +75,18 @@ const onPanEnd = e => {
   );
 
 
+  const options = {
+    replace: domNode => {
+      if (domNode.name === 'b') {
+        return <b className="dark:text-slate-200 text-yellow-700 text-base"  >{domToReact(domNode.children, options)}</b>;
+      }
+    }
+  };
+
   return (
     <div className="">
       <div id="outersearch" className="fixed inset-0 z-50 backdrop-blur-sm overflow-hidden p-4 sm:p-6 md:p-20 lg:p-28" 
-        ><div className='lg:mx-[max(0px,calc(50%-25rem))]'>
+      ><div className='lg:mx-[max(0px,calc(50%-25rem))]'>
       
       <div ref={bodyBox} className="flex flex-col  border-slate-200 dark:border-slate-800 border rounded-lg bg-white dark:bg-slate-800" >
         <header className="px-4 py-4 relative flex text-slate-500 flex-row items-center border-b border-slate-300 dark:border-slate-600">
@@ -70,22 +101,20 @@ const onPanEnd = e => {
           <button onClick={clearquery}><MdCancel className="w-7 h-7 px-1.5 py-1" /></button>
         </header>
 
-        <div className="">
+        <div className="overflow-y-auto h-80  scrollbar-thin   scrollbar-thumb-rounded-md scrollbar-track-rounded-md">
             <div className="">
               {searchedDoc.length==0 && <div className="flex h-40 text-semibold text-slate-700 dark:text-slate-200 items-center justify-center">无历史搜索</div>}
               <ul className="my-4">
                 { searchedDoc.length>0 && searchedDoc.map((doc, index) => (
                   <li key={index} className=" flex items-center mb-2">
-                    <Link href={"/wiki/"+doc.href}>
-                    
-                    <a className="px-4 py-3 bg-slate-100 dark:bg-slate-900 rounded-md hover:dark:bg-sky-900 hover:bg-sky-400 mx-6 w-full" href="/docs/plugins#prefix-and-important-1">
+                    <Link href={"/wiki/" + doc.repo_id + "/" + doc.mdhref} onclick={console.log("mydebug click") } className="px-4 py-3 bg-slate-100 dark:bg-slate-900 rounded-md hover:dark:bg-sky-900 hover:bg-sky-400 mx-6 w-full">
                       <div className="flex items-center">
                         <div className="p-2">
                           <CgHashtag className="w-5 h-5" />
                         </div>
                         <div className="flex-grow  flex-shrink">
-                          <span className="DocSearch-Hit-path">{doc.title}</span><br/>
-                          <span className="DocSearch-Hit-title">{parse(doc.content)}
+                          <span className="DocSearch-Hit-path">{doc.mdhref}</span><br/>
+                          <span className="DocSearch-Hit-title">{parse(doc.coalesce,options)}
                           </span>
                           
                         </div>
@@ -93,12 +122,9 @@ const onPanEnd = e => {
                           <BiChevronRight className="w-5 h-5"/>
                         </div>
                       </div>
-                    </a>
                     </Link>
                   </li>
                 ))}
-
-
                 </ul>
 
           </div>
@@ -109,12 +135,10 @@ const onPanEnd = e => {
             <h1 className="font-semibold text-sm  dark:text-slate-200 cursor-pointer pr-2">
                   Searched By
             </h1>
-              <Link href="/">
-                <a className="flex-none  overflow-hidden " >
+              <Link href="/" className="flex-none  overflow-hidden " >
                   <picture>
                     <img src="/logo.svg" className=" w-6 h-6" alt="LOGO"/>
                   </picture>
-                </a>
               </Link>
             </div>
         </footer>

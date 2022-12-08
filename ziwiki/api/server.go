@@ -53,6 +53,8 @@ func (server *Server) setupRouter() {
 	authRoutes.POST("/pull_repo", server.pullRepo)
 	authRoutes.POST("/get_repo_list", server.listRepos)
 	authRoutes.POST("/get_markdown", server.getMarkdown)
+	authRoutes.POST("/query_markdown_user", server.queryMarkdownUser)
+	authRoutes.POST("/query_markdown_repo", server.queryMarkdownRepo)
 	authRoutes.Static("/static", "/tmp/wiki")
 	server.router = router
 }

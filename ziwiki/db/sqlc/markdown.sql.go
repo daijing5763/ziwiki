@@ -16,7 +16,7 @@ INSERT INTO markdowns (
   repo_id,
   mdtext
 ) VALUES ($1, $2, $3, $4 ) 
-RETURNING id, mdhref, user_id, repo_id, mdtext, created_at
+RETURNING id, mdhref, user_id, repo_id, mdtext, created_at, fts
 `
 
 type CreateMarkdownParams struct {
@@ -41,6 +41,7 @@ func (q *Queries) CreateMarkdown(ctx context.Context, arg CreateMarkdownParams) 
 		&i.RepoID,
 		&i.Mdtext,
 		&i.CreatedAt,
+		&i.Fts,
 	)
 	return i, err
 }
@@ -62,7 +63,7 @@ func (q *Queries) DeleteMarkdown(ctx context.Context, arg DeleteMarkdownParams) 
 }
 
 const getMarkdown = `-- name: GetMarkdown :one
-SELECT id, mdhref, user_id, repo_id, mdtext, created_at FROM markdowns
+SELECT id, mdhref, user_id, repo_id, mdtext, created_at, fts FROM markdowns
 WHERE mdhref = $1 and user_id = $2 and repo_id = $3 LIMIT 1
 `
 
@@ -82,12 +83,13 @@ func (q *Queries) GetMarkdown(ctx context.Context, arg GetMarkdownParams) (Markd
 		&i.RepoID,
 		&i.Mdtext,
 		&i.CreatedAt,
+		&i.Fts,
 	)
 	return i, err
 }
 
 const getMarkdownForUpdate = `-- name: GetMarkdownForUpdate :one
-SELECT id, mdhref, user_id, repo_id, mdtext, created_at FROM markdowns
+SELECT id, mdhref, user_id, repo_id, mdtext, created_at, fts FROM markdowns
 WHERE mdhref = $1 and user_id = $2 and repo_id = $3 LIMIT 1
 FOR NO KEY UPDATE
 `
@@ -108,15 +110,121 @@ func (q *Queries) GetMarkdownForUpdate(ctx context.Context, arg GetMarkdownForUp
 		&i.RepoID,
 		&i.Mdtext,
 		&i.CreatedAt,
+		&i.Fts,
 	)
 	return i, err
+}
+
+const queryMarkdownRepo = `-- name: QueryMarkdownRepo :many
+select i.id,i.mdhref,i.user_id,i.repo_id,COALESCE(ts_headline(i.mdtext,plainto_tsquery($1),'MaxFragments=10, MaxWords=7, MinWords=3'),'')
+from (
+  select id,mdhref,user_id,repo_id,mdtext
+  from markdowns 
+  where user_id = $2 and repo_id=$3  and fts @@ plainto_tsquery($1)
+  LIMIT 10
+) as i
+`
+
+type QueryMarkdownRepoParams struct {
+	PlaintoTsquery string `json:"plainto_tsquery"`
+	UserID         int64  `json:"user_id"`
+	RepoID         int64  `json:"repo_id"`
+}
+
+type QueryMarkdownRepoRow struct {
+	ID       int64       `json:"id"`
+	Mdhref   string      `json:"mdhref"`
+	UserID   int64       `json:"user_id"`
+	RepoID   int64       `json:"repo_id"`
+	Coalesce interface{} `json:"coalesce"`
+}
+
+func (q *Queries) QueryMarkdownRepo(ctx context.Context, arg QueryMarkdownRepoParams) ([]QueryMarkdownRepoRow, error) {
+	rows, err := q.db.QueryContext(ctx, queryMarkdownRepo, arg.PlaintoTsquery, arg.UserID, arg.RepoID)
+	if err != nil {
+		return nil, err
+	}
+	defer rows.Close()
+	items := []QueryMarkdownRepoRow{}
+	for rows.Next() {
+		var i QueryMarkdownRepoRow
+		if err := rows.Scan(
+			&i.ID,
+			&i.Mdhref,
+			&i.UserID,
+			&i.RepoID,
+			&i.Coalesce,
+		); err != nil {
+			return nil, err
+		}
+		items = append(items, i)
+	}
+	if err := rows.Close(); err != nil {
+		return nil, err
+	}
+	if err := rows.Err(); err != nil {
+		return nil, err
+	}
+	return items, nil
+}
+
+const queryMarkdownUser = `-- name: QueryMarkdownUser :many
+select i.id,i.mdhref,i.user_id,i.repo_id,COALESCE(ts_headline(i.mdtext,plainto_tsquery($1),'MaxFragments=10, MaxWords=7, MinWords=3'),'')
+from (
+  select id,mdhref,user_id,repo_id,mdtext
+  from markdowns 
+  where user_id = $2  and fts @@ plainto_tsquery($1)
+  LIMIT 10
+) as i
+`
+
+type QueryMarkdownUserParams struct {
+	PlaintoTsquery string `json:"plainto_tsquery"`
+	UserID         int64  `json:"user_id"`
+}
+
+type QueryMarkdownUserRow struct {
+	ID       int64       `json:"id"`
+	Mdhref   string      `json:"mdhref"`
+	UserID   int64       `json:"user_id"`
+	RepoID   int64       `json:"repo_id"`
+	Coalesce interface{} `json:"coalesce"`
+}
+
+func (q *Queries) QueryMarkdownUser(ctx context.Context, arg QueryMarkdownUserParams) ([]QueryMarkdownUserRow, error) {
+	rows, err := q.db.QueryContext(ctx, queryMarkdownUser, arg.PlaintoTsquery, arg.UserID)
+	if err != nil {
+		return nil, err
+	}
+	defer rows.Close()
+	items := []QueryMarkdownUserRow{}
+	for rows.Next() {
+		var i QueryMarkdownUserRow
+		if err := rows.Scan(
+			&i.ID,
+			&i.Mdhref,
+			&i.UserID,
+			&i.RepoID,
+			&i.Coalesce,
+		); err != nil {
+			return nil, err
+		}
+		items = append(items, i)
+	}
+	if err := rows.Close(); err != nil {
+		return nil, err
+	}
+	if err := rows.Err(); err != nil {
+		return nil, err
+	}
+	return items, nil
 }
 
 const updateMarkdown = `-- name: UpdateMarkdown :one
 UPDATE markdowns
 SET mdtext=$4
 WHERE mdhref = $1 and user_id = $2 and repo_id = $3
-RETURNING id, mdhref, user_id, repo_id, mdtext, created_at
+RETURNING id, mdhref, user_id, repo_id, mdtext, created_at, fts
 `
 
 type UpdateMarkdownParams struct {
@@ -141,6 +249,7 @@ func (q *Queries) UpdateMarkdown(ctx context.Context, arg UpdateMarkdownParams) 
 		&i.RepoID,
 		&i.Mdtext,
 		&i.CreatedAt,
+		&i.Fts,
 	)
 	return i, err
 }

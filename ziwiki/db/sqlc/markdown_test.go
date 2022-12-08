@@ -26,7 +26,8 @@ func createRandomMarkdown(t *testing.T) Markdown {
 		Mdhref: util.RandomString(32),
 		UserID: user.ID,
 		RepoID: repo.ID,
-		Mdtext: util.RandomString(3200),
+		Mdtext: "I love you, do you love the dog",
+		// Mdtext: util.RandomString(3200),
 	}
 
 	Markdown, err := testQueries.CreateMarkdown(context.Background(), arg)
@@ -115,4 +116,31 @@ func TestUpdateMarkdown(t *testing.T) {
 	require.Equal(t, md2.ID, md1.ID)
 	require.Equal(t, md2.Mdhref, arg.Mdhref)
 	require.Equal(t, md2.Mdtext, arg.Mdtext)
+}
+
+func TestQueryMarkdownUser(t *testing.T) {
+	md1 := createRandomMarkdown(t)
+
+	arg := QueryMarkdownUserParams{
+		PlaintoTsquery: "dog",
+		UserID:         md1.UserID,
+	}
+
+	md2, err := testQueries.QueryMarkdownUser(context.Background(), arg)
+	t.Log(md2)
+	require.NoError(t, err)
+	require.NotEmpty(t, md2)
+}
+
+func TestQueryMarkdownRepo(t *testing.T) {
+	md1 := createRandomMarkdown(t)
+	arg := QueryMarkdownRepoParams{
+		PlaintoTsquery: "dog",
+		RepoID:         md1.RepoID,
+		UserID:         md1.UserID,
+	}
+	md2, err := testQueries.QueryMarkdownRepo(context.Background(), arg)
+
+	require.NoError(t, err)
+	require.NotEmpty(t, md2)
 }

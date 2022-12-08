@@ -4,7 +4,6 @@ import (
 	"bytes"
 	"database/sql"
 	"encoding/json"
-	"fmt"
 	"io"
 	"net/http"
 	"net/http/httptest"
@@ -139,14 +138,14 @@ func TestGetMarkdownAPI(t *testing.T) {
 
 			// Marshal body data to JSON
 			data, err := json.Marshal(tc.body)
-			fmt.Println("mydebug:req tcbody:", tc.body)
+			// fmt.Println("mydebug:req tcbody:", tc.body)
 			require.NoError(t, err)
 
 			url := "/get_markdown"
 			request, err := http.NewRequest(http.MethodPost, url, bytes.NewReader(data))
 
 			require.NoError(t, err)
-			fmt.Println("mydebug:req body:", request.Body)
+			// fmt.Println("mydebug:req body:", request.Body)
 			tc.setupAuth(t, request, server.tokenMaker)
 			server.router.ServeHTTP(recorder, request)
 			tc.checkResponse(t, recorder)

@@ -26,6 +26,8 @@ type Querier interface {
 	GetUser(ctx context.Context, username string) (User, error)
 	GetUserForUpdate(ctx context.Context, id int64) (User, error)
 	ListRepos(ctx context.Context, arg ListReposParams) ([]Repo, error)
+	QueryMarkdownRepo(ctx context.Context, arg QueryMarkdownRepoParams) ([]QueryMarkdownRepoRow, error)
+	QueryMarkdownUser(ctx context.Context, arg QueryMarkdownUserParams) ([]QueryMarkdownUserRow, error)
 	UpdateMarkdown(ctx context.Context, arg UpdateMarkdownParams) (Markdown, error)
 	UpdateRepo(ctx context.Context, arg UpdateRepoParams) (Repo, error)
 	UpdateUser(ctx context.Context, arg UpdateUserParams) (User, error)

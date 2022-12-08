@@ -26,6 +26,7 @@ require (
 )
 
 require (
+	github.com/Jeffail/tunny v0.1.4
 	github.com/Microsoft/go-winio v0.4.16 // indirect
 	github.com/ProtonMail/go-crypto v0.0.0-20210428141323-04723f9f07d7 // indirect
 	github.com/abhinav/goldmark-toc v0.2.1

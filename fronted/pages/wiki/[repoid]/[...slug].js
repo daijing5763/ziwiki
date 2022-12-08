@@ -32,7 +32,6 @@ export default function Home({ session}) {
   const [layout, setlayout] = useState([]); 
   const [markdowntext, setmarkdown] = useState(''); 
   const [markdownlist, setmarkdownlist] = useState(''); 
-  
   async function getLayout(values) {
     const options = {
       method: "POST",
@@ -50,9 +49,9 @@ export default function Home({ session}) {
           var myObject = JSON.parse(data.mdtext);
           setlayout(myObject['sublayouts'])
         }
-
     })
   }
+
 
   async function getMarkdown(values) {
     const options = {
@@ -113,7 +112,6 @@ export default function Home({ session}) {
       setSideBarIndex(data);
     } 
   }, []);
-
   useEffect(() => {
     const slugs = router.query.slug;
     getMarkdown({
@@ -208,7 +206,7 @@ export default function Home({ session}) {
   
 return (
 <div className="antialiased  text-slate-500 dark:text-slate-400 bg-white dark:bg-slate-900 min-h-screen">
-  <NavBar NavBarOpen={NavBarOpen} setNavBarOpen={setNavBarOpen} />
+  <NavBar NavBarOpen={NavBarOpen} setNavBarOpen={setNavBarOpen} useSearch={useSearch} setUseSearch={setUseSearch} />
   
   <div className="overflow-hidden">
     <div className={` ${!NavBarOpen && "hidden"} fixed z-40   inset-0 px-3 pt-6 pr-2 overflow-y-auto w-[20rem]
@@ -260,7 +258,16 @@ return (
 
 
   </div>
-  {useSearch && <Search useSearch={useSearch} setUseSearch={setUseSearch} /> }
+    {useSearch && <Search useSearch={useSearch} setUseSearch={setUseSearch} access_token={session.access_token} />}
+    
+
+
+
+
+
+
+
+
 </div>
   )
 }

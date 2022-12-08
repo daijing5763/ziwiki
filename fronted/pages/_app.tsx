@@ -16,7 +16,7 @@ function MyApp({ Component, pageProps }) {
         closeOnClick
         theme="dark"
         position= "bottom-right"
-        />
+      />
     </SessionProvider>
   )
 }

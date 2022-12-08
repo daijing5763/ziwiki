@@ -11,12 +11,13 @@ import (
 )
 
 type Markdown struct {
-	ID        int64     `json:"id"`
-	Mdhref    string    `json:"mdhref"`
-	UserID    int64     `json:"user_id"`
-	RepoID    int64     `json:"repo_id"`
-	Mdtext    string    `json:"mdtext"`
-	CreatedAt time.Time `json:"created_at"`
+	ID        int64       `json:"id"`
+	Mdhref    string      `json:"mdhref"`
+	UserID    int64       `json:"user_id"`
+	RepoID    int64       `json:"repo_id"`
+	Mdtext    string      `json:"mdtext"`
+	CreatedAt time.Time   `json:"created_at"`
+	Fts       interface{} `json:"fts"`
 }
 
 type Repo struct {

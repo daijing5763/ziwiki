@@ -1,5 +1,13 @@
 # build image based on alpine docker
 
+## build postgres image
+
+from project root path run(proxy):
+
+```shell
+docker build -t postgres_image_alpine -f DockerfilePostgres .
+```
+
 ## build deps image
 
 from project root path run(proxy):

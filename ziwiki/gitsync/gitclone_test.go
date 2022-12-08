@@ -19,7 +19,7 @@ func TestCloneShouldOK(t *testing.T) {
 	require.NoError(t, err)
 }
 
-func TestPullShouldOK(t *testing.T) {
+func TestPullShouldError(t *testing.T) {
 	RootPath := "/tmp/wiki/"
 	UserID := util.RandomInt(1, 10000)
 	RepoID := util.RandomInt(1, 10000)
@@ -29,7 +29,8 @@ func TestPullShouldOK(t *testing.T) {
 	err := Clone(RootPath, strconv.FormatInt(UserID, 10), strconv.FormatInt(RepoID, 10), RepoGit, RepoUserName, RepoAccessToken)
 	require.NoError(t, err)
 	err = Pull(RootPath, strconv.FormatInt(UserID, 10), strconv.FormatInt(RepoID, 10), RepoGit, RepoUserName, RepoAccessToken)
-	require.NoError(t, err)
+	require.Error(t, err)
+	require.EqualError(t, err, "already up-to-date")
 }
 
 func TestCloneShouldError(t *testing.T) {

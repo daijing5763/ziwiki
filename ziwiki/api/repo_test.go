@@ -207,8 +207,8 @@ func TestCreateRepoAPI(t *testing.T) {
 					Return(repo, nil)
 			},
 			checkResponse: func(recorder *httptest.ResponseRecorder) {
-				t.Log("mydebug:", recorder.Code)
-				t.Log("mydebug:", recorder.Body)
+				// t.Log("mydebug:", recorder.Code)
+				// t.Log("mydebug:", recorder.Body)
 				require.Equal(t, http.StatusOK, recorder.Code)
 				requireBodyMatchRepo(t, recorder.Body, repo)
 			},
@@ -242,8 +242,8 @@ func TestCreateRepoAPI(t *testing.T) {
 					Return(db.Repo{}, nil)
 			},
 			checkResponse: func(recorder *httptest.ResponseRecorder) {
-				t.Log("mydebug:", recorder.Code)
-				t.Log("mydebug:", recorder.Body)
+				// t.Log("mydebug:", recorder.Code)
+				// t.Log("mydebug:", recorder.Body)
 				require.Equal(t, http.StatusInternalServerError, recorder.Code)
 				requireBodyMatchRepo(t, recorder.Body, db.Repo{})
 			},

@@ -46,3 +46,63 @@ func (server *Server) getMarkdown(ctx *gin.Context) {
 
 	ctx.JSON(http.StatusOK, markdown)
 }
+
+type queryMarkdownUserRequest struct {
+	PlaintoTsquery string `json:"plainto_tsquery" binding:"required"`
+}
+
+func (server *Server) queryMarkdownUser(ctx *gin.Context) {
+	var req queryMarkdownUserRequest
+	if err := ctx.ShouldBindJSON(&req); err != nil {
+		ctx.JSON(http.StatusBadRequest, errorResponse(err))
+		return
+	}
+	authPayload := ctx.MustGet(authorizationPayloadKey).(*token.Payload)
+
+	arg := db.QueryMarkdownUserParams{
+		PlaintoTsquery: req.PlaintoTsquery,
+		UserID:         authPayload.UserID,
+	}
+	markdowns, err := server.store.QueryMarkdownUser(ctx, arg)
+	if err != nil {
+		if err == sql.ErrNoRows {
+			ctx.JSON(http.StatusNotFound, errorResponse(err))
+			return
+		}
+		ctx.JSON(http.StatusInternalServerError, errorResponse(err))
+		return
+	}
+
+	ctx.JSON(http.StatusOK, markdowns)
+}
+
+type queryMarkdownRepoRequest struct {
+	PlaintoTsquery string `json:"plainto_tsquery" binding:"required"`
+	RepoID         int64  `json:"repo_id" binding:"required"`
+}
+
+func (server *Server) queryMarkdownRepo(ctx *gin.Context) {
+	var req queryMarkdownRepoRequest
+	if err := ctx.ShouldBindJSON(&req); err != nil {
+		ctx.JSON(http.StatusBadRequest, errorResponse(err))
+		return
+	}
+	authPayload := ctx.MustGet(authorizationPayloadKey).(*token.Payload)
+
+	arg := db.QueryMarkdownRepoParams{
+		PlaintoTsquery: req.PlaintoTsquery,
+		RepoID:         req.RepoID,
+		UserID:         authPayload.UserID,
+	}
+	markdowns, err := server.store.QueryMarkdownRepo(ctx, arg)
+	if err != nil {
+		if err == sql.ErrNoRows {
+			ctx.JSON(http.StatusNotFound, errorResponse(err))
+			return
+		}
+		ctx.JSON(http.StatusInternalServerError, errorResponse(err))
+		return
+	}
+
+	ctx.JSON(http.StatusOK, markdowns)
+}

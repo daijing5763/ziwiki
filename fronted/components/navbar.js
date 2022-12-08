@@ -4,7 +4,7 @@ import { MdDarkMode, MdLightMode ,MdLogin,MdMenu,MdClose,MdContentCopy} from "re
 import { AiFillGithub,AiOutlineSearch } from "react-icons/ai"
 import { CgProfile } from "react-icons/cg"
 import Link from 'next/link'
-export default function NavBar({ NavBarOpen, setNavBarOpen }) {
+export default function NavBar({ NavBarOpen, setNavBarOpen,useSearch,setUseSearch }) {
   const [themeDark, setTheme] = useState(true);
   
   useEffect(() => {
