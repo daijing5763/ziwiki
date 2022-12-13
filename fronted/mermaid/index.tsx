@@ -5,7 +5,7 @@ const uuid = () => `mermaid-${(currentId++).toString()}`;
 const DEFAULT_CONFIG = {
   startOnLoad: false,
   theme: "dark",
-  logLevel: "fatal",
+  logLevel: 1,
   securityLevel: "strict",
   arrowMarkerAbsolute: false,
   flowchart: {
@@ -44,7 +44,7 @@ const DEFAULT_CONFIG = {
 const DEFAULT_CONFIG_BASE = {
   startOnLoad: false,
   theme: "default",
-  logLevel: "fatal",
+  logLevel: 1,
   securityLevel: "strict",
   arrowMarkerAbsolute: true,
   flowchart: {
