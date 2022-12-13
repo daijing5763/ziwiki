@@ -131,7 +131,11 @@ export default function Home({ session}) {
     });
   },[router.query.repoid]);
 
-  
+  const dynamicRoute = useRouter().asPath;
+
+  // Reset count to 0 on dynamic route change.
+  useEffect(() => setUseSearch(false), [dynamicRoute]);
+
   
   function isContains(str, substr) {
     if (typeof str == "undefined") {
@@ -258,8 +262,7 @@ return (
 
 
   </div>
-    {useSearch && <Search useSearch={useSearch} setUseSearch={setUseSearch} access_token={session.access_token} />}
-    
+  {useSearch && (<Search useSearch={useSearch} setUseSearch={setUseSearch} access_token={session.access_token} />)}
 
 
 
