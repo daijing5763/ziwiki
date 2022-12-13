@@ -1,8 +1,3 @@
-export function arrayAppend(obj, value) {
-  const newobj = obj
-  newobj.push(value)
-  return newobj;
-}
 export function getCountBeforeLayer(layer:number, n:number) {
   if (layer == 0) { return 0 }
   return Math.floor((1-Math.pow(n,layer))/(1-n))
