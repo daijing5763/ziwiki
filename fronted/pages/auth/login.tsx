@@ -2,7 +2,7 @@ import Link from 'next/link'
 import { useState } from 'react';
 import { signIn, signOut } from "next-auth/react"
 import { useFormik } from 'formik';
-import login_validate from '../../lib/validate';
+import login_validate from '../../utils/validate';
 import { useRouter } from 'next/router';
 import PopNav from "../../components/popnav"
 import { toast } from "react-toastify";

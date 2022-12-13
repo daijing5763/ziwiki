@@ -5,7 +5,7 @@ import CreateRepo from '../../components/createrepo'
 import { Fragment, useRef, useState,useEffect } from 'react'
 import { AiFillGithub, AiFillGitlab ,AiFillDelete,AiOutlineDelete,AiOutlineSync,AiOutlineEdit} from "react-icons/ai"
 import { SiGitee } from "react-icons/si"
-import { authOptions } from 'pages/api/auth/[...nextauth]'
+import { authOptions } from '../api/auth/[...nextauth]'
 import { unstable_getServerSession } from "next-auth/next"
 export default ({ session }) => {
 

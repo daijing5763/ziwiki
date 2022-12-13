@@ -3,7 +3,7 @@ import { useState } from 'react';
 import { useFormik } from 'formik';
 import { useRouter } from 'next/router';
 import { HiAtSymbol, HiFingerPrint, HiOutlineUser } from "react-icons/hi";
-import { registerValidate } from '../../lib/validate'
+import { registerValidate } from '../../utils/validate'
 import PopNav from "../../components/popnav"
 import { toast } from "react-toastify";
 export default function Register() {

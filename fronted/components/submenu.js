@@ -1,6 +1,6 @@
 
 import React, { useState, useEffect } from 'react';
-import { getIndex, acccompare, compare } from '../utils'
+import { getIndex, acccompare, compare } from '../utils/compare_index'
 import { BiChevronLeft, BiChevronDown } from "react-icons/bi"
 import Link from 'next/link'
 export default function SubMenu({repo_id, menus, layer, offset, SideBarIndex, setSideBarIndex }) {
