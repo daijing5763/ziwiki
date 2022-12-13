@@ -128,8 +128,6 @@ export default function Home({ session}) {
     }
   }, [router.query.slug]);
   useEffect(() => {
-    console.log("mydebug:layouts:",router.query.repoid)
-
     getLayout({
       "mdhref": "layout.json",
       "repo_id":parseInt(router.query.repoid),

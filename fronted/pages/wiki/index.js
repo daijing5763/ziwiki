@@ -24,7 +24,6 @@ export default ({ session }) => {
     await fetch('http://0.0.0.0:8080/get_repo_list', options)
         .then(res => res.json())
       .then((data) => {
-          console.log("mydebug:repolist is:",data)
           setrepolist(data);
         })
   }
