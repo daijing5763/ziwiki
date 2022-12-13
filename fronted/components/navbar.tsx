@@ -92,8 +92,11 @@ bg-white/95 supports-backdrop-blur:bg-white/60 dark:border-slate-50/[0.06] dark:
         <AiFillGithub 
             className="ml-3 md:ml-6  block w-7 h-7  hover:text-sky-500 cursor-pointer"
             />
-      </Link>
-      <CgProfile  className='ml-3 md:ml-6 block w-7 h-7  hover:text-sky-500 cursor-pointer' />
+        </Link>
+        
+        <Link href="/wiki">
+          <CgProfile className='ml-3 md:ml-6 block w-7 h-7  hover:text-sky-500 cursor-pointer' />
+        </Link>
     </div>
   </div>
 </div>
