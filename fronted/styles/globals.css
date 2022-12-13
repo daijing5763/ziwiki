@@ -2,6 +2,5 @@
 @tailwind components;
 @tailwind utilities;
 html,body,#__next {
-   @apply  min-h-screen;
+  @apply  min-h-screen;
 }
-

@@ -8,6 +8,8 @@ import {MdContentCopy} from "react-icons/md"
 import SideBar from "../../../components/sidebar"
 import Search from "../../../components/search"
 import parse, { domToReact, attributesToProps  } from 'html-react-parser';
+import { authOptions } from 'pages/api/auth/[...nextauth]'
+import { unstable_getServerSession } from "next-auth/next"
 
 import { useRouter } from "next/router"
 import { CLIENT_STATIC_FILES_RUNTIME_POLYFILLS_SYMBOL } from "next/dist/shared/lib/constants";
@@ -275,10 +277,28 @@ return (
   )
 }
 
-// This gets called on every request
-export async function getServerSideProps({req}) {
-  // Fetch data from external API
-  const session = await getSession({ req })
+
+// // This gets called on every request
+// export async function getServerSideProps({req}) {
+//   // Fetch data from external API
+//   const session = await getSession({ req })
+//   if(!session){
+//     return {
+//         redirect : {
+//             destination : "/auth/login",
+//             premanent: false
+//         }
+//     }
+//   }
+
+//   return {
+//       props: {session}
+//   }
+// }
+
+export async function getServerSideProps(context) {
+  const session = await unstable_getServerSession(context.req, context.res, authOptions)
+
   if(!session){
     return {
         redirect : {
@@ -289,6 +309,10 @@ export async function getServerSideProps({req}) {
   }
 
   return {
-      props: {session}
+    props: {
+      session,
+    },
   }
 }
+
+

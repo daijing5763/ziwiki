@@ -1,4 +1,8 @@
+# README
+
+```shell
 This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+```
 
 ## Getting Started
 
@@ -32,3 +36,54 @@ You can check out [the Next.js GitHub repository](https://github.com/vercel/next
 The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
 
 Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+
+## tailwind css
+
+```shell
+npm install -D tailwindcss postcss autoprefixer
+npx tailwindcss init -p
+
+/** @type {import('tailwindcss').Config} */
+module.exports = {
+  content: [
+    "./pages/**/*.{js,ts,jsx,tsx}",
+    "./components/**/*.{js,ts,jsx,tsx}",
+  ],
+  theme: {
+    extend: {},
+  },
+  plugins: [],
+}
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+```
+
+## tailwind-scrollbar
+
+```shell
+npm i tailwind-scrollbar
+```
+
+## babel
+
+```shell
+touch .babelrc:
+{
+  "presets": ["next/babel"],
+  "plugins": []
+}
+
+eslintrc.json:
+
+{
+  "extends": ["next/core-web-vitals","next/babel"]
+}
+```
+
+## next-auth
+
+```shell
+npm i next-auth
+```

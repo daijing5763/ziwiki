@@ -1,47 +1,42 @@
 import NextAuth from 'next-auth';
-import GoogleProvider from "next-auth/providers/google";
-import GithubProvider from 'next-auth/providers/github';
+import type { NextAuthOptions } from 'next-auth'
 import CredentialsProvider from 'next-auth/providers/credentials';
 // import { compare } from 'bcryptjs';
-export const authOptions  = {
+export const authOptions: NextAuthOptions  = {
     providers : [
-        // Google Provider
-        GoogleProvider({
-            clientId: process.env.GOOGLE_ID,
-            clientSecret: process.env.GOOGLE_SECRET
-        }),
-        GithubProvider({
-            clientId: process.env.GITHUB_ID,
-            clientSecret: process.env.GITHUB_SECRET
-        }),
-        CredentialsProvider({
+    CredentialsProvider({
+            credentials: {
+              username: {label: "username", type: "text", placeholder: "username"},
+              password: { label: "password ", type: "text", placeholder: "password" },
+            },
             name : "Credentials",
-            async authorize(credentials, req) {
-                const options = {
-                    method: "POST",
-                    headers : { 'Content-Type': 'application/json'},
-                    body: JSON.stringify(credentials)
-                }
+            async authorize(credentials) {
+            const options = {
+                method: "POST",
+                headers : { 'Content-Type': 'application/json'},
+                body: JSON.stringify(credentials)
+            }
 
-                const result = await fetch('http://0.0.0.0:8080/users/login', options).then(res=>res.json())
-                if (!result) {
-                    throw new Error("something wrong may net work not connected")
+            const result = await fetch('http://0.0.0.0:8080/users/login', options).then(res=>res.json())
+            if (!result) {
+                throw new Error("something wrong may net work not connected")
+            }
+            if (result.error) {
+                throw new Error(result.error)
+            }
+              let user = {
+                  id:result.user.id,
+                  session_id: result.session_id as string,
+                  access_token: result.access_token as string,
+                  access_token_expires_at: new Date(result.access_token_expires_at).getTime(),
+                  refresh_token: result.refresh_token as string,
+                  refresh_token_expires_at: new Date(result.refresh_token_expires_at).getTime(),
+                  username: result.user.username as string,
+                  email: result.user.email as string,
+                  created_at: result.user.created_at as string,
+                  user_id:result.user.id as string,
                 }
-                if (result.error) {
-                    throw new Error(result.error)
-                }
-                const user = {
-                    "session_id": result.session_id,
-                    "access_token": result.access_token,
-                    "access_token_expires_at": new Date(result.access_token_expires_at).getTime(),
-                    "refresh_token": result.refresh_token,
-                    "refresh_token_expires_at": new Date(result.refresh_token_expires_at).getTime(),
-                    "username": result.user.username,
-                    "email": result.user.email,
-                    "created_at": result.user.created_at,
-                    "user_id":result.user.id,
-                }
-                return user;
+              return user;
             }
         })
     ],
@@ -78,15 +73,11 @@ export const authOptions  = {
             
         // 1. getsession 会调用这个，不过之前先call jwt，更新token，默认是有user{},expires
         async session({ session, token }) {
-            // console.log("mydebug: session callback: session:", session)
-            // console.log("mydebug: session callback: token:",token)
-
-            session.access_token = token.access_token
-            session.error = token.error
-            session.expires = token.refresh_token_expires_at
-            session.username = token.username
-            session.email = token.email
-            session.user_id = token.user_id
+            session.access_token = token.access_token as string
+            session.expires = token.refresh_token_expires_at as string
+            session.username = token.username as string
+            session.email = token.email as string
+            session.user_id = token.user_id as string
             return session
         }
     }
