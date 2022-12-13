@@ -7,10 +7,9 @@ import { BiChevronRight } from "react-icons/bi"
 import parse, { domToReact } from 'html-react-parser';
 export default function Search({useSearch,setUseSearch,access_token}) {
   const [query, setquery] = useState('');
+  const [searchedDoc, setSearchedDoc] = useState([])
   
-  const [searchedDoc, setSearchedDoc] = useState([{ "mdhref": "a.md", "coalesce": "a" }, { "mdhref": "b.md", "coalesce": "b"}])
-  
-  async function queryMarkdownUser(values) {
+  async function queryMarkdownUser(values:{ [key: string]: string }) {
     const options = {
       method: "POST",
       headers: {
@@ -36,7 +35,7 @@ export default function Search({useSearch,setUseSearch,access_token}) {
   },[query]);
 const clearquery = async (event) => {
   event.preventDefault();
-  document.getElementById('search_query').value = ''
+  (document.getElementById('search_query') as HTMLInputElement).value = ''
   setUseSearch(!useSearch)
 };
   const submitContact = async (event) => {
@@ -93,7 +92,8 @@ const clearquery = async (event) => {
                 <ul className="my-4">
                   {searchedDoc.length > 0 && searchedDoc.map((doc, index) => (
                     <li key={index} className=" flex items-center mb-2">
-                      <Link href={"/wiki/" + doc.repo_id + "/" + doc.mdhref} onClick={console.log("mydebug click==")} className="px-4 py-3 bg-slate-100 dark:bg-slate-900 rounded-md hover:dark:bg-sky-900 hover:bg-sky-400 mx-6 w-full">
+                      <Link href={"/wiki/" + doc.repo_id + "/" + doc.mdhref} className="px-4 py-3 bg-slate-100 dark:bg-slate-900 rounded-md hover:dark:bg-sky-900 hover:bg-sky-400 mx-6 w-full">
+                        
                         <div className="flex items-center">
                           <div className="p-2">
                             <CgHashtag className="w-5 h-5" />

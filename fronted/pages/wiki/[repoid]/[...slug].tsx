@@ -7,7 +7,8 @@ import {MdContentCopy} from "react-icons/md"
 import SideBar from "../../../components/sidebar"
 import Search from "../../../components/search"
 import parse, { domToReact, attributesToProps  } from 'html-react-parser';
-import { authOptions } from 'pages/api/auth/[...nextauth]'
+import { authOptions } from '../../api/auth/[...nextauth]'
+
 import { unstable_getServerSession } from "next-auth/next"
 
 import { useRouter } from "next/router"
