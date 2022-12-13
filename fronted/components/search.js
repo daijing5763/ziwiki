@@ -44,7 +44,7 @@ const clearquery = async (event) => {
     setquery(event.target.search_query.value)
     setSearchedDoc([])
   };
-  useEffect(() => { console.log("8899"); document.addEventListener('click', onClickOutsideHandler);},[])
+  useEffect(() => {  document.addEventListener('click', onClickOutsideHandler);},[])
   const bodyBox = useRef(null);
   
   const onClickOutsideHandler = useCallback(

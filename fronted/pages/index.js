@@ -9,9 +9,7 @@ export default function Home({data}) {
   function handleSignOut(){
     signOut()
   }
-  
   return (
-
 <div className="antialiased text-slate-500 dark:text-slate-400 bg-white dark:bg-slate-900 min-h-screen">
 <PopNav/>
   <div className="overflow-hidden">
