@@ -3,7 +3,7 @@ import { AiOutlineSync, AiOutlineDelete, AiOutlineEdit } from "react-icons/ai"
 import Link from "next/link";
 import SubMenu from "./submenu"
 import { toast } from "react-toastify";
-export default function SideBar({ repo_id,access_token, layout, SideBarIndex, setSideBarIndex }) {
+export default function SideBar({ repo_id,access_token, layout, SideBarIndex, setSideBarIndex,useSearch,setUseSearch }) {
   
   async function syncRepo() {
     // toast('开始同步仓库', { hideProgressBar: true, autoClose: 2000, type: 'success' })
@@ -39,7 +39,7 @@ export default function SideBar({ repo_id,access_token, layout, SideBarIndex, se
             <div className="h-10 bg-white dark:bg-slate-900">
             </div>
             <div className="bg-white dark:bg-slate-900 relative pointer-events-auto">
-              <button type="button" className="flex w-full  items-center text-sm leading-6 text-slate-400 rounded-md ring-1 ring-slate-900/10 shadow-sm py-1.5 pl-2 pr-3 hover:ring-slate-300 dark:hover:ring-slate-700 dark:bg-slate-800 dark:highlight-white/5 dark:hover:bg-slate-700">
+              <button onClick={()=>{setUseSearch(!useSearch)}} type="button" className="flex w-full  items-center text-sm leading-6 text-slate-400 rounded-md ring-1 ring-slate-900/10 shadow-sm py-1.5 pl-2 pr-3 hover:ring-slate-300 dark:hover:ring-slate-700 dark:bg-slate-800 dark:highlight-white/5 dark:hover:bg-slate-700">
                 <svg width="24" height="24" fill="none" aria-hidden="true" className="mr-3 flex-none"><path d="m19 19-3.5-3.5" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"></path><circle cx="11" cy="11" r="6" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"></circle></svg>
                 Quick search...
                 <span className="ml-auto pl-3 flex-none text-xs font-semibold">⌘K</span>
