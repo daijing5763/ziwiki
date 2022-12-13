@@ -113,17 +113,17 @@ export default function Home({ session}) {
   }, []);
   useEffect(() => {
     const slugs = router.query.slug;
-    if (typeof slugs != "undefined") {
+    if (typeof slugs != "undefined" && Array.isArray(slugs)) {
       if (slugs.join("/") == "home"){
         setmarkdown("Repo HomePage")
       } else {
         getMarkdown({
           "mdhref":slugs.join("/"),
-          "repo_id":parseInt(router.query.repoid),
+          "repo_id":parseInt(Array.isArray(router.query.repoid) ? router.query.repoid[0] : router.query.repoid),
         });
         getMarkdownList({
           "mdhref":slugs.join("/")+".list",
-          "repo_id":parseInt(router.query.repoid),
+          "repo_id":parseInt(Array.isArray(router.query.repoid) ? router.query.repoid[0] : router.query.repoid),
         });
       }
     }
@@ -131,7 +131,7 @@ export default function Home({ session}) {
   useEffect(() => {
     getLayout({
       "mdhref": "layout.json",
-      "repo_id":parseInt(router.query.repoid),
+      "repo_id":parseInt(Array.isArray(router.query.repoid) ? router.query.repoid[0] : router.query.repoid),
     });
   },[router.query.repoid]);
 
@@ -223,7 +223,7 @@ return (
       `}>
       <div className="fixed lg:hidden inset-0 bg-black/20 backdrop-blur-sm dark:bg-slate-900/80" ></div>
       <div className="fixed lg:hidden inset-0 bg-white w-[20rem] p-6 dark:bg-slate-900" ></div>
-      <SideBar repo_id={parseInt(router.query.repoid)} access_token={session.access_token} layout={layout} SideBarIndex={SideBarIndex} setSideBarIndex={setSideBarIndex}/>
+      <SideBar repo_id={parseInt(Array.isArray(router.query.repoid) ? router.query.repoid[0] : router.query.repoid)} access_token={session.access_token} layout={layout} SideBarIndex={SideBarIndex} setSideBarIndex={setSideBarIndex}/>
     </div>
 
     <div className={`overflow-hidden ${NavBarOpen?'lg:pl-[20rem] lg:pr-[20rem]':'px-4 pb-6'}` } >
