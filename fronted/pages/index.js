@@ -1,22 +1,8 @@
 import PopNav from "../components/popnav"
-import { MathJax, MathJaxContext } from "better-react-mathjax";
 import { getSession, useSession, signOut } from "next-auth/react"
 import React, { useState } from 'react';
 import Link from 'next/link'
-const config = {
-  loader: { load: ["[tex]/html"] },
-  tex: {
-    packages: { "[+]": ["html"] },
-    inlineMath: [
-      ["$", "$"],
-      ["\\(", "\\)"]
-    ],
-    displayMath: [
-      ["$$", "$$"],
-      ["\\[", "\\]"]
-    ]
-  }
-};
+
 import { MdDarkMode, MdLightMode ,MdLogin,MdMenu,MdClose} from "react-icons/md"
 export default function Home({data}) {
   const { data: session } = useSession()
@@ -44,9 +30,6 @@ export default function Home({data}) {
       
 
 </div>
-
-
-
   )
 }
 

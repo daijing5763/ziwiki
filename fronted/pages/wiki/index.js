@@ -110,7 +110,7 @@ return (
                         dark:bg-slate-700 dark:ring-0 dark:highlight-white/10 dark:hover:bg-slate-800">
 
                           <dl className="grid sm:block lg:grid xl:block grid-cols-1 grid-rows-4 items-center">
-                          <Link href={"/wiki/"+repo.id+"/"}>
+                          <Link href={"/wiki/"+repo.id+"/home"}>
                             <div className="flex items-center">
                               <AiFillGithub className={`w-12 h-12 p-2 ${repo.repo_from!="github" && "hidden"}` } />
                               <AiFillGitlab className={`w-12 h-12 p-2 ${repo.repo_from!="gitlab" && "hidden"}` } />

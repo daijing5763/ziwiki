@@ -1,4 +1,3 @@
-
 import NavBar from "../../../components/navbar"
 import MermaidCode from "../../../mermaid"
 import { MathJaxContext,MathJax } from "better-react-mathjax";
@@ -12,8 +11,6 @@ import { authOptions } from 'pages/api/auth/[...nextauth]'
 import { unstable_getServerSession } from "next-auth/next"
 
 import { useRouter } from "next/router"
-import { CLIENT_STATIC_FILES_RUNTIME_POLYFILLS_SYMBOL } from "next/dist/shared/lib/constants";
-
 const config = {
   loader: { load: ["[tex]/html"] },
   tex: {
@@ -107,7 +104,6 @@ export default function Home({ session}) {
       const data = JSON.parse(sideOpen);
       setNavBarOpen(data);
     } 
-    
     const sideIndex = localStorage.getItem('SideOpenIndex');
     if (sideIndex) {
       const data = JSON.parse(sideIndex);
@@ -116,17 +112,24 @@ export default function Home({ session}) {
   }, []);
   useEffect(() => {
     const slugs = router.query.slug;
-    getMarkdown({
-      "mdhref":slugs.join("/"),
-      "repo_id":parseInt(router.query.repoid),
-    });
-    getMarkdownList({
-      "mdhref":slugs.join("/")+".list",
-      "repo_id":parseInt(router.query.repoid),
-    });
+    if (typeof slugs != "undefined") {
+      if (slugs.join("/") == "home"){
+        setmarkdown("Repo HomePage")
+      } else {
+        getMarkdown({
+          "mdhref":slugs.join("/"),
+          "repo_id":parseInt(router.query.repoid),
+        });
+        getMarkdownList({
+          "mdhref":slugs.join("/")+".list",
+          "repo_id":parseInt(router.query.repoid),
+        });
+      }
+    }
   }, [router.query.slug]);
-    
   useEffect(() => {
+    console.log("mydebug:layouts:",router.query.repoid)
+
     getLayout({
       "mdhref": "layout.json",
       "repo_id":parseInt(router.query.repoid),
@@ -236,14 +239,6 @@ return (
       </div>
     </div>
       
-
-      
-
-
-
-
-
-
       <div className="fixed z-20 top-[3.8125rem] bottom-0 right-[max(0px,calc(50%-45rem))] w-[19.5rem] py-10 overflow-y-auto hidden xl:block">
         <div className="px-8">
           <h5 className="text-slate-900 font-semibold mb-4 text-sm leading-6 dark:text-slate-100">
@@ -253,52 +248,15 @@ return (
         </div>
       </div>
 
-
-
-
-
-
-
-
-
-
-
   </div>
   {useSearch && (<Search useSearch={useSearch} setUseSearch={setUseSearch} access_token={session.access_token} />)}
-
-
-
-
-
-
-
 
 </div>
   )
 }
 
-
-// // This gets called on every request
-// export async function getServerSideProps({req}) {
-//   // Fetch data from external API
-//   const session = await getSession({ req })
-//   if(!session){
-//     return {
-//         redirect : {
-//             destination : "/auth/login",
-//             premanent: false
-//         }
-//     }
-//   }
-
-//   return {
-//       props: {session}
-//   }
-// }
-
 export async function getServerSideProps(context) {
   const session = await unstable_getServerSession(context.req, context.res, authOptions)
-
   if(!session){
     return {
         redirect : {
@@ -307,12 +265,9 @@ export async function getServerSideProps(context) {
         }
     }
   }
-
   return {
     props: {
       session,
     },
   }
 }
-
-
