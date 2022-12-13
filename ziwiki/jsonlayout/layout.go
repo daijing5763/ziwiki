@@ -67,6 +67,25 @@ func GenLayout(prefix int, path string, layout *Layout) {
 			GenLayout(prefix, path+"/"+f.Name(), &current_layout)
 			if OwnMd(&current_layout) {
 				layout.Sublayouts = append(layout.Sublayouts, current_layout)
+				lens := len(layout.Sublayouts)
+				if current_layout.Isdir { //[l,r]
+					left := 0
+					right := len(layout.Sublayouts) - 1
+
+					for left < right {
+						mid := (left + right) / 2
+						mid_v := layout.Sublayouts[mid].Isdir
+						if mid_v {
+							left = mid + 1
+						} else {
+							right = mid
+						}
+					}
+					if left < lens-1 {
+						layout.Sublayouts[left], layout.Sublayouts[lens-1] = layout.Sublayouts[lens-1], layout.Sublayouts[left]
+					}
+
+				}
 			}
 		}
 	}

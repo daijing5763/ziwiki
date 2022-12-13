@@ -35,7 +35,6 @@ SET fts = setweight(to_tsvector('jiebacfg', "mdhref"), 'A') ||
           setweight(to_tsvector('jiebacfg', "mdtext"), 'B');
 CREATE INDEX markdowns_fts_gin_index ON "markdowns" USING gin (fts);
 
-DROP TRIGGER IF EXISTS trig_markdowns_insert_update ON "markdowns";
 CREATE TRIGGER trig_markdowns_insert_update
   BEFORE INSERT OR UPDATE OF "mdhref","mdtext"
   ON "markdowns"

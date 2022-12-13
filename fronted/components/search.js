@@ -71,7 +71,7 @@ const clearquery = async (event) => {
   };
 
   return ReactDOM.createPortal((
-      <div id="outersearch" className="fixed inset-0 z-50 backdrop-blur-sm overflow-hidden p-4 sm:p-6 md:p-20 lg:p-28"
+      <div id="outersearch" className="fixed inset-0 z-50 backdrop-blur-sm  dark:text-slate-400 overflow-hidden p-4 sm:p-6 md:p-20 lg:p-28"
       ><div className='lg:mx-[max(0px,calc(50%-25rem))]'>
       
           <div ref={bodyBox} className="flex flex-col  border-slate-200 dark:border-slate-800 border rounded-lg bg-white dark:bg-slate-800" >
