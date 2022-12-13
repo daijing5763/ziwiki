@@ -1,6 +1,6 @@
-export default function login_validate(values) {
 
-    const errors = {};
+export default function login_validate(values:{ [key: string]: string }) {
+    const errors: { [key: string]: string } = {};
     if (!values.username) {
         errors.username = 'Required';
     }
@@ -15,8 +15,8 @@ export default function login_validate(values) {
     return errors;
 }
 
-export function registerValidate(values) {
-    const errors = {};
+export function registerValidate(values: { [key: string]: string }) {
+    const errors: { [key: string]: string } = {};
     if(!values.username){
         errors.username = "Required";
     }else if(values.username.includes(" ")){
@@ -29,8 +29,8 @@ export function registerValidate(values) {
         errors.email = 'Invalid email address';
     }
 
-       // validation for password
-       if(!values.password){
+    // validation for password
+    if(!values.password){
         errors.password = "Required";
     } else if(values.password.length < 8 || values.password.length > 20){
         errors.password = "Must be greater then 8 and less then 20 characters long";
