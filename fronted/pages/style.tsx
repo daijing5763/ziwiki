@@ -2,7 +2,7 @@ export default function UseStyle() {
   
 return (
     <div>
-			<div className="relative z-10 mx-2 my-6 col-span-3 dark:bg-slate-800 bg-white font-semibold rounded-md shadow-lg  ring-1 ring-black/10 dark:ring-1 dark:ring-white/10 dark:ring-inset">
+			<div className="relative z-10 mx-2 my-6 col-span-3 dark:bg-slate-800 bg-white font-semibold rounded-md shadow-lg  ring-1 ring-slate-400 dark:ring-1 dark:ring-white/10 dark:ring-inset">
 				<div className="relative flex text-slate-400 text-sm leading-6">
 						<div className="mt-2 flex-none dark:text-sky-300 text-slate-800 border-t border-b border-t-transparent border-b-slate-600 dark:border-b-sky-300 px-4 py-1 flex items-center">
 								language:$2
@@ -111,7 +111,7 @@ return (
 考虑梯度下降优化，未归一化两个维度更新幅度不一样，导致收敛慢</li>
 </ol>
 <h3 className='text-xl  font-extrabold	text-slate-900 tracking-tight dark:text-slate-200  py-1.5' id="batchnorm">batchnorm</h3>
-<div className="relative z-10 mx-2 my-6 col-span-3 dark:bg-slate-800 bg-white font-semibold rounded-md shadow-lg  ring-1 ring-black/10 dark:ring-1 dark:ring-white/10 dark:ring-inset">
+<div className="relative z-10 mx-2 my-6 col-span-3 dark:bg-slate-800 bg-white font-semibold rounded-md shadow-lg  ring-1 ring-slate-400 dark:ring-1 dark:ring-white/10 dark:ring-inset">
 				<div className="relative flex text-slate-400 text-sm leading-6">
 						<div className="mt-2 flex-none dark:text-sky-300 text-slate-800 border-t border-b border-t-transparent border-b-slate-600 dark:border-b-sky-300 px-4 py-1 flex items-center">
 								language:$2
@@ -132,7 +132,7 @@ return (
 							dark:scrollbar-track-slate-800 dark:scrollbar-thumb-slate-500
 	"><pre><code><span className="flex"><span className="whitespace-pre select-none mr-1.5 px-1.5 text-[#7f7f7f]">1</span><span className="cl"><span className="dark:text-[#89DDFF] text-[#a90d91]">import</span> <span className="dark:text-[#FFCB6B] text-[#000000]">numpy</span> <span className="dark:text-[#BB80B3] text-[#a90d91]">as</span> <span className="dark:text-[#FFCB6B] text-[#000000]">np</span>
 </span></span><span className="flex"><span className="whitespace-pre select-none mr-1.5 px-1.5 text-[#7f7f7f]">2</span><span className="cl"><span className="dark:text-[#EEFFFF] text-[#000000]">x</span><span className="dark:text-[#89DDFF] text-[#000000]">=</span><span className="dark:text-[#EEFFFF] text-[#000000]">np</span><span className="dark:text-[#89DDFF] text-[#000000]">.</span><span className="dark:text-[#EEFFFF] text-[#000000]">random</span><span className="dark:text-[#89DDFF] text-[#000000]">.</span><span className="dark:text-[#EEFFFF] text-[#000000]">random</span><span className="dark:text-[#89DDFF]">([</span><span className="dark:text-[#F78C6C] text-[#1c01ce]">10</span><span className="dark:text-[#89DDFF]">,</span><span className="dark:text-[#F78C6C] text-[#1c01ce]">4</span><span className="dark:text-[#89DDFF]">])</span>
-</span></span></code></pre></div></div><div className="relative z-10 mx-2 my-6 col-span-3 dark:bg-slate-800 bg-white font-semibold rounded-md shadow-lg  ring-1 ring-black/10 dark:ring-1 dark:ring-white/10 dark:ring-inset">
+</span></span></code></pre></div></div><div className="relative z-10 mx-2 my-6 col-span-3 dark:bg-slate-800 bg-white font-semibold rounded-md shadow-lg  ring-1 ring-slate-400 dark:ring-1 dark:ring-white/10 dark:ring-inset">
 				<div className="relative flex text-slate-400 text-sm leading-6">
 						<div className="mt-2 flex-none dark:text-sky-300 text-slate-800 border-t border-b border-t-transparent border-b-slate-600 dark:border-b-sky-300 px-4 py-1 flex items-center">
 								language:$2
@@ -168,7 +168,7 @@ return (
 </code></pre>
 <h3 className='text-xl  font-extrabold	text-slate-900 tracking-tight dark:text-slate-200  py-1.5' id="layer-norm">layer norm</h3>
 
-<div className="relative z-10 mx-2 my-6 col-span-3 dark:bg-slate-800 bg-white font-semibold rounded-md shadow-lg  ring-1 ring-black/10 dark:ring-1 dark:ring-white/10 dark:ring-inset">
+<div className="relative z-10 mx-2 my-6 col-span-3 dark:bg-slate-800 bg-white font-semibold rounded-md shadow-lg  ring-1 ring-slate-400 dark:ring-1 dark:ring-white/10 dark:ring-inset">
 				<div className="relative flex text-slate-400 text-sm leading-6">
 						<div className="mt-2 flex-none dark:text-sky-300 text-slate-800 border-t border-b border-t-transparent border-b-slate-600 dark:border-b-sky-300 px-4 py-1 flex items-center">
 								language:$2
@@ -207,7 +207,7 @@ return (
 
 		
 
-<div className="relative z-10 mx-2 my-6 col-span-3 dark:bg-slate-800 bg-white font-semibold rounded-md shadow-lg  ring-1 ring-black/10 dark:ring-1 dark:ring-white/10 dark:ring-inset">
+<div className="relative z-10 mx-2 my-6 col-span-3 dark:bg-slate-800 bg-white font-semibold rounded-md shadow-lg  ring-1 ring-slate-400 dark:ring-1 dark:ring-white/10 dark:ring-inset">
 				<div className="relative flex text-slate-400 text-sm leading-6">
 						<div className="mt-2 flex-none dark:text-sky-300 text-slate-800 border-t border-b border-t-transparent border-b-slate-600 dark:border-b-sky-300 px-4 py-1 flex items-center">
 								language:$2
@@ -256,6 +256,27 @@ return (
 </tbody>
 </table></div></div>
 
+<h1 class='text-3xl font-black text-slate-900 tracking-tight text-center dark:text-slate-200  pb-6 my-3' id="you-only-look-onceunified-real-time-object-detection">You Only Look Once:Unified, Real-Time Object Detection</h1>
+<h2 class='text-2xl font-extrabold text-slate-900 tracking-tight dark:text-slate-200  py-2' id="python-">python 公式</h2>
+<div class="relative z-10 mx-2 my-6 col-span-3 dark:bg-slate-800 bg-white font-base rounded-md shadow-lg  ring-1 ring-slate-400 dark:ring-1 dark:ring-white/10 dark:ring-inset">
+				<div class="relative flex text-slate-400 text-sm leading-6">
+						<div class="mt-2 flex-none dark:text-sky-300 text-slate-800 border-t border-b border-t-transparent border-b-slate-600 dark:border-b-sky-300 px-4 py-1 flex items-center">
+								language:code
+						</div>
+						<div class="flex-auto flex pt-2 rounded-tr-xl overflow-hidden">
+								<div class="flex-auto -mr-px bg-slate-100 dark:bg-slate-700/50 border border-slate-500/30 rounded-tl">
+								</div>
+						</div>
+						<div class="absolute top-2 right-0 h-8 flex items-center pr-4">
+								<div class="relative flex -mr-2">
+								<span class="copycontent"/>
+								</div>
+						</div>
+				</div>
+	<div class="highlight p-4  text-sm  overflow-x-auto  text-slate-800 dark:text-slate-200
+							scrollbar-thin  scrollbar-thumb-rounded-md scrollbar-track-rounded-md
+	"><pre><code><span class="flex"><span class="whitespace-pre select-none mr-1.5 px-1.5 text-[#7f7f7f]">1</span><span class="cl">  go run main.go
+</span></span></code></pre></div></div>
     </div> 
   )
 }

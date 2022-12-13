@@ -1,7 +1,7 @@
 <h1 class='text-3xl font-black     text-slate-900 tracking-tight text-center dark:text-slate-200  pb-6 my-3'>heading</h1>
 <h2 class='text-2xl font-extrabold text-slate-900 tracking-tight             dark:text-slate-200  py-2'     >code</h2>
 
-	<div class="relative z-10 mx-2 my-6 col-span-3 dark:bg-slate-800 bg-white font-semibold rounded-md shadow-lg  ring-1 ring-black/10 dark:ring-1 dark:ring-white/10 dark:ring-inset">
+	<div class="relative z-10 mx-2 my-6 col-span-3 dark:bg-slate-800 bg-white font-semibold rounded-md shadow-lg  ring-1 ring-slate-400 dark:ring-1 dark:ring-white/10 dark:ring-inset">
 		<div class="relative flex text-slate-400 text-sm leading-6">
 				<div class="mt-2 flex-none dark:text-sky-300 text-slate-800 border-t border-b border-t-transparent border-b-slate-600 dark:border-b-sky-300 px-4 py-1 flex items-center">
 						language:python
@@ -30,7 +30,7 @@
 </span></span><span class='flex'><span class='whitespace-pre select-none mr-1.5 px-1.5 text-[#7f7f7f]'>8</span><span class="highlight-cl">
 </span></span></code></pre></div></div>
 
-	<div class="relative z-10 mx-2 my-6 col-span-3 dark:bg-slate-800 bg-white font-semibold rounded-md shadow-lg  ring-1 ring-black/10 dark:ring-1 dark:ring-white/10 dark:ring-inset">
+	<div class="relative z-10 mx-2 my-6 col-span-3 dark:bg-slate-800 bg-white font-semibold rounded-md shadow-lg  ring-1 ring-slate-400 dark:ring-1 dark:ring-white/10 dark:ring-inset">
 		<div class="relative flex text-slate-400 text-sm leading-6">
 				<div class="mt-2 flex-none dark:text-sky-300 text-slate-800 border-t border-b border-t-transparent border-b-slate-600 dark:border-b-sky-300 px-4 py-1 flex items-center">
 						language:c
@@ -94,7 +94,7 @@
 </span></span><span class='flex'><span class='whitespace-pre select-none mr-1.5 px-1.5 text-[#7f7f7f]'>43</span><span class="highlight-cl"><span class='dark:text-[#89DDFF]'>}</span>
 </span></span></code></pre></div></div>
 
-	<div class="relative z-10 mx-2 my-6 col-span-3 dark:bg-slate-800 bg-white font-semibold rounded-md shadow-lg  ring-1 ring-black/10 dark:ring-1 dark:ring-white/10 dark:ring-inset">
+	<div class="relative z-10 mx-2 my-6 col-span-3 dark:bg-slate-800 bg-white font-semibold rounded-md shadow-lg  ring-1 ring-slate-400 dark:ring-1 dark:ring-white/10 dark:ring-inset">
 		<div class="relative flex text-slate-400 text-sm leading-6">
 				<div class="mt-2 flex-none dark:text-sky-300 text-slate-800 border-t border-b border-t-transparent border-b-slate-600 dark:border-b-sky-300 px-4 py-1 flex items-center">
 						language:python

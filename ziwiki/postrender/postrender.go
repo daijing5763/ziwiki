@@ -310,7 +310,7 @@ func Render(html string) string {
 	blockmathhtml := "<div class='mathcode'><div class='overflow-x-auto overflow-y-hidden scrollbar-thin  scrollbar-thumb-rounded-md scrollbar-track-rounded-md scrollbar-track-white scrollbar-thumb-slate-200 dark:scrollbar-track-slate-800 dark:scrollbar-thumb-slate-500'> $$$ $2  $$$ </div></div>"
 
 	codehtml := `
-	<div class="relative z-10 mx-2 my-6 col-span-3 dark:bg-slate-800 bg-white font-semibold rounded-md shadow-lg  ring-1 ring-black/10 dark:ring-1 dark:ring-white/10 dark:ring-inset">
+	<div class="relative z-10 mx-2 my-6 col-span-3 dark:bg-slate-800 bg-white font-semibold rounded-md shadow-lg  ring-1 ring-slate-400 dark:ring-1 dark:ring-white/10 dark:ring-inset">
 		<div class="relative flex text-slate-400 text-sm leading-6">
 				<div class="mt-2 flex-none dark:text-sky-300 text-slate-800 border-t border-b border-t-transparent border-b-slate-600 dark:border-b-sky-300 px-4 py-1 flex items-center">
 						language:$2

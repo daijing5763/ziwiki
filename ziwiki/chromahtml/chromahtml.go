@@ -171,7 +171,7 @@ var (
 	defaultPreWrapper = preWrapper{
 		start: func(code bool, styleAttr string) string {
 			if code {
-				return fmt.Sprintf(`<div class="relative z-10 mx-2 my-6 col-span-3 dark:bg-slate-800 bg-white font-base rounded-md shadow-lg  ring-1 ring-black/10 dark:ring-1 dark:ring-white/10 dark:ring-inset">
+				return fmt.Sprintf(`<div class="relative z-10 mx-2 my-6 col-span-3 dark:bg-slate-800 bg-white font-base rounded-md shadow-lg  ring-1 ring-slate-400 dark:ring-1 dark:ring-white/10 dark:ring-inset">
 				<div class="relative flex text-slate-400 text-sm leading-6">
 						<div class="mt-2 flex-none dark:text-sky-300 text-slate-800 border-t border-b border-t-transparent border-b-slate-600 dark:border-b-sky-300 px-4 py-1 flex items-center">
 								language:code
@@ -191,7 +191,7 @@ var (
 	"><pre><code>`)
 			}
 
-			return fmt.Sprintf(`<div class="relative z-10 mx-2 my-6 col-span-3 dark:bg-slate-800 bg-white font-base rounded-md shadow-lg  ring-1 ring-black/10 dark:ring-1 dark:ring-white/10 dark:ring-inset">
+			return fmt.Sprintf(`<div class="relative z-10 mx-2 my-6 col-span-3 dark:bg-slate-800 bg-white font-base rounded-md shadow-lg  ring-1 ring-slate-400 dark:ring-1 dark:ring-white/10 dark:ring-inset">
 			<div class="relative flex text-slate-400 text-sm leading-6">
 					<div class="mt-2 flex-none dark:text-sky-300 text-slate-800 border-t border-b border-t-transparent border-b-slate-600 dark:border-b-sky-300 px-4 py-1 flex items-center">
 							languge:code
@@ -446,7 +446,7 @@ func convertTheme(cls string) string {
 	case "n":
 		return "dark:text-[#EEFFFF] text-[#000000]"
 	case "nn":
-		return "dark:text-[#FFCB6B] text-[#000000]"
+		return "dark:text-[#FFCB6B] text-[#289870]"
 	case "k":
 		return "dark:text-[#BB80B3] text-[#a90d91]"
 	case "kc":
@@ -464,13 +464,15 @@ func convertTheme(cls string) string {
 	case "nb":
 		return "dark:text-[#82AAFF] text-[#a90d91]"
 	case "bp":
-		return "dark:text-[#a167e6] text-[#5b269a]"
+		return "dark:text-[#89DDFF] text-[#5b269a]"
 	case "nc":
 		return "dark:text-[#FFCB6B] text-[#3f6e75]"
 	case "nf":
-		return "dark:text-[#82AAFF] text-[#000000]"
+		return "dark:text-[#82AAFF] text-[#785840]"
 	case "nv":
 		return "dark:text-[#89DDFF] text-[#000000]"
+	case "ne":
+		return "dark:text-[#FFCB6B] text-[#908828]"
 
 	case "s":
 		return "dark:text-[#fc6a5d] text-[#c41a16]"
@@ -529,7 +531,8 @@ func convertTheme(cls string) string {
 		return "dark:text-[#546E7A] text-[#633820]"
 	case "p":
 		return "dark:text-[#89DDFF]"
-
+	case "fm":
+		return "dark:text-[#42A0FF] text-[#b85820]"
 	case "o":
 		return "dark:text-[#89DDFF] text-[#000000]"
 	case "g":

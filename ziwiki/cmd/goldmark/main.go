@@ -172,7 +172,18 @@ func main() {
 	if err != nil {
 		return
 	}
-	html_list := t.String()
-	fmt.Println(html_list)
-	fmt.Println(b.String())
+
+	f, err := os.Create("guide0.html")
+	if err != nil {
+		panic(err)
+	}
+	fmt.Println()
+	err = markdown.Convert(data, f)
+	if err != nil {
+		panic(err)
+	}
+
+	// html_list := t.String()
+	// fmt.Println(html_list)
+	// fmt.Println(b.String())
 }
