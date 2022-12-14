@@ -27,13 +27,15 @@ export default function Login(){
      */
 
   async function onSubmit(values) {
-    const id =  toast("正在登录...", {type: toast.TYPE.INFO});
-      const status = await signIn('credentials', {
-          redirect: false,
-          username: values.username,
-          password: values.password,
-          callbackUrl: "/wiki"
-      })
+    console.log("mydebug:onsubmit:",values)
+    const id = toast("正在登录...", { type: toast.TYPE.INFO });
+
+    const status = await signIn('credentials', {
+        redirect: false,
+        username: values.username as string,
+        password: values.password as string,
+        callbackUrl: "/wiki"
+    })
     if (status.ok) {
       toast.update(id, { render: "登录成功" , type: toast.TYPE.SUCCESS, isLoading: false});
       router.push(status.url)
@@ -41,16 +43,6 @@ export default function Login(){
       toast.update(id, { render: "登录失败" , type: toast.TYPE.ERROR, isLoading: false});
     }
   }
-
-    // Google Handler function
-    async function handleGoogleSignin(){
-        signIn('google', { callbackUrl : "https://localhost:3000"})
-    }
-
-    // Github Login 
-    async function handleGithubSignin(){
-        signIn('github', { callbackUrl : "https://localhost:3000"})
-    }
 
     return (
         <div className="antialiased text-slate-500 dark:text-slate-400 bg-white dark:bg-slate-900 min-h-screen">

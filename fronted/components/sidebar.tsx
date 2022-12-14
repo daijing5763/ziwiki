@@ -16,7 +16,7 @@ export default function SideBar({ repo_id,access_token, layout, SideBarIndex, se
       },
       body: JSON.stringify({ "repo_id": repo_id })
     }
-    await fetch('https://localhost/api/pull_repo', options)
+    await fetch('https://localhost/backend/pull_repo', options)
         .then(res => res.json())
       .then((data) => {
         if (data.error){

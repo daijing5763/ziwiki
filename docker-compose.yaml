@@ -8,6 +8,7 @@ services:
           - 443:443
       links:
           - api
+          - nextapp
       depends_on:
           - api
           - nextapp
@@ -30,6 +31,8 @@ services:
     #   dockerfile: ./build_image_on_alpine/DockerfileRun
     expose:
       - "8080"
+    ports:
+      - 8080:8080
     environment:
       - DB_SOURCE=postgresql://root:secret@postgres:5432/ziwiki?sslmode=disable
     depends_on:
@@ -54,6 +57,8 @@ services:
         - api
       depends_on:
         - api
+      # ports:
+      #   - 4000:3000
   monitor:
     image: 
       monitor_image_alpine

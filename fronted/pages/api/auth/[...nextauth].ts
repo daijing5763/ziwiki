@@ -6,36 +6,37 @@ export const authOptions: NextAuthOptions  = {
     providers : [
     CredentialsProvider({
             credentials: {
-              username: {label: "username", type: "text", placeholder: "username"},
-              password: { label: "password ", type: "text", placeholder: "password" },
+                username: {label: "username", type: "text", placeholder: "username"},
+                password: { label: "password ", type: "text", placeholder: "password" },
             },
             name : "Credentials",
-            async authorize(credentials) {
+        async authorize(credentials) {
             const options = {
                 method: "POST",
                 headers : { 'Content-Type': 'application/json'},
                 body: JSON.stringify(credentials)
             }
-
-            const result = await fetch('https://localhost/api/users/login', options).then(res=>res.json())
+            const res = await fetch('https://localhost/backend/users/login', options)
+            const result = await res.json()
             if (!result) {
                 throw new Error("something wrong may net work not connected")
             }
             if (result.error) {
                 throw new Error(result.error)
             }
-              let user = {
-                  id:result.user.id,
-                  session_id: result.session_id as string,
-                  access_token: result.access_token as string,
-                  access_token_expires_at: new Date(result.access_token_expires_at).getTime(),
-                  refresh_token: result.refresh_token as string,
-                  refresh_token_expires_at: new Date(result.refresh_token_expires_at).getTime(),
-                  username: result.user.username as string,
-                  email: result.user.email as string,
-                  created_at: result.user.created_at as string,
-                  user_id:result.user.id as string,
-                }
+            let user = {
+                id:result.user.id,
+                session_id: result.session_id as string,
+                access_token: result.access_token as string,
+                access_token_expires_at: new Date(result.access_token_expires_at).getTime(),
+                refresh_token: result.refresh_token as string,
+                refresh_token_expires_at: new Date(result.refresh_token_expires_at).getTime(),
+                username: result.user.username as string,
+                email: result.user.email as string,
+                created_at: result.user.created_at as string,
+                user_id:result.user.id as string,
+            }
+            console.log("mydebug:user:",user)
               return user;
             }
         })
@@ -91,7 +92,7 @@ async function refreshAccessToken(token) {
         body: JSON.stringify(token)
     }
 
-    const result = await fetch('https://localhost/api/tokens/renew_access', options)
+    const result = await fetch('https://localhost/backend/tokens/renew_access', options)
         .then(res => res.json())
     // console.log("mydebug refresh callback result:",result)
 

@@ -19,7 +19,7 @@ export default function Search({useSearch,setUseSearch,access_token}) {
       body: JSON.stringify(values)
     }
 
-    await fetch('https://localhost/api/query_markdown_user', options)
+    await fetch('https://localhost/backend/query_markdown_user', options)
       .then(res => res.json())
       .then((data) => {
         if (data && !data.error) {
