@@ -25,7 +25,7 @@ export const authOptions: NextAuthOptions  = {
                 body: JSON.stringify(credentials),
                 agent: httpsAgent,
             }
-            const res = await fetch('https://localhost/backend/users/login', options)
+            const res = await fetch('https://0.0.0.0:8080/users/login', options)
             const result = await res.json()
             if (!result) {
                 throw new Error("something wrong may net work not connected")
@@ -107,7 +107,7 @@ async function refreshAccessToken(token) {
         agent:httpsAgent
     }
 
-    const result = await fetch('https://localhost/backend/tokens/renew_access', options)
+    const result = await fetch('https://localhost:8080/tokens/renew_access', options)
         .then(res => res.json())
     // console.log("mydebug refresh callback result:",result)
 
