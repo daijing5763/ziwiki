@@ -5,11 +5,12 @@ import Link from 'next/link'
 
 import { MdDarkMode, MdLightMode ,MdLogin,MdMenu,MdClose} from "react-icons/md"
 import { AiFillGithub } from "react-icons/ai"
-
-
+import { getSession, useSession, signOut } from "next-auth/react"
+function handleSignOut(){
+    signOut()
+  }
 
 export default function PopNav() {
-
     const [themeDark, setTheme] = useState(true);
     useEffect(() => {
         const themeDarkItem = localStorage.getItem('themeDark');
@@ -121,8 +122,9 @@ return (
             
                     </Link>
 
-                    <div className="hidden md:flex">
-                        <MdLogin className='ml-3 md:ml-6 block w-6 h-6  hover:text-sky-500 cursor-pointer' />
+                    <div className="hidden md:flex" >
+                        <MdLogin className='ml-3 md:ml-6 block w-6 h-6  hover:text-sky-500 cursor-pointer' onClick={handleSignOut}   />
+            
                     </div>
                     <div className="md:hidden inline-flex items-center justify-center rounded-md p-2 ml-3  cursor-pointer">
                         <Popover.Button className="focus:outline-none focus:ring-0">
@@ -183,12 +185,12 @@ return (
                 ))}
                 </div>
                 <a
-                href="#"
+                onClick={handleSignOut} 
                 className="block w-full bg-gray-100 dark:bg-slate-700 px-5 py-3 text-center 
                     font-medium  dark:text-slate-200 hover:bg-sky-100/[10]
                     dark:hover:bg-slate-900/[10]"
                 >
-                Log in
+                sign out
                 </a>
             </div>
             </Popover.Panel>
