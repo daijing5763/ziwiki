@@ -21,7 +21,7 @@ export default ({ session }) => {
       body: JSON.stringify(values)
     }
     
-    await fetch('http://0.0.0.0:8080/get_repo_list', options)
+    await fetch('https://localhost/api/get_repo_list', options)
         .then(res => res.json())
       .then((data) => {
           setrepolist(data);
@@ -37,7 +37,7 @@ export default ({ session }) => {
       },
       body: JSON.stringify(values)
     }
-    await fetch('http://0.0.0.0:8080/pull_repo', options)
+    await fetch('https://localhost/api/pull_repo', options)
         .then(res => res.json())
       .then((data) => {
           console.log(data)

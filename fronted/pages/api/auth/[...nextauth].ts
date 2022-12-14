@@ -17,7 +17,7 @@ export const authOptions: NextAuthOptions  = {
                 body: JSON.stringify(credentials)
             }
 
-            const result = await fetch('http://0.0.0.0:8080/users/login', options).then(res=>res.json())
+            const result = await fetch('https://localhost/api/users/login', options).then(res=>res.json())
             if (!result) {
                 throw new Error("something wrong may net work not connected")
             }
@@ -91,7 +91,7 @@ async function refreshAccessToken(token) {
         body: JSON.stringify(token)
     }
 
-    const result = await fetch('http://0.0.0.0:8080/tokens/renew_access', options)
+    const result = await fetch('https://localhost/api/tokens/renew_access', options)
         .then(res => res.json())
     // console.log("mydebug refresh callback result:",result)
 

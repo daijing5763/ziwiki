@@ -28,7 +28,7 @@ export default function Register() {
         body: JSON.stringify(values)
     }
 
-    await fetch('http://0.0.0.0:8080/users', options)
+    await fetch('https://localhost/api/users', options)
         .then(res => res.json())
       .then((data) => {
         console.log(data)
@@ -37,7 +37,7 @@ export default function Register() {
         } else {
           
           toast.update(id, { render: "注册成功:" , type: toast.TYPE.SUCCESS, isLoading: false});
-          router.push('http://localhost:3000')
+          router.push('https://localhost:3000')
         }
         })
 }

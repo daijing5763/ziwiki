@@ -24,7 +24,7 @@ export default function CreateRepo({ open, setOpen,token }) {
       body: JSON.stringify(values)
   }
   console.log("options:",options)
-  await fetch('http://0.0.0.0:8080/create_repo', options)
+  await fetch('https://localhost/api/create_repo', options)
       .then(res => res.json())
       .then((data) => {
         console.log(data);
