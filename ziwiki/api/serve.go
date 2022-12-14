@@ -2,9 +2,11 @@ package api
 
 import (
 	"fmt"
+	"strconv"
 
 	"github.com/gin-contrib/cors"
 	"github.com/gin-gonic/gin"
+	"github.com/unrolled/secure"
 	db "github.com/zdlpsina/ziwiki/db/sqlc"
 	"github.com/zdlpsina/ziwiki/token"
 	"github.com/zdlpsina/ziwiki/util"
@@ -61,8 +63,27 @@ func (server *Server) setupRouter() {
 
 // Start runs the HTTP server on a specific address.
 func (server *Server) Start(address string) error {
-	return server.router.Run(address)
+	server.router.Use(TlsHandler(8080))
+	return server.router.RunTLS(address, "./bundle.crt", "./bundle.key")
+	// return server.router.Run(address)
 }
 func errorResponse(err error) gin.H {
 	return gin.H{"error": err.Error()}
+}
+
+func TlsHandler(port int) gin.HandlerFunc {
+	return func(c *gin.Context) {
+		secureMiddleware := secure.New(secure.Options{
+			SSLRedirect: true,
+			SSLHost:     ":" + strconv.Itoa(port),
+		})
+		err := secureMiddleware.Process(c.Writer, c.Request)
+
+		// If there was an error, do not continue.
+		if err != nil {
+			return
+		}
+
+		c.Next()
+	}
 }

@@ -7,7 +7,7 @@ require (
 	github.com/aead/chacha20poly1305 v0.0.0-20201124145622-1a5aba2a8b29
 	github.com/fsnotify/fsnotify v1.6.0 // indirect
 	github.com/gin-gonic/gin v1.8.1
-	github.com/go-git/go-git/v5 v5.5.1
+	github.com/go-git/go-git/v5 v5.4.2
 	github.com/golang-jwt/jwt/v4 v4.4.3
 	github.com/golang/mock v1.6.0
 	github.com/google/uuid v1.3.0
@@ -22,9 +22,7 @@ require github.com/alecthomas/chroma/v2 v2.4.0
 
 require (
 	github.com/alecthomas/chroma v0.10.0 // indirect
-	github.com/cloudflare/circl v1.3.0 // indirect
-	github.com/pjbgf/sha1cd v0.2.3 // indirect
-	github.com/skeema/knownhosts v1.1.0 // indirect
+	github.com/mitchellh/go-homedir v1.1.0 // indirect
 	golang.org/x/mod v0.7.0 // indirect
 	golang.org/x/tools v0.4.0 // indirect
 	gopkg.in/fsnotify.v1 v1.4.7 // indirect
@@ -33,7 +31,7 @@ require (
 require (
 	github.com/Jeffail/tunny v0.1.4
 	github.com/Microsoft/go-winio v0.6.0 // indirect
-	github.com/ProtonMail/go-crypto v0.0.0-20221026131551-cf6655e29de4 // indirect
+	github.com/ProtonMail/go-crypto v0.0.0-20210428141323-04723f9f07d7 // indirect
 	github.com/abhinav/goldmark-toc v0.2.1
 	github.com/acomagu/bufpipe v1.0.3 // indirect
 	github.com/aead/chacha20 v0.0.0-20180709150244-8b13a72661da // indirect
@@ -74,6 +72,7 @@ require (
 	github.com/spf13/pflag v1.0.5 // indirect
 	github.com/subosito/gotenv v1.4.1 // indirect
 	github.com/ugorji/go/codec v1.2.7 // indirect
+	github.com/unrolled/secure v1.13.0
 	github.com/xanzy/ssh-agent v0.3.3 // indirect
 	github.com/yuin/goldmark v1.5.3
 	golang.org/x/net v0.4.0 // indirect

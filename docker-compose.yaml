@@ -1,5 +1,17 @@
 version: "3.9"
 services:
+  nginx:
+      container_name: nginx
+      build: ./docker_nginx
+      ports:
+          - 80:80
+          - 443:443
+      links:
+          - api
+      depends_on:
+          - api
+          - nextapp
+
   postgres:
     image: postgres_image_alpine
     environment:
@@ -16,8 +28,8 @@ services:
     # build:
     #   context: .
     #   dockerfile: ./build_image_on_alpine/DockerfileRun
-    ports:
-      - "8080:8080"
+    expose:
+      - "8080"
     environment:
       - DB_SOURCE=postgresql://root:secret@postgres:5432/ziwiki?sslmode=disable
     depends_on:
@@ -32,17 +44,16 @@ services:
         "/app/start.sh"
       ]
     command: [ "/app/server" ]
-  next-app:
-      container_name: next-app
+  nextapp:
+      container_name: nextapp
       image: nextdev
-
       restart: always
-      ports:
-        - 3000:3000
+      expose:
+        - "3000"
+      links:
+        - api
       depends_on:
         - api
-
-
   monitor:
     image: 
       monitor_image_alpine

@@ -6,7 +6,8 @@ go_library(
         "markdown.go",
         "middleware.go",
         "repo.go",
-        "server.go",
+        "serve.go",
+        "static.go",
         "token.go",
         "user.go",
     ],
@@ -21,6 +22,7 @@ go_library(
         "@com_github_gin_gonic_gin//:gin",
         "@com_github_google_uuid//:uuid",
         "@com_github_lib_pq//:pq",
+        "@com_github_unrolled_secure//:secure",
     ],
 )
 

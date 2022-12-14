@@ -1,4 +1,4 @@
-load("@io_bazel_rules_go//go:def.bzl", "go_library", "go_test")
+load("@io_bazel_rules_go//go:def.bzl", "go_library")
 
 go_library(
     name = "mathjax",
@@ -24,15 +24,5 @@ go_library(
         "@com_github_yuin_goldmark//renderer",
         "@com_github_yuin_goldmark//text",
         "@com_github_yuin_goldmark//util",
-    ],
-)
-
-go_test(
-    name = "mathjax_test",
-    srcs = ["mathjax_test.go"],
-    embed = [":mathjax"],
-    deps = [
-        "@com_github_stretchr_testify//assert",
-        "@com_github_yuin_goldmark//:goldmark",
     ],
 )

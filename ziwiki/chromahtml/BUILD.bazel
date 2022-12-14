@@ -5,5 +5,5 @@ go_library(
     srcs = ["chromahtml.go"],
     importpath = "github.com/zdlpsina/ziwiki/chromahtml",
     visibility = ["//visibility:public"],
-    deps = ["@com_github_alecthomas_chroma//v2:chroma"],
+    deps = ["@com_github_alecthomas_chroma_v2//:chroma"],
 )

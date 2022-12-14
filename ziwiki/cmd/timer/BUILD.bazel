@@ -1,19 +1,17 @@
-load("@io_bazel_rules_go//go:def.bzl", "go_library")
+load("@io_bazel_rules_go//go:def.bzl", "go_binary", "go_library")
 
 go_library(
-    name = "lute",
-    srcs = ["lute.go"],
-    cgo = True,
-    importpath = "github.com/zdlpsina/ziwiki/lute",
-    visibility = ["//visibility:public"],
+    name = "timer_lib",
+    srcs = ["main.go"],
+    importpath = "github.com/zdlpsina/ziwiki/cmd/timer",
+    visibility = ["//visibility:private"],
     deps = [
         "//chromahtml",
-        "//db/sqlc",
         "//highlight",
         "//mathjax",
         "//mdextensions",
         "@com_github_abhinav_goldmark_toc//:goldmark-toc",
-        "@com_github_lib_pq//:pq",
+        "@com_github_jeffail_tunny//:tunny",
         "@com_github_yuin_goldmark//:goldmark",
         "@com_github_yuin_goldmark//extension",
         "@com_github_yuin_goldmark//parser",
@@ -21,4 +19,10 @@ go_library(
         "@com_github_yuin_goldmark//text",
         "@com_github_yuin_goldmark//util",
     ],
+)
+
+go_binary(
+    name = "timer",
+    embed = [":timer_lib"],
+    visibility = ["//visibility:public"],
 )

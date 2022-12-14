@@ -10,11 +10,12 @@ go_library(
         "//highlight",
         "//mathjax",
         "//mdextensions",
-        "@com_github_abhinav_goldmark_toc//:go_default_library",
+        "@com_github_abhinav_goldmark_toc//:goldmark-toc",
         "@com_github_yuin_goldmark//:goldmark",
         "@com_github_yuin_goldmark//extension",
         "@com_github_yuin_goldmark//parser",
         "@com_github_yuin_goldmark//renderer",
+        "@com_github_yuin_goldmark//text",
         "@com_github_yuin_goldmark//util",
     ],
 )
