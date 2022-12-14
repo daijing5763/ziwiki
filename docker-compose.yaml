@@ -32,6 +32,16 @@ services:
         "/app/start.sh"
       ]
     command: [ "/app/server" ]
+  next-app:
+      container_name: next-app
+      image: nextdev
+
+      restart: always
+      ports:
+        - 3000:3000
+      depends_on:
+        - api
+
 
   monitor:
     image: 

@@ -32,7 +32,7 @@ export default function Login(){
           redirect: false,
           username: values.username,
           password: values.password,
-          callbackUrl: "/"
+          callbackUrl: "/wiki"
       })
     if (status.ok) {
       toast.update(id, { render: "登录成功" , type: toast.TYPE.SUCCESS, isLoading: false});

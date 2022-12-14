@@ -87,3 +87,7 @@ eslintrc.json:
 ```shell
 npm i next-auth
 ```
+
+## build
+
+docker build -t nextprod . -f prod.Dockerfile

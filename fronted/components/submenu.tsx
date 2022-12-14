@@ -55,7 +55,7 @@ export default function SubMenu({repo_id, menus, layer, offset, SideBarIndex, se
           <div>
             <div className="flex justify-between items-center py-2 ">
               <Link href={"/wiki/"+repo_id+"/"+menu.href}
-                onClick={() => {setIndex(getIndex(layer, offset*SideBarMaxWidth+index, SideBarMaxWidth),menu.href) }}
+                onClick={() => {setIndex(getIndex(layer, offset*SideBarMaxWidth+index, SideBarMaxWidth)) }}
                       className={` block border-l pl-4 -ml-px cursor-pointer 
                         ${acccompare(SideBarIndex, getIndex(layer, offset * SideBarMaxWidth + index,SideBarMaxWidth), SideBarMaxWidth)
                         ? 'text-sky-500 dark:text-sky-400 font-semibold'

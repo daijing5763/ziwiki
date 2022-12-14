@@ -39,3 +39,9 @@ from project root path run:
 ```shell
 docker build -t monitor_image_alpine -f ./build_image_on_alpine/DockerfileMonitor .
 ```
+
+front fronted:
+
+```shell
+docker build -t nextdev . -f dev.Dockerfile
+```

@@ -15,6 +15,6 @@
     "jsx": "preserve",
     "incremental": true
   },
-  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", "pages/_document.tsxx", "pages/wiki/[repoid]/[...slug].tsxx", "pages/wiki/[repoid]/[...slug].tsx", "pages/indexo.tsxx", "pages/indexo.tsx","mermaid/index.tsx"],
+  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", "pages/_document.tsx", "pages/wiki/[repoid]/[...slug].js", "pages/wiki/[repoid]/[...slug].js", "pages/index.tsx", "pages/indexo.tsx","mermaid/index.tsx", "pages/s2.js", "pages/s2.js"],
   "exclude": ["node_modules"]
 }
