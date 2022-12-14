@@ -11,10 +11,19 @@ export const authOptions: NextAuthOptions  = {
             },
             name : "Credentials",
         async authorize(credentials) {
+
+
+            const https = require('https');
+            
+            const httpsAgent = new https.Agent({
+                  rejectUnauthorized: false,
+            });
+            
             const options = {
                 method: "POST",
                 headers : { 'Content-Type': 'application/json'},
-                body: JSON.stringify(credentials)
+                body: JSON.stringify(credentials),
+                agent: httpsAgent,
             }
             const res = await fetch('https://localhost/backend/users/login', options)
             const result = await res.json()
@@ -36,8 +45,7 @@ export const authOptions: NextAuthOptions  = {
                 created_at: result.user.created_at as string,
                 user_id:result.user.id as string,
             }
-            console.log("mydebug:user:",user)
-              return user;
+            return user;
             }
         })
     ],
@@ -86,10 +94,17 @@ export const authOptions: NextAuthOptions  = {
 
 export default NextAuth(authOptions);
 async function refreshAccessToken(token) {
+
+    const https = require('https');
+            
+    const httpsAgent = new https.Agent({
+          rejectUnauthorized: false,
+    });
     const options = {
         method: "POST",
         headers : { 'Content-Type': 'application/json'},
-        body: JSON.stringify(token)
+        body: JSON.stringify(token),
+        agent:httpsAgent
     }
 
     const result = await fetch('https://localhost/backend/tokens/renew_access', options)

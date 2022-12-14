@@ -12,7 +12,6 @@ services:
       depends_on:
           - api
           - nextapp
-
   postgres:
     image: postgres_image_alpine
     environment:
@@ -31,8 +30,8 @@ services:
     #   dockerfile: ./build_image_on_alpine/DockerfileRun
     expose:
       - "8080"
-    ports:
-      - 8080:8080
+    # ports:
+    #   - 8080:8080
     environment:
       - DB_SOURCE=postgresql://root:secret@postgres:5432/ziwiki?sslmode=disable
     depends_on:
