@@ -3,10 +3,12 @@ FROM postgres:14-alpine
 WORKDIR /app
 COPY pg_jieba .
 
-RUN apk add g++ && \
-  apk add cmake && \
-  apk add build-base && \
-  mkdir build && \ 
+COPY deps_postgres.sh .
+RUN chmod +x deps_postgres.sh  \
+  && sh deps_postgres.sh 
+
+
+RUN mkdir build && \ 
   cd build && \
   cmake .. && \
   make && \

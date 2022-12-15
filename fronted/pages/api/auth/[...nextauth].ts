@@ -1,54 +1,51 @@
 import NextAuth from 'next-auth';
 import type { NextAuthOptions } from 'next-auth'
 import CredentialsProvider from 'next-auth/providers/credentials';
-import { backend_base_url } from "../../../utils/env_variable"
+import { backend_base_url, home_url } from "../../../utils/env_variable"
 // import { compare } from 'bcryptjs';
-export const authOptions: NextAuthOptions  = {
-    providers : [
-    CredentialsProvider({
+export const authOptions: NextAuthOptions = {
+    providers: [
+        CredentialsProvider({
             credentials: {
-                username: {label: "username", type: "text", placeholder: "username"},
+                username: { label: "username", type: "text", placeholder: "username" },
                 password: { label: "password ", type: "text", placeholder: "password" },
             },
-            name : "Credentials",
-        async authorize(credentials) {
-            console.log("mydebug:sign in 0")
-            
-            const https = require('https');
-            
-            const httpsAgent = new https.Agent({
-                  rejectUnauthorized: false,
-            });
-            
-            const options = {
-                method: "POST",
-                headers : { 'Content-Type': 'application/json'},
-                body: JSON.stringify(credentials),
-                agent: httpsAgent,
-            }
-            console.log("mydebug:sign in 1:",`${backend_base_url}users/login`)
-            const res =  await fetch(`${backend_base_url}users/login`, options)
-            console.log("mydebug:sign in 2")
-            const result = await  res.json()
-            if (!result) {
-                throw new Error("something wrong may net work not connected")
-            }
-            if (result.error) {
-                throw new Error(result.error)
-            }
-            let user = {
-                id:result.user.id,
-                session_id: result.session_id as string,
-                access_token: result.access_token as string,
-                access_token_expires_at: new Date(result.access_token_expires_at).getTime(),
-                refresh_token: result.refresh_token as string,
-                refresh_token_expires_at: new Date(result.refresh_token_expires_at).getTime(),
-                username: result.user.username as string,
-                email: result.user.email as string,
-                created_at: result.user.created_at as string,
-                user_id:result.user.id as string,
-            }
-            return user;
+            name: "Credentials",
+            async authorize(credentials) {
+
+                const https = require('https');
+
+                const httpsAgent = new https.Agent({
+                    rejectUnauthorized: false,
+                });
+
+                const options = {
+                    method: "POST",
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(credentials),
+                    agent: httpsAgent,
+                }
+                const res = await fetch(`${backend_base_url}users/login`, options)
+                const result = await res.json()
+                if (!result) {
+                    throw new Error("something wrong may net work not connected")
+                }
+                if (result.error) {
+                    throw new Error(result.error)
+                }
+                let user = {
+                    id: result.user.id,
+                    session_id: result.session_id as string,
+                    access_token: result.access_token as string,
+                    access_token_expires_at: new Date(result.access_token_expires_at).getTime(),
+                    refresh_token: result.refresh_token as string,
+                    refresh_token_expires_at: new Date(result.refresh_token_expires_at).getTime(),
+                    username: result.user.username as string,
+                    email: result.user.email as string,
+                    created_at: result.user.created_at as string,
+                    user_id: result.user.id as string,
+                }
+                return user;
             }
         })
     ],
@@ -57,7 +54,7 @@ export const authOptions: NextAuthOptions  = {
         strategy: 'jwt', // 如果这里设置的不是 jwt，那么 jwt 回调函数不会触发
     },
     callbacks: {
-        
+
         // token 一开始没有，user 有；返回的是token
         async jwt({ token, user }) {
             // console.log("mydebug jwt callback:token:", token)
@@ -68,13 +65,13 @@ export const authOptions: NextAuthOptions  = {
                     access_token: user.access_token,
                     accessTokenExpires: user.access_token_expires_at,
                     refresh_token: user.refresh_token,
-                    refresh_token_expires_at:user.refresh_token_expires_at,
+                    refresh_token_expires_at: user.refresh_token_expires_at,
                     username: user.username,
                     email: user.email,
-                    user_id:user.user_id,
+                    user_id: user.user_id,
                 }
             }
-            
+
             // Return previous token if the access token has not expired yet
             if (Date.now() < token.accessTokenExpires) {
                 return token
@@ -82,7 +79,7 @@ export const authOptions: NextAuthOptions  = {
             // Access token has expired, try to update it
             return refreshAccessToken(token)
         },
-            
+
         // 1. getsession 会调用这个，不过之前先call jwt，更新token，默认是有user{},expires
         async session({ session, token }) {
             session.access_token = token.access_token as string
@@ -99,15 +96,15 @@ export default NextAuth(authOptions);
 async function refreshAccessToken(token) {
 
     const https = require('https');
-            
+
     const httpsAgent = new https.Agent({
-          rejectUnauthorized: false,
+        rejectUnauthorized: false,
     });
     const options = {
         method: "POST",
-        headers : { 'Content-Type': 'application/json'},
+        headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(token),
-        agent:httpsAgent
+        agent: httpsAgent
     }
 
     const result = await fetch(`${backend_base_url}tokens/renew_access`, options)

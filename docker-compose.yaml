@@ -1,17 +1,17 @@
-version: "3.9"
+version: "3.3"
 services:
-  # nginx:
-  #     container_name: nginx
-  #     build: ./docker_nginx
-  #     ports:
-  #         - 80:80
-  #         - 443:443
-  #     links:
-  #         - api
-  #         - nextapp
-  #     depends_on:
-  #         - api
-  #         - nextapp
+  nginx:
+    container_name: nginx
+    build: ./docker_nginx
+    ports:
+      - 80:80
+      - 443:443
+    links:
+      - api
+      - nextapp
+    depends_on:
+      - api
+      - nextapp
   postgres:
     image: postgres_image_alpine
     environment:
@@ -23,15 +23,14 @@ services:
     ports:
       - "5432:5432"
   api:
-    image: 
-      run_image_alpine
+    image: run_image_alpine
     # build:
     #   context: .
     #   dockerfile: ./build_image_on_alpine/DockerfileRun
     expose:
       - "8080"
-    ports:
-      - 8080:8080
+    # ports:
+    #   - 8080:8080
     environment:
       - DB_SOURCE=postgresql://root:secret@postgres:5432/ziwiki?sslmode=disable
     depends_on:
@@ -47,26 +46,25 @@ services:
       ]
     command: [ "/app/server" ]
   nextapp:
-      container_name: nextapp
-      # image: nextprod
-      build:
-        context: ./fronted
-        dockerfile: prod.Dockerfile
-        args:
-          NEXT_PUBLIC_BACKEND_URL: ${NEXT_PUBLIC_BACKEND_URL}
-          NEXTAUTH_URL: ${NEXTAUTH_URL}
-      restart: always
-      expose:
-        - "3000"
-      links:
-        - api
-      depends_on:
-        - api
-      ports:
-        - 3000:3000
+    container_name: nextapp
+    # image: nextprod
+    build:
+      context: ./fronted
+      dockerfile: prod.Dockerfile
+      args:
+        NEXT_PUBLIC_BACKEND_URL: ${NEXT_PUBLIC_BACKEND_URL}
+        NEXTAUTH_URL: ${NEXTAUTH_URL}
+    restart: always
+    expose:
+      - "3000"
+    links:
+      - api
+    depends_on:
+      - api
+    # ports:
+    #   - 80:3000
   monitor:
-    image: 
-      monitor_image_alpine
+    image: monitor_image_alpine
     # build:
     #   context: .
     #   dockerfile: ./build_image_on_alpine/DockerfileRun
@@ -87,4 +85,3 @@ services:
     command: [ "/app/monitor" ]
 volumes:
   wiki_data:
-  
