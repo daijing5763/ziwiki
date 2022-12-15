@@ -39,7 +39,7 @@ export default function Login() {
     })
     if (status.ok) {
       toast.update(id, { render: "登录成功", type: toast.TYPE.SUCCESS, isLoading: false });
-      router.push(`${home_url}+"wiki/`)
+      router.push(`${home_url}"wiki/`)
     } else {
       toast.update(id, { render: "登录失败", type: toast.TYPE.ERROR, isLoading: false });
     }
