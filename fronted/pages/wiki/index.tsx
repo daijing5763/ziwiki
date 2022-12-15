@@ -7,6 +7,7 @@ import { AiFillGithub, AiFillGitlab ,AiFillDelete,AiOutlineDelete,AiOutlineSync,
 import { SiGitee } from "react-icons/si"
 import { authOptions } from '../api/auth/[...nextauth]'
 import { unstable_getServerSession } from "next-auth/next"
+import { backend_base_url } from "../../utils/env_variable"
 export default ({ session }) => {
 
   const [repolist, setrepolist] = useState([])
@@ -21,7 +22,7 @@ export default ({ session }) => {
       body: JSON.stringify(values)
     }
     
-    await fetch('https://localhost/backend/get_repo_list', options)
+    await fetch(`${backend_base_url}get_repo_list`, options)
         .then(res => res.json())
       .then((data) => {
           setrepolist(data);
@@ -37,7 +38,7 @@ export default ({ session }) => {
       },
       body: JSON.stringify(values)
     }
-    await fetch('https://localhost/backend/pull_repo', options)
+    await fetch(`${backend_base_url}pull_repo`, options)
         .then(res => res.json())
       .then((data) => {
           console.log(data)

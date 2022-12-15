@@ -1,17 +1,17 @@
 version: "3.9"
 services:
-  nginx:
-      container_name: nginx
-      build: ./docker_nginx
-      ports:
-          - 80:80
-          - 443:443
-      links:
-          - api
-          - nextapp
-      depends_on:
-          - api
-          - nextapp
+  # nginx:
+  #     container_name: nginx
+  #     build: ./docker_nginx
+  #     ports:
+  #         - 80:80
+  #         - 443:443
+  #     links:
+  #         - api
+  #         - nextapp
+  #     depends_on:
+  #         - api
+  #         - nextapp
   postgres:
     image: postgres_image_alpine
     environment:
@@ -48,7 +48,13 @@ services:
     command: [ "/app/server" ]
   nextapp:
       container_name: nextapp
-      image: nextprod
+      # image: nextprod
+      build:
+        context: ./fronted
+        dockerfile: prod.Dockerfile
+        args:
+          NEXT_PUBLIC_BACKEND_URL: ${NEXT_PUBLIC_BACKEND_URL}
+          NEXTAUTH_URL: ${NEXTAUTH_URL}
       restart: always
       expose:
         - "3000"
@@ -56,8 +62,8 @@ services:
         - api
       depends_on:
         - api
-      # ports:
-      #   - 4000:3000
+      ports:
+        - 3000:3000
   monitor:
     image: 
       monitor_image_alpine

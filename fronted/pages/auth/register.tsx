@@ -6,6 +6,7 @@ import { HiAtSymbol, HiFingerPrint, HiOutlineUser } from "react-icons/hi";
 import { registerValidate } from '../../utils/validate'
 import PopNav from "../../components/popnav"
 import { toast } from "react-toastify";
+import { backend_base_url } from "../../utils/env_variable"
 export default function Register() {
   const [show, setShow] = useState({ password: false, cpassword: false })
   const router = useRouter()
@@ -27,11 +28,9 @@ export default function Register() {
         headers : { 'Content-Type': 'application/json'},
         body: JSON.stringify(values)
     }
-
-    await fetch('https://localhost/backend/users', options)
+    await fetch(`${backend_base_url}users`, options)
         .then(res => res.json())
       .then((data) => {
-        console.log(data)
         if (data.error) {
           toast.update(id, { render: "注册失败:" + data.error, type: toast.TYPE.ERROR, isLoading: false });
         } else {

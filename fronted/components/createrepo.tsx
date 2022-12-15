@@ -2,6 +2,7 @@ import { Fragment, useRef, useState } from 'react'
 import { Dialog, Transition } from '@headlessui/react'
 import { ExclamationTriangleIcon } from '@heroicons/react/24/outline'
 import { useFormik } from 'formik';
+import { backend_base_url } from "../utils/env_variable"
 import { HiAtSymbol, HiFingerPrint, HiOutlineUser } from "react-icons/hi";
 export default function CreateRepo({ open, setOpen,token }) {
 
@@ -24,7 +25,7 @@ export default function CreateRepo({ open, setOpen,token }) {
       body: JSON.stringify(values)
   }
   console.log("options:",options)
-  await fetch('https://localhost/backend/create_repo', options)
+  await fetch(`${backend_base_url}create_repo`, options)
       .then(res => res.json())
       .then((data) => {
         console.log(data);

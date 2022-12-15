@@ -8,7 +8,7 @@ import SideBar from "../components/sidebar"
 import Search from "../components/search"
 import parse, { domToReact, attributesToProps  } from 'html-react-parser';
 import { authOptions } from './api/auth/[...nextauth]'
-
+import { backend_base_url } from "../utils/env_variable"
 import { unstable_getServerSession } from "next-auth/next"
 
 import { useRouter } from "next/router"
@@ -42,7 +42,7 @@ export default function Home({ session}) {
       body: JSON.stringify(values)
     }
 
-    await fetch('https://localhost/api/get_markdown', options)
+    await fetch(`${backend_base_url}get_markdown`, options)
       .then(res => res.json())
       .then((data) => {
         if (data && !data.error) {
@@ -63,7 +63,7 @@ export default function Home({ session}) {
       body: JSON.stringify(values)
     }
 
-    await fetch('https://localhost/api/get_markdown', options)
+    await fetch(`${backend_base_url}get_markdown`, options)
       .then(res => res.json())
       .then((data) => {
         if (data && !data.error) {
@@ -84,7 +84,7 @@ export default function Home({ session}) {
       body: JSON.stringify(values)
     }
 
-    await fetch('https://localhost/api/get_markdown', options)
+    await fetch(`${backend_base_url}get_markdown`, options)
       .then(res => res.json())
       .then((data) => {
         if (data && !data.error) {
@@ -175,7 +175,7 @@ export default function Home({ session}) {
       } else if (attribs.class == "image_link") {
         const slugs = router.query.slug;
         if (slugs && !attribs.src.startsWith('http')) {
-          const prefix="https://localhost/api/static_get/1/"+router.query.repoid+"/"+slugs.slice(0,-1).join("/")+"/"+attribs.src
+          const prefix=`${backend_base_url}static_get/1/`+router.query.repoid+"/"+slugs.slice(0,-1).join("/")+"/"+attribs.src
           return (
             <img className="px-3" src={prefix} />
           )

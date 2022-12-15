@@ -1,5 +1,5 @@
 # Step 1. Rebuild the source code only when needed
-FROM node:18-alpine AS builder
+FROM node:16-alpine AS builder
 
 WORKDIR /app
 
@@ -18,10 +18,13 @@ COPY . .
 
 # Environment variables must be present at build time
 # https://github.com/vercel/next.js/discussions/14030
-ARG ENV_VARIABLE
-ENV ENV_VARIABLE=${ENV_VARIABLE}
-ARG NEXT_PUBLIC_ENV_VARIABLE
-ENV NEXT_PUBLIC_ENV_VARIABLE=${NEXT_PUBLIC_ENV_VARIABLE}
+
+ARG NEXT_PUBLIC_BACKEND_URL
+ENV NEXT_PUBLIC_BACKEND_URL=${NEXT_PUBLIC_BACKEND_URL}
+ARG NEXTAUTH_URL
+ENV NEXTAUTH_URL=http://localhost:3000
+ARG NODE_TLS_REJECT_UNAUTHORIZED
+ENV NODE_TLS_REJECT_UNAUTHORIZED=0
 
 # Uncomment the following line to disable telemetry at build time
 # ENV NEXT_TELEMETRY_DISABLED 1
@@ -29,7 +32,7 @@ ENV NEXT_PUBLIC_ENV_VARIABLE=${NEXT_PUBLIC_ENV_VARIABLE}
 RUN yarn build
 
 # Step 2. Production image, copy all the files and run next
-FROM node:18-alpine AS runner
+FROM node:16-alpine AS runner
 
 WORKDIR /app
 
@@ -46,10 +49,15 @@ COPY --from=builder --chown=nextjs:nodejs /app/.next/standalone ./
 COPY --from=builder --chown=nextjs:nodejs /app/.next/static ./.next/static
 
 # Environment variables must be redefined at run time
-ARG ENV_VARIABLE
-ENV ENV_VARIABLE=${ENV_VARIABLE}
-ARG NEXT_PUBLIC_ENV_VARIABLE
-ENV NEXT_PUBLIC_ENV_VARIABLE=${NEXT_PUBLIC_ENV_VARIABLE}
+
+ARG NEXT_PUBLIC_BACKEND_URL
+ENV NEXT_PUBLIC_BACKEND_URL=${NEXT_PUBLIC_BACKEND_URL}
+ARG NEXTAUTH_URL
+ENV NEXTAUTH_URL=http://localhost:3000
+ARG NODE_TLS_REJECT_UNAUTHORIZED
+ENV NODE_TLS_REJECT_UNAUTHORIZED=0
+# ARG NEXTAUTH_URL
+# ENV NEXTAUTH_URL=${NEXT_PUBLIC_NEXTAUTH_URL}
 
 # Uncomment the following line to disable telemetry at run time
 # ENV NEXT_TELEMETRY_DISABLED 1

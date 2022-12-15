@@ -1,6 +1,7 @@
 import NextAuth from 'next-auth';
 import type { NextAuthOptions } from 'next-auth'
 import CredentialsProvider from 'next-auth/providers/credentials';
+import { backend_base_url } from "../../../utils/env_variable"
 // import { compare } from 'bcryptjs';
 export const authOptions: NextAuthOptions  = {
     providers : [
@@ -11,8 +12,8 @@ export const authOptions: NextAuthOptions  = {
             },
             name : "Credentials",
         async authorize(credentials) {
-
-
+            console.log("mydebug:sign in 0")
+            
             const https = require('https');
             
             const httpsAgent = new https.Agent({
@@ -25,8 +26,10 @@ export const authOptions: NextAuthOptions  = {
                 body: JSON.stringify(credentials),
                 agent: httpsAgent,
             }
-            const res = await fetch('https://0.0.0.0:8080/users/login', options)
-            const result = await res.json()
+            console.log("mydebug:sign in 1:",`${backend_base_url}users/login`)
+            const res =  await fetch(`${backend_base_url}users/login`, options)
+            console.log("mydebug:sign in 2")
+            const result = await  res.json()
             if (!result) {
                 throw new Error("something wrong may net work not connected")
             }
@@ -107,7 +110,7 @@ async function refreshAccessToken(token) {
         agent:httpsAgent
     }
 
-    const result = await fetch('https://localhost:8080/tokens/renew_access', options)
+    const result = await fetch(`${backend_base_url}tokens/renew_access`, options)
         .then(res => res.json())
     // console.log("mydebug refresh callback result:",result)
 

@@ -3,6 +3,7 @@ import { AiOutlineSync, AiOutlineDelete, AiOutlineEdit } from "react-icons/ai"
 import Link from "next/link";
 import SubMenu from "./submenu"
 import { toast } from "react-toastify";
+import { backend_base_url } from "../utils/env_variable"
 export default function SideBar({ repo_id,access_token, layout, SideBarIndex, setSideBarIndex,useSearch,setUseSearch }) {
   
   async function syncRepo() {
@@ -16,7 +17,7 @@ export default function SideBar({ repo_id,access_token, layout, SideBarIndex, se
       },
       body: JSON.stringify({ "repo_id": repo_id })
     }
-    await fetch('https://localhost/backend/pull_repo', options)
+    await fetch(`${backend_base_url}pull_repo`, options)
         .then(res => res.json())
       .then((data) => {
         if (data.error){

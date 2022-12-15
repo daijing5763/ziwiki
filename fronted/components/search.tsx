@@ -5,6 +5,7 @@ import {MdSearch, MdCancel} from "react-icons/md"
 import { CgHashtag } from "react-icons/cg"
 import { BiChevronRight } from "react-icons/bi"
 import parse, { domToReact } from 'html-react-parser';
+import { backend_base_url } from "../utils/env_variable"
 export default function Search({useSearch,setUseSearch,access_token}) {
   const [query, setquery] = useState('');
   const [searchedDoc, setSearchedDoc] = useState([])
@@ -19,7 +20,7 @@ export default function Search({useSearch,setUseSearch,access_token}) {
       body: JSON.stringify(values)
     }
 
-    await fetch('https://localhost/backend/query_markdown_user', options)
+    await fetch(`${backend_base_url}query_markdown_user`, options)
       .then(res => res.json())
       .then((data) => {
         if (data && !data.error) {
