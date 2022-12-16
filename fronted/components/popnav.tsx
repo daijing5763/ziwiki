@@ -145,12 +145,16 @@ return (
             >
             <Popover.Panel
             focus
-            className="absolute inset-x-0 top-0 z-10 origin-top-right transform p-2 transition md:hidden"
+            className="absolute inset-x-0 top-0 z-10 origin-top-right transform p-0 transition md:hidden"
             >
-
-            <div className="overflow-hidden rounded-lg 
-                bg-white/95 supports-backdrop-blur:bg-white/60
-                dark:border-slate-50/[0.06] dark:bg-slate-800 text-slate-500 dark:text-slate-200
+            <div className="absolute z-20 top-0 inset-x-0 flex justify-center overflow-hidden pointer-events-none">
+                <div className="w-[108rem] flex-none flex justify-end">
+                    <img src="bg.avif" alt="" className="w-[90rem] flex-none max-w-none  block" decoding="async" />
+                </div>
+            </div>
+            <div className="overflow-hidden 
+                bg-white supports-backdrop-blur:bg-white/60
+                dark:border-slate-50/[0.06] dark:bg-slate-900 text-slate-500 dark:text-slate-200
                 shadow-md ring-1 ring-black ring-opacity-5">
                 <div className="flex items-center justify-between px-5 pt-4">
                 <div>
@@ -163,8 +167,8 @@ return (
                 <div className="-mr-2">
                     <Popover.Button className="inline-flex items-center justify-center rounded-md
                     dark:bg-transparent p-2 text-gray-400 hover:bg-gray-100
-                    hover:text-gray-500 focus:outline-none focus:ring-2 focus:ring-inset
-                    dark:hover:bg-slate-900/[10]
+                    hover:text-gray-500 focus:outline-none  focus:ring-inset
+                    dark:hover:bg-slate-900/[10] ring-0 ring-text-slate-500 focus:ring-0
                     ">
                     <span className="sr-only">Close main menu</span>
                         <MdClose className="h-6 w-6" aria-hidden="true" />
@@ -187,10 +191,10 @@ return (
                 <a
                 onClick={handleSignOut} 
                 className="block w-full bg-gray-100 dark:bg-slate-700 px-5 py-3 text-center 
-                    font-medium  dark:text-slate-200 hover:bg-sky-100/[10]
-                    dark:hover:bg-slate-900/[10]"
+                    font-medium  dark:text-slate-100 hover:bg-sky-100/[10]
+                    dark:hover:bg-slate-600"
                 >
-                sign out
+                Sign Out
                 </a>
             </div>
             </Popover.Panel>
