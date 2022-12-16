@@ -45,8 +45,15 @@ export default function Register() {
       <PopNav />
       <div className="overflow-hidden">
         <div className='mx-3 md:mx-4 sm:px-6 md:px-8'>
-          <div className="bg-gray-50 dark:bg-transparent min-h-screen flex items-center justify-center">
-            <div className="bg-gray-100 dark:bg-slate-900/70 text-[#002D74] dark:text-slate-200 dark:backdrop-blur dark:ring-1 dark:ring-inset dark:ring-white/10 flex rounded-2xl shadow-lg max-w-3xl p-5 items-center">
+          <div className="p-5 flex items-center justify-center">
+            <div className="absolute z-20 top-0 inset-x-0 flex justify-center overflow-hidden pointer-events-none">
+                <div className="w-[108rem] flex-none flex justify-end">
+                    <img src="/bg.avif" alt="" className="w-[90rem] flex-none max-w-none  block" decoding="async" />
+                </div>
+            </div>
+
+
+            <div className=" text-[#002D74] dark:text-slate-200 dark:backdrop-blur  flex  max-w-3xl p-5 items-center">
               <div className="md:w-1/2 px-8 md:px-16">
                 <picture>
                   <img src="/logo.svg" className="mx-auto h-12 w-auto" alt="LOGO" />
@@ -58,17 +65,7 @@ export default function Register() {
                     </h1>
                   </div>
                 </Link>
-                <h2 className="font-bold pt-5 mt-5 text-2xl ">注册</h2>
-                <p className="text-xs mt-4 ">若您未注册，请注册</p>
-                {/* <form action="" className="flex flex-col gap-4" onSubmit={formik.handleSubmit}>
-    
-              <input autoComplete="email" className="p-2 mt-8 rounded-xl border" type="email" name="email" placeholder="邮箱"/>
-              <div className="relative">
-                <input autoComplete="current-password" className="p-2 rounded-xl border w-full" type="password" name="password" placeholder="密码"/>
-              </div>
-              <button className="bg-[#002D74]  rounded-xl text-white py-2 hover:scale-105 duration-300">注册</button>
-            </form> */}
-                {/* form */}
+                <h2 className="font-bold  mt-5 text-2xl ">注册</h2>
                 <form className='flex flex-col gap-4' onSubmit={formik.handleSubmit}>
                   <div className="flex justify-center items-center mt-8 " >
                     <input
@@ -99,7 +96,7 @@ export default function Register() {
                   <div className="flex justify-center items-center">
                     <input
                       className="p-2 rounded-md border dark:text-slate-800"
-                      type={`password`}
+                      type={`${show.password ? "text" : "password"}`}
                       name='password'
                       placeholder='password'
                       {...formik.getFieldProps('password')}
@@ -122,12 +119,9 @@ export default function Register() {
                       <HiFingerPrint size={25} />
                     </span>
                   </div>
-                  {/* {formik.errors.cpassword && formik.touched.cpassword ? <span className='text-rose-500'>{formik.errors.cpassword}</span> : <></>} */}
 
-                  {/* login buttons */}
-                  {/* <div className="flex w-full"> */}
                   <button className="bg-[#002D74]  rounded-xl text-white py-2 mt-2 hover:scale-105 duration-300" type='submit' >
-                    Sign Up
+                    注册
                   </button>
                   {/* </div> */}
                 </form>
@@ -139,7 +133,7 @@ export default function Register() {
                 <div className="mt-3 text-xs flex justify-between items-center ">
                   <p>已经注册账户?</p>
                   <Link href="/auth/login">
-                    <button className="py-2 px-5 bg-white  rounded-xl hover:scale-110 duration-300 dark:bg-[#002D74]">登录</button>
+                    <button className="py-2 px-5 text-white rounded-xl hover:scale-110 duration-300 bg-[#002D74]">登录</button>
                   </Link>
                 </div>
               </div>
