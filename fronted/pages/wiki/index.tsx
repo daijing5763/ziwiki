@@ -104,35 +104,41 @@ return (
                       <input type="text" aria-label="Filter projects" placeholder="Filter projects..." className="appearance-none w-full text-sm leading-6 bg-transparent text-slate-900 placeholder:text-slate-400 rounded-md py-2 pl-10 ring-1 ring-slate-200 shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 dark:text-slate-100 dark:placeholder:text-slate-500 dark:ring-0 dark:focus:ring-2"/>
                     </div>
                   </header>
-                  <ul className="bg-slate-50 p-4 sm:px-8 sm:pt-6 sm:pb-8 lg:p-4 xl:px-8 xl:pt-6 xl:pb-8 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3  lg:grid-cols-5 xl:grid-cols-5 gap-4 text-sm leading-6 dark:bg-slate-900/40 dark:ring-1 dark:ring-white/5">
+                  <ul className="bg-slate-50 p-4 sm:px-8 sm:pt-6 sm:pb-8 lg:p-4 xl:px-8 xl:pt-6 xl:pb-8 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3  lg:grid-cols-4 3xl:grid-cols-5 gap-4 text-sm leading-6 dark:bg-slate-900/40 dark:ring-1 dark:ring-white/5">
                       {repolist.map((repo,index) => (
                           <li key={index} className="group cursor-pointer rounded-md p-3 bg-white ring-1 ring-slate-200
-                          shadow-sm hover:bg-sky-500 hover:ring-sky-500 hover:shadow-md
+                          shadow-sm hover:ring-2 hover:ring-sky-500 hover:shadow-md
                         dark:bg-slate-700 dark:ring-0 dark:highlight-white/10 dark:hover:bg-slate-800">
 
-                          <dl className="grid sm:block lg:grid xl:block grid-cols-1 grid-rows-4 items-center">
+
+                          <dl className="sm:block lg:grid xl:block grid-cols-1 grid-rows-4 items-center">
                           <Link href={"/wiki/"+repo.id+"/home"}>
-                            <div className="flex items-center">
-                              <AiFillGithub className={`w-12 h-12 p-2 ${repo.repo_from!="github" && "hidden"}` } />
-                              <AiFillGitlab className={`w-12 h-12 p-2 ${repo.repo_from!="gitlab" && "hidden"}` } />
-                              <SiGitee className={`w-12 h-12 p-2 ${repo.repo_from!="gitee" && "hidden"}` }/>
-                              <dd className="font-semibold text-xl text-slate-900 group-hover:text-white dark:text-slate-100">
-                                {repo.repo_name}
-                              </dd>
-                            </div>
-                            <div>
-                                <dd className="group-hover:text-blue-200 text-base">{repo.repo_describe}</dd>
-                              </div>
-                          </Link>
-                            <div className="col-start-2 row-start-1 row-end-3">
+                            <div className="flex items-center justify-between">
+                              <AiFillGithub className={`w-11 h-11  ${repo.repo_from!="github" && "hidden"}` } />
+                              <AiFillGitlab className={`w-11 h-11  ${repo.repo_from!="gitlab" && "hidden"}` } />
+                              <SiGitee className={`w-11 h-11  ${repo.repo_from!="gitee" && "hidden"}` }/>
+
+                              <div className="col-start-2 row-start-1 row-end-3">
                                 <dd className="flex justify-end sm:justify-end lg:justify-end xl:justify-end -space-x-1.5">
-                                <AiOutlineDelete className={`w-9 h-9 p-2 `} />
-                                <Link href="#" onClick={()=>syncRepo( { "repo_id": repo.id  })}>
-                                  <AiOutlineSync className={`w-9 h-9 p-2 `} />
-                                </Link>
-                                  <AiOutlineEdit className={`w-9 h-9 p-2 ` } />
+                                  <AiOutlineDelete className={`w-10 h-10 p-2 `} />
+                                  <Link href="#" onClick={()=>syncRepo( { "repo_id": repo.id  })}>
+                                    <AiOutlineSync className={`w-10 h-10 p-2 `} />
+                                  </Link>
+                                    <AiOutlineEdit className={`w-10 h-10 p-2 ` } />
                                 </dd>
+                              </div>
                             </div>
+                              
+                            <div className="font-extrabold text-2xl py-4 text-slate-900  dark:text-slate-100">
+                              {repo.repo_name}
+                            </div>
+                              
+                            <div>
+                                <p className=" text-base">{repo.repo_describe}</p>
+                            </div>
+                            </Link>
+
+
                             
                           </dl>
                         
@@ -142,15 +148,15 @@ return (
 
                       <li className="flex">
                         <div onClick={showCreateRepo} className="group w-full  flex flex-col items-center justify-center rounded-md border-2 border-dashed 
-                        border-slate-300 text-sm leading-6 text-slate-900 font-medium py-3 cursor-pointer
-                          hover:border-blue-500 hover:border-solid hover:bg-white hover:text-blue-500
+                        border-slate-300 text-sm leading-6 text-slate-900 font-medium py-10 cursor-pointer
+                        hover:border-sky-500 hover:border-solid hover:bg-white hover:text-sky-500
                           dark:border-slate-700 dark:text-slate-100 dark:hover:border-blue-500 dark:hover:bg-transparent
                           dark:hover:text-blue-500">
-                        <svg width="20" height="20" fill="currentColor" className="mb-1 text-slate-400 group-hover:text-blue-500">
+                        <svg width="24" height="24" fill="currentColor" className="mb-1 text-slate-400 group-hover:text-sky-500">
                           <path d="M10 5a1 1 0 0 1 1 1v3h3a1 1 0 1 1 0 2h-3v3a1 1 0 1 1-2 0v-3H6a1 1 0 1 1 0-2h3V6a1 1 0 0 1 1-1Z">
                           </path>
                         </svg>
-                          New project
+                          新建仓库
                         </div>
                       </li>
                   </ul>
