@@ -171,7 +171,7 @@ var (
 	defaultPreWrapper = preWrapper{
 		start: func(code bool, styleAttr string) string {
 			if code {
-				return fmt.Sprintf(`<div class="relative z-10 mx-2 my-6 col-span-3 dark:bg-slate-800 bg-white font-base rounded-md shadow-lg  ring-1 ring-slate-400 dark:ring-1 dark:ring-white/10 dark:ring-inset">
+				return fmt.Sprintf(`<div class="relative z-10 mx-2 my-6 col-span-3 dark:bg-slate-800 bg-white font-base rounded-md shadow-lg  ring-1 ring-slate-700/10 dark:ring-1 dark:ring-white/10 dark:ring-inset">
 				<div class="relative flex text-slate-400 text-sm leading-6">
 						<div class="mt-2 flex-none dark:text-sky-300 text-slate-800 border-t border-b border-t-transparent border-b-slate-600 dark:border-b-sky-300 px-4 py-1 flex items-center">
 								language:code
@@ -191,7 +191,7 @@ var (
 	"><pre><code>`)
 			}
 
-			return fmt.Sprintf(`<div class="relative z-10 mx-2 my-6 col-span-3 dark:bg-slate-800 bg-white font-base rounded-md shadow-lg  ring-1 ring-slate-400 dark:ring-1 dark:ring-white/10 dark:ring-inset">
+			return fmt.Sprintf(`<div class="relative z-10 mx-2 my-6 col-span-3 dark:bg-slate-800 bg-white font-base rounded-md shadow-lg  ring-1 ring-slate-700/10 dark:ring-1 dark:ring-white/10 dark:ring-inset">
 			<div class="relative flex text-slate-400 text-sm leading-6">
 					<div class="mt-2 flex-none dark:text-sky-300 text-slate-800 border-t border-b border-t-transparent border-b-slate-600 dark:border-b-sky-300 px-4 py-1 flex items-center">
 							languge:code
@@ -440,7 +440,7 @@ func convertTheme(cls string) string {
 	case "lnt":
 		return "whitespace-pre select-none mr-1.5 px-1.5 text-[#7f7f7f]"
 	case "ln":
-		return "whitespace-pre select-none mr-1.5 px-1.5 text-[#7f7f7f]"
+		return "whitespace-pre select-none mr-1.5 px-1.5 dark:text-slate-400 text-slate-700"
 	case "line":
 		return "flex"
 	case "n":

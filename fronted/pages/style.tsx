@@ -255,7 +255,10 @@ return (
 </tr>
 </tbody>
 </table></div></div>
-
+<blockquote className="border-l-8 px-2  my-3 mx-1 indent-8  py-0.5 border-sky-500 bg-slate-100/5 dark:bg-slate-800/50 rounded-md ring-1 ring-slate-900/10 shadow-sm">
+<p className="my-2 indent-8 text-base  text-slate-700 dark:text-slate-400"><strong>摘要</strong>：战城南，死郭北，野死不葬乌可食。为我谓乌：且为客豪！野死谅不葬，俯腐肉安能去子逃？水深激激，蒲苇冥冥；枭骑战斗死，驽马徘徊鸣。
+梁筑室，何以南？何以北？禾黍不获君何食？愿为忠臣安可得？思子良臣，良臣诚可思：朝行出攻，暮不夜归！?</p>
+</blockquote>
 <h1 className='text-3xl font-black text-slate-900 tracking-tight text-center dark:text-slate-200  pb-6 my-3' id="you-only-look-onceunified-real-time-object-detection">You Only Look Once:Unified, Real-Time Object Detection</h1>
 <h2 className='text-2xl font-extrabold text-slate-900 tracking-tight dark:text-slate-200  py-2' id="python-">python 公式</h2>
 <div className="relative z-10 mx-2 my-6 col-span-3 dark:bg-slate-800 bg-white font-base rounded-md shadow-lg  ring-1 ring-slate-400 dark:ring-1 dark:ring-white/10 dark:ring-inset">
