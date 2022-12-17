@@ -16,7 +16,7 @@ export default function SubMenu({repo_id, menus, layer, offset, SideBarIndex, se
     setSideBarIndex(index);
   }
   return (
-    <ul className="ml-4  text-xl md:text-base lg:text-base   font-base   border-l border-slate-100 dark:border-slate-700  ">
+    <ul className="md:ml-4 ml-6  text-xl md:text-base lg:text-base   font-base   border-l border-slate-100 dark:border-slate-700  ">
 
 
 
@@ -24,9 +24,9 @@ export default function SubMenu({repo_id, menus, layer, offset, SideBarIndex, se
         menu.isdir ? (
           <li key={index}>
             <div className="">
-              <div className="flex justify-between items-center py-2 ">
+              <div className="flex justify-between items-center md:py-2 py-3 ">
                   <a onClick={() => {setIndex(getIndex(layer, offset*SideBarMaxWidth+index, SideBarMaxWidth)) }}
-                        className={` block border-l pl-4 -ml-px cursor-pointer 
+                        className={` block border-l pl-6 md:pl-4 -ml-px cursor-pointer 
                           ${acccompare(SideBarIndex, getIndex(layer, offset * SideBarMaxWidth + index,SideBarMaxWidth), SideBarMaxWidth)
                           ? 'text-sky-500 dark:text-sky-400 font-semibold'
                           :'text-slate-700 hover:text-slate-900 dark:text-slate-400 dark:hover:text-slate-300 dark:hover:border-slate-500' }
@@ -53,10 +53,10 @@ export default function SubMenu({repo_id, menus, layer, offset, SideBarIndex, se
         ) : (
           <li key={index}>
           <div>
-            <div className="flex justify-between items-center py-2 ">
+            <div className="flex justify-between items-center md:py-2 py-3">
               <Link href={"/wiki/"+repo_id+"/"+menu.href}
                 onClick={() => {setIndex(getIndex(layer, offset*SideBarMaxWidth+index, SideBarMaxWidth)) }}
-                      className={` block border-l pl-4 -ml-px cursor-pointer 
+                      className={` block border-l pl-6 md:pl-4 -ml-px cursor-pointer 
                         ${acccompare(SideBarIndex, getIndex(layer, offset * SideBarMaxWidth + index,SideBarMaxWidth), SideBarMaxWidth)
                         ? 'text-sky-500 dark:text-sky-400 font-semibold'
                         :'text-slate-700 hover:text-slate-900 dark:text-slate-400 dark:hover:text-slate-300 dark:hover:border-slate-500' }
