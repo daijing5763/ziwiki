@@ -177,7 +177,7 @@ return (
                 </div>
                 <div className="space-y-1 px-2 pt-2 pb-3">
                 {navigation.map((item) => (
-                    <a
+                    <Link
                     key={item.name}
                     href={item.href}
                     className="block rounded-md px-3 py-2 text-base font-medium text-slate-500
@@ -185,7 +185,7 @@ return (
                         dark:hover:bg-slate-900/[10] hover:text-gray-900"
                     >
                     {item.name}
-                    </a>
+                    </Link>
                 ))}
                 </div>
                 <a

@@ -49,7 +49,7 @@ export default function CreateRepo({ open, setOpen,token }) {
         </Transition.Child>
 
         <div className="fixed inset-0 z-10 overflow-y-auto">
-          <div className="flex min-h-full items-end justify-center p-4 text-center sm:items-center sm:p-0">
+          <div className="flex min-h-full items-end md:items-center justify-center md:p-4 text-center sm:items-center sm:p-0">
             <Transition.Child
               as={Fragment}
               enter="ease-out duration-300"
@@ -59,7 +59,7 @@ export default function CreateRepo({ open, setOpen,token }) {
               leaveFrom="opacity-100 translate-y-0 sm:scale-100"
               leaveTo="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
             >
-              <Dialog.Panel className="relative transform overflow-hidden rounded-xl bg-white text-left shadow-xl transition-all sm:my-8 sm:w-full sm:max-w-lg">
+              <Dialog.Panel className="place-content-stretch grow h-full md:relative transform overflow-hidden md:rounded-xl bg-white text-left shadow-xl transition-all md:my-8 md:w-full md:max-w-lg">
               {/* <header className="relative z-10 bg-white rounded-xl shadow-xl ring-1 ring-slate-900/5 dark:bg-slate-800 dark:highlight-white/10">
                 <div className="flex items-center justify-between">
                   <h2 className="font-semibold p-4 text-slate-900 dark:text-white">
@@ -180,7 +180,7 @@ export default function CreateRepo({ open, setOpen,token }) {
               </header> */}
                 
           <header className='bg-white dark:bg-slate-900'>
-            <form  className="py-5" onSubmit={formik.handleSubmit}>
+            <form  className="md:py-5" onSubmit={formik.handleSubmit}>
               <div className="shadow sm:overflow-hidden sm:rounded-md">
                 <div className="space-y-6  px-4 py-5 sm:p-6">
                 <div className="col-span-6 sm:col-span-4">
