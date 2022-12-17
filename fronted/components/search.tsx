@@ -65,22 +65,22 @@ const clearquery = async (event) => {
   const options = {
     replace: domNode => {
       if (domNode.name === 'b') {
-        return <b className="dark:text-slate-200 text-yellow-700 text-base"  >{domToReact(domNode.children, options)}</b>;
+        return <b className="dark:text-slate-200 text-yellow-700/75 text-base"  >{domToReact(domNode.children, options)}</b>;
       }
     }
   };
 
   return ReactDOM.createPortal((
-      <div id="outersearch" className="fixed inset-0 z-50 backdrop-blur-sm  dark:text-slate-400 overflow-hidden px-4 pt-20  md:p-20 lg:p-28"
+      <div id="outersearch" className="fixed inset-0 z-50 backdrop-blur-sm backdrop-brightness-75  dark:text-slate-300 overflow-hidden px-4 pt-20  md:p-20 lg:p-28"
       ><div className='lg:mx-[max(0px,calc(50%-25rem))]'>
       
-          <div ref={bodyBox} className="flex flex-col  border-slate-200 dark:border-slate-800 border rounded-lg bg-white dark:bg-slate-800" >
-            <header className="px-4 py-4 relative flex text-slate-500 flex-row items-center border-b border-slate-300 dark:border-slate-600">
+          <div ref={bodyBox} className="flex flex-col  border-slate-200/5 dark:border-slate-800/75 border rounded-lg bg-white/75 dark:bg-slate-800/75" >
+            <header className="px-4 py-4 relative flex text-slate-500 flex-row items-center border-b border-slate-300/75 dark:border-slate-800/75">
               <form onSubmit={submitContact} className="flex flex-grow flex-shrink items-center">
                 <button type="submit">
                   <MdSearch className="w-7 h-7" />
                 </button>
-                <input className="px-4 py-2 flex flex-grow flex-shrink focus:ring-0 focus-within:text-gray-600 bg-white dark:bg-slate-800 placeholder-slate-400 text-gray-900 dark:text-slate-300 appearance-none w-full  focus:outline-none" id="search_query"
+                <input className="px-4 py-2 flex flex-grow flex-shrink focus:ring-0 focus-within:text-gray-600 bg-transparent placeholder-slate-400 text-gray-900 dark:text-slate-300 appearance-none w-full  border-0  focus:outline-none" id="search_query"
                   type="text"
                   name="search_query" placeholder="搜索文档" />
               </form>
@@ -92,12 +92,12 @@ const clearquery = async (event) => {
                 {searchedDoc.length == 0 && <div className="flex h-40 text-semibold text-slate-700 dark:text-slate-200 items-center justify-center">无历史搜索</div>}
                 <ul className="my-4">
                   {searchedDoc.length > 0 && searchedDoc.map((doc, index) => (
-                    <li key={index} className=" flex items-center mb-2">
-                      <Link href={"/wiki/" + doc.repo_id + "/" + doc.mdhref} className="px-4 py-3 bg-slate-100 dark:bg-slate-900 rounded-md hover:dark:bg-sky-900 hover:bg-sky-400 mx-6 w-full">
+                    <li key={index} className="flex items-center mb-2">
+                      <Link href={"/wiki/" + doc.repo_id + "/" + doc.mdhref} className="px-4 py-3 bg-slate-800/5  dark:bg-slate-400/5 rounded-md hover:dark:bg-sky-700/25 hover:bg-sky-600/50 text-slate-700 dark:text-slate-400 mx-6 w-full">
                         
                         <div className="flex items-center">
                           <div className="p-2">
-                            <CgHashtag className="w-5 h-5" />
+                            <CgHashtag className="w-5 h-5 dark:text-white text-slate-700 rounded-md bg-white/50 dark:bg-slate-500/25" />
                           </div>
                           <div className="flex-grow  flex-shrink">
                             <span className="DocSearch-Hit-path">{doc.mdhref}</span><br />
@@ -117,14 +117,14 @@ const clearquery = async (event) => {
               </div>
             </div>
 
-            <footer className="px-4 py-4 relative flex justify-end text-slate-500 flex-row items-center border-t border-slate-300 dark:border-slate-600" >
+            <footer className="px-4 py-4 relative flex justify-end text-slate-500 flex-row items-center border-t border-slate-300/5 dark:border-slate-600/25" >
               <div className="flex flex-row items-center">
-                <h1 className="font-semibold text-sm  dark:text-slate-200 cursor-pointer pr-2">
+                <h1 className="font-semibold text-sm  dark:text-slate-200 cursor-pointer pr-4">
                   Searched By
                 </h1>
                 <Link href="/" className="flex-none  overflow-hidden " >
                   <picture>
-                    <img src="/logo.svg" className=" w-6 h-6" alt="LOGO" />
+                    <img src="/logo.svg" className=" w-7 h-7" alt="LOGO" />
                   </picture>
                 </Link>
               </div>

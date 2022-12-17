@@ -221,15 +221,15 @@ return (
         lg:bg-inherit lg:top-[3.8125rem] lg:left-[max(0px,calc(50%-40rem))] lg:w-[19.5rem] lg:bottom-3 lg:pb-10  lg:pt-0 lg:pl-8
         scrollbar-thin   scrollbar-thumb-rounded-md scrollbar-track-rounded-md
       `}>
-      <div className="fixed lg:hidden inset-0 bg-black/20 backdrop-blur-sm dark:bg-slate-900/80" ></div>
-      <div className="fixed lg:hidden inset-0 bg-white w-[20rem] p-6 dark:bg-slate-900" ></div>
+      <div className="fixed xl:hidden inset-0 bg-black/20 backdrop-blur-sm dark:bg-slate-900/80" ></div>
+      <div className="fixed xl:hidden inset-0 bg-white w-[20rem] p-6 dark:bg-slate-900" ></div>
       <SideBar repo_id={parseInt(Array.isArray(router.query.repoid) ? router.query.repoid[0] : router.query.repoid)} access_token={session.access_token} layout={layout} SideBarIndex={SideBarIndex} setSideBarIndex={setSideBarIndex}  useSearch={useSearch } setUseSearch={setUseSearch} />
     </div>
 
     <div className={`overflow-hidden ${NavBarOpen?'lg:pl-[20rem] lg:pr-[20rem]':'px-4 pb-6'}` } >
       <div className=" mx-auto relative z-5 pt-10  ">
         <div className="mb-16 md:flex items-center justify-center">
-          <div className="flex-auto max-w-2xl">
+          <div className="flex-auto  max-w-3xl xl:max-w-2xl">
             <MathJaxContext version={3} config={config}>
               {parse(markdowntext,options)}
             </MathJaxContext>
