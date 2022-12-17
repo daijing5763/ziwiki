@@ -10,7 +10,7 @@ import parse, { domToReact, attributesToProps  } from 'html-react-parser';
 import { authOptions } from '../../api/auth/[...nextauth]'
 import { backend_base_url } from "../../../utils/env_variable"
 import { unstable_getServerSession } from "next-auth/next"
-
+import {RiMenu4Line,RiMenuLine} from  "react-icons/ri"
 import { useRouter } from "next/router"
 const config = {
   loader: { load: ["[tex]/html"] },
@@ -213,7 +213,8 @@ export default function Home({ session}) {
   
   
 return (
-<div className="antialiased  text-slate-500 dark:text-slate-400 bg-white dark:bg-slate-900 min-h-screen">
+  <div className="antialiased  text-slate-500 dark:text-slate-400 bg-white dark:bg-slate-900 min-h-screen">
+
   <NavBar NavBarOpen={NavBarOpen} setNavBarOpen={setNavBarOpen} useSearch={useSearch} setUseSearch={setUseSearch} />
   
   <div className="overflow-hidden">
@@ -223,6 +224,9 @@ return (
       `}>
       <div className="fixed xl:hidden inset-0 bg-black/20 backdrop-blur-sm dark:bg-slate-900/80" ></div>
       <div className="fixed xl:hidden inset-0 bg-white w-[20rem] p-6 dark:bg-slate-900" ></div>
+      <div className={` ${!NavBarOpen && "hidden"} xl:hidden fixed bottom-5 z-50 right-0 h-16 w-16 rounded-md`}>
+        <RiMenu4Line className={`${!NavBarOpen && "hidden"} mr-2 md:mr-3 block w-10 h-10  dark:text-slate-200  hover:text-sky-500  cursor-pointer`} onClick={() => { localStorage.setItem('NavBarOpen', JSON.stringify(!NavBarOpen)); setNavBarOpen(!NavBarOpen); }}  />
+      </div>
       <SideBar repo_id={parseInt(Array.isArray(router.query.repoid) ? router.query.repoid[0] : router.query.repoid)} access_token={session.access_token} layout={layout} SideBarIndex={SideBarIndex} setSideBarIndex={setSideBarIndex}  useSearch={useSearch } setUseSearch={setUseSearch} />
     </div>
 
