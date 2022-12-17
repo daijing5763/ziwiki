@@ -10,12 +10,18 @@ export default function CreateRepo({ repolistcount,setrepolistcount,open, setOpe
   const formik = useFormik({
     initialValues: {
       repo_name: "",
-      repo_from:"",
+      repo_git: "",
+      repo_describe: "",
+      repo_from: "",
+      access_type: "",
+      repo_user_name:"",
+      repo_access_token: "",
+
     },
     onSubmit:onSubmit
   })
   async function onSubmit(values) {
-    const id = toast("正在创建仓库...", { type: toast.TYPE.INFO });
+    const id = toast("正在创建仓库...", { type: toast.TYPE.INFO,isLoading: true });
     const options = {
       method: "POST",
       headers: {
@@ -27,11 +33,10 @@ export default function CreateRepo({ repolistcount,setrepolistcount,open, setOpe
   await fetch(`${backend_base_url}create_repo`, options)
       .then(res => res.json())
       .then((data) => {
-        console.log("mydebug: return", data);
         if (data && data.error) {
-          toast.update(id, { render: "创建失败:"+data.error, type: toast.TYPE.ERROR, isLoading: false });
+          toast.update(id, { render: "创建失败:"+data.error, type: toast.TYPE.ERROR, isLoading: false ,autoClose:3000 });
         } else {
-          toast.update(id, { render: "创建成功", type: toast.TYPE.SUCCESS, isLoading: false });
+          toast.update(id, { render: "创建成功", type: toast.TYPE.SUCCESS, isLoading: false,autoClose:3000 });
           setrepolistcount(repolistcount+1)
         }
         
@@ -122,7 +127,6 @@ export default function CreateRepo({ repolistcount,setrepolistcount,open, setOpe
                         rows={3}
                         className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm dark:bg-slate-800 dark:text-slate-200 dark:border-gray-700"
                         placeholder="这个仓库主要是C++相关的知识汇总"
-                        defaultValue={''}
                         {...formik.getFieldProps('repo_describe')}
                             />
                     </div>

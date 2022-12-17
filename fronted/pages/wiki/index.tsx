@@ -8,6 +8,7 @@ import { SiGitee } from "react-icons/si"
 import { authOptions } from '../api/auth/[...nextauth]'
 import { unstable_getServerSession } from "next-auth/next"
 import { backend_base_url } from "../../utils/env_variable"
+import { toast } from "react-toastify";
 export default ({ session }) => {
 
   const [repolist, setrepolist] = useState([])
@@ -25,7 +26,6 @@ export default ({ session }) => {
     await fetch(`${backend_base_url}get_repo_list`, options)
         .then(res => res.json())
       .then((data) => {
-        console.log(data)
         if (data && !data.error) {
           setrepolist(data);
         }
@@ -34,6 +34,7 @@ export default ({ session }) => {
   }
 
   async function syncRepo(values) {
+    const id = toast("正在同步仓库...", { type: toast.TYPE.INFO,isLoading: true });
     const options = {
       method: "POST",
       headers: {
@@ -45,7 +46,11 @@ export default ({ session }) => {
     await fetch(`${backend_base_url}pull_repo`, options)
         .then(res => res.json())
       .then((data) => {
-          console.log(data)
+        if (data && data.error) {
+          toast.update(id, { render: "同步失败:"+data.error, type: toast.TYPE.ERROR, isLoading: false,autoClose:3000 });
+        } else {
+          toast.update(id, { render: "同步成功", type: toast.TYPE.SUCCESS, isLoading: false,autoClose:3000 });
+        }
         })
   }
 
@@ -123,14 +128,14 @@ return (
                           <dl className="sm:block lg:grid xl:block grid-cols-1 grid-rows-4 items-center">
                           
                             <div className="flex items-center justify-between">
-                              <Link href={"/wiki/"+repo.id+"/home"}>
-                                <AiFillGithub className={`w-11 h-11  ${repo.repo_from != "github" && "hidden"}`} />
+                              <Link href={"/wiki/"+repo.id+"/home"} className={` ${repo.repo_from != "github" && "hidden"}`}>
+                                <AiFillGithub className={`w-11 h-11  `} />
                               </Link>
-                              <Link href={"/wiki/"+repo.id+"/home"}>
-                                <AiFillGitlab className={`w-11 h-11  ${repo.repo_from != "gitlab" && "hidden"}`} />
+                              <Link href={"/wiki/"+repo.id+"/home"} className={` ${repo.repo_from != "gitlab" && "hidden"}`}>
+                                <AiFillGitlab className={`w-11 h-11 `} />
                               </Link>
-                              <Link href={"/wiki/"+repo.id+"/home"}>
-                                <SiGitee className={`w-11 h-11  ${repo.repo_from!="gitee" && "hidden"}` }/>
+                              <Link href={"/wiki/"+repo.id+"/home"} className={` ${repo.repo_from != "gitee" && "hidden"}`} >
+                                <SiGitee className={`w-11 h-11  ` }/>
                               </Link>
                               <div className="col-start-2 row-start-1 row-end-3">
                                 <dd className="flex justify-end sm:justify-end lg:justify-end xl:justify-end -space-x-1.5">
