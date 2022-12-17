@@ -16,7 +16,7 @@ export default function SubMenu({repo_id, menus, layer, offset, SideBarIndex, se
     setSideBarIndex(index);
   }
   return (
-    <ul className="ml-4  text-base lg:text-base font-base  border-l border-slate-100 dark:border-slate-700  ">
+    <ul className="ml-4  text-xl md:text-base lg:text-base   font-base   border-l border-slate-100 dark:border-slate-700  ">
 
 
 
@@ -36,10 +36,10 @@ export default function SubMenu({repo_id, menus, layer, offset, SideBarIndex, se
                         `}> {menu.title} 
                   </a>
                     <div className={`${(open[index] || !menu.sublayouts) && 'hidden'}`} onClick={() => { setOpenWrap(index) }}>
-                      <BiChevronLeft  className='hover:text-sky-500 duration-300 cursor-pointer h-4 w-4'/>
+                      <BiChevronLeft  className='hover:text-sky-500 duration-300 cursor-pointer md:h-4 md:w-4 h-6 w-6'/>
                     </div>
                     <div className={`${(!open[index] ||!menu.sublayouts ) && 'hidden'}`} onClick={() => { setOpenWrap(index) }}>
-                      <BiChevronDown  className='hover:text-sky-500 duration-300 cursor-pointer h-4 w-4'/>
+                      <BiChevronDown  className='hover:text-sky-500 duration-300 cursor-pointer md:h-4 md:w-4 h-6 w-6'/>
                     </div>
               </div>
               {open[index] && (
