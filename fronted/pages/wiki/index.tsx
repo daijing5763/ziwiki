@@ -11,7 +11,7 @@ import { backend_base_url } from "../../utils/env_variable"
 export default ({ session }) => {
 
   const [repolist, setrepolist] = useState([])
-
+  const [repolistcount, setrepolistcount] = useState(0)
   async function getRepoList(values) {
     const options = {
       method: "POST",
@@ -25,7 +25,11 @@ export default ({ session }) => {
     await fetch(`${backend_base_url}get_repo_list`, options)
         .then(res => res.json())
       .then((data) => {
+        console.log(data)
+        if (data && !data.error) {
           setrepolist(data);
+        }
+          
         })
   }
 
@@ -49,6 +53,11 @@ export default ({ session }) => {
     getRepoList( { "page_id": 1, "page_size": 10 })
   },[]);
   
+
+  useEffect(() => { 
+    getRepoList( { "page_id": 1, "page_size": 10 })
+  },[repolistcount]);
+  
   const [open, setOpen] = useState(false)
   function  showCreateRepo() {
     setOpen(!open)
@@ -58,7 +67,7 @@ return (
 
 <div className="antialiased text-slate-500 dark:text-slate-400 bg-white dark:bg-slate-900 min-h-screen">
   <PopNav />
-  <CreateRepo open={open} setOpen={setOpen} token={session.access_token} />
+    <CreateRepo repolistcount={repolistcount} setrepolistcount={setrepolistcount} open={open} setOpen={setOpen} token={session.access_token} />
   <div className="overflow-hidden">
     <div className='mx-3 md:mx-4 sm:px-6 md:px-8'>
             <div className="overflow-hidden " >
@@ -89,7 +98,7 @@ return (
                       <h2 className="font-semibold text-slate-900 dark:text-white">
                         Projects
                       </h2>
-                      <div className="group flex items-center rounded-md bg-blue-500 text-white text-sm font-medium pl-2 pr-3 py-2 cursor-pointer shadow-sm hover:bg-blue-400">
+                      <div  onClick={showCreateRepo}  className="group flex items-center rounded-md bg-blue-500 text-white text-sm font-medium pl-2 pr-3 py-2 cursor-pointer shadow-sm hover:bg-blue-400">
                         <svg width="20" height="20" fill="currentColor" className="mr-2">
                           <path d="M10 5a1 1 0 0 1 1 1v3h3a1 1 0 1 1 0 2h-3v3a1 1 0 1 1-2 0v-3H6a1 1 0 1 1 0-2h3V6a1 1 0 0 1 1-1Z">
                           </path>
@@ -112,30 +121,37 @@ return (
 
 
                           <dl className="sm:block lg:grid xl:block grid-cols-1 grid-rows-4 items-center">
-                          <Link href={"/wiki/"+repo.id+"/home"}>
+                          
                             <div className="flex items-center justify-between">
-                              <AiFillGithub className={`w-11 h-11  ${repo.repo_from!="github" && "hidden"}` } />
-                              <AiFillGitlab className={`w-11 h-11  ${repo.repo_from!="gitlab" && "hidden"}` } />
-                              <SiGitee className={`w-11 h-11  ${repo.repo_from!="gitee" && "hidden"}` }/>
-
+                              <Link href={"/wiki/"+repo.id+"/home"}>
+                                <AiFillGithub className={`w-11 h-11  ${repo.repo_from != "github" && "hidden"}`} />
+                              </Link>
+                              <Link href={"/wiki/"+repo.id+"/home"}>
+                                <AiFillGitlab className={`w-11 h-11  ${repo.repo_from != "gitlab" && "hidden"}`} />
+                              </Link>
+                              <Link href={"/wiki/"+repo.id+"/home"}>
+                                <SiGitee className={`w-11 h-11  ${repo.repo_from!="gitee" && "hidden"}` }/>
+                              </Link>
                               <div className="col-start-2 row-start-1 row-end-3">
                                 <dd className="flex justify-end sm:justify-end lg:justify-end xl:justify-end -space-x-1.5">
                                   <AiOutlineDelete className={`w-10 h-10 p-2 `} />
-                                  <Link href="#" onClick={()=>syncRepo( { "repo_id": repo.id  })}>
+                                  <a href="#" onClick={()=>syncRepo( { "repo_id": repo.id  })}>
                                     <AiOutlineSync className={`w-10 h-10 p-2 `} />
-                                  </Link>
+                                  </a>
                                     <AiOutlineEdit className={`w-10 h-10 p-2 ` } />
                                 </dd>
                               </div>
                             </div>
+                            <Link href={"/wiki/"+repo.id+"/home"}>
+                              <div className="font-extrabold text-2xl py-4 text-slate-900  dark:text-slate-100">
+                                {repo.repo_name}
+                              </div>
+                            </Link>
                               
-                            <div className="font-extrabold text-2xl py-4 text-slate-900  dark:text-slate-100">
-                              {repo.repo_name}
-                            </div>
-                              
-                            <div>
-                                <p className=" text-base">{repo.repo_describe}</p>
-                            </div>
+                            <Link href={"/wiki/"+repo.id+"/home"}>
+                              <div>
+                                  <p className=" text-base">{repo.repo_describe}</p>
+                              </div>
                             </Link>
 
 
