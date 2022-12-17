@@ -2,12 +2,12 @@ import React, { useState, useEffect } from 'react';
 import { Popover, Transition } from '@headlessui/react'
 import { Fragment } from 'react'
 import Link from 'next/link'
-
+import { home_url } from "../utils/env_variable"
 import { MdDarkMode, MdLightMode ,MdLogin,MdMenu,MdClose} from "react-icons/md"
 import { AiFillGithub } from "react-icons/ai"
 import { getSession, useSession, signOut } from "next-auth/react"
 function handleSignOut(){
-    signOut()
+    signOut({ callbackUrl: `${home_url}` })
   }
 
 export default function PopNav() {
