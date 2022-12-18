@@ -7,7 +7,7 @@ import { MdDarkMode, MdLightMode ,MdLogin,MdMenu,MdClose} from "react-icons/md"
 import { AiFillGithub } from "react-icons/ai"
 import { getSession, useSession, signOut } from "next-auth/react"
 function handleSignOut(){
-    signOut({ callbackUrl: `${home_url}` })
+    signOut({ callbackUrl: `/` })
   }
 
 export default function PopNav() {

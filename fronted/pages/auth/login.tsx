@@ -22,26 +22,20 @@ export default function Login() {
     onSubmit: onSubmit
   })
 
-  /**
-   * haleykennedy@gmail.com
-   * admin123
-   */
 
   async function onSubmit(values) {
-    console.log("mydebug:onsubmit:", values)
-    const id = toast("正在登录...", { type: toast.TYPE.INFO });
-
+    const id = toast("正在登录...", { type: toast.TYPE.INFO,isLoading: true });
     const status = await signIn('credentials', {
       redirect: false,
       username: values.username as string,
       password: values.password as string,
       callbackUrl: "/wiki"
     })
-    if (status.ok) {
-      toast.update(id, { render: "登录成功", type: toast.TYPE.SUCCESS, isLoading: false });
-      router.push(`${home_url}wiki/`)
-    } else {
-      toast.update(id, { render: "登录失败", type: toast.TYPE.ERROR, isLoading: false });
+    if (status && status.error) {
+      toast.update(id, { render: "登录失败:"+status.error, type: toast.TYPE.ERROR, isLoading: false,autoClose:2000 });
+    } else if(status && status.error == null) {
+      toast.update(id, { render: "登录成功", type: toast.TYPE.SUCCESS, isLoading: false ,autoClose:1000});
+      router.push(`/wiki`)
     }
   }
 
@@ -76,12 +70,13 @@ export default function Login() {
                 <p className="text-xs mt-4 ">若您已经注册，请登录</p>
 
                 <form className='flex flex-col gap-4' onSubmit={formik.handleSubmit}>
+                  <div>
                   <div className="flex justify-center items-center mt-8 ">
                     <input
                       type="text"
                       name='username'
                       placeholder='username'
-                      className="rounded-md border p-2 dark:text-slate-800"
+                      className={`p-2 rounded-md border dark:text-slate-800 ${formik.errors.username && "border-pink-500 text-pink-600 focus:border-pink-500 focus:ring-pink-500"} focus:ring-1 `}
                       {...formik.getFieldProps('username')}
                     />
                     <span className='icon flex items-center px-4'>
@@ -89,22 +84,24 @@ export default function Login() {
                     </span>
 
                   </div>
-                  {/* {formik.errors.email && formik.touched.email ? <span className='text-rose-500'>{formik.errors.email}</span> : <></>} */}
-
+                  {formik.errors.username && formik.touched.username ? <span className='text-pink-600 text-sm'>{formik.errors.username}</span> : <></>}
+                  </div>
+                  
+                  <div>
                   <div className="flex justify-center items-center">
                     <input
                       type={`${show ? "text" : "password"}`}
                       name='password'
                       placeholder='password'
-                      className="p-2 rounded-md border dark:text-slate-800"
+                      className={`p-2 rounded-md border dark:text-slate-800 ${formik.errors.password && "border-pink-500 text-pink-600 focus:border-pink-500 focus:ring-pink-500"} focus:ring-1 `}
                       {...formik.getFieldProps('password')}
                     />
                     <span className='icon flex items-center px-4' onClick={() => setShow(!show)}>
                       <HiFingerPrint size={25} />
                     </span>
-
                   </div>
-
+                  {formik.errors.password && formik.touched.password ? <span className='text-pink-600 text-sm'>{formik.errors.password}</span> : <></>}
+                  </div>
 
                   <button className="bg-[#002D74]  rounded-xl text-white py-2 mt-2 hover:scale-105 duration-300" type='submit' >
                     登录

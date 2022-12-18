@@ -21,8 +21,7 @@ export default function Register() {
     onSubmit: onSubmit
   })
   async function onSubmit(values) {
-    console.log("mydebug: onSubmit:", values)
-    const id = toast("正在注册...", { type: toast.TYPE.INFO });
+    const id = toast("正在注册...", { type: toast.TYPE.INFO,isLoading: true });
     const options = {
       method: "POST",
       headers: { 'Content-Type': 'application/json' },
@@ -32,10 +31,10 @@ export default function Register() {
       .then(res => res.json())
       .then((data) => {
         if (data.error) {
-          toast.update(id, { render: "注册失败:" + data.error, type: toast.TYPE.ERROR, isLoading: false });
+          toast.update(id, { render: "注册失败:" + data.error, type: toast.TYPE.ERROR, isLoading: false,autoClose:2000 });
         } else {
-          toast.update(id, { render: "注册成功:", type: toast.TYPE.SUCCESS, isLoading: false });
-          router.push(`${home_url}`)
+          toast.update(id, { render: "注册成功:", type: toast.TYPE.SUCCESS, isLoading: false,autoClose:1000 });
+          router.push(`/`)
         }
       })
   }
@@ -67,9 +66,10 @@ export default function Register() {
                 </Link>
                 <h2 className="font-bold  mt-5 text-2xl ">注册</h2>
                 <form className='flex flex-col gap-4' onSubmit={formik.handleSubmit}>
+                  <div>
                   <div className="flex justify-center items-center mt-8 " >
                     <input
-                      className="rounded-md border p-2 dark:text-slate-800"
+                      className={`p-2 rounded-md border dark:text-slate-800 ${formik.errors.username && "border-pink-500 text-pink-600 focus:border-pink-500 focus:ring-pink-500"} focus:ring-1 `}
                       type="text"
                       name='Username'
                       placeholder='Username'
@@ -79,10 +79,12 @@ export default function Register() {
                       <HiOutlineUser size={25} />
                     </span>
                   </div>
-                  {/* {formik.errors.username && formik.touched.username ? <span className='text-rose-500'>{formik.errors.username}</span> : <></>} */}
+                  {formik.errors.username && formik.touched.username ? <span className='text-pink-600 text-sm'>{formik.errors.username}</span> : <></>}
+                  </div>
+                  <div>
                   <div className="flex justify-center items-center">
                     <input
-                      className="p-2 rounded-md border dark:text-slate-800"
+                      className={`p-2 rounded-md border dark:text-slate-800 ${formik.errors.email && "border-pink-500 text-pink-600 focus:border-pink-500 focus:ring-pink-500"} focus:ring-1 `}
                       type="email"
                       name='email'
                       placeholder='Email'
@@ -92,10 +94,12 @@ export default function Register() {
                       <HiAtSymbol size={25} />
                     </span>
                   </div>
-                  {/* {formik.errors.email && formik.touched.email ? <span className='text-rose-500'>{formik.errors.email}</span> : <></>} */}
+                  {formik.errors.email && formik.touched.email ? <span className='text-pink-600 text-sm'>{formik.errors.email}</span> : <></>}
+                  </div>
+                  <div>
                   <div className="flex justify-center items-center">
                     <input
-                      className="p-2 rounded-md border dark:text-slate-800"
+                      className={`p-2 rounded-md border dark:text-slate-800 ${formik.errors.password && "border-pink-500 text-pink-600 focus:border-pink-500 focus:ring-pink-500"} focus:ring-1 `}
                       type={`${show.password ? "text" : "password"}`}
                       name='password'
                       placeholder='password'
@@ -105,11 +109,12 @@ export default function Register() {
                       <HiFingerPrint size={25} />
                     </span>
                   </div>
-                  {/* {formik.errors.password && formik.touched.password ? <span className='text-rose-500'>{formik.errors.password}</span> : <></>} */}
-
+                  {formik.errors.password && formik.touched.password ? <span className='text-pink-600 text-sm'>{formik.errors.password}</span> : <></>}
+                  </div>
+                  <div>
                   <div className="flex justify-center items-center">
                     <input
-                      className="p-2  rounded-md border dark:text-slate-800"
+                      className={`p-2 rounded-md border dark:text-slate-800 ${formik.errors.cpassword && "border-pink-500 text-pink-600 focus:border-pink-500 focus:ring-pink-500"} focus:ring-1 `}
                       type={`${show.cpassword ? "text" : "password"}`}
                       name='cpassword'
                       placeholder='Confirm Password'
@@ -119,7 +124,8 @@ export default function Register() {
                       <HiFingerPrint size={25} />
                     </span>
                   </div>
-
+                  {formik.errors.cpassword && formik.touched.cpassword ? <span className='text-pink-600 text-sm'>{formik.errors.cpassword}</span> : <></>}
+                  </div>
                   <button className="bg-[#002D74]  rounded-xl text-white py-2 mt-2 hover:scale-105 duration-300" type='submit' >
                     注册
                   </button>
