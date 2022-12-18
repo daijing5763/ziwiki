@@ -30,8 +30,8 @@ export default function Login() {
     const id = toast("正在登录...", { type: toast.TYPE.INFO,isLoading: true });
     const status = await signIn('credentials', {
       redirect: false,
-      username: values.username as string,
-      password: values.password as string,
+      username: values.username ,
+      password: values.password ,
       callbackUrl: "/wiki"
     })
     if (status && status.error) {
