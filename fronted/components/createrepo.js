@@ -3,7 +3,7 @@ import { Dialog, Transition } from '@headlessui/react'
 import { useFormik } from 'formik';
 import { backend_base_url } from "../utils/env_variable"
 import { toast } from "react-toastify";
-
+import { createrepo_validate } from '../utils/validate';
 export default function CreateRepo({ repolistcount,setrepolistcount,open, setOpen,token }) {
 
   const cancelButtonRef = useRef(null)
@@ -16,8 +16,8 @@ export default function CreateRepo({ repolistcount,setrepolistcount,open, setOpe
       access_type: "",
       repo_user_name:"",
       repo_access_token: "",
-
     },
+    validate: createrepo_validate,
     onSubmit:onSubmit
   })
   async function onSubmit(values) {
@@ -34,9 +34,9 @@ export default function CreateRepo({ repolistcount,setrepolistcount,open, setOpe
       .then(res => res.json())
       .then((data) => {
         if (data && data.error) {
-          toast.update(id, { render: "创建失败:"+data.error, type: toast.TYPE.ERROR, isLoading: false ,autoClose:3000 });
+          toast.update(id, { render: "创建失败:"+data.error, type: toast.TYPE.ERROR, isLoading: false ,autoClose:2000 });
         } else {
-          toast.update(id, { render: "创建成功", type: toast.TYPE.SUCCESS, isLoading: false,autoClose:3000 });
+          toast.update(id, { render: "创建成功", type: toast.TYPE.SUCCESS, isLoading: false,autoClose:1000 });
           setrepolistcount(repolistcount+1)
         }
         
@@ -71,10 +71,7 @@ export default function CreateRepo({ repolistcount,setrepolistcount,open, setOpe
               <Dialog.Panel className="place-content-stretch grow h-full md:relative transform overflow-hidden md:rounded-xl bg-white text-left shadow-xl transition-all md:my-8 md:w-full md:max-w-lg">
               
                 <header className='bg-white dark:bg-slate-900'>
-                  
-
-
-
+                
            <form  className="md:py-5" onSubmit={formik.handleSubmit}>
               <div className="shadow sm:overflow-hidden sm:rounded-md">
                 <div className="space-y-6  px-4 py-5 sm:p-6">
@@ -92,6 +89,7 @@ export default function CreateRepo({ repolistcount,setrepolistcount,open, setOpe
                       className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm dark:placeholder-slate-600 dark:text-slate-300 appearance-none dark:bg-slate-800  focus:outline-none  dark:border-gray-700 placeholder-slate-400"
                       {...formik.getFieldProps('repo_name')}
                           />
+                      {formik.errors.repo_name && formik.touched.repo_name ? <span className='text-pink-600 text-sm'>{formik.errors.repo_name}</span> : <></>}
                   </div>
 
 
@@ -112,7 +110,9 @@ export default function CreateRepo({ repolistcount,setrepolistcount,open, setOpe
                           placeholder="https://github.com/zdlpsina/ziwiki.git"
                           {...formik.getFieldProps('repo_git')}
                               />
-                      </div>
+                          {formik.errors.repo_git && formik.touched.repo_git ? <span className='text-pink-600 text-sm flex justify-center items-center pl-1'>{formik.errors.repo_git}</span> : <></>}
+                          </div>
+                          
                     </div>
                   </div>
 
@@ -129,6 +129,7 @@ export default function CreateRepo({ repolistcount,setrepolistcount,open, setOpe
                         placeholder="这个仓库主要是C++相关的知识汇总"
                         {...formik.getFieldProps('repo_describe')}
                             />
+                      {formik.errors.repo_describe && formik.touched.repo_describe ? <span className='text-pink-600 text-sm'>{formik.errors.repo_describe}</span> : <></>}
                     </div>
                     <p className="mt-2 text-sm text-gray-500  dark:text-slate-500 ">
                       简单描述下仓库是做啥的
@@ -152,10 +153,9 @@ export default function CreateRepo({ repolistcount,setrepolistcount,open, setOpe
                         <option value="github" label="GitHub"/>
                         <option value="gitlab" label="GitLab"/>
                         <option value="gitee" label="Gitee"/>
-                      </select>
+                          </select>
+                          {formik.errors.repo_from &&  <span className='text-pink-600 text-sm'>{formik.errors.repo_from}</span> }
                     </div>
-
-
                     <div className="col-span-6 sm:col-span-3">
                       <label htmlFor="access_type" className="block text-sm font-medium text-gray-700  dark:text-slate-200">
                         GIT访问方式
@@ -173,7 +173,8 @@ export default function CreateRepo({ repolistcount,setrepolistcount,open, setOpe
                         <option value="public" label="public"/>
                         <option value="access_token" label="access_token"/>
                         <option value="password" label="password"/>
-                      </select>
+                          </select>
+                          {formik.errors.access_type &&  <span className='text-pink-600 text-sm'>{formik.errors.access_type}</span> }
                     </div>
 
                     <div className="col-span-6 sm:col-span-4">
@@ -218,7 +219,7 @@ export default function CreateRepo({ repolistcount,setrepolistcount,open, setOpe
                       <button
                       type='submit'
                       className="text-base font-medium rounded-lg bg-sky-500 text-white py-3 text-center cursor-pointer dark:highlight-white/20"
-                      onClick={() => setOpen(false)}
+                          onClick={() => setOpen(false) }
                       >
                       Accept
                     </button>
