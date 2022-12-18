@@ -486,6 +486,45 @@ func (r *HTMLRenderer) renderFencedCodeBlock(w util.BufWriter, source []byte, no
 	if language != nil {
 		lexer = lexers.Get(string(language))
 	}
+
+	/// test line
+	var c CodeBlockContext
+	if r.WrapperRenderer != nil {
+		c = newCodeBlockContext(language, false, attrs)
+		r.WrapperRenderer(w, c, true)
+	} else {
+		_, _ = w.WriteString(`<div class="relative z-10 mx-2 my-6 col-span-3 dark:bg-slate-800 bg-white font-base rounded-md shadow-lg  ring-1 ring-slate-700/10 dark:ring-1 dark:ring-white/10 dark:ring-inset">
+		<div class="relative flex text-slate-400 text-sm leading-6">
+				<div class="mt-2 flex-none dark:text-sky-300 text-slate-800 border-t border-b border-t-transparent border-b-slate-600 dark:border-b-sky-300 px-4 py-1 flex items-center">`)
+		language := n.Language(source)
+		if language != nil {
+			_, _ = w.WriteString("language:")
+			r.Writer.Write(w, language)
+			_, _ = w.WriteString("")
+		} else {
+			_, _ = w.WriteString("language:code")
+		}
+		_, _ = w.WriteString(`</div>
+				<div class="flex-auto flex pt-2 rounded-tr-xl overflow-hidden">
+						<div class="flex-auto -mr-px bg-slate-100 dark:bg-slate-700/50 border border-slate-500/30 rounded-tl">
+						</div>
+				</div>
+				<div class="absolute top-2 right-0 h-8 flex items-center pr-4">
+						<div class="relative flex -mr-2">
+						<span class="copycontent"/>
+						</div>
+				</div>
+		</div>
+		<div class="highlight p-4  text-sm  overflow-x-auto  text-slate-800 dark:text-slate-200
+					scrollbar-thin  scrollbar-thumb-rounded-md scrollbar-track-rounded-md
+		"><pre><code`)
+		if language != nil {
+			_, _ = w.WriteString(" class='" + string(language) + "'")
+		}
+
+		_ = w.WriteByte('>')
+	}
+
 	if !nohl && (lexer != nil || r.GuessLanguage) {
 		if style == nil {
 			style = styles.Fallback
@@ -528,41 +567,6 @@ func (r *HTMLRenderer) renderFencedCodeBlock(w util.BufWriter, source []byte, no
 		}
 	}
 
-	var c CodeBlockContext
-	if r.WrapperRenderer != nil {
-		c = newCodeBlockContext(language, false, attrs)
-		r.WrapperRenderer(w, c, true)
-	} else {
-		_, _ = w.WriteString(`<div class="relative z-10 mx-2 my-6 col-span-3 dark:bg-slate-800 bg-white font-base rounded-md shadow-lg  ring-1 ring-slate-700/10 dark:ring-1 dark:ring-white/10 dark:ring-inset">
-		<div class="relative flex text-slate-400 text-sm leading-6">
-				<div class="mt-2 flex-none dark:text-sky-300 text-slate-800 border-t border-b border-t-transparent border-b-slate-600 dark:border-b-sky-300 px-4 py-1 flex items-center">`)
-		language := n.Language(source)
-		if language != nil {
-			_, _ = w.WriteString("language:")
-			r.Writer.Write(w, language)
-			_, _ = w.WriteString("")
-		} else {
-			_, _ = w.WriteString("language:code")
-		}
-		_, _ = w.WriteString(`</div>
-				<div class="flex-auto flex pt-2 rounded-tr-xl overflow-hidden">
-						<div class="flex-auto -mr-px bg-slate-100 dark:bg-slate-700/50 border border-slate-500/30 rounded-tl">
-						</div>
-				</div>
-				<div class="absolute top-2 right-0 h-8 flex items-center pr-4">
-						<div class="relative flex -mr-2">
-						<span class="copycontent"/>
-						</div>
-				</div>
-		</div>
-		<div class="highlight p-4  text-sm  overflow-x-auto  text-slate-800 dark:text-slate-200
-					scrollbar-thin  scrollbar-thumb-rounded-md scrollbar-track-rounded-md
-		"><pre><code`)
-		if string(language) == "mermaid" {
-			_, _ = w.WriteString(" class='mermaid'")
-		}
-		_ = w.WriteByte('>')
-	}
 	l := n.Lines().Len()
 	for i := 0; i < l; i++ {
 		line := n.Lines().At(i)

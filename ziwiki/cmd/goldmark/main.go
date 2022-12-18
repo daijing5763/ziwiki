@@ -20,7 +20,7 @@ import (
 )
 
 func main() {
-	input_path := "./case1.md"
+	input_path := "./case8.md"
 	data, err := os.ReadFile(input_path)
 	if err != nil {
 		fmt.Println("err:", err)
@@ -173,7 +173,7 @@ func main() {
 		return
 	}
 
-	f, err := os.Create("guide1.html")
+	f, err := os.Create("guide8.html")
 	if err != nil {
 		panic(err)
 	}

@@ -448,11 +448,11 @@ var ParagraphAttributeFilter = GlobalAttributeFilter
 func (r *Renderer) renderParagraph(w util.BufWriter, source []byte, n ast.Node, entering bool) (ast.WalkStatus, error) {
 	if entering {
 		if n.Attributes() != nil {
-			_, _ = w.WriteString("<p class='my-2 indent-8 text-base  text-slate-700 dark:text-slate-400'")
+			_, _ = w.WriteString("<p class='my-2  text-base  text-slate-700 dark:text-slate-400'")
 			RenderAttributes(w, n, ParagraphAttributeFilter)
 			_ = w.WriteByte('>')
 		} else {
-			_, _ = w.WriteString("<p class='my-2 indent-8 text-base  text-slate-700 dark:text-slate-400'>")
+			_, _ = w.WriteString("<p class='my-2  text-base  text-slate-700 dark:text-slate-400'>")
 		}
 	} else {
 		_, _ = w.WriteString("</p>\n")

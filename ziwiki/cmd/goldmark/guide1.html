@@ -1,239 +1,5 @@
-import NavBar from "../components/navbar"
-import MermaidCode from "../mermaid"
-import { MathJaxContext,MathJax } from "better-react-mathjax";
-import React, { useState, useEffect } from 'react';
-import { getSession, SessionContext } from 'next-auth/react'
-import {MdContentCopy} from "react-icons/md"
-import SideBar from "../components/sidebar"
-import Search from "../components/search"
-import parse, { domToReact, attributesToProps  } from 'html-react-parser';
-import { authOptions } from './api/auth/[...nextauth]'
-import { backend_base_url } from "../utils/env_variable"
-import { unstable_getServerSession } from "next-auth/next"
-
-import { useRouter } from "next/router"
-const config = {
-  loader: { load: ["[tex]/html"] },
-  tex: {
-    packages: { "[+]": ["html"] },
-    inlineMath: [
-      ["$", "$"],
-      ["\\(", "\\)"]
-    ],
-    displayMath: [
-      ["$$", "$$"],
-      ["\\[", "\\]"]
-    ]
-  }
-};
-
-export default function Home({ session}) {
-  const router = useRouter();
-  const [layout, setlayout] = useState([]); 
-  const [markdowntext, setmarkdown] = useState(''); 
-  const [markdownlist, setmarkdownlist] = useState(''); 
-  async function getLayout(values) {
-    const options = {
-      method: "POST",
-      headers: {
-        'Content-Type': 'application/json',
-        'Authorization': `Bearer ${session.access_token}`
-      },
-      body: JSON.stringify(values)
-    }
-
-    await fetch(`${backend_base_url}get_markdown`, options)
-      .then(res => res.json())
-      .then((data) => {
-        if (data && !data.error) {
-          var myObject = JSON.parse(data.mdtext);
-          setlayout(myObject['sublayouts'])
-        }
-    })
-  }
-
-
-  async function getMarkdown(values) {
-    const options = {
-      method: "POST",
-      headers: {
-        'Content-Type': 'application/json',
-        'Authorization': `Bearer ${session.access_token}`
-      },
-      body: JSON.stringify(values)
-    }
-
-    await fetch(`${backend_base_url}get_markdown`, options)
-      .then(res => res.json())
-      .then((data) => {
-        if (data && !data.error) {
-          setmarkdown(data.mdtext)
-        } else {
-          console.log(data)
-        }
-    })
-  }
-
-  async function getMarkdownList(values) {
-    const options = {
-      method: "POST",
-      headers: {
-        'Content-Type': 'application/json',
-        'Authorization': `Bearer ${session.access_token}`
-      },
-      body: JSON.stringify(values)
-    }
-
-    await fetch(`${backend_base_url}get_markdown`, options)
-      .then(res => res.json())
-      .then((data) => {
-        if (data && !data.error) {
-          setmarkdownlist(data.mdtext)
-        } else {
-          console.log(data)
-        }
-    })
-  }
-
-  
-  const [SideBarIndex, setSideBarIndex] = useState(-1); 
-  const [useSearch, setUseSearch] = useState(false);
-  const [NavBarOpen, setNavBarOpen] = useState(false);
-  useEffect(() => {
-    const sideOpen = localStorage.getItem('NavBarOpen');
-    if (sideOpen) {
-      const data = JSON.parse(sideOpen);
-      setNavBarOpen(data);
-    } 
-    const sideIndex = localStorage.getItem('SideOpenIndex');
-    if (sideIndex) {
-      const data = JSON.parse(sideIndex);
-      setSideBarIndex(data);
-    } 
-  }, []);
-  // useEffect(() => {
-  //   const slugs = router.query.slug;
-  //   if (typeof slugs != "undefined" && Array.isArray(slugs)) {
-  //     if (slugs.join("/") == "home"){
-  //       setmarkdown("Repo HomePage")
-  //     } else {
-  //       getMarkdown({
-  //         "mdhref":slugs.join("/"),
-  //         "repo_id":parseInt(Array.isArray(router.query.repoid) ? router.query.repoid[0] : router.query.repoid),
-  //       });
-  //       getMarkdownList({
-  //         "mdhref":slugs.join("/")+".list",
-  //         "repo_id":parseInt(Array.isArray(router.query.repoid) ? router.query.repoid[0] : router.query.repoid),
-  //       });
-  //     }
-  //   }
-  // }, [router.query.slug]);
-  // useEffect(() => {
-  //   getLayout({
-  //     "mdhref": "layout.json",
-  //     "repo_id":parseInt(Array.isArray(router.query.repoid) ? router.query.repoid[0] : router.query.repoid),
-  //   });
-  // },[router.query.repoid]);
-
-  const dynamicRoute = useRouter().asPath;
-
-  // Reset count to 0 on dynamic route change.
-  useEffect(() => setUseSearch(false), [dynamicRoute]);
-
-  
-  function isContains(str, substr) {
-    if (typeof str == "undefined") {
-      return false
-    } 
-  return str.indexOf(substr) >= 0;
-  }
-  const options = {
-    replace: ({ attribs, children }) => {
-      if (!attribs) {
-        return;
-      }
-  
-      if (attribs.id === 'main') {
-        return <h1 style={{ fontSize: 42 }}>{domToReact(children, options)}</h1>;
-      }
-      if (isContains(attribs.class,"mermaid")) {
-        return (
-          <MermaidCode graphDefinition={domToReact(children, options)}/>
-        );
-      } else if (attribs.class === 'copycontent') {
-        return (
-          <MdContentCopy className="w-6 h-6 cursor-pointer text-slate-600 dark:text-slate-300"/>
-        );
-      } else if (isContains(attribs.class,"math inline")) {
-        return (
-          <MathJax inline>{domToReact(children, options)}</MathJax>
-        )
-      }else if (isContains(attribs.class,"math display")) {
-        return (
-          <MathJax>{domToReact(children, options)}</MathJax>
-        )
-      } else if (attribs.class == "image_link") {
-        const slugs = router.query.slug;
-        if (slugs && !attribs.src.startsWith('http')) {
-          const prefix=`${backend_base_url}static_get/1/`+router.query.repoid+"/"+slugs.slice(0,-1).join("/")+"/"+attribs.src
-          return (
-            <img className="px-3" src={prefix} />
-          )
-        } else {
-          return (
-            <img className="px-3" src={attribs.src} />
-          )
-        }
-        
-
-      }
-    }
-  };
-
-  
-  const options_list = {
-    replace: domNode => {
-      if (domNode.name === 'ul') {
-        return <ul className="text-slate-700 text-sm leading-6"  >{domToReact(domNode.children, options_list)}</ul>;
-      }
-      if (domNode.name === 'li') {
-        return <ul className="ml-4"  >{domToReact(domNode.children, options_list)}</ul>;
-      }
-      else if (domNode.name === 'a') {
-        const props = attributesToProps(domNode.attribs);
-        return <a {...props} className="group flex items-start py-1 hover:text-sky-500 dark:text-slate-400 dark:hover:text-sky-500"  >
-          <svg width="3" height="24" viewBox="0 -9 3 24" className="mr-2 text-slate-400 overflow-visible group-hover:text-slate-600 dark:text-slate-600 dark:group-hover:text-slate-500">
-            <path d="M0 0L3 3L0 6" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round"></path>
-          </svg>
-          {domToReact(domNode.children, options_list)}</a>;
-      }
-    }
-  };
-
-  
-  
-return (
-<div className="antialiased  text-slate-500 dark:text-slate-400 bg-white dark:bg-slate-900 min-h-screen">
-  <NavBar NavBarOpen={NavBarOpen} setNavBarOpen={setNavBarOpen} useSearch={useSearch} setUseSearch={setUseSearch} />
-  
-  <div className="overflow-hidden">
-    <div className={` ${!NavBarOpen && "hidden"} fixed z-40   inset-0 px-3 pt-6 pr-2 overflow-y-auto w-[20rem]
-        lg:bg-inherit lg:top-[3.8125rem] lg:left-[max(0px,calc(50%-40rem))] lg:w-[19.5rem] lg:bottom-3 lg:pb-10  lg:pt-0 lg:pl-8
-        scrollbar-thin   scrollbar-thumb-rounded-md scrollbar-track-rounded-md
-      `}>
-      <div className="fixed lg:hidden inset-0 bg-black/20 backdrop-blur-sm dark:bg-slate-900/80" ></div>
-      <div className="fixed lg:hidden inset-0 bg-white w-[20rem] p-6 dark:bg-slate-900" ></div>
-        <SideBar repo_id={parseInt(Array.isArray(router.query.repoid) ? router.query.repoid[0] : router.query.repoid)} access_token={session.access_token} layout={layout} SideBarIndex={SideBarIndex} setSideBarIndex={setSideBarIndex}  useSearch={useSearch } setUseSearch={setUseSearch} />
-    </div>
-
-    <div className={`overflow-hidden ${NavBarOpen?'lg:pl-[20rem] lg:pr-[20rem]':'px-4 pb-6'}` } >
-      <div className=" mx-auto relative z-5 pt-10  ">
-        <div className="mb-16 md:flex items-center justify-center">
-          <div className="flex-auto max-w-2xl">
-            <MathJaxContext version={3} config={config}>
-
-            <h1 class='text-3xl font-black text-slate-900 tracking-tight text-center dark:text-slate-200  pb-6 my-3' id="heading">这是一篇示范文</h1>
-<blockquote class='border-l-8 px-2  my-3 mx-1 indent-8  py-0.5 border-sky-500 bg-slate-100/5 dark:bg-slate-800/50 rounded-md ring-1 ring-slate-900/10 shadow-sm'>
+<h1 class='text-3xl font-black text-slate-900 tracking-tight text-center dark:text-slate-200  pb-6 my-3' id="heading">这是一篇示范文</h1>
+<blockquote class='border-l-8 px-2  my-3 mx-1 indent-8  py-0.5 border-sky-500 bg-slate-100 dark:bg-slate-800/50 rounded-md ring-1 ring-slate-900/10 shadow-sm'>
 <p class='my-2 indent-8 text-base  text-slate-700 dark:text-slate-400'><strong>摘要</strong>：战城南，死郭北，野死不葬乌可食。为我谓乌：且为客豪！野死谅不葬，俯腐肉安能去子逃？水深激激，蒲苇冥冥；枭骑战斗死，驽马徘徊鸣。
 梁筑室，何以南？何以北？禾黍不获君何食？愿为忠臣安可得？思子良臣，良臣诚可思：朝行出攻，暮不夜归！?</p>
 </blockquote>
@@ -286,64 +52,39 @@ return (
 </span></span><span class="flex"><span class="whitespace-pre select-none mr-1.5 px-1.5 dark:text-slate-400 text-slate-700">12</span><span class="cl">  <span class="dark:text-[#EEFFFF] text-[#000000]">e</span><span class="dark:text-[#89DDFF] text-[#000000]">=</span><span class="dark:text-[#EEFFFF] text-[#000000]">func</span><span class="dark:text-[#89DDFF]">(</span><span class="dark:text-[#EEFFFF] text-[#000000]">a</span><span class="dark:text-[#89DDFF]">,</span><span class="dark:text-[#EEFFFF] text-[#000000]">b</span><span class="dark:text-[#89DDFF]">)</span>
 </span></span><span class="flex"><span class="whitespace-pre select-none mr-1.5 px-1.5 dark:text-slate-400 text-slate-700">13</span><span class="cl">  <span class="dark:text-[#82AAFF] text-[#a90d91]">print</span><span class="dark:text-[#89DDFF]">(</span><span class="dark:text-[#EEFFFF] text-[#000000]">e</span><span class="dark:text-[#89DDFF]">)</span>
 </span></span></code></pre></div></div><h2 class='text-2xl font-extrabold text-slate-900 tracking-tight dark:text-slate-200  py-2' id="heading-10">第三章</h2>
-
-
-
-<h1 class='text-3xl font-black text-slate-900 tracking-tight text-center dark:text-slate-200  pb-6 my-3' id="hello">hello</h1>
-<div class="relative z-10 mx-2 my-6 col-span-3 dark:bg-slate-800 bg-white font-base rounded-md shadow-lg  ring-1 ring-slate-700/10 dark:ring-1 dark:ring-white/10 dark:ring-inset">
-		<div class="relative flex text-slate-400 text-sm leading-6">
-				<div class="mt-2 flex-none dark:text-sky-300 text-slate-800 border-t border-b border-t-transparent border-b-slate-600 dark:border-b-sky-300 px-4 py-1 flex items-center">language:python</div>
-				<div class="flex-auto flex pt-2 rounded-tr-xl overflow-hidden">
-						<div class="flex-auto -mr-px bg-slate-100 dark:bg-slate-700/50 border border-slate-500/30 rounded-tl">
-						</div>
-				</div>
-				<div class="absolute top-2 right-0 h-8 flex items-center pr-4">
-						<div class="relative flex -mr-2">
-						<span class="copycontent"/>
-						</div>
-				</div>
-		</div>
-		<div class="highlight p-4  text-sm  overflow-x-auto  text-slate-800 dark:text-slate-200
-					scrollbar-thin  scrollbar-thumb-rounded-md scrollbar-track-rounded-md
-		"><pre><code class='python'><span class="flex"><span class="whitespace-pre select-none mr-1.5 px-1.5 dark:text-slate-400 text-slate-700">1</span><span class="cl"><span class="dark:text-[#EEFFFF] text-[#000000]">hello</span>
-</span></span></code></pre></div></div>
-
-                
-            </MathJaxContext>
-          </div>
-        </div>
-      </div>
-    </div>
-      
-      <div className="fixed z-20 top-[3.8125rem] bottom-0 right-[max(0px,calc(50%-45rem))] w-[19.5rem] py-10 overflow-y-auto hidden xl:block">
-        <div className="px-8">
-          <h5 className="text-slate-900 font-semibold mb-4 text-sm leading-6 dark:text-slate-100">
-            本页目录
-          </h5>
-          {parse(markdownlist,options_list)}
-        </div>
-      </div>
-
-  </div>
-  {useSearch && (<Search useSearch={useSearch} setUseSearch={setUseSearch} access_token={session.access_token} />)}
-
+<ul class='list-disc  text-base text-slate-800 dark:text-slate-300  pl-4'>
+<li>list 1 my list
+<ul class='list-disc  text-base text-slate-800 dark:text-slate-300  pl-4'>
+<li>list 1.1 hello work</li>
+<li>list 1.2 hello world</li>
+</ul>
+</li>
+</ul>
+<ol class='list-decimal text-base text-slate-800 dark:text-slate-300  pl-4'>
+<li>lsit desic
+<ol class='list-decimal text-base text-slate-800 dark:text-slate-300  pl-4'>
+<li>abc def</li>
+<li>safs asdf</li>
+<li>sdaf s daf a</li>
+</ol>
+</li>
+</ol>
+<h2 class='text-2xl font-extrabold text-slate-900 tracking-tight dark:text-slate-200  py-2' id="heading-11">第四章</h2>
+<h3 class='text-xl  font-extrabold	text-slate-900 tracking-tight dark:text-slate-200  py-1.5' id="math-span">math span</h3>
+<p class='my-2 indent-8 text-base  text-slate-700 dark:text-slate-400'>this is a span math:<span class="overflow-x-auto  scrollbar-thin  scrollbar-thumb-rounded-md scrollbar-track-rounded-md"><span class="math inline">\(A_i+B_i\)</span></span></p>
+<h3 class='text-xl  font-extrabold	text-slate-900 tracking-tight dark:text-slate-200  py-1.5' id="math-block">math block</h3>
+<p class='my-2 indent-8 text-base  text-slate-700 dark:text-slate-400'>this is a math block:</p>
+<div class="math display"><div class="overflow-x-auto overflow-y-hidden scrollbar-thin  scrollbar-thumb-rounded-md scrollbar-track-rounded-md">\[  A_i+B_i
+\]</div></div>
+<p class='my-2 indent-8 text-base  text-slate-700 dark:text-slate-400'>done</p>
+<div class="mx-2 my-6" role="doc-endnotes">
+<hr>
+<ol class='list-decimal mt-1 text-base text-slate-800 dark:text-slate-300 py-2 pl-4'>
+<li id="footnote-fn:1">
+<p class='my-2 indent-8 text-base  text-slate-700 dark:text-slate-400'>汉羽本纪 汉典古籍[引用日期2021-03-16]&#160;<a href="#footnote-fnref:1" class="text-sky-400 px-0.5 hover:decoration-sky-500 hover:text-sky-500 hover:decoration-2" title="跳转引用内容" role="doc-backlink">^</a></p>
+</li>
+<li id="footnote-fn:2">
+<p class='my-2 indent-8 text-base  text-slate-700 dark:text-slate-400'>项羽本纪 汉典古籍[引用日期2021-03-16]&#160;<a href="#footnote-fnref:2" class="text-sky-400 px-0.5 hover:decoration-sky-500 hover:text-sky-500 hover:decoration-2" title="跳转引用内容" role="doc-backlink">^</a></p>
+</li>
+</ol>
 </div>
-  )
-}
-
-export async function getServerSideProps(context) {
-  const session = await unstable_getServerSession(context.req, context.res, authOptions)
-  if(!session){
-    return {
-        redirect : {
-            destination : "/auth/login",
-            premanent: false
-        }
-    }
-  }
-  return {
-    props: {
-      session,
-    },
-  }
-}
