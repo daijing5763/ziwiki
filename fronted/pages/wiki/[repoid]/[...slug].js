@@ -100,6 +100,7 @@ export default function Home({ session}) {
   const [useSearch, setUseSearch] = useState(false);
   const [NavBarOpen, setNavBarOpen] = useState(false);
   useEffect(() => {
+    localStorage.setItem('ziwiki_access_token', JSON.stringify(session.access_token));
     const sideOpen = localStorage.getItem('NavBarOpen');
     if (sideOpen) {
       const data = JSON.parse(sideOpen);
@@ -112,6 +113,7 @@ export default function Home({ session}) {
     } 
   }, []);
   useEffect(() => {
+    localStorage.setItem('ziwiki_access_token', JSON.stringify(session.access_token));
     const slugs = router.query.slug;
     if (typeof slugs != "undefined" && Array.isArray(slugs)) {
       if (slugs.join("/") == "home"){
@@ -229,7 +231,7 @@ return (
       <div className="fixed xl:hidden inset-0 bg-black/20 backdrop-blur-sm dark:bg-slate-900/80" ></div>
       <div className="fixed xl:hidden inset-0 bg-white w-[20rem] p-6 dark:bg-slate-900" ></div>
 
-      <SideBar repo_id={parseInt(Array.isArray(router.query.repoid) ? router.query.repoid[0] : router.query.repoid)} access_token={session.access_token} layout={layout} SideBarIndex={SideBarIndex} setSideBarIndex={setSideBarIndex}  useSearch={useSearch } setUseSearch={setUseSearch} />
+      <SideBar repo_id={parseInt(Array.isArray(router.query.repoid) ? router.query.repoid[0] : router.query.repoid)}  layout={layout} SideBarIndex={SideBarIndex} setSideBarIndex={setSideBarIndex}  useSearch={useSearch } setUseSearch={setUseSearch} />
     </div>
 
     <div className={`overflow-hidden ${NavBarOpen?'lg:pl-[20rem] lg:pr-[20rem]':'px-4 pb-6'}` } >
@@ -254,7 +256,7 @@ return (
       </div>
 
   </div>
-  {useSearch && (<Search useSearch={useSearch} setUseSearch={setUseSearch} access_token={session.access_token} />)}
+  {useSearch && (<Search useSearch={useSearch} setUseSearch={setUseSearch}/>)}
 
 </div>
   )

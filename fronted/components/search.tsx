@@ -6,11 +6,17 @@ import { CgHashtag } from "react-icons/cg"
 import { BiChevronRight } from "react-icons/bi"
 import parse, { domToReact } from 'html-react-parser';
 import { backend_base_url } from "../utils/env_variable"
-export default function Search({useSearch,setUseSearch,access_token}) {
+export default function Search({useSearch,setUseSearch}) {
   const [query, setquery] = useState('');
   const [searchedDoc, setSearchedDoc] = useState([])
+  const [access_token, set_access_token] = useState('');
   
-  async function queryMarkdownUser(values:{ [key: string]: string }) {
+  async function queryMarkdownUser(values: { [key: string]: string }) {
+    const ziwiki_access_token = localStorage.getItem('ziwiki_access_token');
+    if (ziwiki_access_token) {
+      const data = JSON.parse(ziwiki_access_token);
+      set_access_token(data);
+    }
     const options = {
       method: "POST",
       headers: {
@@ -29,11 +35,17 @@ export default function Search({useSearch,setUseSearch,access_token}) {
         }
     })
   }
+  useEffect(() => {
+    const ziwiki_access_token = localStorage.getItem('ziwiki_access_token');
+    if (ziwiki_access_token) {
+      const data = JSON.parse(ziwiki_access_token);
+      set_access_token(data);
+    }
+  },[]);
 
-
-    useEffect(() => {
-      queryMarkdownUser({"plainto_tsquery":`${query}`})
-  },[query]);
+  useEffect(() => {
+    queryMarkdownUser({"plainto_tsquery":`${query}`})
+},[query]);
 const clearquery = async (event) => {
   event.preventDefault();
   (document.getElementById('search_query') as HTMLInputElement).value = ''

@@ -1,11 +1,12 @@
-import { Fragment, useRef, useState } from 'react'
+import { Fragment, useRef, useState,useEffect } from 'react'
 import { Dialog, Transition } from '@headlessui/react'
 import { useFormik } from 'formik';
 import { backend_base_url } from "../utils/env_variable"
 import { toast } from "react-toastify";
 import { createrepo_validate } from '../utils/validate';
-export default function CreateRepo({ repolistcount,setrepolistcount,open, setOpen,token }) {
 
+export default function CreateRepo({ repolistcount,setrepolistcount,open, setOpen }) {
+  const [access_token, set_access_token] = useState('');
   const cancelButtonRef = useRef(null)
   const formik = useFormik({
     initialValues: {
@@ -20,16 +21,28 @@ export default function CreateRepo({ repolistcount,setrepolistcount,open, setOpe
     validate: createrepo_validate,
     onSubmit:onSubmit
   })
+  useEffect(() => {
+    const ziwiki_access_token = localStorage.getItem('ziwiki_access_token');
+    if (ziwiki_access_token) {
+      const data = JSON.parse(ziwiki_access_token);
+      set_access_token(data);
+    }
+  },[]);
   async function onSubmit(values) {
+    const ziwiki_access_token = localStorage.getItem('ziwiki_access_token');
+    if (ziwiki_access_token) {
+      const data = JSON.parse(ziwiki_access_token);
+      set_access_token(data);
+    }
     const id = toast("正在创建仓库...", { type: toast.TYPE.INFO,isLoading: true });
     const options = {
       method: "POST",
       headers: {
         'Content-Type': 'application/json',
-        'Authorization': `Bearer ${token}`
+        'Authorization': `Bearer ${access_token}`
       },
       body: JSON.stringify(values)
-  }
+    }
   await fetch(`${backend_base_url}create_repo`, options)
       .then(res => res.json())
       .then((data) => {

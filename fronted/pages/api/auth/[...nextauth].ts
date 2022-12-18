@@ -61,6 +61,7 @@ export const authOptions: NextAuthOptions = {
             // console.log("mydebug jwt callback:user:",user)
             // Initial sign in
             if (user) {
+                
                 return {
                     access_token: user.access_token,
                     accessTokenExpires: user.access_token_expires_at,

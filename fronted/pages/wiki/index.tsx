@@ -9,8 +9,9 @@ import { authOptions } from '../api/auth/[...nextauth]'
 import { unstable_getServerSession } from "next-auth/next"
 import { backend_base_url } from "../../utils/env_variable"
 import { toast } from "react-toastify";
+import Search from "../../components/search"
 export default ({ session }) => {
-
+  const [useSearch, setUseSearch] = useState(false);
   const [repolist, setrepolist] = useState([])
   const [repolistcount, setrepolistcount] = useState(0)
   async function getRepoList(values) {
@@ -55,6 +56,7 @@ export default ({ session }) => {
   }
 
   useEffect(() => { 
+    localStorage.setItem('ziwiki_access_token', JSON.stringify(session.access_token));
     getRepoList( { "page_id": 1, "page_size": 10 })
   },[]);
   
@@ -72,7 +74,7 @@ return (
 
 <div className="antialiased text-slate-500 dark:text-slate-400 bg-white dark:bg-slate-900 min-h-screen">
   <PopNav />
-    <CreateRepo repolistcount={repolistcount} setrepolistcount={setrepolistcount} open={open} setOpen={setOpen} token={session.access_token} />
+    <CreateRepo repolistcount={repolistcount} setrepolistcount={setrepolistcount} open={open} setOpen={setOpen} />
   <div className="overflow-hidden">
     <div className='mx-3 md:mx-4 sm:px-6 md:px-8'>
             <div className="overflow-hidden " >
@@ -112,10 +114,15 @@ return (
                       </div>
                     </div>
                     <div className="group relative rounded-md dark:bg-slate-700 dark:highlight-white/10 dark:focus-within:bg-transparent">
-                      <svg width="20" height="20" fill="currentColor" className="absolute left-3 top-1/2 -mt-2.5 text-slate-400 pointer-events-none group-focus-within:text-blue-500 dark:text-slate-500">
+                      {/* <svg width="20" height="20" fill="currentColor" className="absolute left-3 top-1/2 -mt-2.5 text-slate-400 pointer-events-none group-focus-within:text-blue-500 dark:text-slate-500">
                         <path fillRule="evenodd" clipRule="evenodd" d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z"></path>
-                      </svg>
-                      <input type="text" aria-label="Filter projects" placeholder="Filter projects..." className="appearance-none w-full text-sm leading-6 bg-transparent text-slate-900 placeholder:text-slate-400 rounded-md py-2 pl-10 ring-1 ring-slate-200 shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 dark:text-slate-100 dark:placeholder:text-slate-500 dark:ring-0 dark:focus:ring-2"/>
+                    </svg> */}
+                    <button onClick={()=>{setUseSearch(!useSearch)}} type="button" className="flex w-full  items-center text-sm leading-6 text-slate-400 rounded-md ring-1 ring-slate-900/10 shadow-sm py-1.5 pl-2 pr-3 hover:ring-slate-300 dark:hover:ring-slate-700 dark:bg-slate-700 dark:highlight-white/5 dark:hover:bg-slate-700">
+                      <svg width="24" height="24" fill="none" aria-hidden="true" className="mr-3 flex-none"><path d="m19 19-3.5-3.5" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"></path><circle cx="11" cy="11" r="6" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"></circle></svg>
+                      Quick search...
+                      <span className="ml-auto pl-3 flex-none text-xs font-semibold">⌘K</span>
+                    </button>
+                      {/* <button onClick={()=>{setUseSearch(!useSearch)}} aria-label="Filter projects" placeholder="Filter projects..." className="appearance-none w-full text-sm leading-6 bg-transparent text-slate-900 placeholder:text-slate-400 rounded-md py-2 pl-10 ring-1 ring-slate-200 shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 dark:text-slate-100 dark:placeholder:text-slate-500 dark:ring-0 dark:focus:ring-2"/> */}
                     </div>
                   </header>
                   <ul className="bg-slate-50 p-4 sm:px-8 sm:pt-6 sm:pb-8 lg:p-4 xl:px-8 xl:pt-6 xl:pb-8 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3  lg:grid-cols-4 3xl:grid-cols-5 gap-4 text-sm leading-6 dark:bg-slate-900/40 dark:ring-1 dark:ring-white/5">
@@ -186,7 +193,9 @@ return (
     </div>
   </div>
   </div>
-  </div>
+    </div>
+    {useSearch && (<Search useSearch={useSearch} setUseSearch={setUseSearch}/>)}
+
 </div>
 
     )

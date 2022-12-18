@@ -4,9 +4,21 @@ import Link from "next/link";
 import SubMenu from "./submenu"
 import { toast } from "react-toastify";
 import { backend_base_url } from "../utils/env_variable"
-export default function SideBar({ repo_id,access_token, layout, SideBarIndex, setSideBarIndex,useSearch,setUseSearch }) {
-  
+export default function SideBar({ repo_id,layout, SideBarIndex, setSideBarIndex,useSearch,setUseSearch }) {
+  const [access_token, set_access_token] = useState('');
+  useEffect(() => {
+    const ziwiki_access_token = localStorage.getItem('ziwiki_access_token');
+    if (ziwiki_access_token) {
+      const data = JSON.parse(ziwiki_access_token);
+      set_access_token(data);
+    }
+  },[]);
   async function syncRepo() {
+    const ziwiki_access_token = localStorage.getItem('ziwiki_access_token');
+    if (ziwiki_access_token) {
+      const data = JSON.parse(ziwiki_access_token);
+      set_access_token(data);
+    }
     // toast('开始同步仓库', { hideProgressBar: true, autoClose: 2000, type: 'success' })
     const id =  toast("正在同步仓库...", {toastId: "customId",type: toast.TYPE.INFO});
     const options = {
@@ -17,6 +29,7 @@ export default function SideBar({ repo_id,access_token, layout, SideBarIndex, se
       },
       body: JSON.stringify({ "repo_id": repo_id })
     }
+    
     await fetch(`${backend_base_url}pull_repo`, options)
         .then(res => res.json())
       .then((data) => {
