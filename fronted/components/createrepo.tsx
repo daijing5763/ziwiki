@@ -56,11 +56,11 @@ export default function CreateRepo({ repolistcount,setrepolistcount,open, setOpe
           leaveFrom="opacity-100"
           leaveTo="opacity-0"
         >
-          <div className="fixed inset-0 bg-gray-500 backdrop-blur-sm backdrop-brightness-75 bg-opacity-75 transition-opacity" />
+        <div className="fixed inset-0 bg-transparent backdrop-blur-sm backdrop-brightness-75 bg-opacity-75 transition-opacity" />
         </Transition.Child>
 
-        <div className="fixed inset-0 z-10 overflow-y-auto">
-          <div className="flex min-h-full items-end md:items-center justify-center md:p-4 text-center sm:items-center sm:p-0">
+        <div className="fixed overflow-auto inset-0 z-50 backdrop-blur-sm backdrop-brightness-75  dark:text-slate-300  xs:px-4 pt-20  md:p-20 lg:p-28">
+          <div className="mx-0 md:mx-[max(0px,calc(50%-20rem))]">
             <Transition.Child
               as={Fragment}
               enter="ease-out duration-300"
@@ -70,55 +70,63 @@ export default function CreateRepo({ repolistcount,setrepolistcount,open, setOpe
               leaveFrom="opacity-100 translate-y-0 sm:scale-100"
               leaveTo="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
             >
-              <Dialog.Panel className="place-content-stretch grow h-full md:relative transform overflow-hidden md:rounded-xl bg-white text-left shadow-xl transition-all md:my-8 md:w-full md:max-w-lg">
+              <Dialog.Panel className="flex overflow-auto flex-col  border-slate-200/5 dark:border-slate-800/75 border md:rounded-lg bg-white dark:bg-slate-800/75">
               
-                <header className='bg-white dark:bg-slate-900'>
+          <header className=' justify-center px-4 py-4 overflow-auto relative flex text-slate-500 flex-row items-center border-b border-slate-300/75 dark:border-slate-800/75'>
                 
-           <form  className="md:py-5" onSubmit={formik.handleSubmit}>
-              <div className="shadow sm:overflow-hidden sm:rounded-md">
-                <div className="space-y-6  px-4 py-5 sm:p-6">
-                <div className="col-span-6 sm:col-span-4">
-                    <label htmlFor="repo_name" className="block text-sm font-medium text-gray-700 dark:text-slate-200">
-                      仓库名称
-                    </label>
-                    <input
-                      type="text"
-                      id="repo_name"
-                      autoComplete="repo_name"
-                      name='repo_name'
-                    placeholder='repo_name'
-                      // className="mt-1 block rounded-md focus:ring-0 border-gray-300 dark:border-gray-700 focus-within:text-gray-600 bg-white dark:bg-slate-800 placeholder-slate-400 dark:placeholder-slate-600 text-gray-900 dark:text-slate-300 appearance-none w-full  focus:outline-none"
-                      className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm dark:placeholder-slate-600 dark:text-slate-300 appearance-none dark:bg-slate-800  focus:outline-none  dark:border-gray-700 placeholder-slate-400"
-                      {...formik.getFieldProps('repo_name')}
-                          />
-                      {formik.errors.repo_name && formik.touched.repo_name ? <span className='text-pink-600 text-sm'>{formik.errors.repo_name as string}</span> : <></>}
+            <form  className="flex grow  justify-center overflow-auto  items-center " onSubmit={formik.handleSubmit}>
+              <div className="sm:overflow-hidden sm:rounded-md">
+                <div className="grid grid-cols-6 gap-4 gap-x-8 p-2">
+                  <div className="col-span-6 justify-center flex-center">
+                      <label htmlFor="repo_name" className="block text-center pt-2 pb-6 text-2xl font-bold text-gray-700 dark:text-slate-50">
+                        创建仓库
+                      </label>
                   </div>
 
 
-                  <div className="">
-                    <div className="">
+                <div className="col-span-6 sm:col-span-3">
+                      <label htmlFor="repo_name" className="block text-sm font-medium text-gray-700 dark:text-slate-200">
+                        仓库名称
+                      </label>
+                      <div className="flex content-center	">
+                        <input
+                        type="text"
+                        id="repo_name"
+                        autoComplete="repo_name"
+                        name='repo_name'
+                        placeholder='repo_name'
+                        
+                        className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm dark:placeholder-slate-600 dark:text-slate-300 appearance-none dark:bg-slate-800/50  focus:outline-none  dark:border-gray-700 placeholder-slate-400"
+                        {...formik.getFieldProps('repo_name')}
+                            />
+                          </div>
+                      
+                        {formik.errors.repo_name && formik.touched.repo_name ? <span className='text-pink-600 text-sm'>{formik.errors.repo_name as string}</span> : <></>}
+                  </div>
+
+
+                  <div className="col-span-6 sm:col-span-3">
                       <label htmlFor="repo_git" className="block text-sm font-medium text-gray-700  dark:text-slate-200">
                         仓库git
                       </label>
-                      <div className="mt-1 flex rounded-md shadow-sm">
-                        <span className="inline-flex items-center rounded-l-md border border-r-0 border-gray-300 bg-gray-50 px-3 text-sm text-gray-500 dark:bg-slate-800 dark:text-slate-200 dark:border-gray-700">
+                      <div className="flex rounded-md shadow-sm">
+                        <span className="inline-flex mt-1 items-center rounded-l-md border border-r-0 border-gray-300 bg-gray-50 px-3 text-sm text-gray-500 dark:bg-slate-800/50 dark:text-slate-200 dark:border-gray-700">
                           https://
                         </span>
                         <input
                           type="text"
                           name='repo_git'
                           id='repo_git'
-                          className="block w-full flex-1 rounded-none rounded-r-md border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm dark:bg-slate-800 dark:text-slate-200 dark:border-gray-700"
+                          className="mt-1 block w-full rounded-r-md  border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm dark:bg-slate-800/50 dark:text-slate-200 dark:border-gray-700"
                           placeholder="https://github.com/zdlpsina/ziwiki.git"
                           {...formik.getFieldProps('repo_git')}
                               />
-                          {formik.errors.repo_git && formik.touched.repo_git ? <span className='text-pink-600 text-sm flex justify-center items-center pl-1'>{formik.errors.repo_git as string}</span> : <></>}
-                          </div>
                           
-                    </div>
+                      </div>
+                      {formik.errors.repo_git && formik.touched.repo_git ? <span className='text-pink-600 text-sm flex justify-center items-center pl-1'>{formik.errors.repo_git as string}</span> : <></>}
                   </div>
 
-                  <div>
+                  <div className="col-span-6 sm:col-span-6">
                     <label htmlFor="repo_describe" className="block text-sm font-medium text-gray-700  dark:text-slate-200 ">
                       仓库描述
                     </label>
@@ -127,7 +135,7 @@ export default function CreateRepo({ repolistcount,setrepolistcount,open, setOpe
                         id='repo_describe'
                         name='repo_describe'
                         rows={3}
-                        className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm dark:bg-slate-800 dark:text-slate-200 dark:border-gray-700"
+                        className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm dark:bg-slate-800/50 dark:text-slate-200 dark:border-gray-700"
                         placeholder="这个仓库主要是C++相关的知识汇总"
                         {...formik.getFieldProps('repo_describe')}
                             />
@@ -147,7 +155,7 @@ export default function CreateRepo({ repolistcount,setrepolistcount,open, setOpe
                         id='repo_from'
                         name='repo_from'
                         autoComplete="repo_from"
-                        className="mt-1 block w-full rounded-md border border-gray-300 bg-white py-2 px-3 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm dark:bg-slate-800 dark:text-slate-200 dark:border-gray-700"
+                        className="mt-1 block w-full rounded-md border border-gray-300 bg-white py-2 px-3 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm dark:bg-slate-800/50 dark:text-slate-200 dark:border-gray-700"
                         value={formik.values.repo_from}
                         onChange={formik.handleChange}
                           >
@@ -167,19 +175,19 @@ export default function CreateRepo({ repolistcount,setrepolistcount,open, setOpe
                         id="access_type"
                         name="access_type"
                         autoComplete="access_type"
-                        className="mt-1 block w-full rounded-md border border-gray-300 bg-white py-2 px-3 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm dark:bg-slate-800 dark:text-slate-200 dark:border-gray-700"
+                        className="mt-1 block w-full rounded-md border border-gray-300 bg-white py-2 px-3 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm dark:bg-slate-800/50 dark:text-slate-200 dark:border-gray-700"
                         value={formik.values.access_type}
                         onChange={formik.handleChange}
                           >
-                        <option value=""  label="Select a type"/>
-                        <option value="public" label="public"/>
-                        <option value="access_token" label="access_token"/>
-                        <option value="password" label="password"/>
+                        <option value=""  label="Select a type">选择授权类型...</option>
+                        <option value="public" label="public">公开</option>
+                        <option value="access_token" label="access_token">授权码 </option>
+                        <option value="password" label="password">密码</option>
                           </select>
                           {formik.errors.access_type &&  <span className='text-pink-600 text-sm'>{formik.errors.access_type as string}</span> }
                     </div>
 
-                    <div className="col-span-6 sm:col-span-4">
+                    <div className="col-span-6 sm:col-span-3">
                     <label htmlFor="repo_user_name" className="block text-sm font-medium text-gray-700  dark:text-slate-200">
                       GIT访问用户名
                     </label>
@@ -188,13 +196,13 @@ export default function CreateRepo({ repolistcount,setrepolistcount,open, setOpe
                       name="repo_user_name"
                       id="repo_user_name"
                       autoComplete="repo_user_name"
-                      className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm dark:bg-slate-800 dark:text-slate-200 dark:border-gray-700"
+                      className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm dark:bg-slate-800/50 dark:text-slate-200 dark:border-gray-700"
                     
                             {...formik.getFieldProps('repo_user_name')}
                           />
                     </div>
                         
-                  <div className="col-span-6 sm:col-span-4">
+                  <div className="col-span-6 sm:col-span-3">
                     <label htmlFor="repo_access_token" className="block text-sm font-medium text-gray-700  dark:text-slate-200 ">
                       GIT访问密码/授权码
                     </label>
@@ -203,7 +211,7 @@ export default function CreateRepo({ repolistcount,setrepolistcount,open, setOpe
                       name="repo_access_token"
                       id="repo_access_token"
                       autoComplete="repo_access_token"
-                      className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm dark:bg-slate-800 dark:text-slate-200 dark:border-gray-700"
+                      className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm dark:bg-slate-800/50 dark:text-slate-200 dark:border-gray-700"
                     
                             {...formik.getFieldProps('repo_access_token')}
                           />
@@ -213,14 +221,14 @@ export default function CreateRepo({ repolistcount,setrepolistcount,open, setOpe
                         <button
                           type="reset"
                         ref={cancelButtonRef}
-                        className="text-base font-medium rounded-lg bg-slate-100 text-slate-900 py-3 text-center cursor-pointer dark:bg-slate-600 dark:text-slate-400 dark:highlight-white/10"
+                        className="text-base font-medium rounded-lg bg-slate-100 text-slate-900 py-3 text-center cursor-pointer dark:bg-gray-700/75 dark:text-slate-200 dark:highlight-white/10"
                         onClick={() => setOpen(false)}
                       >
                       Decline
                     </button>
                       <button
                       type='submit'
-                      className="text-base font-medium rounded-lg bg-sky-500 text-white py-3 text-center cursor-pointer dark:highlight-white/20"
+                      className="text-base font-medium rounded-lg bg-sky-500 dark:bg-sky-800 text-white py-3 text-center cursor-pointer dark:highlight-white/20"
                           onClick={() => setOpen(false) }
                       >
                       Accept

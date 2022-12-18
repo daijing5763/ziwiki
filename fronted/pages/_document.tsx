@@ -8,7 +8,8 @@ class MyDocument extends Document {
         <body>
           <Main />
           <NextScript />
-          <div id="mysearch"/>
+          <div id="mysearch" />
+          <div id="create_repo"/>
         </body>
       </Html>
     )
