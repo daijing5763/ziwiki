@@ -81,7 +81,7 @@ export default function Register() {
                       <HiOutlineUser size={25} />
                     </span>
                   </div>
-                  {formik.errors.username && formik.touched.username ? <span className='text-pink-600 text-sm'>{formik.errors.username}</span> : <></>}
+                  {formik.errors.username && formik.touched.username ? <span className='text-pink-600 text-sm'>{formik.errors.username as string}</span> : <></>}
                   </div>
                   <div>
                   <div className="flex justify-center items-center">
@@ -96,7 +96,7 @@ export default function Register() {
                       <HiAtSymbol size={25} />
                     </span>
                   </div>
-                  {formik.errors.email && formik.touched.email ? <span className='text-pink-600 text-sm'>{formik.errors.email}</span> : <></>}
+                  {formik.errors.email && formik.touched.email ? <span className='text-pink-600 text-sm'>{formik.errors.email as string}</span> : <></>}
                   </div>
                   <div>
                   <div className="flex justify-center items-center">
@@ -111,7 +111,7 @@ export default function Register() {
                       <HiFingerPrint size={25} />
                     </span>
                   </div>
-                  {formik.errors.password && formik.touched.password ? <span className='text-pink-600 text-sm'>{formik.errors.password}</span> : <></>}
+                  {formik.errors.password && formik.touched.password ? <span className='text-pink-600 text-sm'>{formik.errors.password as string}</span> : <></>}
                   </div>
                   <div>
                   <div className="flex justify-center items-center">
@@ -126,7 +126,7 @@ export default function Register() {
                       <HiFingerPrint size={25} />
                     </span>
                   </div>
-                  {formik.errors.cpassword && formik.touched.cpassword ? <span className='text-pink-600 text-sm'>{formik.errors.cpassword}</span> : <></>}
+                  {formik.errors.cpassword && formik.touched.cpassword ? <span className='text-pink-600 text-sm'>{formik.errors.cpassword as string}</span> : <></>}
                   </div>
                   <button className="bg-[#002D74]  rounded-xl text-white py-2 mt-2 hover:scale-105 duration-300" type='submit' >
                     注册

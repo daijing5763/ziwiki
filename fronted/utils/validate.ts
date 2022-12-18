@@ -1,4 +1,5 @@
-
+import { withFormik, FormikProps, FormikErrors, Form, Field } from 'formik';
+ 
 export  function login_validate(values:{ [key: string]: string }) {
     const errors: { [key: string]: string } = {};
     if (!values.username) {
@@ -14,9 +15,21 @@ export  function login_validate(values:{ [key: string]: string }) {
     }
     return errors;
 }
+ // Shape of form values
+    interface FormValues {
+        repo_name: string;
+        repo_git: string;
+        repo_describe: string;
+        repo_from: string;
+        access_type: string;
+        repo_user_name: string;
+        repo_access_token: string;
+    }
 
 export  function createrepo_validate(values:{ [key: string]: string }) {
-    const errors: { [key: string]: string } = {};
+    // const errors: { [key: string]: string } = {};
+
+    let errors: FormikErrors<FormValues> = {};
     if (!values.repo_name) {
         errors.repo_name = 'Required';
     }

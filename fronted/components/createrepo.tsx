@@ -4,9 +4,9 @@ import { useFormik } from 'formik';
 import { backend_base_url } from "../utils/env_variable"
 import { toast } from "react-toastify";
 import { createrepo_validate } from '../utils/validate';
-
+import { useSession } from "next-auth/react"
 export default function CreateRepo({ repolistcount,setrepolistcount,open, setOpen }) {
-  const [access_token, set_access_token] = useState('');
+  const { data: session } = useSession()
   const cancelButtonRef = useRef(null)
   const formik = useFormik({
     initialValues: {
@@ -21,25 +21,14 @@ export default function CreateRepo({ repolistcount,setrepolistcount,open, setOpe
     validate: createrepo_validate,
     onSubmit:onSubmit
   })
-  useEffect(() => {
-    const ziwiki_access_token = localStorage.getItem('ziwiki_access_token');
-    if (ziwiki_access_token) {
-      const data = JSON.parse(ziwiki_access_token);
-      set_access_token(data);
-    }
-  },[]);
+
   async function onSubmit(values) {
-    const ziwiki_access_token = localStorage.getItem('ziwiki_access_token');
-    if (ziwiki_access_token) {
-      const data = JSON.parse(ziwiki_access_token);
-      set_access_token(data);
-    }
     const id = toast("正在创建仓库...", { type: toast.TYPE.INFO,isLoading: true });
     const options = {
       method: "POST",
       headers: {
         'Content-Type': 'application/json',
-        'Authorization': `Bearer ${access_token}`
+        'Authorization': `Bearer ${session.access_token}`
       },
       body: JSON.stringify(values)
     }
@@ -102,7 +91,7 @@ export default function CreateRepo({ repolistcount,setrepolistcount,open, setOpe
                       className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm dark:placeholder-slate-600 dark:text-slate-300 appearance-none dark:bg-slate-800  focus:outline-none  dark:border-gray-700 placeholder-slate-400"
                       {...formik.getFieldProps('repo_name')}
                           />
-                      {formik.errors.repo_name && formik.touched.repo_name ? <span className='text-pink-600 text-sm'>{formik.errors.repo_name}</span> : <></>}
+                      {formik.errors.repo_name && formik.touched.repo_name ? <span className='text-pink-600 text-sm'>{formik.errors.repo_name as string}</span> : <></>}
                   </div>
 
 
@@ -123,7 +112,7 @@ export default function CreateRepo({ repolistcount,setrepolistcount,open, setOpe
                           placeholder="https://github.com/zdlpsina/ziwiki.git"
                           {...formik.getFieldProps('repo_git')}
                               />
-                          {formik.errors.repo_git && formik.touched.repo_git ? <span className='text-pink-600 text-sm flex justify-center items-center pl-1'>{formik.errors.repo_git}</span> : <></>}
+                          {formik.errors.repo_git && formik.touched.repo_git ? <span className='text-pink-600 text-sm flex justify-center items-center pl-1'>{formik.errors.repo_git as string}</span> : <></>}
                           </div>
                           
                     </div>
@@ -142,7 +131,7 @@ export default function CreateRepo({ repolistcount,setrepolistcount,open, setOpe
                         placeholder="这个仓库主要是C++相关的知识汇总"
                         {...formik.getFieldProps('repo_describe')}
                             />
-                      {formik.errors.repo_describe && formik.touched.repo_describe ? <span className='text-pink-600 text-sm'>{formik.errors.repo_describe}</span> : <></>}
+                      {formik.errors.repo_describe && formik.touched.repo_describe ? <span className='text-pink-600 text-sm'>{formik.errors.repo_describe as string}</span> : <></>}
                     </div>
                     <p className="mt-2 text-sm text-gray-500  dark:text-slate-500 ">
                       简单描述下仓库是做啥的
@@ -167,7 +156,7 @@ export default function CreateRepo({ repolistcount,setrepolistcount,open, setOpe
                         <option value="gitlab" label="GitLab"/>
                         <option value="gitee" label="Gitee"/>
                           </select>
-                          {formik.errors.repo_from &&  <span className='text-pink-600 text-sm'>{formik.errors.repo_from}</span> }
+                          {formik.errors.repo_from &&  <span className='text-pink-600 text-sm'>{formik.errors.repo_from as string}</span> }
                     </div>
                     <div className="col-span-6 sm:col-span-3">
                       <label htmlFor="access_type" className="block text-sm font-medium text-gray-700  dark:text-slate-200">
@@ -187,7 +176,7 @@ export default function CreateRepo({ repolistcount,setrepolistcount,open, setOpe
                         <option value="access_token" label="access_token"/>
                         <option value="password" label="password"/>
                           </select>
-                          {formik.errors.access_type &&  <span className='text-pink-600 text-sm'>{formik.errors.access_type}</span> }
+                          {formik.errors.access_type &&  <span className='text-pink-600 text-sm'>{formik.errors.access_type as string}</span> }
                     </div>
 
                     <div className="col-span-6 sm:col-span-4">

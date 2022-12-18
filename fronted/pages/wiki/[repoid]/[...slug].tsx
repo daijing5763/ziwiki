@@ -10,25 +10,23 @@ import { authOptions } from '../../api/auth/[...nextauth]'
 import { unstable_getServerSession } from "next-auth/next"
 import {RiMenu4Line,RiMenuLine} from  "react-icons/ri"
 import { useRouter } from "next/router"
-import Profile from  "../../../components/profile"
 import { mathjax_config } from "../../../utils/mathjax_config"
 import {fetch_repo_info,fetch_markdown} from "../../../utils/web_fetch"
 import {html_parser_options_list,get_html_parser_option} from "../../../utils/json_parser_config"
 
-
-
-
 export default function Home({ session }) {
+  const router = useRouter();
+  const slugs = router.query.slug;
+  const repo_id = parseInt(Array.isArray(router.query.repoid) ? router.query.repoid[0] : router.query.repoid)
+  
   const [repo_created_at, set_repo_created_at] = useState(''); 
-  const [repo_id, set_repo_id] = useState(''); 
-  const [repo_access_token, set_repo_access_token] = useState(''); 
   const [repo_describe, set_repo_describe] = useState(''); 
   const [repo_from, set_repo_from] = useState(''); 
   const [repo_git, set_repo_git] = useState(''); 
   const [repo_name, set_repo_name] = useState(''); 
-  const [repo_user_name, set_repo_user_name] = useState(''); 
-  const [user_id, set_user_id] = useState(''); 
-  const router = useRouter();
+  const [ishome, set_ishome] = useState(false); 
+
+  
   const [layout, setlayout] = useState([]); 
   const [markdowntext, setmarkdown] = useState(''); 
   const [markdownlist, setmarkdownlist] = useState(''); 
@@ -41,7 +39,11 @@ export default function Home({ session }) {
   async function getRepo(values) {
     fetch_repo_info(values, session.access_token).then(repo_info => {
       if (repo_info && !repo_info.error) {
-        console.log("getrepo:",repo_info)
+        set_repo_created_at(repo_info.created_at)
+        set_repo_describe(repo_info.repo_describe)
+        set_repo_from(repo_info.repo_from)
+        set_repo_git(repo_info.repo_git)
+        set_repo_name(repo_info.repo_name)
       }
     })
   }
@@ -71,10 +73,7 @@ export default function Home({ session }) {
     })
   }
 
-  
-
   useEffect(() => {
-    localStorage.setItem('ziwiki_access_token', JSON.stringify(session.access_token));
     const sideOpen = localStorage.getItem('NavBarOpen');
     if (sideOpen) {
       const data = JSON.parse(sideOpen);
@@ -86,34 +85,27 @@ export default function Home({ session }) {
       setSideBarIndex(data);
     } 
   }, []);
+
+  // only slug change,fetch new data;
   useEffect(() => {
-    localStorage.setItem('ziwiki_access_token', JSON.stringify(session.access_token));
-    const slugs = router.query.slug;
     if (typeof slugs != "undefined" && Array.isArray(slugs)) {
-      if (slugs.join("/") == "home"){
-        setmarkdown("Repo HomePage")
+      if (slugs.join("/") == "home") {
+        set_ishome(true)
+        setmarkdown("")
       } else {
-        getMarkdown({
-          "mdhref":slugs.join("/"),
-          "repo_id":parseInt(Array.isArray(router.query.repoid) ? router.query.repoid[0] : router.query.repoid),
-        });
-        getMarkdownList({
-          "mdhref":slugs.join("/")+".list",
-          "repo_id":parseInt(Array.isArray(router.query.repoid) ? router.query.repoid[0] : router.query.repoid),
-        });
+        set_ishome(false)
+        getMarkdown({"mdhref":slugs.join("/"),"repo_id":repo_id});
+        getMarkdownList({"mdhref":slugs.join("/")+".list","repo_id":repo_id});
       }
     }
   }, [router.query.slug]);
+
+  // only when repo change, fetch new data
   useEffect(() => {
-    getRepo({"id":parseInt(Array.isArray(router.query.repoid) ? router.query.repoid[0] : router.query.repoid),})
-    getLayout({
-      "mdhref": "layout.json",
-      "repo_id":parseInt(Array.isArray(router.query.repoid) ? router.query.repoid[0] : router.query.repoid),
-    });
-  },[router.query.repoid]);
-
-
-
+    getRepo({"id":repo_id})
+    getLayout({"mdhref": "layout.json","repo_id":repo_id});
+  }, [router.query.repoid]);
+  
   useEffect(() => setUseSearch(false), [dynamicRoute]);
 
 return (
@@ -141,8 +133,31 @@ return (
         <div className="mb-16 md:flex items-center justify-center">
           <div className="flex-auto  max-w-3xl xl:max-w-2xl">
             <MathJaxContext version={3} config={mathjax_config}>
-                {parse(markdowntext,html_parser_options)}
-                <Profile/>
+                {parse(markdowntext, html_parser_options)}
+                {
+                  ishome &&
+                  <div>
+                      <h1 className='text-3xl font-black text-slate-900 tracking-tight text-center dark:text-slate-200  pb-6 my-3'>{repo_name}</h1>
+                      <h5 className='text-base font-bold 	  text-slate-900 tracking-tight  dark:text-slate-200  py-1' id="hello-4">
+                        仓库创建日期:
+                        <span className=' pl-2 my-2  text-base  text-slate-700 dark:text-slate-400'>{ repo_created_at}</span>
+                      </h5>
+
+                      <h5 className='text-base font-bold 	  text-slate-900 tracking-tight  dark:text-slate-200  py-1' id="hello-4">
+                        仓库类型:
+                        <span className=' pl-2 my-2  text-base  text-slate-700 dark:text-slate-400'>{ repo_from}</span>
+                      </h5>
+                      <h5 className='text-base font-bold 	  text-slate-900 tracking-tight  dark:text-slate-200  py-1' id="hello-4">
+                        仓库git地址:
+                        <span className=' pl-2 my-2  text-base  text-slate-700 dark:text-slate-400'>{ repo_git}</span>
+                      </h5>
+                      <h5 className='text-base font-bold 	  text-slate-900 tracking-tight  dark:text-slate-200  py-1' id="hello-4">
+                        仓库描述:
+                        <span className=' pl-2 my-2  text-base  text-slate-700 dark:text-slate-400'>{ repo_describe}</span>
+                      </h5>
+                    </div>
+                }
+
             </MathJaxContext>
           </div>
         </div>

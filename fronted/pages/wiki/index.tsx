@@ -56,7 +56,6 @@ export default ({ session }) => {
   }
 
   useEffect(() => { 
-    localStorage.setItem('ziwiki_access_token', JSON.stringify(session.access_token));
     getRepoList( { "page_id": 1, "page_size": 10 })
   },[]);
   

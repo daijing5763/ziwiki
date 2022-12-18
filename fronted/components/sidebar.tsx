@@ -3,29 +3,17 @@ import { AiOutlineSync, AiOutlineDelete, AiOutlineEdit } from "react-icons/ai"
 import Link from "next/link";
 import SubMenu from "./submenu"
 import { toast } from "react-toastify";
+import { useSession } from "next-auth/react"
 import { backend_base_url } from "../utils/env_variable"
 export default function SideBar({ repo_id,layout, SideBarIndex, setSideBarIndex,useSearch,setUseSearch }) {
-  const [access_token, set_access_token] = useState('');
-  useEffect(() => {
-    const ziwiki_access_token = localStorage.getItem('ziwiki_access_token');
-    if (ziwiki_access_token) {
-      const data = JSON.parse(ziwiki_access_token);
-      set_access_token(data);
-    }
-  },[]);
+  const { data: session } = useSession()
   async function syncRepo() {
-    const ziwiki_access_token = localStorage.getItem('ziwiki_access_token');
-    if (ziwiki_access_token) {
-      const data = JSON.parse(ziwiki_access_token);
-      set_access_token(data);
-    }
-    // toast('开始同步仓库', { hideProgressBar: true, autoClose: 2000, type: 'success' })
     const id =  toast("正在同步仓库...", {toastId: "customId",type: toast.TYPE.INFO});
     const options = {
       method: "POST",
       headers: {
         'Content-Type': 'application/json',
-        'Authorization': `Bearer ${access_token}`
+        'Authorization': `Bearer ${session.access_token}`
       },
       body: JSON.stringify({ "repo_id": repo_id })
     }
