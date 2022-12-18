@@ -7,6 +7,8 @@ import { registerValidate } from '../../utils/validate'
 import PopNav from "../../components/popnav"
 import { toast } from "react-toastify";
 import { backend_base_url, home_url } from "../../utils/env_variable"
+import { unstable_getServerSession } from "next-auth/next"
+import { authOptions } from '../api/auth/[...nextauth]'
 export default function Register() {
   const [show, setShow] = useState({ password: false, cpassword: false })
   const router = useRouter()
@@ -155,4 +157,22 @@ export default function Register() {
     </div>
 
   )
+}
+
+
+
+export async function getServerSideProps(context) {
+  const session = await unstable_getServerSession(context.req, context.res, authOptions)
+  if(session){
+    return {
+        redirect : {
+            destination : "/wiki",
+            premanent: false
+        }
+    }
+  }
+  return {
+    props: {
+    },
+  }
 }

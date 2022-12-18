@@ -6,8 +6,11 @@ import login_validate from '../../utils/validate';
 import { useRouter } from 'next/router';
 import PopNav from "../../components/popnav"
 import { toast } from "react-toastify";
+import { authOptions } from '../api/auth/[...nextauth]'
 import { HiAtSymbol, HiFingerPrint, HiOutlineUser } from "react-icons/hi";
 import { backend_base_url, home_url } from "../../utils/env_variable"
+import { getSession, SessionContext } from 'next-auth/react'
+import { unstable_getServerSession } from "next-auth/next"
 export default function Login() {
 
   const [show, setShow] = useState(false)
@@ -129,4 +132,21 @@ export default function Login() {
       </div>
     </div>
   )
+}
+
+
+export async function getServerSideProps(context) {
+  const session = await unstable_getServerSession(context.req, context.res, authOptions)
+  if(session){
+    return {
+        redirect : {
+            destination : "/wiki",
+            premanent: false
+        }
+    }
+  }
+  return {
+    props: {
+    },
+  }
 }
