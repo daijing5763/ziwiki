@@ -14,18 +14,20 @@ INSERT INTO repos (
   user_id,
   repo_name,
   repo_git,
+  repo_access_type,
   repo_user_name,
   repo_access_token,
   repo_from,
   repo_describe
-) VALUES ($1,$2,$3,$4,$5,$6,$7) 
-RETURNING id, user_id, repo_name, repo_git, repo_user_name, repo_access_token, repo_from, repo_describe, created_at
+) VALUES ($1,$2,$3,$4,$5,$6,$7,$8) 
+RETURNING id, user_id, repo_name, repo_git, repo_access_type, repo_user_name, repo_access_token, repo_from, repo_describe, created_at
 `
 
 type CreateRepoParams struct {
 	UserID          int64  `json:"user_id"`
 	RepoName        string `json:"repo_name"`
 	RepoGit         string `json:"repo_git"`
+	RepoAccessType  string `json:"repo_access_type"`
 	RepoUserName    string `json:"repo_user_name"`
 	RepoAccessToken string `json:"repo_access_token"`
 	RepoFrom        string `json:"repo_from"`
@@ -37,6 +39,7 @@ func (q *Queries) CreateRepo(ctx context.Context, arg CreateRepoParams) (Repo, e
 		arg.UserID,
 		arg.RepoName,
 		arg.RepoGit,
+		arg.RepoAccessType,
 		arg.RepoUserName,
 		arg.RepoAccessToken,
 		arg.RepoFrom,
@@ -48,6 +51,7 @@ func (q *Queries) CreateRepo(ctx context.Context, arg CreateRepoParams) (Repo, e
 		&i.UserID,
 		&i.RepoName,
 		&i.RepoGit,
+		&i.RepoAccessType,
 		&i.RepoUserName,
 		&i.RepoAccessToken,
 		&i.RepoFrom,
@@ -68,7 +72,7 @@ func (q *Queries) DeleteRepo(ctx context.Context, id int64) error {
 }
 
 const getRepo = `-- name: GetRepo :one
-SELECT id, user_id, repo_name, repo_git, repo_user_name, repo_access_token, repo_from, repo_describe, created_at FROM repos
+SELECT id, user_id, repo_name, repo_git, repo_access_type, repo_user_name, repo_access_token, repo_from, repo_describe, created_at FROM repos
 WHERE id = $1 LIMIT 1
 `
 
@@ -80,6 +84,7 @@ func (q *Queries) GetRepo(ctx context.Context, id int64) (Repo, error) {
 		&i.UserID,
 		&i.RepoName,
 		&i.RepoGit,
+		&i.RepoAccessType,
 		&i.RepoUserName,
 		&i.RepoAccessToken,
 		&i.RepoFrom,
@@ -90,7 +95,7 @@ func (q *Queries) GetRepo(ctx context.Context, id int64) (Repo, error) {
 }
 
 const getRepoForUpdate = `-- name: GetRepoForUpdate :one
-SELECT id, user_id, repo_name, repo_git, repo_user_name, repo_access_token, repo_from, repo_describe, created_at FROM repos
+SELECT id, user_id, repo_name, repo_git, repo_access_type, repo_user_name, repo_access_token, repo_from, repo_describe, created_at FROM repos
 WHERE id = $1 LIMIT 1
 FOR NO KEY UPDATE
 `
@@ -103,6 +108,7 @@ func (q *Queries) GetRepoForUpdate(ctx context.Context, id int64) (Repo, error) 
 		&i.UserID,
 		&i.RepoName,
 		&i.RepoGit,
+		&i.RepoAccessType,
 		&i.RepoUserName,
 		&i.RepoAccessToken,
 		&i.RepoFrom,
@@ -113,7 +119,7 @@ func (q *Queries) GetRepoForUpdate(ctx context.Context, id int64) (Repo, error) 
 }
 
 const listRepos = `-- name: ListRepos :many
-SELECT id, user_id, repo_name, repo_git, repo_user_name, repo_access_token, repo_from, repo_describe, created_at FROM repos
+SELECT id, user_id, repo_name, repo_git, repo_access_type, repo_user_name, repo_access_token, repo_from, repo_describe, created_at FROM repos
 WHERE user_id = $1
 ORDER BY id
 LIMIT $2
@@ -140,6 +146,7 @@ func (q *Queries) ListRepos(ctx context.Context, arg ListReposParams) ([]Repo, e
 			&i.UserID,
 			&i.RepoName,
 			&i.RepoGit,
+			&i.RepoAccessType,
 			&i.RepoUserName,
 			&i.RepoAccessToken,
 			&i.RepoFrom,
@@ -161,24 +168,40 @@ func (q *Queries) ListRepos(ctx context.Context, arg ListReposParams) ([]Repo, e
 
 const updateRepo = `-- name: UpdateRepo :one
 UPDATE repos
-SET repo_name=$2
+SET repo_name=$2 , repo_git=$3 , repo_access_type=$4 , repo_user_name=$5 , repo_access_token=$6 , repo_from=$7 , repo_describe=$8
 WHERE id = $1
-RETURNING id, user_id, repo_name, repo_git, repo_user_name, repo_access_token, repo_from, repo_describe, created_at
+RETURNING id, user_id, repo_name, repo_git, repo_access_type, repo_user_name, repo_access_token, repo_from, repo_describe, created_at
 `
 
 type UpdateRepoParams struct {
-	ID       int64  `json:"id"`
-	RepoName string `json:"repo_name"`
+	ID              int64  `json:"id"`
+	RepoName        string `json:"repo_name"`
+	RepoGit         string `json:"repo_git"`
+	RepoAccessType  string `json:"repo_access_type"`
+	RepoUserName    string `json:"repo_user_name"`
+	RepoAccessToken string `json:"repo_access_token"`
+	RepoFrom        string `json:"repo_from"`
+	RepoDescribe    string `json:"repo_describe"`
 }
 
 func (q *Queries) UpdateRepo(ctx context.Context, arg UpdateRepoParams) (Repo, error) {
-	row := q.db.QueryRowContext(ctx, updateRepo, arg.ID, arg.RepoName)
+	row := q.db.QueryRowContext(ctx, updateRepo,
+		arg.ID,
+		arg.RepoName,
+		arg.RepoGit,
+		arg.RepoAccessType,
+		arg.RepoUserName,
+		arg.RepoAccessToken,
+		arg.RepoFrom,
+		arg.RepoDescribe,
+	)
 	var i Repo
 	err := row.Scan(
 		&i.ID,
 		&i.UserID,
 		&i.RepoName,
 		&i.RepoGit,
+		&i.RepoAccessType,
 		&i.RepoUserName,
 		&i.RepoAccessToken,
 		&i.RepoFrom,

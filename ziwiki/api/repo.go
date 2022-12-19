@@ -16,6 +16,7 @@ import (
 type createRepoRequest struct {
 	RepoName        string `json:"repo_name" binding:"required"`
 	RepoGit         string `json:"repo_git" binding:"required"`
+	RepoAccessType  string `json:"repo_access_type" binding:"required"`
 	RepoUserName    string `json:"repo_user_name" binding:"required"`
 	RepoAccessToken string `json:"repo_access_token" binding:"required"`
 	RepoFrom        string `json:"repo_from" binding:"required"`
@@ -34,6 +35,7 @@ func (server *Server) createRepo(ctx *gin.Context) {
 		UserID:          authPayload.UserID,
 		RepoName:        req.RepoName,
 		RepoGit:         req.RepoGit,
+		RepoAccessType:  req.RepoAccessType,
 		RepoUserName:    req.RepoUserName,
 		RepoAccessToken: req.RepoAccessToken,
 		RepoFrom:        req.RepoFrom,
@@ -119,6 +121,91 @@ func (server *Server) listRepos(ctx *gin.Context) {
 	}
 
 	ctx.JSON(http.StatusOK, repos)
+}
+
+type deleteRepoRequest struct {
+	ID int64 `json:"repo_id" binding:"required,min=1"`
+}
+
+func (server *Server) deleteRepo(ctx *gin.Context) {
+	var req deleteRepoRequest
+	if err := ctx.ShouldBindJSON(&req); err != nil {
+		ctx.JSON(http.StatusBadRequest, errorResponse(err))
+		return
+	}
+	repo, err := server.store.GetRepo(ctx, req.ID)
+	if err != nil {
+		if err == sql.ErrNoRows {
+			ctx.JSON(http.StatusNotFound, errorResponse(err))
+			return
+		}
+		ctx.JSON(http.StatusInternalServerError, errorResponse(err))
+		return
+	}
+	authPayload := ctx.MustGet(authorizationPayloadKey).(*token.Payload)
+	if repo.UserID != authPayload.UserID {
+		err := errors.New("repo doesn't belong to the authenticated user")
+		ctx.JSON(http.StatusUnauthorized, errorResponse(err))
+		return
+	}
+
+	err = server.store.DeleteRepo(ctx, req.ID)
+	if err != nil {
+		ctx.JSON(http.StatusInternalServerError, errorResponse(err))
+		return
+	}
+	ctx.JSON(http.StatusOK, repo)
+}
+
+type updateRepoRequest struct {
+	ID              int64  `json:"repo_id" binding:"required,min=1"`
+	RepoName        string `json:"repo_name" binding:"required"`
+	RepoGit         string `json:"repo_git" binding:"required"`
+	RepoAccessType  string `json:"repo_access_type" binding:"required"`
+	RepoUserName    string `json:"repo_user_name" binding:"required"`
+	RepoAccessToken string `json:"repo_access_token" binding:"required"`
+	RepoFrom        string `json:"repo_from" binding:"required"`
+	RepoDescribe    string `json:"repo_describe" binding:"required"`
+}
+
+func (server *Server) updateRepo(ctx *gin.Context) {
+	var req updateRepoRequest
+	if err := ctx.ShouldBindJSON(&req); err != nil {
+		ctx.JSON(http.StatusBadRequest, errorResponse(err))
+		return
+	}
+	repo, err := server.store.GetRepo(ctx, req.ID)
+	if err != nil {
+		if err == sql.ErrNoRows {
+			ctx.JSON(http.StatusNotFound, errorResponse(err))
+			return
+		}
+		ctx.JSON(http.StatusInternalServerError, errorResponse(err))
+		return
+	}
+	authPayload := ctx.MustGet(authorizationPayloadKey).(*token.Payload)
+	if repo.UserID != authPayload.UserID {
+		err := errors.New("repo doesn't belong to the authenticated user")
+		ctx.JSON(http.StatusUnauthorized, errorResponse(err))
+		return
+	}
+	arg := db.UpdateRepoParams{
+		ID:              repo.ID,
+		RepoName:        req.RepoName,
+		RepoGit:         req.RepoGit,
+		RepoAccessType:  req.RepoAccessType,
+		RepoUserName:    req.RepoUserName,
+		RepoAccessToken: req.RepoAccessToken,
+		RepoFrom:        req.RepoFrom,
+		RepoDescribe:    req.RepoDescribe,
+	}
+
+	repo, err = server.store.UpdateRepo(ctx, arg)
+	if err != nil {
+		ctx.JSON(http.StatusInternalServerError, errorResponse(err))
+		return
+	}
+	ctx.JSON(http.StatusOK, repo)
 }
 
 type pullRepoRequest struct {

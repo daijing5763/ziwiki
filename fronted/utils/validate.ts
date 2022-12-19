@@ -21,7 +21,7 @@ export  function login_validate(values:{ [key: string]: string }) {
         repo_git: string;
         repo_describe: string;
         repo_from: string;
-        access_type: string;
+        repo_access_type: string;
         repo_user_name: string;
         repo_access_token: string;
     }
@@ -43,8 +43,8 @@ export  function createrepo_validate(values:{ [key: string]: string }) {
         errors.repo_from = 'Required';
     }
 
-    if (!values.access_type) {
-        errors.access_type = 'Required';
+    if (!values.repo_access_type) {
+        errors.repo_access_type = 'Required';
     }
     if (!values.repo_user_name) {
         errors.repo_user_name = 'Required';

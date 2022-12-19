@@ -25,6 +25,7 @@ type Repo struct {
 	UserID          int64     `json:"user_id"`
 	RepoName        string    `json:"repo_name"`
 	RepoGit         string    `json:"repo_git"`
+	RepoAccessType  string    `json:"repo_access_type"`
 	RepoUserName    string    `json:"repo_user_name"`
 	RepoAccessToken string    `json:"repo_access_token"`
 	RepoFrom        string    `json:"repo_from"`

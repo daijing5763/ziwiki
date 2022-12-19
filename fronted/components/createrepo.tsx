@@ -14,7 +14,7 @@ export default function CreateRepo({ repolistcount,setrepolistcount,open, setOpe
       repo_git: "",
       repo_describe: "",
       repo_from: "",
-      access_type: "",
+      repo_access_type: "",
       repo_user_name:"",
       repo_access_token: "",
     },
@@ -167,16 +167,16 @@ export default function CreateRepo({ repolistcount,setrepolistcount,open, setOpe
                           {formik.errors.repo_from &&  <span className='text-pink-600 text-sm'>{formik.errors.repo_from as string}</span> }
                     </div>
                     <div className="col-span-6 sm:col-span-3">
-                      <label htmlFor="access_type" className="block text-sm font-medium text-gray-700  dark:text-slate-200">
+                      <label htmlFor="repo_access_type" className="block text-sm font-medium text-gray-700  dark:text-slate-200">
                         GIT访问方式
                       </label>
                       <select
                             
-                        id="access_type"
-                        name="access_type"
-                        autoComplete="access_type"
+                        id="repo_access_type"
+                        name="repo_access_type"
+                        autoComplete="repo_access_type"
                         className="mt-1 block w-full rounded-md border border-gray-300 bg-white py-2 px-3 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm dark:bg-slate-800/50 dark:text-slate-200 dark:border-gray-700"
-                        value={formik.values.access_type}
+                        value={formik.values.repo_access_type}
                         onChange={formik.handleChange}
                           >
                         <option value=""  label="Select a type">选择授权类型...</option>
@@ -184,7 +184,7 @@ export default function CreateRepo({ repolistcount,setrepolistcount,open, setOpe
                         <option value="access_token" label="access_token">授权码 </option>
                         <option value="password" label="password">密码</option>
                           </select>
-                          {formik.errors.access_type &&  <span className='text-pink-600 text-sm'>{formik.errors.access_type as string}</span> }
+                          {formik.errors.repo_access_type &&  <span className='text-pink-600 text-sm'>{formik.errors.repo_access_type as string}</span> }
                     </div>
 
                     <div className="col-span-6 sm:col-span-3">

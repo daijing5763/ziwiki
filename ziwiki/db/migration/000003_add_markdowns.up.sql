@@ -3,6 +3,7 @@ CREATE TABLE "repos" (
   "user_id" bigint NOT NULL,
   "repo_name" varchar NOT NULL,
   "repo_git" varchar NOT NULL,
+  "repo_access_type" varchar NOT NULL,
   "repo_user_name" varchar NOT NULL,
   "repo_access_token" varchar NOT NULL,
   "repo_from" varchar NOT NULL,

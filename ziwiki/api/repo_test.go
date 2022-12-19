@@ -183,6 +183,7 @@ func TestCreateRepoAPI(t *testing.T) {
 			body: gin.H{
 				"repo_name":         repo.RepoName,
 				"repo_git":          repo.RepoGit,
+				"repo_access_type":  repo.RepoAccessType,
 				"repo_user_name":    repo.RepoUserName,
 				"repo_access_token": repo.RepoAccessToken,
 				"repo_from":         repo.RepoFrom,
@@ -196,6 +197,7 @@ func TestCreateRepoAPI(t *testing.T) {
 					UserID:          repo.UserID,
 					RepoName:        repo.RepoName,
 					RepoGit:         repo.RepoGit,
+					RepoAccessType:  repo.RepoAccessType,
 					RepoUserName:    repo.RepoUserName,
 					RepoAccessToken: repo.RepoAccessToken,
 					RepoFrom:        repo.RepoFrom,
@@ -218,6 +220,7 @@ func TestCreateRepoAPI(t *testing.T) {
 			body: gin.H{
 				"repo_name":         repo.RepoName,
 				"repo_git":          "212",
+				"repo_access_type":  repo.RepoAccessType,
 				"repo_user_name":    repo.RepoUserName,
 				"repo_access_token": repo.RepoAccessToken,
 				"repo_from":         repo.RepoFrom,
@@ -231,6 +234,7 @@ func TestCreateRepoAPI(t *testing.T) {
 					UserID:          repo.UserID,
 					RepoName:        repo.RepoName,
 					RepoGit:         "212",
+					RepoAccessType:  repo.RepoAccessType,
 					RepoUserName:    repo.RepoUserName,
 					RepoAccessToken: repo.RepoAccessToken,
 					RepoFrom:        repo.RepoFrom,
@@ -253,6 +257,7 @@ func TestCreateRepoAPI(t *testing.T) {
 			body: gin.H{
 				"repo_name":         repo.RepoName,
 				"repo_git":          repo.RepoGit,
+				"repo_access_type":  repo.RepoAccessType,
 				"repo_user_name":    repo.RepoUserName,
 				"repo_access_token": repo.RepoAccessToken,
 				"repo_from":         repo.RepoFrom,
@@ -274,6 +279,7 @@ func TestCreateRepoAPI(t *testing.T) {
 			body: gin.H{
 				"repo_name":         repo.RepoName,
 				"repo_git":          repo.RepoGit,
+				"repo_access_type":  repo.RepoAccessType,
 				"repo_user_name":    repo.RepoUserName,
 				"repo_access_token": repo.RepoAccessToken,
 				"repo_from":         repo.RepoFrom,
@@ -297,6 +303,7 @@ func TestCreateRepoAPI(t *testing.T) {
 			body: gin.H{
 				"repo_name":         342,
 				"repo_git":          repo.RepoGit,
+				"repo_access_type":  repo.RepoAccessType,
 				"repo_user_name":    repo.RepoUserName,
 				"repo_access_token": repo.RepoAccessToken,
 				"repo_from":         repo.RepoFrom,
@@ -495,6 +502,7 @@ func randomRepo(user_id int64) db.Repo {
 		UserID:          user_id,
 		RepoName:        util.RandomString(20),
 		RepoGit:         "https://gitee.com/zizdlp/wiki.git",
+		RepoAccessType:  "password",
 		RepoUserName:    "zizdlp",
 		RepoAccessToken: "zzz123",
 		RepoFrom:        "gitee",

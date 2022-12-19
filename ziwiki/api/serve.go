@@ -53,6 +53,8 @@ func (server *Server) setupRouter() {
 	authRoutes.POST("/create_repo", server.createRepo)
 	authRoutes.POST("/get_repo", server.getRepo)
 	authRoutes.POST("/pull_repo", server.pullRepo)
+	authRoutes.POST("/delete_repo", server.deleteRepo)
+	authRoutes.POST("/update_repo", server.updateRepo)
 	authRoutes.POST("/get_repo_list", server.listRepos)
 	authRoutes.POST("/get_markdown", server.getMarkdown)
 	authRoutes.POST("/query_markdown_user", server.queryMarkdownUser)
