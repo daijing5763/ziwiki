@@ -7,52 +7,52 @@ import { AiFillGithub, AiFillGitlab ,AiFillDelete,AiOutlineDelete,AiOutlineSync,
 import { SiGitee } from "react-icons/si"
 import { authOptions } from '../api/auth/[...nextauth]'
 import { unstable_getServerSession } from "next-auth/next"
-import { backend_base_url } from "../../utils/env_variable"
 import { toast } from "react-toastify";
 import Search from "../../components/search"
+import {fetch_repo_list,fetch_sync_repo,fetch_delete_repo,fetch_update_repo} from "../../utils/web_fetch"
 export default ({ session }) => {
   const [useSearch, setUseSearch] = useState(false);
   const [repolist, setrepolist] = useState([])
   const [repolistcount, setrepolistcount] = useState(0)
   async function getRepoList(values) {
-    const options = {
-      method: "POST",
-      headers: {
-        'Content-Type': 'application/json',
-        'Authorization': `Bearer ${session.access_token}`
-      },
-      body: JSON.stringify(values)
-    }
-    
-    await fetch(`${backend_base_url}get_repo_list`, options)
-        .then(res => res.json())
-      .then((data) => {
-        if (data && !data.error) {
-          setrepolist(data);
-        }
-          
-        })
+    fetch_repo_list(values, session.access_token).then(data => {
+      if (data && !data.error) {
+        setrepolist(data);
+      }
+    })
   }
 
   async function syncRepo(values) {
-    const id = toast("正在同步仓库...", { type: toast.TYPE.INFO,isLoading: true });
-    const options = {
-      method: "POST",
-      headers: {
-        'Content-Type': 'application/json',
-        'Authorization': `Bearer ${session.access_token}`
-      },
-      body: JSON.stringify(values)
-    }
-    await fetch(`${backend_base_url}pull_repo`, options)
-        .then(res => res.json())
-      .then((data) => {
-        if (data && data.error) {
-          toast.update(id, { render: "同步失败:"+data.error, type: toast.TYPE.ERROR, isLoading: false,autoClose:3000 });
-        } else {
-          toast.update(id, { render: "同步成功", type: toast.TYPE.SUCCESS, isLoading: false,autoClose:3000 });
-        }
-        })
+    const id = toast("正在同步仓库...", { type: toast.TYPE.INFO, isLoading: true });
+    fetch_sync_repo(values, session.access_token).then(data => {
+      if (data && data.error) {
+        toast.update(id, { render: "同步失败:"+data.error, type: toast.TYPE.ERROR, isLoading: false,autoClose:2000 });
+      } else {
+        toast.update(id, { render: "同步成功", type: toast.TYPE.SUCCESS, isLoading: false,autoClose:1000 });
+      }
+    })
+  }
+
+  async function deleteRepo(values) {
+    const id = toast("正在删除仓库...", { type: toast.TYPE.INFO, isLoading: true });
+    fetch_delete_repo(values, session.access_token).then(data => {
+      if (data && data.error) {
+        toast.update(id, { render: "删除失败:"+data.error, type: toast.TYPE.ERROR, isLoading: false,autoClose:2000 });
+      } else {
+        toast.update(id, { render: "删除成功", type: toast.TYPE.SUCCESS, isLoading: false,autoClose:1000 });
+      }
+    })
+  }
+
+  async function updateRepo(values) {
+    const id = toast("正在更新仓库...", { type: toast.TYPE.INFO, isLoading: true });
+    fetch_update_repo(values, session.access_token).then(data => {
+      if (data && data.error) {
+        toast.update(id, { render: "更新失败:"+data.error, type: toast.TYPE.ERROR, isLoading: false,autoClose:2000 });
+      } else {
+        toast.update(id, { render: "更新成功", type: toast.TYPE.SUCCESS, isLoading: false,autoClose:1000 });
+      }
+    })
   }
 
   useEffect(() => { 
@@ -145,10 +145,12 @@ return (
                               </Link>
                               <div className="col-start-2 row-start-1 row-end-3">
                                 <dd className="flex justify-end sm:justify-end lg:justify-end xl:justify-end -space-x-1.5">
-                                  <AiOutlineDelete className={`w-10 h-10 p-2 `} />
-                                  <a href="#" onClick={()=>syncRepo( { "repo_id": repo.id  })}>
+                                  <Link href="#" onClick={()=>deleteRepo( { "repo_id": repo.id  })}>
+                                    <AiOutlineDelete className={`w-10 h-10 p-2 `} />
+                                  </Link>
+                                  <Link href="#" onClick={()=>syncRepo( { "repo_id": repo.id  })}>
                                     <AiOutlineSync className={`w-10 h-10 p-2 `} />
-                                  </a>
+                                  </Link>
                                     <AiOutlineEdit className={`w-10 h-10 p-2 ` } />
                                 </dd>
                               </div>

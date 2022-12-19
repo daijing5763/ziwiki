@@ -27,6 +27,9 @@ RETURNING *;
 DELETE FROM markdowns
 WHERE mdhref = $1 and user_id = $2 and repo_id = $3;
 
+-- name: DeleteMarkdownByRepo :exec
+DELETE FROM markdowns
+WHERE user_id = $1 and repo_id = $2;
 
 
 -- name: QueryMarkdownUser :many

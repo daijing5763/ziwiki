@@ -62,6 +62,21 @@ func (q *Queries) DeleteMarkdown(ctx context.Context, arg DeleteMarkdownParams) 
 	return err
 }
 
+const deleteMarkdownByRepo = `-- name: DeleteMarkdownByRepo :exec
+DELETE FROM markdowns
+WHERE user_id = $1 and repo_id = $2
+`
+
+type DeleteMarkdownByRepoParams struct {
+	UserID int64 `json:"user_id"`
+	RepoID int64 `json:"repo_id"`
+}
+
+func (q *Queries) DeleteMarkdownByRepo(ctx context.Context, arg DeleteMarkdownByRepoParams) error {
+	_, err := q.db.ExecContext(ctx, deleteMarkdownByRepo, arg.UserID, arg.RepoID)
+	return err
+}
+
 const getMarkdown = `-- name: GetMarkdown :one
 SELECT id, mdhref, user_id, repo_id, mdtext, created_at, fts FROM markdowns
 WHERE mdhref = $1 and user_id = $2 and repo_id = $3 LIMIT 1

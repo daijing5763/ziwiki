@@ -25,3 +25,17 @@ export async function fetch_markdown(values: { [key: string]: string }, access_t
 export async function fetch_markdown_user(values: { [key: string]: string }, access_token: string) {
   return fetch_post(values,`${backend_base_url}query_markdown_user`,access_token)
 }
+
+export async function fetch_repo_list(values: { [key: string]: string }, access_token: string) {
+  return fetch_post(values,`${backend_base_url}get_repo_list`,access_token)
+}
+export async function fetch_sync_repo(values: { [key: string]: string }, access_token: string) {
+  return fetch_post(values,`${backend_base_url}pull_repo`,access_token)
+}
+
+export async function fetch_delete_repo(values: { [key: string]: string }, access_token: string) {
+  return fetch_post(values,`${backend_base_url}delete_repo`,access_token)
+}
+export async function fetch_update_repo(values: { [key: string]: string }, access_token: string) {
+  return fetch_post(values,`${backend_base_url}update_repo`,access_token)
+}

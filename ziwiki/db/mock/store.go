@@ -110,6 +110,20 @@ func (mr *MockStoreMockRecorder) DeleteMarkdown(arg0, arg1 interface{}) *gomock.
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "DeleteMarkdown", reflect.TypeOf((*MockStore)(nil).DeleteMarkdown), arg0, arg1)
 }
 
+// DeleteMarkdownByRepo mocks base method.
+func (m *MockStore) DeleteMarkdownByRepo(arg0 context.Context, arg1 db.DeleteMarkdownByRepoParams) error {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "DeleteMarkdownByRepo", arg0, arg1)
+	ret0, _ := ret[0].(error)
+	return ret0
+}
+
+// DeleteMarkdownByRepo indicates an expected call of DeleteMarkdownByRepo.
+func (mr *MockStoreMockRecorder) DeleteMarkdownByRepo(arg0, arg1 interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "DeleteMarkdownByRepo", reflect.TypeOf((*MockStore)(nil).DeleteMarkdownByRepo), arg0, arg1)
+}
+
 // DeleteRepo mocks base method.
 func (m *MockStore) DeleteRepo(arg0 context.Context, arg1 int64) error {
 	m.ctrl.T.Helper()

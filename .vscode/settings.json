@@ -96,5 +96,6 @@
     "compare": "cpp",
     "concepts": "cpp",
     "variant": "cpp"
-  }
+  },
+  "cmake.sourceDirectory": "${workspaceFolder}/build_image_on_alpine/pg_jieba"
 }

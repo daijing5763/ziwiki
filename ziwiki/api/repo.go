@@ -4,6 +4,7 @@ import (
 	"database/sql"
 	"errors"
 	"net/http"
+	"os"
 	"strconv"
 
 	"github.com/gin-gonic/gin"
@@ -148,12 +149,22 @@ func (server *Server) deleteRepo(ctx *gin.Context) {
 		ctx.JSON(http.StatusUnauthorized, errorResponse(err))
 		return
 	}
-
+	arg := db.DeleteMarkdownByRepoParams{
+		UserID: authPayload.UserID,
+		RepoID: req.ID,
+	}
+	err = server.store.DeleteMarkdownByRepo(ctx, arg)
+	if err != nil {
+		ctx.JSON(http.StatusInternalServerError, errorResponse(err))
+		return
+	}
 	err = server.store.DeleteRepo(ctx, req.ID)
 	if err != nil {
 		ctx.JSON(http.StatusInternalServerError, errorResponse(err))
 		return
 	}
+	repoPath := "/tmp/wiki/" + strconv.FormatInt(authPayload.UserID, 10) + "/" + strconv.FormatInt(repo.UserID, 10) + "/"
+	os.RemoveAll(repoPath)
 	ctx.JSON(http.StatusOK, repo)
 }
 

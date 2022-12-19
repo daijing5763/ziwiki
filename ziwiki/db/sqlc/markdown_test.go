@@ -100,6 +100,25 @@ func TestDeleteMarkdown(t *testing.T) {
 	require.EqualError(t, err, sql.ErrNoRows.Error())
 }
 
+func TestDeleteMarkdownByRepo(t *testing.T) {
+	md1 := createRandomMarkdown(t)
+	arg1 := DeleteMarkdownByRepoParams{
+		UserID: md1.UserID,
+		RepoID: md1.RepoID,
+	}
+	arg2 := GetMarkdownParams{
+		Mdhref: md1.Mdhref,
+		UserID: md1.UserID,
+		RepoID: md1.RepoID,
+	}
+	err := testQueries.DeleteMarkdownByRepo(context.Background(), arg1)
+	require.NoError(t, err)
+	md2, err := testQueries.GetMarkdown(context.Background(), arg2)
+	require.Empty(t, md2)
+	require.Error(t, err)
+	require.EqualError(t, err, sql.ErrNoRows.Error())
+}
+
 func TestUpdateMarkdown(t *testing.T) {
 	md1 := createRandomMarkdown(t)
 
