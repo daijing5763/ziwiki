@@ -14,6 +14,7 @@ import { mathjax_config } from "../../../utils/mathjax_config"
 import {fetch_repo_info,fetch_markdown} from "../../../utils/web_fetch"
 import {html_parser_options_list,get_html_parser_option} from "../../../utils/json_parser_config"
 
+
 export default function Home({ session }) {
   const router = useRouter();
   const slugs = router.query.slug;
@@ -24,6 +25,11 @@ export default function Home({ session }) {
   const [repo_from, set_repo_from] = useState(''); 
   const [repo_git, set_repo_git] = useState(''); 
   const [repo_name, set_repo_name] = useState(''); 
+
+  const [repo_access_token, set_repo_access_token] = useState(''); 
+  const [repo_user_name, set_repo_user_name] = useState(''); 
+  const [repo_access_type, set_repo_access_type] = useState(''); 
+
   const [ishome, set_ishome] = useState(false); 
 
   
@@ -112,7 +118,7 @@ return (
   <div className="antialiased  text-slate-500 dark:text-slate-400 bg-white dark:bg-slate-900 min-h-screen">
 
   <NavBar NavBarOpen={NavBarOpen} setNavBarOpen={setNavBarOpen} useSearch={useSearch} setUseSearch={setUseSearch} />
-  
+
     <div className="overflow-hidden">
     <div className={`xl:hidden fixed bottom-5 z-50 right-0 h-16 w-16 rounded-md `}>
           <RiMenuLine className={`${NavBarOpen && "hidden"} mr-2 md:mr-3 block w-10 h-10  dark:text-slate-200  hover:text-sky-500  cursor-pointer`} onClick={() => { localStorage.setItem('NavBarOpen', JSON.stringify(!NavBarOpen));setNavBarOpen(!NavBarOpen); }} />

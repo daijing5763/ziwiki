@@ -1,48 +1,39 @@
 import { Fragment, useRef, useState,useEffect } from 'react'
 import { Dialog, Transition } from '@headlessui/react'
 import { useFormik } from 'formik';
-import { backend_base_url } from "../utils/env_variable"
 import { toast } from "react-toastify";
-import { createrepo_validate } from '../utils/validate';
+import { updaterepo_validate } from '../utils/validate';
 import { useSession } from "next-auth/react"
-export default function CreateRepo({ repolistcount,setrepolistcount,open, setOpen }) {
+import {fetch_update_repo} from "../utils/web_fetch"
+export default function UpdateRepo({open, setOpen,repo_id,repo_name,repo_git, repo_describe,repo_from,repo_access_type,repo_user_name,repo_access_token}) {
   const { data: session } = useSession()
   const cancelButtonRef = useRef(null)
   const formik = useFormik({
     initialValues: {
-      repo_name: "",
-      repo_git: "",
-      repo_describe: "",
-      repo_from: "",
-      repo_access_type: "",
-      repo_user_name:"",
-      repo_access_token: "",
+      repo_id:repo_id,
+      repo_name: repo_name,
+      repo_git: repo_git,
+      repo_describe: repo_describe,
+      repo_from:repo_from,
+      repo_access_type: repo_access_type,
+      repo_user_name:repo_user_name,
+      repo_access_token: repo_access_token,
     },
-    validate: createrepo_validate,
+    validate: updaterepo_validate,
     onSubmit:onSubmit
   })
-
   async function onSubmit(values) {
-    const id = toast("正在创建仓库...", { type: toast.TYPE.INFO,isLoading: true });
-    const options = {
-      method: "POST",
-      headers: {
-        'Content-Type': 'application/json',
-        'Authorization': `Bearer ${session.access_token}`
-      },
-      body: JSON.stringify(values)
-    }
-  await fetch(`${backend_base_url}create_repo`, options)
-      .then(res => res.json())
-      .then((data) => {
-        if (data && data.error) {
-          toast.update(id, { render: "创建失败:"+data.error, type: toast.TYPE.ERROR, isLoading: false ,autoClose:2000 });
-        } else {
-          toast.update(id, { render: "创建成功", type: toast.TYPE.SUCCESS, isLoading: false,autoClose:1000 });
-          setrepolistcount(repolistcount+1)
-        }
-        
-      })
+    const id = toast("正在更新仓库...", { type: toast.TYPE.INFO, isLoading: true });
+    values.repo_id = repo_id
+    values.repo_git = repo_git
+    fetch_update_repo(values, session.access_token).then(data => {
+      if (data && data.error) {
+        toast.update(id, { render: "更新失败:" + data.error, type: toast.TYPE.ERROR, isLoading: false, autoClose: 2000 });
+      } else {
+        toast.update(id, { render: "更新成功", type: toast.TYPE.SUCCESS, isLoading: false, autoClose: 1000 });
+      
+      }
+    })
 }
   return (
     <Transition.Root show={open} as={Fragment}>
@@ -79,12 +70,12 @@ export default function CreateRepo({ repolistcount,setrepolistcount,open, setOpe
                 <div className="grid grid-cols-6 gap-4 gap-x-8 p-2">
                   <div className="col-span-6 justify-center flex-center">
                       <label htmlFor="repo_name" className="block text-center pt-2 pb-6 text-2xl font-bold text-gray-700 dark:text-slate-50">
-                        创建仓库
+                        更新仓库
                       </label>
                   </div>
 
 
-                <div className="col-span-6 sm:col-span-3">
+                <div className="col-span-6 sm:col-span-6">
                       <label htmlFor="repo_name" className="block text-sm font-medium text-gray-700 dark:text-slate-200">
                         仓库名称
                       </label>
@@ -94,7 +85,7 @@ export default function CreateRepo({ repolistcount,setrepolistcount,open, setOpe
                         id="repo_name"
                         autoComplete="repo_name"
                         name='repo_name'
-                        placeholder='repo_name'
+                        placeholder={repo_name}
                         
                         className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm dark:placeholder-slate-600 dark:text-slate-300 appearance-none dark:bg-slate-800/50  focus:outline-none  dark:border-gray-700 placeholder-slate-400"
                         {...formik.getFieldProps('repo_name')}
@@ -104,27 +95,6 @@ export default function CreateRepo({ repolistcount,setrepolistcount,open, setOpe
                         {formik.errors.repo_name && formik.touched.repo_name ? <span className='text-pink-600 text-sm'>{formik.errors.repo_name as string}</span> : <></>}
                   </div>
 
-
-                  <div className="col-span-6 sm:col-span-3">
-                      <label htmlFor="repo_git" className="block text-sm font-medium text-gray-700  dark:text-slate-200">
-                        仓库git
-                      </label>
-                      <div className="flex rounded-md shadow-sm">
-                        <span className="inline-flex mt-1 items-center rounded-l-md border border-r-0 border-gray-300 bg-gray-50 px-3 text-sm text-gray-500 dark:bg-slate-800/50 dark:text-slate-200 dark:border-gray-700">
-                          https://
-                        </span>
-                        <input
-                          type="text"
-                          name='repo_git'
-                          id='repo_git'
-                          className="mt-1 block w-full rounded-r-md  border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm dark:bg-slate-800/50 dark:text-slate-200 dark:border-gray-700"
-                          placeholder="https://github.com/zdlpsina/ziwiki.git"
-                          {...formik.getFieldProps('repo_git')}
-                              />
-                          
-                      </div>
-                      {formik.errors.repo_git && formik.touched.repo_git ? <span className='text-pink-600 text-sm flex justify-center items-center pl-1'>{formik.errors.repo_git as string}</span> : <></>}
-                  </div>
 
                   <div className="col-span-6 sm:col-span-6">
                     <label htmlFor="repo_describe" className="block text-sm font-medium text-gray-700  dark:text-slate-200 ">
@@ -136,7 +106,7 @@ export default function CreateRepo({ repolistcount,setrepolistcount,open, setOpe
                         name='repo_describe'
                         rows={3}
                         className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm dark:bg-slate-800/50 dark:text-slate-200 dark:border-gray-700"
-                        placeholder="这个仓库主要是C++相关的知识汇总"
+                        placeholder={repo_describe}
                         {...formik.getFieldProps('repo_describe')}
                             />
                       {formik.errors.repo_describe && formik.touched.repo_describe ? <span className='text-pink-600 text-sm'>{formik.errors.repo_describe as string}</span> : <></>}
@@ -195,7 +165,8 @@ export default function CreateRepo({ repolistcount,setrepolistcount,open, setOpe
                       type="text"
                       name="repo_user_name"
                       id="repo_user_name"
-                      autoComplete="repo_user_name"
+                            autoComplete="repo_user_name"
+                            placeholder={repo_user_name}
                       className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm dark:bg-slate-800/50 dark:text-slate-200 dark:border-gray-700"
                     
                             {...formik.getFieldProps('repo_user_name')}
@@ -211,6 +182,7 @@ export default function CreateRepo({ repolistcount,setrepolistcount,open, setOpe
                       name="repo_access_token"
                       id="repo_access_token"
                       autoComplete="repo_access_token"
+                      placeholder={repo_access_token}
                       className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm dark:bg-slate-800/50 dark:text-slate-200 dark:border-gray-700"
                     
                             {...formik.getFieldProps('repo_access_token')}

@@ -59,6 +59,32 @@ export  function createrepo_validate(values:{ [key: string]: string }) {
 
 
 
+export  function updaterepo_validate(values:{ [key: string]: string }) {
+const errors: { [key: string]: string } = {};
+if (!values.repo_name) {
+    errors.repo_name = 'Required';
+}
+
+if (!values.repo_describe) {
+    errors.repo_describe = 'Required';
+}
+if (!values.repo_from || values.repo_from == "" ) {
+    errors.repo_from = 'Required';
+}
+
+if (!values.repo_access_type) {
+    errors.repo_access_type = 'Required';
+}
+if (!values.repo_user_name) {
+    errors.repo_user_name = 'Required';
+}
+if (!values.repo_access_token) {
+    errors.repo_access_token = 'Required';
+}
+
+return errors;
+}
+
 
 
 export function registerValidate(values: { [key: string]: string }) {

@@ -7,7 +7,14 @@ module.exports = {
   ],
 
   theme: {
-    extend: {},
+    extend: {
+
+      gridTemplateColumns: {
+        '6': 'repeat(6, minmax(28px, 120px))',
+      }
+
+
+    },
   },
   plugins: [ require('@tailwindcss/forms'), require('tailwind-scrollbar')({ nocompatible: true }),],
   variants: {

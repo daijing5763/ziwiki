@@ -9,11 +9,27 @@ import { authOptions } from '../api/auth/[...nextauth]'
 import { unstable_getServerSession } from "next-auth/next"
 import { toast } from "react-toastify";
 import Search from "../../components/search"
+import UpdateRepo from "../../components/updaterepo";
 import {fetch_repo_list,fetch_sync_repo,fetch_delete_repo,fetch_update_repo} from "../../utils/web_fetch"
 export default ({ session }) => {
   const [useSearch, setUseSearch] = useState(false);
   const [repolist, setrepolist] = useState([])
   const [repolistcount, setrepolistcount] = useState(0)
+  const [openUpdateRepo, setOpenUpdateRepo] = useState(false); 
+
+
+  const [repo_id_, set_repo_id] = useState(0); 
+  const [repo_describe_, set_repo_describe] = useState(''); 
+  const [repo_from_, set_repo_from] = useState(''); 
+  const [repo_git_, set_repo_git] = useState(''); 
+  const [repo_name_, set_repo_name] = useState(''); 
+
+  const [repo_access_token_, set_repo_access_token] = useState(''); 
+  const [repo_user_name_, set_repo_user_name] = useState(''); 
+  const [repo_access_type_, set_repo_access_type] = useState(''); 
+
+
+
   async function getRepoList(values) {
     fetch_repo_list(values, session.access_token).then(data => {
       if (data && !data.error) {
@@ -68,12 +84,23 @@ export default ({ session }) => {
   function  showCreateRepo() {
     setOpen(!open)
   }
-
+  function showUpdateRepo(repo_id,repo_name, repo_git, repo_describe, repo_from, repo_access_type, repo_user_name, repo_access_token) {
+    set_repo_id(repo_id)
+    set_repo_name(repo_name)
+    set_repo_git(repo_git)
+    set_repo_describe(repo_describe)
+    set_repo_from(repo_from)
+    set_repo_access_token(repo_access_token)
+    set_repo_access_type(repo_access_type)
+    set_repo_user_name(repo_user_name)
+    setOpenUpdateRepo(!openUpdateRepo)
+  }
 return (
 
 <div className="antialiased text-slate-500 dark:text-slate-400 bg-white dark:bg-slate-900 min-h-screen">
   <PopNav />
     <CreateRepo repolistcount={repolistcount} setrepolistcount={setrepolistcount} open={open} setOpen={setOpen} />
+    <UpdateRepo open={openUpdateRepo} setOpen={setOpenUpdateRepo} repo_id={repo_id_} repo_name={repo_name_} repo_git={repo_git_} repo_describe={repo_describe_} repo_from={repo_from_} repo_access_type={repo_access_type_ } repo_user_name={repo_user_name_} repo_access_token={repo_access_token_} />
   <div className="overflow-hidden">
     <div className='mx-3 md:mx-4 sm:px-6 md:px-8'>
             <div className="overflow-hidden " >
@@ -151,7 +178,10 @@ return (
                                   <Link href="#" onClick={()=>syncRepo( { "repo_id": repo.id  })}>
                                     <AiOutlineSync className={`w-10 h-10 p-2 `} />
                                   </Link>
-                                    <AiOutlineEdit className={`w-10 h-10 p-2 ` } />
+
+                                  <Link href="#" onClick={()=>showUpdateRepo(repo.id,repo.repo_name,repo.repo_git,repo.repo_describe,"d","e",repo.repo_user_name,repo.repo_access_token )}>
+                                    <AiOutlineEdit className={`w-10 h-10 p-2 `} />
+                                    </Link>
                                 </dd>
                               </div>
                             </div>
