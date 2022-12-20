@@ -17,7 +17,6 @@ function Search({ useSearch, setUseSearch }) {
     fetch_markdown_user(values, session.access_token).then(data => {
       setloading(false)
       if (data && !data.error) {
-        console.log(data)
         setSearchedDoc(data)
       } else {
         setSearchedDoc([])
