@@ -22,8 +22,7 @@ export function get_html_parser_option(slugs, repo_id) {
         return <BiCircle className="inline-block align-middle mx-1 h-5 w-5 text-sky-400">{domToReact(domNode.children, html_parser_option)}</BiCircle>;
       }
       else if (domNode instanceof Element && isContains(domNode.attribs.class, "mermaid")) {
-<<<<<<< HEAD
-        return <MermaidCode graphDefinition={domToReact(domNode.children, html_parser_option)} />
+        return <div className='container mx-auto'><MermaidCode graphDefinition={domToReact(domNode.children, html_parser_option)} /></div>
       } else if (domNode instanceof Element && isContains(domNode.attribs.class, "math inline")) {
         return <MathJax inline>{domToReact(domNode.children, html_parser_option)}</MathJax>
       } else if (domNode instanceof Element && isContains(domNode.attribs.class, "math display")) {
@@ -31,16 +30,6 @@ export function get_html_parser_option(slugs, repo_id) {
       } else if (domNode instanceof Element && isContains(domNode.attribs.class, "copycontent")) {
         return <MdContentCopy className="w-6 h-6 cursor-pointer text-slate-600 dark:text-slate-300" />
       } else if (domNode instanceof Element && isContains(domNode.attribs.class, "image_link")) {
-=======
-        return  <div className='container mx-auto'><MermaidCode graphDefinition={domToReact(domNode.children, html_parser_option)}/></div>
-      } else if (domNode instanceof Element && isContains(domNode.attribs.class, "math inline") ) {
-        return   <MathJax inline>{domToReact(domNode.children, html_parser_option)}</MathJax>
-      } else if (domNode instanceof Element && isContains(domNode.attribs.class, "math display") ) {
-        return   <MathJax >{domToReact(domNode.children, html_parser_option)}</MathJax>
-      } else if (domNode instanceof Element && isContains(domNode.attribs.class, "copycontent") ) {
-        return  <MdContentCopy className="w-6 h-6 cursor-pointer text-slate-600 dark:text-slate-300" />
-      } else if (domNode instanceof Element && isContains(domNode.attribs.class, "image_link") ) {
->>>>>>> 2f7b047a9ecffc03ea48c11100bdab245809a6c3
 
         if (slugs && !domNode.attribs.src.startsWith('http')) {
           const prefix = `${backend_base_url}static_get/1/` + repo_id + "/" + slugs.slice(0, -1).join("/") + "/" + domNode.attribs.src
