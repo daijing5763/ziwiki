@@ -159,10 +159,10 @@ export default function CreateRepo({ repolistcount,setrepolistcount,open, setOpe
                         value={formik.values.repo_from}
                         onChange={formik.handleChange}
                           >
-                        <option value=""  label="Select a type"/>
-                        <option value="github" label="GitHub"/>
-                        <option value="gitlab" label="GitLab"/>
-                        <option value="gitee" label="Gitee"/>
+                        <option value=""  label="Select a type">选择仓库类型...</option>
+                        <option value="github" label="GitHub">GitHub</option>
+                        <option value="gitlab" label="GitLab">GitLab</option>
+                        <option value="gitee" label="Gitee">Gitee</option>
                           </select>
                           {formik.errors.repo_from &&  <span className='text-pink-600 text-sm'>{formik.errors.repo_from as string}</span> }
                     </div>

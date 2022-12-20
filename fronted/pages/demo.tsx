@@ -1,3 +1,4 @@
+import { BiCheckCircle, BiCircle} from "react-icons/bi"
 export default function Demo() {
   return (
     <div>
@@ -224,12 +225,12 @@ export default function Demo() {
 			</div>
 			<ul className='list-disc dark:marker:text-sky-400  text-base text-slate-700 dark:text-slate-400  pl-4'>
 				<li className="">
-				<input disabled type="checkbox" className="rounded-xl p-2  bg-sky-400 appearance-none border-0 ring-offset-1 ring-2 ring-sky-400 m-1 mx-2"/>
+				<BiCircle className="inline-block align-middle mx-1  h-5 w-5 text-sky-400"/>
 					
 					foo
 			</li>
 				<li className="">
-				<input disabled type="checkbox" className="rounded-xl  p-2  appearance-none border-0 ring-offset-1 ring-2 ring-sky-400  m-1 mx-2"/>
+				<BiCheckCircle className="inline-block align-middle mx-1 h-5 w-5 text-sky-400"/>
 					foo
 				</li>
 <li><input disabled type="checkbox" className="peer/draft  mr-2 mb-0.5 border-slate-300 text-sky-400 focus:ring-sky-300"/> bar</li>
