@@ -390,7 +390,7 @@ var ListAttributeFilter = GlobalAttributeFilter.Extend(
 
 func (r *Renderer) renderList(w util.BufWriter, source []byte, node ast.Node, entering bool) (ast.WalkStatus, error) {
 	n := node.(*ast.List)
-	tagbegin := "ul class='list-disc marker:text-sky-400  text-base text-slate-700 dark:text-slate-400  pl-4'"
+	tagbegin := "ul class='list-disc dark:marker:text-sky-400  text-base text-slate-700 dark:text-slate-400  pl-4'"
 	if n.IsOrdered() {
 		tagbegin = "ol class='list-decimal text-base text-slate-700 dark:text-slate-400  pl-4'"
 	}
