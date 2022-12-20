@@ -1,35 +1,35 @@
-import { domToReact, attributesToProps,DOMNode,Element,HTMLReactParserOptions, } from 'html-react-parser';
+import { domToReact, attributesToProps, DOMNode, Element, HTMLReactParserOptions, } from 'html-react-parser';
 import { MdContentCopy } from "react-icons/md"
 import MermaidCode from "../mermaid"
 import { backend_base_url } from "./env_variable"
 import { MathJax } from "better-react-mathjax";
-import { BiCheckCircle, BiCircle} from "react-icons/bi"
+import { BiCheckCircle, BiCircle } from "react-icons/bi"
 function isContains(str, substr) {
   if (typeof str == "undefined") {
     return false
-  } 
-return str.indexOf(substr) >= 0;
+  }
+  return str.indexOf(substr) >= 0;
 }
 
-export function get_html_parser_option(slugs,repo_id) {
+export function get_html_parser_option(slugs, repo_id) {
   const html_parser_option: HTMLReactParserOptions = {
     replace: (domNode: DOMNode) => {
       if (domNode instanceof Element && domNode.attribs.id === 'main') {
         return <h1 style={{ fontSize: 42 }}>{domToReact(domNode.children, html_parser_option)}</h1>;
       } else if (domNode instanceof Element && isContains(domNode.attribs.class, "bicheckcircle")) {
         return <BiCheckCircle >{domToReact(domNode.children, html_parser_option)}</BiCheckCircle>;
-      }else if (domNode instanceof Element && isContains(domNode.attribs.class, "bicircle") ) {
-        return  <BiCircle className="inline-block align-middle mx-1 h-5 w-5 text-sky-400">{domToReact(domNode.children, html_parser_option)}</BiCircle>;
+      } else if (domNode instanceof Element && isContains(domNode.attribs.class, "bicircle")) {
+        return <BiCircle className="inline-block align-middle mx-1 h-5 w-5 text-sky-400">{domToReact(domNode.children, html_parser_option)}</BiCircle>;
       }
       else if (domNode instanceof Element && isContains(domNode.attribs.class, "mermaid")) {
-        return  <MermaidCode graphDefinition={domToReact(domNode.children, html_parser_option)} />
-      } else if (domNode instanceof Element && isContains(domNode.attribs.class, "math inline") ) {
-        return   <MathJax inline>{domToReact(domNode.children, html_parser_option)}</MathJax>
-      } else if (domNode instanceof Element && isContains(domNode.attribs.class, "math display") ) {
-        return   <MathJax >{domToReact(domNode.children, html_parser_option)}</MathJax>
-      } else if (domNode instanceof Element && isContains(domNode.attribs.class, "copycontent") ) {
-        return  <MdContentCopy className="w-6 h-6 cursor-pointer text-slate-600 dark:text-slate-300" />
-      } else if (domNode instanceof Element && isContains(domNode.attribs.class, "image_link") ) {
+        return <MermaidCode graphDefinition={domToReact(domNode.children, html_parser_option)} />
+      } else if (domNode instanceof Element && isContains(domNode.attribs.class, "math inline")) {
+        return <MathJax inline>{domToReact(domNode.children, html_parser_option)}</MathJax>
+      } else if (domNode instanceof Element && isContains(domNode.attribs.class, "math display")) {
+        return <MathJax >{domToReact(domNode.children, html_parser_option)}</MathJax>
+      } else if (domNode instanceof Element && isContains(domNode.attribs.class, "copycontent")) {
+        return <MdContentCopy className="w-6 h-6 cursor-pointer text-slate-600 dark:text-slate-300" />
+      } else if (domNode instanceof Element && isContains(domNode.attribs.class, "image_link")) {
 
         if (slugs && !domNode.attribs.src.startsWith('http')) {
           const prefix = `${backend_base_url}static_get/1/` + repo_id + "/" + slugs.slice(0, -1).join("/") + "/" + domNode.attribs.src
