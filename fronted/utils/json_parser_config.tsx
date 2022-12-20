@@ -22,7 +22,7 @@ export function get_html_parser_option(slugs,repo_id) {
         return  <BiCircle className="inline-block align-middle mx-1 h-5 w-5 text-sky-400">{domToReact(domNode.children, html_parser_option)}</BiCircle>;
       }
       else if (domNode instanceof Element && isContains(domNode.attribs.class, "mermaid")) {
-        return  <MermaidCode graphDefinition={domToReact(domNode.children, html_parser_option)} />
+        return  <div className='container mx-auto'><MermaidCode graphDefinition={domToReact(domNode.children, html_parser_option)}/></div>
       } else if (domNode instanceof Element && isContains(domNode.attribs.class, "math inline") ) {
         return   <MathJax inline>{domToReact(domNode.children, html_parser_option)}</MathJax>
       } else if (domNode instanceof Element && isContains(domNode.attribs.class, "math display") ) {
@@ -34,7 +34,7 @@ export function get_html_parser_option(slugs,repo_id) {
         if (slugs && !domNode.attribs.src.startsWith('http')) {
           const prefix = `${backend_base_url}static_get/1/` + repo_id + "/" + slugs.slice(0, -1).join("/") + "/" + domNode.attribs.src
           return (
-            <img className="px-3" src={prefix} />
+            <span className='flex items-center'><img className="px-3 mx-auto" src={prefix} /></span>
           )
         } else {
           return (
