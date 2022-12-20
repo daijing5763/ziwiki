@@ -233,19 +233,12 @@ export default function Demo() {
 					<BiCheckCircle className="inline-block align-middle mx-1 h-5 w-5 text-sky-400" />
 					foo
 				</li>
-<<<<<<< HEAD
 				<li><input disabled type="checkbox" className="peer/draft  mr-2 mb-0.5 border-slate-300 text-sky-400 focus:ring-sky-300" /> bar</li>
-			</ul>
-		</div>
-	)
-=======
-<li><input disabled type="checkbox" className="peer/draft  mr-2 mb-0.5 border-slate-300 text-sky-400 focus:ring-sky-300"/> bar</li>
 			</ul>
 			<div className='container flex justify-center h-fit  items-center  justify-items-center place-content-center	'><div className='h-fit'></div></div>
 
 			<div className=" dark:bg-slate-800  bg-slate-300"></div>
 			<code className="bg-slate-200 dark:bg-slate-800 mx-1 px-1 rounded-md">\sum_i</code>
 		</div>
-  )
->>>>>>> 2f7b047a9ecffc03ea48c11100bdab245809a6c3
+	)
 }
