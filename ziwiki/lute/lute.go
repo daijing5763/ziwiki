@@ -59,6 +59,7 @@ func RenderMd(store db.Store, input_path string, mdtype int, UserID int64, RepoI
 			goldmark.WithRenderer(renderer.NewRenderer(renderer.WithNodeRenderers(util.Prioritized(mdextensions.NewRenderer(), 1000)))),
 			// 支持 GFM
 			// goldmark.WithExtensions(extension.GFM),
+			goldmark.WithExtensions(mdextensions.TaskList),
 			goldmark.WithExtensions(extension.NewCJK(extension.WithEastAsianLineBreaks(), extension.WithEscapedSpace())),
 			goldmark.WithExtensions(
 				mdextensions.NewFootnote(

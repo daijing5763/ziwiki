@@ -221,7 +221,19 @@ export default function Demo() {
 <p className='my-2  text-base  text-slate-700 dark:text-slate-400'>项羽本纪 汉典古籍[引用日期2021-03-16]&#160;<a href="#footnote-fnref:2" className="text-sky-400 px-0.5 hover:decoration-sky-500 hover:text-sky-500 hover:decoration-2" title="跳转引用内容" role="doc-backlink">^</a></p>
 </li>
 </ol>
-</div>
+			</div>
+			<ul className='list-disc dark:marker:text-sky-400  text-base text-slate-700 dark:text-slate-400  pl-4'>
+				<li className="">
+				<input disabled type="checkbox" className="rounded-xl p-2  bg-sky-400 appearance-none border-0 ring-offset-1 ring-2 ring-sky-400 m-1 mx-2"/>
+					
+					foo
+			</li>
+				<li className="">
+				<input disabled type="checkbox" className="rounded-xl  p-2  appearance-none border-0 ring-offset-1 ring-2 ring-sky-400  m-1 mx-2"/>
+					foo
+				</li>
+<li><input disabled type="checkbox" className="peer/draft  mr-2 mb-0.5 border-slate-300 text-sky-400 focus:ring-sky-300"/> bar</li>
+</ul>
 </div>
   )
 }

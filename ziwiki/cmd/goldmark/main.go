@@ -20,7 +20,7 @@ import (
 )
 
 func main() {
-	input_path := "./case1.md"
+	input_path := "./case4.md"
 	data, err := os.ReadFile(input_path)
 	if err != nil {
 		fmt.Println("err:", err)
@@ -114,6 +114,7 @@ func main() {
 		goldmark.WithRenderer(renderer.NewRenderer(renderer.WithNodeRenderers(util.Prioritized(mdextensions.NewRenderer(), 1000)))),
 		// 支持 GFM
 		// goldmark.WithExtensions(extension.GFM),
+		goldmark.WithExtensions(mdextensions.TaskList),
 		goldmark.WithExtensions(extension.NewCJK(extension.WithEastAsianLineBreaks(), extension.WithEscapedSpace())),
 		goldmark.WithExtensions(
 			mdextensions.NewFootnote(
