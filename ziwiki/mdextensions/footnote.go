@@ -603,7 +603,7 @@ func (r *FootnoteHTMLRenderer) renderFootnote(w util.BufWriter, source []byte, n
 
 func (r *FootnoteHTMLRenderer) renderFootnoteList(w util.BufWriter, source []byte, node gast.Node, entering bool) (gast.WalkStatus, error) {
 	if entering {
-		_, _ = w.WriteString(`<div class="mx-2 my-6" role="doc-endnotes"`)
+		_, _ = w.WriteString(`<div class="mx-1 my-20" role="doc-endnotes"`)
 		if node.Attributes() != nil {
 			html.RenderAttributes(w, node, html.GlobalAttributeFilter)
 		}

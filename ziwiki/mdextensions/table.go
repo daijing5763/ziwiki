@@ -371,8 +371,8 @@ var TableAttributeFilter = html.GlobalAttributeFilter.Extend(
 
 func (r *TableHTMLRenderer) renderTable(w util.BufWriter, source []byte, n gast.Node, entering bool) (gast.WalkStatus, error) {
 	if entering {
-		_, _ = w.WriteString(`<div class='relative rounded-xl overflow-auto  flex  justify-center'>
-		<div class='px-4 py-8 sm:px-8'>
+		_, _ = w.WriteString(`<div class='flex items-center'>
+		<div class='mx-auto overflow-auto scrollbar-thin  scrollbar-thumb-rounded-md scrollbar-track-rounded-md'>
 		<table class='border-collapse w-full border mx-2 my-6 border-slate-400 dark:border-slate-500 bg-white dark:bg-slate-800 text-sm shadow-sm'`)
 		if n.Attributes() != nil {
 			html.RenderAttributes(w, n, TableAttributeFilter)
