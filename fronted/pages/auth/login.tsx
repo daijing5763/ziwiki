@@ -96,7 +96,7 @@ export default function Login() {
                         type={`${show ? "text" : "password"}`}
                         name='password'
                         placeholder='password'
-                        autocomplete="on"
+                        autoComplete="on"
                         className={`p-2 rounded-md border dark:text-slate-800 ${formik.errors.password && "border-pink-500 text-pink-600 focus:border-pink-500 focus:ring-pink-500"} focus:ring-1 `}
                         {...formik.getFieldProps('password')}
                       />
