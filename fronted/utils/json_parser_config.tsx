@@ -17,9 +17,9 @@ export function get_html_parser_option(slugs,repo_id) {
       if (domNode instanceof Element && domNode.attribs.id === 'main') {
         return <h1 style={{ fontSize: 42 }}>{domToReact(domNode.children, html_parser_option)}</h1>;
       }else if (domNode instanceof Element && isContains(domNode.attribs.class, "bicheckcircle") ) {
-        return  <BiCheckCircle className="inline-block align-middle mx-1  h-5 w-5 text-sky-400"/>
+        return <BiCheckCircle className="inline-block align-middle mx-1  h-5 w-5 text-sky-400">{domToReact(domNode.children, html_parser_option)}</BiCheckCircle>;
       }else if (domNode instanceof Element && isContains(domNode.attribs.class, "bicircle") ) {
-        return  <BiCircle className="inline-block align-middle mx-1 h-5 w-5 text-sky-400"/>
+        return  <BiCircle className="inline-block align-middle mx-1 h-5 w-5 text-sky-400">{domToReact(domNode.children, html_parser_option)}</BiCircle>;
       }
       else if (domNode instanceof Element && isContains(domNode.attribs.class, "mermaid")) {
         return  <MermaidCode graphDefinition={domToReact(domNode.children, html_parser_option)} />
