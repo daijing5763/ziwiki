@@ -27,17 +27,17 @@ export default function Login() {
 
 
   async function onSubmit(values) {
-    const id = toast("正在登录...", { type: toast.TYPE.INFO,isLoading: true });
+    const id = toast("正在登录...", { type: toast.TYPE.INFO, isLoading: true });
     const status = await signIn('credentials', {
       redirect: false,
-      username: values.username ,
-      password: values.password ,
+      username: values.username,
+      password: values.password,
       callbackUrl: "/wiki"
     })
     if (status && status.error) {
-      toast.update(id, { render: "登录失败:"+status.error, type: toast.TYPE.ERROR, isLoading: false,autoClose:2000 });
-    } else if(status && status.error == null) {
-      toast.update(id, { render: "登录成功", type: toast.TYPE.SUCCESS, isLoading: false ,autoClose:1000});
+      toast.update(id, { render: "登录失败:" + status.error, type: toast.TYPE.ERROR, isLoading: false, autoClose: 2000 });
+    } else if (status && status.error == null) {
+      toast.update(id, { render: "登录成功", type: toast.TYPE.SUCCESS, isLoading: false, autoClose: 1000 });
       router.push(`/wiki`)
     }
   }
@@ -49,15 +49,15 @@ export default function Login() {
         <div className='mx-3 md:mx-4 sm:px-6 md:px-8'>
           <div className="bg-white dark:bg-transparent pt-10 flex items-center justify-center">
 
-          <div className="absolute z-20 top-0 inset-x-0 flex justify-center overflow-hidden pointer-events-none">
+            <div className="absolute z-20 top-0 inset-x-0 flex justify-center overflow-hidden pointer-events-none">
               <div className="w-[108rem] flex-none flex justify-end">
-                  <img src="/bg.avif" alt="" className="w-[90rem] flex-none max-w-none  block" decoding="async" />
+                <img src="/bg.avif" alt="" className="w-[90rem] flex-none max-w-none  block" decoding="async" />
               </div>
             </div>
-            
+
 
             <div className=" text-[#002D74] dark:text-slate-200 dark:backdrop-blur  flex  max-w-3xl p-5 items-center">
-              
+
               <div className="md:w-1/2 px-8 md:px-16">
                 <picture>
                   <img src="/logo.svg" className="mx-auto h-12 w-auto" alt="LOGO" />
@@ -74,36 +74,37 @@ export default function Login() {
 
                 <form className='flex flex-col gap-4' onSubmit={formik.handleSubmit}>
                   <div>
-                  <div className="flex justify-center items-center mt-8 ">
-                    <input
-                      type="text"
-                      name='username'
-                      placeholder='username'
-                      className={`p-2 rounded-md border dark:text-slate-800 ${formik.errors.username && "border-pink-500 text-pink-600 focus:border-pink-500 focus:ring-pink-500"} focus:ring-1 `}
-                      {...formik.getFieldProps('username')}
-                    />
-                    <span className='icon flex items-center px-4'>
-                      <HiOutlineUser size={25} />
-                    </span>
+                    <div className="flex justify-center items-center mt-8 ">
+                      <input
+                        type="text"
+                        name='username'
+                        placeholder='username'
+                        className={`p-2 rounded-md border dark:text-slate-800 ${formik.errors.username && "border-pink-500 text-pink-600 focus:border-pink-500 focus:ring-pink-500"} focus:ring-1 `}
+                        {...formik.getFieldProps('username')}
+                      />
+                      <span className='icon flex items-center px-4'>
+                        <HiOutlineUser size={25} />
+                      </span>
 
+                    </div>
+                    {formik.errors.username && formik.touched.username ? <span className='text-pink-600 text-sm'>{formik.errors.username as string}</span> : <></>}
                   </div>
-                  {formik.errors.username && formik.touched.username ? <span className='text-pink-600 text-sm'>{formik.errors.username as string}</span> : <></>}
-                  </div>
-                  
+
                   <div>
-                  <div className="flex justify-center items-center">
-                    <input
-                      type={`${show ? "text" : "password"}`}
-                      name='password'
-                      placeholder='password'
-                      className={`p-2 rounded-md border dark:text-slate-800 ${formik.errors.password && "border-pink-500 text-pink-600 focus:border-pink-500 focus:ring-pink-500"} focus:ring-1 `}
-                      {...formik.getFieldProps('password')}
-                    />
-                    <span className='icon flex items-center px-4' onClick={() => setShow(!show)}>
-                      <HiFingerPrint size={25} />
-                    </span>
-                  </div>
-                  {formik.errors.password && formik.touched.password ? <span className='text-pink-600 text-sm'>{formik.errors.password as string}</span> : <></>}
+                    <div className="flex justify-center items-center">
+                      <input
+                        type={`${show ? "text" : "password"}`}
+                        name='password'
+                        placeholder='password'
+                        autocomplete="on"
+                        className={`p-2 rounded-md border dark:text-slate-800 ${formik.errors.password && "border-pink-500 text-pink-600 focus:border-pink-500 focus:ring-pink-500"} focus:ring-1 `}
+                        {...formik.getFieldProps('password')}
+                      />
+                      <span className='icon flex items-center px-4' onClick={() => setShow(!show)}>
+                        <HiFingerPrint size={25} />
+                      </span>
+                    </div>
+                    {formik.errors.password && formik.touched.password ? <span className='text-pink-600 text-sm'>{formik.errors.password as string}</span> : <></>}
                   </div>
 
                   <button className="bg-[#002D74]  rounded-xl text-white py-2 mt-2 hover:scale-105 duration-300" type='submit' >
@@ -137,12 +138,12 @@ export default function Login() {
 
 export async function getServerSideProps(context) {
   const session = await unstable_getServerSession(context.req, context.res, authOptions)
-  if(session){
+  if (session) {
     return {
-        redirect : {
-            destination : "/wiki",
-            premanent: false
-        }
+      redirect: {
+        destination: "/wiki",
+        premanent: false
+      }
     }
   }
   return {
