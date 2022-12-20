@@ -88,9 +88,9 @@ func (r *TaskCheckBoxHTMLRenderer) renderTaskCheckBox(w util.BufWriter, source [
 	n := node.(*ast.TaskCheckBox)
 
 	if n.IsChecked {
-		w.WriteString(`<BiCheckCircle className="bicheckcircle inline-block align-middle mx-1  h-5 w-5 text-sky-400"/`)
+		w.WriteString(`<BiCheckCircle class="bicheckcircle inline-block align-middle mx-1  h-5 w-5 text-sky-400"/`)
 	} else {
-		w.WriteString(`<BiCircle className=" bicircle inline-block align-middle mx-1 h-5 w-5 text-sky-400"/`)
+		w.WriteString(`<BiCircle class="bicircle inline-block align-middle mx-1 h-5 w-5 text-sky-400"/`)
 	}
 	if r.XHTML {
 		w.WriteString(" /> ")
