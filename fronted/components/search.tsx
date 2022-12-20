@@ -25,7 +25,7 @@ function Search({ useSearch, setUseSearch }) {
   }
 
   useEffect(() => {
-    queryMarkdownUser({"plainto_tsquery":`${query}`})
+    if(query.length!=0){ queryMarkdownUser({"plainto_tsquery":`${query}`})}
   }, [query]);
   
   const clearquery = async (event) => {
