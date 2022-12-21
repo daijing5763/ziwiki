@@ -1,8 +1,7 @@
 import NextAuth from 'next-auth';
 import type { NextAuthOptions } from 'next-auth'
 import CredentialsProvider from 'next-auth/providers/credentials';
-import { backend_base_url, home_url } from "../../../utils/env_variable"
-// import { compare } from 'bcryptjs';
+import {fetch_renew_access,fetch_login} from "../../../utils/web_fetch"
 export const authOptions: NextAuthOptions = {
     providers: [
         CredentialsProvider({
@@ -12,21 +11,7 @@ export const authOptions: NextAuthOptions = {
             },
             name: "Credentials",
             async authorize(credentials) {
-
-                const https = require('https');
-
-                const httpsAgent = new https.Agent({
-                    rejectUnauthorized: false,
-                });
-
-                const options = {
-                    method: "POST",
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify(credentials),
-                    agent: httpsAgent,
-                }
-                const res = await fetch(`${backend_base_url}users/login`, options)
-                const result = await res.json()
+                const result = await fetch_login(credentials,'')
                 if (!result) {
                     throw new Error("something wrong may net work not connected")
                 }
@@ -95,23 +80,7 @@ export const authOptions: NextAuthOptions = {
 
 export default NextAuth(authOptions);
 async function refreshAccessToken(token) {
-
-    const https = require('https');
-
-    const httpsAgent = new https.Agent({
-        rejectUnauthorized: false,
-    });
-    const options = {
-        method: "POST",
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(token),
-        agent: httpsAgent
-    }
-
-    const result = await fetch(`${backend_base_url}tokens/renew_access`, options)
-        .then(res => res.json())
-    // console.log("mydebug refresh callback result:",result)
-
+    const result = await fetch_renew_access(token, '')
     if (!result) {
         return {
             ...token,

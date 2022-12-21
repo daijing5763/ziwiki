@@ -4,29 +4,19 @@ import Link from "next/link";
 import SubMenu from "./submenu"
 import { toast } from "react-toastify";
 import { useSession } from "next-auth/react"
-import { backend_base_url } from "../utils/env_variable"
+import {fetch_pull_repo} from "../utils/web_fetch"
 export default function SideBar({ repo_id,layout, SideBarIndex, setSideBarIndex,useSearch,setUseSearch }) {
   const { data: session } = useSession()
   async function syncRepo() {
-    const id =  toast("正在同步仓库...", {toastId: "customId",type: toast.TYPE.INFO});
-    const options = {
-      method: "POST",
-      headers: {
-        'Content-Type': 'application/json',
-        'Authorization': `Bearer ${session.access_token}`
-      },
-      body: JSON.stringify({ "repo_id": repo_id })
-    }
-    
-    await fetch(`${backend_base_url}pull_repo`, options)
-        .then(res => res.json())
-      .then((data) => {
-        if (data.error){
-          toast.update(id, { render: "同步失败:" + data.error, type: toast.TYPE.ERROR, isLoading: false});
-        } else {
-          toast.update(id, { render: "同步成功", type: "success", isLoading: false });
-        }
-      })
+    const id = toast("正在同步仓库...", { toastId: "customId", type: toast.TYPE.INFO });
+    fetch_pull_repo({ "repo_id": repo_id }, session.access_token).then(data => {
+      if (data.error){
+        toast.update(id, { render: "同步失败:" + data.error, type: toast.TYPE.ERROR, isLoading: false});
+      } else {
+        toast.update(id, { render: "同步成功", type: "success", isLoading: false });
+      }
+    })
+  
   }
 
 

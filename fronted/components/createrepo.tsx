@@ -5,6 +5,7 @@ import { backend_base_url } from "../utils/env_variable"
 import { toast } from "react-toastify";
 import { createrepo_validate } from '../utils/validate';
 import { useSession } from "next-auth/react"
+import {fetch_create_repo} from "../utils/web_fetch"
 export default function CreateRepo({ repolistcount,setrepolistcount,open, setOpen }) {
   const { data: session } = useSession()
   const cancelButtonRef = useRef(null)
@@ -23,26 +24,16 @@ export default function CreateRepo({ repolistcount,setrepolistcount,open, setOpe
   })
 
   async function onSubmit(values) {
-    const id = toast("正在创建仓库...", { type: toast.TYPE.INFO,isLoading: true });
-    const options = {
-      method: "POST",
-      headers: {
-        'Content-Type': 'application/json',
-        'Authorization': `Bearer ${session.access_token}`
-      },
-      body: JSON.stringify(values)
-    }
-  await fetch(`${backend_base_url}create_repo`, options)
-      .then(res => res.json())
-      .then((data) => {
-        if (data && data.error) {
-          toast.update(id, { render: "创建失败:"+data.error, type: toast.TYPE.ERROR, isLoading: false ,autoClose:2000 });
-        } else {
-          toast.update(id, { render: "创建成功", type: toast.TYPE.SUCCESS, isLoading: false,autoClose:1000 });
-          setrepolistcount(repolistcount+1)
-        }
-        
-      })
+    const id = toast("正在创建仓库...", { type: toast.TYPE.INFO, isLoading: true });
+    
+    fetch_create_repo(values, session.access_token).then(data => {
+      if (data && data.error) {
+        toast.update(id, { render: "创建失败:"+data.error, type: toast.TYPE.ERROR, isLoading: false ,autoClose:2000 });
+      } else {
+        toast.update(id, { render: "创建成功", type: toast.TYPE.SUCCESS, isLoading: false,autoClose:1000 });
+        setrepolistcount(repolistcount+1)
+      }
+    })
 }
   return (
     <Transition.Root show={open} as={Fragment}>

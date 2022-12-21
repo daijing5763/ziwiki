@@ -9,6 +9,7 @@ import { toast } from "react-toastify";
 import { backend_base_url, home_url } from "../../utils/env_variable"
 import { unstable_getServerSession } from "next-auth/next"
 import { authOptions } from '../api/auth/[...nextauth]'
+import { fetch_register } from '../../utils/web_fetch';
 export default function Register() {
   const [show, setShow] = useState({ password: false, cpassword: false })
   const router = useRouter()
@@ -24,21 +25,15 @@ export default function Register() {
   })
   async function onSubmit(values) {
     const id = toast("正在注册...", { type: toast.TYPE.INFO, isLoading: true });
-    const options = {
-      method: "POST",
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(values)
-    }
-    await fetch(`${backend_base_url}users`, options)
-      .then(res => res.json())
-      .then((data) => {
-        if (data.error) {
-          toast.update(id, { render: "注册失败:" + data.error, type: toast.TYPE.ERROR, isLoading: false, autoClose: 2000 });
-        } else {
-          toast.update(id, { render: "注册成功:", type: toast.TYPE.SUCCESS, isLoading: false, autoClose: 1000 });
-          router.push(`/`)
-        }
-      })
+    fetch_register(values, '').then(data => {
+      if (data.error) {
+        toast.update(id, { render: "注册失败:" + data.error, type: toast.TYPE.ERROR, isLoading: false, autoClose: 2000 });
+      } else {
+        toast.update(id, { render: "注册成功:", type: toast.TYPE.SUCCESS, isLoading: false, autoClose: 1000 });
+        router.push(`/`)
+      }
+    })
+
   }
 
   return (

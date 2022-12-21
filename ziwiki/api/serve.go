@@ -64,10 +64,14 @@ func (server *Server) setupRouter() {
 }
 
 // Start runs the HTTP server on a specific address.
-func (server *Server) Start(address string) error {
-	server.router.Use(TlsHandler(8080))
-	return server.router.RunTLS(address, "./bundle.crt", "./bundle.key")
-	// return server.router.Run(address)
+func (server *Server) Start(address string, usehttps bool) error {
+	if usehttps {
+		server.router.Use(TlsHandler(8080))
+		return server.router.RunTLS(address, "./bundle.crt", "./bundle.key")
+	} else {
+		return server.router.Run(address)
+	}
+
 }
 func errorResponse(err error) gin.H {
 	return gin.H{"error": err.Error()}
