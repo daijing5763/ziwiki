@@ -28,7 +28,7 @@ export function get_html_parser_option(slugs, repo_id) {
       } else if (domNode instanceof Element && isContains(domNode.attribs.class, "math display")) {
         return <MathJax >{domToReact(domNode.children, html_parser_option)}</MathJax>
       } else if (domNode instanceof Element && isContains(domNode.attribs.class, "copycontent")) {
-        return <MdContentCopy className="w-6 h-6 cursor-pointer text-slate-600 dark:text-slate-300" />
+        return <MdContentCopy className="w-6 h-6 cursor-pointer text-slate-500 dark:text-slate-300" />
       } else if (domNode instanceof Element && isContains(domNode.attribs.class, "image_link")) {
 
         if (slugs && !domNode.attribs.src.startsWith('http')) {

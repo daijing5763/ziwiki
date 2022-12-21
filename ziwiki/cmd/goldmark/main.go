@@ -20,7 +20,7 @@ import (
 )
 
 func main() {
-	input_path := "./case4.md"
+	input_path := "./case8.md"
 	data, err := os.ReadFile(input_path)
 	if err != nil {
 		fmt.Println("err:", err)

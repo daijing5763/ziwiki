@@ -301,11 +301,11 @@ var BlockquoteAttributeFilter = GlobalAttributeFilter.Extend(
 func (r *Renderer) renderBlockquote(w util.BufWriter, source []byte, n ast.Node, entering bool) (ast.WalkStatus, error) {
 	if entering {
 		if n.Attributes() != nil {
-			_, _ = w.WriteString("<blockquote class='border-l-8 px-2  my-3 mx-1 indent-8  py-0.5 border-sky-500 bg-slate-100 dark:bg-slate-800/50 rounded-md ring-1 ring-slate-900/10 shadow-sm'")
+			_, _ = w.WriteString("<blockquote class='border-l-8 px-2  my-3 mx-1 indent-8  py-0.5 border-sky-400 bg-slate-100 dark:bg-slate-800/50 rounded-md ring-1 ring-slate-500/10 dark:ring-slate-900/10 shadow-sm'")
 			RenderAttributes(w, n, BlockquoteAttributeFilter)
 			_ = w.WriteByte('>')
 		} else {
-			_, _ = w.WriteString("<blockquote class='border-l-8 px-2  my-3 mx-1 indent-8  py-0.5 border-sky-500 bg-slate-100 dark:bg-slate-800/50 rounded-md ring-1 ring-slate-900/10 shadow-sm'>\n")
+			_, _ = w.WriteString("<blockquote class='border-l-8 px-2  my-3 mx-1 indent-8  py-0.5 border-sky-400 bg-slate-100 dark:bg-slate-800/50 rounded-md ring-1 ring-slate-500/10 dark:ring-slate-900/10 shadow-sm'>\n")
 		}
 	} else {
 		_, _ = w.WriteString("</blockquote>\n")

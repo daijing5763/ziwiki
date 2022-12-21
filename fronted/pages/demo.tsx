@@ -239,6 +239,7 @@ export default function Demo() {
 
 			<div className=" dark:bg-slate-800  bg-slate-300"></div>
 			<code className="bg-slate-200 dark:bg-slate-800 mx-1 px-1 rounded-md">\sum_i</code>
+			<div className="bg-sky-50/50 ring-sky-100/50 shadow-slate-300 border-sky-400"></div>
 		</div>
 	)
 }

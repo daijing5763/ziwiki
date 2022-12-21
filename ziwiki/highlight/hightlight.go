@@ -493,9 +493,9 @@ func (r *HTMLRenderer) renderFencedCodeBlock(w util.BufWriter, source []byte, no
 		c = newCodeBlockContext(language, false, attrs)
 		r.WrapperRenderer(w, c, true)
 	} else {
-		_, _ = w.WriteString(`<div class="relative z-10 mx-2 my-6 col-span-3 dark:bg-slate-800 bg-white font-base rounded-md shadow-lg  ring-1 ring-slate-700/10 dark:ring-1 dark:ring-white/10 dark:ring-inset">
+		_, _ = w.WriteString(`<div class="relative z-10 mx-2 my-6 col-span-3 dark:bg-slate-800 bg-white font-base rounded-md dark:shadow-lg  ring-1 ring-slate-500/10 dark:ring-1 dark:ring-white/10 dark:ring-inset">
 		<div class="relative flex text-slate-400 text-sm leading-6">
-				<div class="mt-2 flex-none dark:text-sky-300 text-slate-800 border-t border-b border-t-transparent border-b-slate-600 dark:border-b-sky-300 px-4 py-1 flex items-center">`)
+				<div class="mt-2 flex-none dark:text-sky-300 text-slate-600 border-t border-b border-t-transparent border-b-slate-500/20 dark:border-b-sky-300 px-4 py-1 flex items-center">`)
 		language := n.Language(source)
 		if language != nil {
 			_, _ = w.WriteString("language:")
@@ -506,7 +506,7 @@ func (r *HTMLRenderer) renderFencedCodeBlock(w util.BufWriter, source []byte, no
 		}
 		_, _ = w.WriteString(`</div>
 				<div class="flex-auto flex pt-2 rounded-tr-xl overflow-hidden">
-						<div class="flex-auto -mr-px bg-slate-100 dark:bg-slate-700/50 border border-slate-500/30 rounded-tl">
+						<div class="flex-auto -mr-px bg-slate-50 dark:bg-slate-700/50 border border-slate-500/30 rounded-tl">
 						</div>
 				</div>
 				<div class="absolute top-2 right-0 h-8 flex items-center pr-4">

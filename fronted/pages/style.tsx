@@ -413,6 +413,27 @@ return (
 </span></span></code></pre></div></div>
     
 <a className="group flex items-start py-1 hover:text-sky-500 dark:text-slate-400 dark:hover:text-sky-500" href="#heading-5"><svg width="3" height="24" viewBox="0 -9 3 24" className="mr-2 text-slate-400 overflow-visible group-hover:text-slate-600 dark:text-slate-600 dark:group-hover:text-slate-500"><path d="M0 0L3 3L0 6" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"></path></svg>史记片段</a>
+	
+		<div className="ring-slate-500/10 border-b-slate-300"></div>
+		<div className="relative z-10 mx-2 my-6 col-span-3 dark:bg-slate-800 bg-white font-base rounded-md dark:shadow-lg  ring-1 ring-slate-500/10 dark:ring-1 dark:ring-white/10 dark:ring-inset">
+		<div className="relative flex text-slate-400 text-sm leading-6">
+				<div className="mt-2 flex-none dark:text-sky-300 text-slate-600 border-t border-b border-t-transparent border-b-slate-500/20 dark:border-b-sky-300 px-4 py-1 flex items-center">language:c++</div>
+				<div className="flex-auto flex pt-2 rounded-tr-xl overflow-hidden">
+						<div className="flex-auto -mr-px bg-slate-50 dark:bg-slate-700/50 border border-slate-500/20 rounded-tl">
+						</div>
+				</div>
+				<div className="absolute top-2 right-0 h-8 flex items-center pr-4">
+						<div className="relative flex -mr-2">
+						<span className="copycontent"/>
+						</div>
+				</div>
+		</div>
+		<div className="highlight p-4  text-sm  overflow-x-auto  text-slate-800 dark:text-slate-200
+					scrollbar-thin  scrollbar-thumb-rounded-md scrollbar-track-rounded-md
+		"><pre><code className='c++'><span className="flex"><span className="whitespace-pre select-none mr-1.5 px-1.5 dark:text-slate-400 text-slate-700">1</span><span className="cl"><span className="dark:text-[#BB80B3] text-[#a90d91]">long</span>  <span className="dark:text-[#82AAFF] text-[#785840]">_M_get_use_count</span><span className="dark:text-[#89DDFF]">()</span> <span className="dark:text-[#BB80B3] text-[#a90d91]">const</span> <span className="dark:text-[#BB80B3] text-[#a90d91]">noexcept</span>
+</span></span><span className="flex"><span className="whitespace-pre select-none mr-1.5 px-1.5 dark:text-slate-400 text-slate-700">2</span><span className="cl">    <span className="dark:text-[#89DDFF]"></span>
+</span></span></code></pre></div></div><p className='my-2  text-base  text-slate-700 dark:text-slate-400'>那么，我们可以考虑采用智能指针的方案，代码也比较简单，如下：</p>
+
 	</div> 
   )
 }
