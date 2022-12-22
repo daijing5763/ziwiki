@@ -1,12 +1,25 @@
-import { backend_base_url,server_side_url } from "./env_variable"
+import { backend_base_url,server_side_url,use_https_url } from "./env_variable"
 
 
 async function fetch_post(values: { [key: string]: string }, url: string, access_token: string) {
-  const https = require('https');
-  const httpsAgent = new https.Agent({
+  if (use_https_url == "false"){
+    const options = {
+      method: "POST",
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${access_token}`
+      },
+      body: JSON.stringify(values),
+    }
+    const response = await fetch(url, options)
+    const data = await response.json();
+    return data;
+  } else {
+    const https = require('https');
+    const httpsAgent = new https.Agent({
       rejectUnauthorized: false,
-  });
-  const options = {
+    });
+    const options = {
     method: "POST",
     headers: {
       'Content-Type': 'application/json',
@@ -14,10 +27,12 @@ async function fetch_post(values: { [key: string]: string }, url: string, access
     },
     body: JSON.stringify(values),
     agent: httpsAgent
+    }
+    const response = await fetch(url, options)
+    const data = await response.json();
+    return data;
   }
-  const response = await fetch(url, options)
-  const data = await response.json();
-  return data;
+  
 }
 
 export async function fetch_repo_info(values: { [key: string]: string }, access_token: string) {
