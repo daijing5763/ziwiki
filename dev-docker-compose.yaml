@@ -23,10 +23,10 @@ services:
     ports:
       - "5432:5432"
   api:
-    image: run_image_alpine
-    # build:
-    #   context: ./
-    #   dockerfile: ./build_image_on_alpine/DockerfileRun
+    # image: run_image_alpine
+    build:
+      context: ./
+      dockerfile: ./build_image_on_alpine/DockerfileRun
     expose:
       - "8080"
     ports:

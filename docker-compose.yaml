@@ -23,16 +23,17 @@ services:
     ports:
       - "5432:5432"
   api:
-    image: run_image_alpine
-    # build:
-    #   context: .
-    #   dockerfile: ./build_image_on_alpine/DockerfileRun
+    # image: run_image_alpine
+    build:
+      context: ./
+      dockerfile: ./build_image_on_alpine/DockerfileRun
     expose:
       - "8080"
     # ports:
     #   - 8080:8080
     environment:
       - DB_SOURCE=postgresql://root:secret@postgres:5432/ziwiki?sslmode=disable
+      - USE_HTTPS=${NEXT_PUBLIC_DEV_USE_HTTPS}
     depends_on:
       - postgres
     volumes:
