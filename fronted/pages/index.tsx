@@ -25,7 +25,7 @@ export default function Home() {
                 <p><Trans id="index_1">Over</Trans> <span className="dark:text-white text-black font-bold ">20,000</span><Trans id="index_2">copies sold</Trans> </p>
                 <div className="mx-6 hidden h-[0.1875rem] w-[0.1875rem] rounded-full bg-white/30 lg:block xl:mx-16"></div>
 
-                <p><Trans id="index_3">Over</Trans>  <span className="dark:text-white text-black font-bold ">200</span><Trans id="index_4"> github stars</Trans> </p>
+                <p className="hidden lg:block"><Trans id="index_3">Over</Trans>  <span className="dark:text-white text-black font-bold ">200</span><Trans id="index_4"> github stars</Trans> </p>
                 <div className="mx-6 hidden h-[0.1875rem] w-[0.1875rem] rounded-full bg-white/30 lg:block xl:mx-16"></div>
               </div>
 
