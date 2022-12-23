@@ -39,7 +39,7 @@ export default function Home({ session }) {
 
   const [SideBarIndex, setSideBarIndex] = useState(-1); 
   const [useSearch, setUseSearch] = useState(false);
-  const [NavBarOpen, setNavBarOpen] = useState(false);
+  const [NavBarOpen, setNavBarOpen] = useState(true);
   const html_parser_options = get_html_parser_option(router.query.slug,router.query.repoid)
   const dynamicRoute = useRouter().asPath;
   async function getRepo(values) {
