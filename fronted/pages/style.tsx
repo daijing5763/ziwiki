@@ -433,7 +433,7 @@ return (
 		"><pre><code className='c++'><span className="flex"><span className="whitespace-pre select-none mr-1.5 px-1.5 dark:text-slate-400 text-slate-700">1</span><span className="cl"><span className="dark:text-[#BB80B3] text-[#a90d91]">long</span>  <span className="dark:text-[#82AAFF] text-[#785840]">_M_get_use_count</span><span className="dark:text-[#89DDFF]">()</span> <span className="dark:text-[#BB80B3] text-[#a90d91]">const</span> <span className="dark:text-[#BB80B3] text-[#a90d91]">noexcept</span>
 </span></span><span className="flex"><span className="whitespace-pre select-none mr-1.5 px-1.5 dark:text-slate-400 text-slate-700">2</span><span className="cl">    <span className="dark:text-[#89DDFF]"></span>
 </span></span></code></pre></div></div><p className='my-2  text-base  text-slate-700 dark:text-slate-400'>那么，我们可以考虑采用智能指针的方案，代码也比较简单，如下：</p>
-
+<div className="ring-1 ring-slate-300 border-b-slate-400"></div>
 	</div> 
   )
 }

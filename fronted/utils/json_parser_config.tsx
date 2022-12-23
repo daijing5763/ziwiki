@@ -1,5 +1,5 @@
 import { domToReact, attributesToProps, DOMNode, Element, HTMLReactParserOptions, } from 'html-react-parser';
-import { MdContentCopy } from "react-icons/md"
+import { MdContentCopy,MdOutlineContentCopy } from "react-icons/md"
 import MermaidCode from "../mermaid"
 import { backend_base_url } from "./env_variable"
 import { MathJax } from "better-react-mathjax";
@@ -28,7 +28,7 @@ export function get_html_parser_option(slugs, repo_id) {
       } else if (domNode instanceof Element && isContains(domNode.attribs.class, "math display")) {
         return <MathJax >{domToReact(domNode.children, html_parser_option)}</MathJax>
       } else if (domNode instanceof Element && isContains(domNode.attribs.class, "copycontent")) {
-        return <MdContentCopy className="w-6 h-6 cursor-pointer text-slate-500 dark:text-slate-300" />
+        return <MdOutlineContentCopy className="w-6 h-6 cursor-pointer text-slate-500 dark:text-slate-300" />
       } else if (domNode instanceof Element && isContains(domNode.attribs.class, "image_link")) {
 
         if (slugs && !domNode.attribs.src.startsWith('http')) {

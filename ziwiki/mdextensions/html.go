@@ -315,9 +315,9 @@ func (r *Renderer) renderBlockquote(w util.BufWriter, source []byte, n ast.Node,
 
 func (r *Renderer) renderCodeBlock(w util.BufWriter, source []byte, n ast.Node, entering bool) (ast.WalkStatus, error) {
 	if entering {
-		_, _ = w.WriteString(`<div class="relative z-10 mx-2 my-6 col-span-3 dark:bg-slate-800 bg-white font-base rounded-md shadow-lg  ring-1 ring-slate-700/10 dark:ring-1 dark:ring-white/10 dark:ring-inset">
+		_, _ = w.WriteString(`<div class="relative z-10 mx-2 my-6 col-span-3 dark:bg-slate-800 bg-white font-base rounded-md shadow-lg  ring-1 ring-slate-300 dark:ring-1 dark:ring-white/10 dark:ring-inset">
 		<div class="relative flex text-slate-400 text-sm leading-6">
-				<div class="mt-2 flex-none dark:text-sky-300 text-slate-800 border-t border-b border-t-transparent border-b-slate-600 dark:border-b-sky-300 px-4 py-1 flex items-center">language:code</div>
+				<div class="mt-2 flex-none dark:text-sky-300 text-slate-600 border-t border-b border-t-transparent border-b-slate-500 dark:border-b-sky-300 px-4 py-1 flex items-center">language:code</div>
 				<div class="flex-auto flex pt-2 rounded-tr-xl overflow-hidden">
 						<div class="flex-auto -mr-px bg-slate-100 dark:bg-slate-700/50 border border-slate-500/30 rounded-tl">
 						</div>

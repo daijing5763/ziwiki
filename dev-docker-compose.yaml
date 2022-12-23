@@ -70,10 +70,10 @@ services:
   #   # ports:
   #   #   - 80:3000
   monitor:
-    image: monitor_image_alpine
-    # build:
-    #   context: .
-    #   dockerfile: ./build_image_on_alpine/DockerfileRun
+    # image: monitor_image_alpine
+    build:
+      context: ./
+      dockerfile: ./build_image_on_alpine/DockerfileMonitor
     environment:
       - DB_SOURCE=postgresql://root:secret@postgres:5432/ziwiki?sslmode=disable
     depends_on:

@@ -40,10 +40,10 @@ export default function Home() {
                     <Trans id="index_6"> Learn how to design beautiful user interfaces by yourself using specific tactics explained from a developer's point-of-view.</Trans>  
                     </p>
                     <div className="mt-12 hidden lg:flex">
-                      <Link href="/auth/register"  className="rounded-full  py-2 px-6 font-semibold focus:outline-none focus:ring-2 bg-slate-900 text-slate-50 hover:bg-slate-700  dark:bg-sky-300 dark:text-slate-900 dark:hover:bg-sky-200 dark:hover:text-slate-900 dark:focus:ring-slate-500">
+                      <Link href="/auth/register"  className="rounded-full  py-2 px-6 font-semibold focus:outline-none focus:ring-2 bg-sky-500 text-slate-50 hover:bg-sky-400 scale-100 hover:scale-110  dark:bg-sky-300 dark:text-slate-900 dark:hover:bg-sky-200 dark:hover:text-slate-900 dark:focus:ring-slate-500">
                       <Trans id="index_8"> Try it by Register Now</Trans>
                       </Link>
-                      <Link href="/auth/login" className="ml-6 rounded-full   py-2 px-6 font-semibold  focus:outline-none focus:ring-2  bg-slate-900 text-slate-50 hover:bg-slate-700  dark:bg-slate-700 dark:text-slate-100 dark:hover:bg-slate-600 dark:hover:text-white dark:focus:ring-slate-500">
+                      <Link href="/auth/login" className="ml-6 rounded-full   py-2 px-6 font-semibold  focus:outline-none focus:ring-2  bg-slate-900 text-slate-50 hover:bg-slate-700 scale-100 hover:scale-110   dark:bg-slate-700 dark:text-slate-100 dark:hover:bg-slate-600 dark:hover:text-white dark:focus:ring-slate-500">
                       <Trans id="index_9"> Sign In</Trans>
                       </Link>
                     </div>
@@ -65,10 +65,10 @@ export default function Home() {
 
                       </div>
                     <div className="relative mt-16 flex flex-col sm:flex-row sm:justify-center lg:hidden">
-                      <Link href="/auth/register" className="rounded-full  py-2 px-6 text-center font-semibold focus:outline-none focus:ring-2 bg-slate-900 text-slate-50 hover:bg-slate-700  dark:bg-sky-300 dark:text-slate-900 dark:hover:bg-sky-200 dark:hover:text-slate-900 dark:focus:ring-slate-500">
+                      <Link href="/auth/register" className="rounded-full  py-2 px-6 text-center font-semibold focus:outline-none focus:ring-2 scale-100 hover:scale-110  bg-sky-500 text-slate-50 hover:bg-sky-400  dark:bg-sky-300 dark:text-slate-900 dark:hover:bg-sky-200 dark:hover:text-slate-900 dark:focus:ring-slate-500">
                       <Trans id="index_10">Try it by Register Now</Trans> 
                       </Link>
-                      <Link href="/auth/login" className="mt-6 rounded-full  py-2 px-6 text-center focus:outline-none focus:ring-2 bg-slate-900 text-slate-50 hover:bg-slate-700  dark:bg-slate-700 dark:text-slate-100 dark:hover:bg-slate-600 dark:hover:text-white dark:focus:ring-slate-500 font-semibold  sm:ml-6 sm:mt-0">
+                      <Link href="/auth/login" className="mt-6 rounded-full  py-2 px-6 text-center focus:outline-none focus:ring-2 bg-slate-900 scale-100 hover:scale-110  text-slate-50 hover:bg-slate-700  dark:bg-slate-700 dark:text-slate-100 dark:hover:bg-slate-600 dark:hover:text-white dark:focus:ring-slate-500 font-semibold  sm:ml-6 sm:mt-0">
                       <Trans id="index_11"> Sign In</Trans>  
                       </Link>
                     </div>
