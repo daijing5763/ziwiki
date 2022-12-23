@@ -91,3 +91,8 @@ npm i next-auth
 ## build
 
 docker build -t nextprod . -f prod.Dockerfile
+
+## lingui
+
+npm install --save-dev @lingui/cli @lingui/macro
+npm install --save @lingui/react

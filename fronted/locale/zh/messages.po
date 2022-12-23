@@ -1,0 +1,106 @@
+msgid ""
+msgstr ""
+"POT-Creation-Date: 2022-12-23 14:48+0800\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: @lingui/cli\n"
+"Language: zh\n"
+"Project-Id-Version: \n"
+"Report-Msgid-Bugs-To: \n"
+"PO-Revision-Date: \n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"Plural-Forms: \n"
+
+#: components/popnav.tsx:14
+msgid "Chinese"
+msgstr "中文"
+
+#: components/popnav.tsx:13
+msgid "English"
+msgstr "英文"
+
+#: pages/lang.tsx:13
+msgid "Go to page 2"
+msgstr "前往第二个页面"
+
+#: pages/lang.tsx:11
+msgid "Hello World."
+msgstr "你好，世界。"
+
+#: pages/auth/login.tsx:73
+#~ msgid "Log In"
+#~ msgstr "登陆"
+
+#: pages/auth/login.tsx:74
+#~ msgid "if you already have accout,please sign in"
+#~ msgstr "如果您已经有账号，请登陆"
+
+#: pages/index.tsx:22
+msgid "index_0"
+msgstr "创建者是"
+
+#: pages/index.tsx:25
+msgid "index_1"
+msgstr "超过"
+
+#: pages/index.tsx:69
+msgid "index_10"
+msgstr "立刻注册尝试！"
+
+#: pages/index.tsx:72
+msgid "index_11"
+msgstr "登陆"
+
+#: pages/index.tsx:25
+msgid "index_2"
+msgstr "份售出"
+
+#: pages/index.tsx:28
+msgid "index_3"
+msgstr "超过"
+
+#: pages/index.tsx:28
+msgid "index_4"
+msgstr "github stars"
+
+#: pages/index.tsx:37
+msgid "index_5"
+msgstr "无需设计师，即可实现你伟大的想法"
+
+#: pages/index.tsx:40
+msgid "index_6"
+msgstr "从开发者视角，学习如何设计出好看的用户界面"
+
+#: pages/index.tsx:44
+msgid "index_8"
+msgstr "立刻注册尝试！"
+
+#: pages/index.tsx:47
+msgid "index_9"
+msgstr "登陆"
+
+#: pages/auth/login.tsx:73
+msgid "login_1"
+msgstr "登陆"
+
+#: pages/auth/login.tsx:74
+msgid "login_2"
+msgstr "如果您已经有账号，请登陆"
+
+#: pages/auth/login.tsx:112
+msgid "login_3"
+msgstr "登陆"
+
+#: pages/auth/login.tsx:117
+msgid "login_4"
+msgstr "忘记密码?"
+
+#: pages/auth/login.tsx:120
+msgid "login_5"
+msgstr "需要注册账号？"
+
+#: pages/auth/login.tsx:122
+msgid "login_6"
+msgstr "注册"

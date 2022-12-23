@@ -10,6 +10,7 @@ import { authOptions } from '../api/auth/[...nextauth]'
 import { HiAtSymbol, HiFingerPrint, HiOutlineUser } from "react-icons/hi";
 import { backend_base_url, home_url } from "../../utils/env_variable"
 import { getSession, SessionContext } from 'next-auth/react'
+import { Trans } from '@lingui/macro';
 import { unstable_getServerSession } from "next-auth/next"
 export default function Login() {
 
@@ -69,8 +70,8 @@ export default function Login() {
                     </h1>
                   </div>
                 </Link>
-                <h2 className="font-bold pt-5 mt-5 text-2xl ">登录</h2>
-                <p className="text-xs mt-4 ">若您已经注册，请登录</p>
+                <h2 className="font-bold pt-5 mt-5 text-2xl "><Trans id="login_1">Log In</Trans></h2>
+                <p className="text-xs mt-4 "><Trans id="login_2">sign in if you own an account</Trans></p>
 
                 <form className='flex flex-col gap-4' onSubmit={formik.handleSubmit}>
                   <div>
@@ -108,17 +109,17 @@ export default function Login() {
                   </div>
 
                   <button className="bg-[#002D74]  rounded-xl text-white py-2 mt-2 hover:scale-105 duration-300" type='submit' >
-                    登录
+                  <Trans id="login_3">Log In</Trans>
                   </button>
 
                 </form>
                 <div className="mt-5 text-xs border-b border-[#002D74] dark:border-slate-300 py-4 ">
-                  <Link href="/auth/forgetPassword"><p className="font-medium  hover:text-indigo-500">忘记密码?</p></Link>
+                  <Link href="/auth/forgetPassword"><p className="font-medium  hover:text-indigo-500"><Trans id="login_4">Forget Password?</Trans></p></Link>
                 </div>
                 <div className="mt-3 text-xs flex justify-between items-center ">
-                  <p>未注册账户?</p>
+                  <p><Trans id="login_5">need an account?</Trans></p>
                   <Link href="/auth/register">
-                    <button className="py-2 px-5  text-white  rounded-xl hover:scale-110 duration-300 bg-[#002D74]">注册</button>
+                    <button className="py-2 px-5  text-white  rounded-xl hover:scale-110 duration-300 bg-[#002D74]"><Trans id="login_6">Register</Trans></button>
                   </Link>
                 </div>
               </div>
