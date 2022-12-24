@@ -1,4 +1,4 @@
-package lute
+package render
 
 import (
 	"C"
@@ -9,17 +9,17 @@ import (
 	_ "github.com/lib/pq"
 	db "github.com/zdlpsina/ziwiki/db/sqlc"
 
-	mathjax "github.com/zdlpsina/ziwiki/mathjax"
+	mathjax "github.com/zdlpsina/ziwiki/markdown/mathjax"
 
 	"github.com/yuin/goldmark"
-	html "github.com/zdlpsina/ziwiki/chromahtml"
+	html "github.com/zdlpsina/ziwiki/markdown/chromahtml"
 
 	"github.com/yuin/goldmark/extension"
 	"github.com/yuin/goldmark/parser"
 	"github.com/yuin/goldmark/renderer"
 	"github.com/yuin/goldmark/util"
-	highlighting "github.com/zdlpsina/ziwiki/highlight"
-	"github.com/zdlpsina/ziwiki/mdextensions"
+	highlighting "github.com/zdlpsina/ziwiki/markdown/highlight"
+	"github.com/zdlpsina/ziwiki/markdown/mdextensions"
 )
 import (
 	"bytes"
@@ -42,18 +42,6 @@ func RenderMd(store db.Store, input_path string, mdtype int, UserID int64, RepoI
 		if err != nil {
 			fmt.Println(err)
 		}
-		// list_buffer := RenderList(store, input_path, mdtype, UserID, RepoID)
-		// if list_buffer != nil {
-		// 	html_list := list_buffer.String()
-		// 	RenderType(store, trim_path+".list", mdtype, html_list, UserID, RepoID)
-		// }
-
-		// luteEngine := lute.New() // 默认已经启用 GFM 支持以及中文语境优化
-		// luteEngine.SetCodeSyntaxHighlightInlineStyle(false)
-		// luteEngine.SetCodeSyntaxHighlightDetectLang(true)
-		// luteEngine.SetCodeSyntaxHighlightLineNum(true)
-		// html := luteEngine.MarkdownStr("demo", string(data))
-		// html = render.Render(html)
 
 		markdown := goldmark.New(
 			goldmark.WithRenderer(renderer.NewRenderer(renderer.WithNodeRenderers(util.Prioritized(mdextensions.NewRenderer(), 1000)))),
@@ -75,7 +63,6 @@ func RenderMd(store db.Store, input_path string, mdtype int, UserID int64, RepoI
 			goldmark.WithExtensions(
 				highlighting.NewHighlighting(
 					highlighting.WithStyle("murphy"),
-					// highlighting.WithGuessLanguage(true),
 					highlighting.WithFormatOptions(
 						html.WithLineNumbers(true),
 						html.WithClasses(true),
@@ -100,15 +87,6 @@ func RenderMd(store db.Store, input_path string, mdtype int, UserID int64, RepoI
 				}
 			}
 		}
-
-		// markdown.Parser().AddOptions(
-		// 	parser.WithAutoHeadingID(),
-		// 	parser.WithASTTransformers(
-		// 		util.Prioritized(&toc.Transformer{
-		// 			Title: "Contents",
-		// 		}, 100),
-		// 	),
-		// )
 
 		var b bytes.Buffer
 		err = markdown.Convert(data, &b)

@@ -22,7 +22,7 @@ import (
 	// chromahtml "github.com/alecthomas/chroma/v2/formatters/html"
 	"github.com/alecthomas/chroma/v2/lexers"
 	"github.com/alecthomas/chroma/v2/styles"
-	chromahtml "github.com/zdlpsina/ziwiki/chromahtml"
+	chromahtml "github.com/zdlpsina/ziwiki/markdown/chromahtml"
 )
 
 // ImmutableAttributes is a read-only interface for ast.Attributes.

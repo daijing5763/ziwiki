@@ -8,7 +8,7 @@ go_library(
     deps = [
         "//db/sqlc",
         "//jsonlayout",
-        "//lute",
+        "//markdown/render",
         "@com_github_dietsche_rfsnotify//:rfsnotify",
     ],
 )

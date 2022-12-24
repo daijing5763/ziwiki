@@ -3,7 +3,6 @@ module github.com/zdlpsina/ziwiki
 go 1.19
 
 require (
-	github.com/88250/lute v1.7.4
 	github.com/aead/chacha20poly1305 v0.0.0-20201124145622-1a5aba2a8b29
 	github.com/fsnotify/fsnotify v1.6.0 // indirect
 	github.com/gin-gonic/gin v1.8.1
@@ -21,7 +20,6 @@ require (
 require github.com/alecthomas/chroma/v2 v2.4.0
 
 require (
-	github.com/alecthomas/chroma v0.10.0 // indirect
 	github.com/mitchellh/go-homedir v1.1.0 // indirect
 	golang.org/x/mod v0.7.0 // indirect
 	golang.org/x/tools v0.4.0 // indirect
@@ -36,7 +34,6 @@ require (
 	github.com/acomagu/bufpipe v1.0.3 // indirect
 	github.com/aead/chacha20 v0.0.0-20180709150244-8b13a72661da // indirect
 	github.com/aead/poly1305 v0.0.0-20180717145839-3fee0db0b635 // indirect
-	// github.com/alecthomas/chroma v0.10.0 // indirect
 	github.com/davecgh/go-spew v1.1.1 // indirect
 	github.com/dietsche/rfsnotify v0.0.0-20200716145600-b37be6e4177f
 	github.com/dlclark/regexp2 v1.7.0 // indirect
@@ -49,7 +46,6 @@ require (
 	github.com/go-playground/universal-translator v0.18.0 // indirect
 	github.com/go-playground/validator/v10 v10.11.1 // indirect
 	github.com/goccy/go-json v0.10.0 // indirect
-	github.com/gopherjs/gopherjs v1.17.2 // indirect
 	github.com/hashicorp/hcl v1.0.0 // indirect
 	github.com/imdario/mergo v0.3.13 // indirect
 	github.com/jbenet/go-context v0.0.0-20150711004518-d14ea06fba99 // indirect
@@ -84,7 +80,3 @@ require (
 	gopkg.in/yaml.v2 v2.4.0 // indirect
 	gopkg.in/yaml.v3 v3.0.1 // indirect
 )
-
-// replace github.com/alecthomas/chroma/v2 v2.2.0 => ../chroma
-
-// replace github.com/yuin/goldmark v1.5.3 => ../goldmark

@@ -1,17 +1,17 @@
 load("@io_bazel_rules_go//go:def.bzl", "go_library")
 
 go_library(
-    name = "lute",
-    srcs = ["lute.go"],
+    name = "render",
+    srcs = ["render.go"],
     cgo = True,
-    importpath = "github.com/zdlpsina/ziwiki/lute",
+    importpath = "github.com/zdlpsina/ziwiki/markdown/render",
     visibility = ["//visibility:public"],
     deps = [
         "//chromahtml",
         "//db/sqlc",
-        "//highlight",
-        "//mathjax",
-        "//mdextensions",
+        "//markdown/highlight",
+        "//markdown/mathjax",
+        "//markdown/mdextensions",
         "@com_github_abhinav_goldmark_toc//:goldmark-toc",
         "@com_github_lib_pq//:pq",
         "@com_github_yuin_goldmark//:goldmark",

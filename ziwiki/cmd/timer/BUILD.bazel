@@ -7,9 +7,9 @@ go_library(
     visibility = ["//visibility:private"],
     deps = [
         "//chromahtml",
-        "//highlight",
-        "//mathjax",
-        "//mdextensions",
+        "//markdown/highlight",
+        "//markdown/mathjax",
+        "//markdown/mdextensions",
         "@com_github_abhinav_goldmark_toc//:goldmark-toc",
         "@com_github_jeffail_tunny//:tunny",
         "@com_github_yuin_goldmark//:goldmark",

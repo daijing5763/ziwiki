@@ -11,7 +11,7 @@ import (
 	"github.com/dietsche/rfsnotify"
 	db "github.com/zdlpsina/ziwiki/db/sqlc"
 	genlayout "github.com/zdlpsina/ziwiki/jsonlayout"
-	render "github.com/zdlpsina/ziwiki/lute"
+	render "github.com/zdlpsina/ziwiki/markdown/render"
 )
 
 func RenderLayout(UserID string, RepoID string, store db.Store) bool {
