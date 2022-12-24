@@ -2,7 +2,6 @@ import React, { useState, useEffect } from 'react';
 import { Popover, Transition } from '@headlessui/react'
 import { Fragment } from 'react'
 import Link from 'next/link'
-import { home_url } from "../utils/env_variable"
 import { MdDarkMode, MdLightMode ,MdLogin,MdLogout,MdMenu,MdClose} from "react-icons/md"
 import { AiFillGithub, AiOutlineUser } from "react-icons/ai"
 import {RiLogoutBoxFill,RiLoginBoxFill,RiLogoutBoxLine,RiLoginBoxLine} from "react-icons/ri"
@@ -14,7 +13,7 @@ const availableLanguageNames = {
     en: t`English`,
     sv: t`Chinese`,
   }
-function handleSignOut(){
+  function handleSignOut(){
     signOut({ callbackUrl: `/` })
   }
 

@@ -1,7 +1,6 @@
 import PopNav from "../components/popnav"
 import React, { useState } from 'react';
 import Link from 'next/link'
-import { CgPerformance } from "react-icons/cg"
 import { BsSpeedometer, BsSpeedometer2 } from "react-icons/bs"
 import { AiOutlineMobile } from "react-icons/ai"
 import { MdDarkMode } from "react-icons/md"
