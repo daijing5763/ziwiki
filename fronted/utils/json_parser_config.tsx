@@ -4,16 +4,42 @@ import MermaidCode from "../mermaid"
 import { backend_base_url } from "./env_variable"
 import { MathJax } from "better-react-mathjax";
 import { BiCheckCircle, BiCircle } from "react-icons/bi"
+import { toast } from "react-toastify";
 function isContains(str, substr) {
   if (typeof str == "undefined") {
     return false
   }
   return str.indexOf(substr) >= 0;
 }
+function myfunction(id:string) {
+  var element = document.getElementById(id);
+  var lines = element.querySelectorAll('.cl');
+  let buffer = []
+  for (let i = 0; i < lines.length; i++) {
+    buffer.push(lines[i].textContent)
+  }
+   // Copy the text inside the text field
+  //navigator.clipboard.writeText(buffer.join(""));
+  navigator.clipboard.writeText(buffer.join("")).then(() => {
+    /* Resolved - text copied to clipboard */
+    toast("Copied to clipboard", { type: toast.TYPE.SUCCESS, autoClose:500  });
+  },() => {
+    /* Rejected - clipboard failed */
+    toast("Copy to clipboard failed", { type: toast.TYPE.ERROR, autoClose:500  });
+  });
 
+}
 export function get_html_parser_option(slugs, repo_id) {
+  var id=0
   const html_parser_option: HTMLReactParserOptions = {
     replace: (domNode: DOMNode) => {
+      
+      if (domNode instanceof Element && domNode.name === 'pre' && domNode.attribs.class !="mermaid" ) {
+        const props = attributesToProps(domNode.attribs);
+        let cur_id =id
+        id += 1
+        return <pre id={`code_id_${cur_id}`} {...props}>{domToReact(domNode.children, html_parser_option)}</pre>;
+      }
       if (domNode instanceof Element && domNode.attribs.id === 'main') {
         return <h1 style={{ fontSize: 42 }}>{domToReact(domNode.children, html_parser_option)}</h1>;
       } else if (domNode instanceof Element && isContains(domNode.attribs.class, "bicheckcircle")) {
@@ -28,7 +54,8 @@ export function get_html_parser_option(slugs, repo_id) {
       } else if (domNode instanceof Element && isContains(domNode.attribs.class, "math display")) {
         return <MathJax >{domToReact(domNode.children, html_parser_option)}</MathJax>
       } else if (domNode instanceof Element && isContains(domNode.attribs.class, "copycontent")) {
-        return <MdOutlineContentCopy className="w-6 h-6 cursor-pointer text-slate-500 dark:text-slate-300" />
+        let cur_id =id
+        return <MdOutlineContentCopy className="w-6 h-6 cursor-pointer text-slate-500 dark:text-slate-300" onClick={() => { myfunction("code_id_" + cur_id) }} />
       } else if (domNode instanceof Element && isContains(domNode.attribs.class, "image_link")) {
 
         if (slugs && !domNode.attribs.src.startsWith('http')) {

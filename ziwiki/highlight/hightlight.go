@@ -517,7 +517,7 @@ func (r *HTMLRenderer) renderFencedCodeBlock(w util.BufWriter, source []byte, no
 		</div>
 		<div class="highlight p-4  text-sm  overflow-x-auto  text-slate-800 dark:text-slate-200
 					scrollbar-thin  scrollbar-thumb-rounded-md scrollbar-track-rounded-md
-		"><pre><code`)
+		"><pre><code `)
 		if language != nil {
 			_, _ = w.WriteString(" class='" + string(language) + "'")
 		}

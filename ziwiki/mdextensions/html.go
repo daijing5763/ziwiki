@@ -330,7 +330,7 @@ func (r *Renderer) renderCodeBlock(w util.BufWriter, source []byte, n ast.Node, 
 		</div>
 		<div class="highlight p-4  text-sm  overflow-x-auto  text-slate-800 dark:text-slate-200
 					scrollbar-thin  scrollbar-thumb-rounded-md scrollbar-track-rounded-md
-		"><pre><code>`)
+		"><pre><code >`)
 		r.writeLines(w, source, n)
 	} else {
 		_, _ = w.WriteString("</code></pre></div></div>\n")
@@ -341,7 +341,7 @@ func (r *Renderer) renderCodeBlock(w util.BufWriter, source []byte, n ast.Node, 
 func (r *Renderer) renderFencedCodeBlock(w util.BufWriter, source []byte, node ast.Node, entering bool) (ast.WalkStatus, error) {
 	n := node.(*ast.FencedCodeBlock)
 	if entering {
-		_, _ = w.WriteString("<pre><code")
+		_, _ = w.WriteString("<pre><code ")
 		language := n.Language(source)
 		if language != nil {
 			_, _ = w.WriteString(" class=\"language-")
