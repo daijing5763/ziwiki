@@ -8,6 +8,7 @@ import { SiGitee } from "react-icons/si"
 import { authOptions } from '../api/auth/[...nextauth]'
 import { unstable_getServerSession } from "next-auth/next"
 import { toast } from "react-toastify";
+import { ChevronLeftIcon, ChevronRightIcon } from '@heroicons/react/20/solid'
 import Search from "../../components/search"
 import UpdateRepo from "../../components/updaterepo";
 import {fetch_repo_list,fetch_sync_repo,fetch_delete_repo,fetch_update_repo} from "../../utils/web_fetch"
@@ -16,7 +17,7 @@ export default ({ session }) => {
   const [repolist, setrepolist] = useState([])
   const [repolistcount, setrepolistcount] = useState(0)
   const [openUpdateRepo, setOpenUpdateRepo] = useState(false); 
-
+  const [currentPage, setCurrentPage] = useState(1);
 
   const [repo_id_, set_repo_id] = useState(0); 
   const [repo_describe_, set_repo_describe] = useState(''); 
@@ -72,13 +73,13 @@ export default ({ session }) => {
   }
 
   useEffect(() => { 
-    getRepoList( { "page_id": 1, "page_size": 10 })
+    getRepoList( { "page_id": currentPage, "page_size": 10 })
   },[]);
   
 
   useEffect(() => { 
-    getRepoList( { "page_id": 1, "page_size": 10 })
-  },[repolistcount]);
+    getRepoList( { "page_id": currentPage, "page_size": 10 })
+  },[repolistcount,currentPage]);
   
   const [open, setOpen] = useState(false)
   function  showCreateRepo() {
@@ -218,7 +219,59 @@ return (
                           新建仓库
                         </div>
                       </li>
-                  </ul>
+                </ul>
+                
+                <div className="flex items-center justify-between  bg-transparent px-4 py-3 sm:px-6">
+      <div className="flex flex-1 justify-between sm:hidden">
+      <div
+          onClick={()=>{ if(currentPage>1){setCurrentPage(currentPage-1)} }}
+          className="relative inline-flex items-center rounded-md border dark:border-slate-800 dark:bg-slate-900/50 border-gray-300 bg-white dark:bg-slate-500 px-4 py-2 text-sm font-medium text-gray-700 dark:text-slate-300 hover:bg-gray-50"
+        >
+          Previous
+                    </div>
+        <div
+          
+          className="relative inline-flex items-center rounded-md border dark:border-slate-800 dark:bg-slate-900/50 border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-700 dark:text-slate-300 hover:bg-gray-50"
+        >
+          {currentPage}
+                    </div>      
+        <div
+          onClick={() => { setCurrentPage(currentPage + 1) }}
+          className="relative ml-3 inline-flex items-center rounded-md border border-gray-300 dark:border-slate-800 dark:bg-slate-900/50 bg-white px-4 py-2 text-sm font-medium text-gray-700 dark:text-slate-300 hover:bg-gray-50"
+        >
+          Next
+        </div>
+      </div>
+      <div className="hidden sm:flex sm:flex-1 sm:items-center sm:justify-center">
+        <div>
+          <nav className="isolate inline-flex -space-x-px rounded-md shadow-sm" aria-label="Pagination">
+            <div onClick={()=>{ if(currentPage>1){setCurrentPage(currentPage-1)} }}
+              className="relative inline-flex items-center rounded-l-md border border-gray-300 dark:border-slate-800 bg-white dark:bg-slate-900/50 px-2 py-2 text-sm font-medium text-gray-500 hover:bg-gray-50 focus:z-20"
+            >
+              <span className="sr-only">Previous</span>
+              <ChevronLeftIcon className="h-5 w-5" aria-hidden="true" />
+            </div>
+            {/* Current: "z-10 bg-indigo-50 border-indigo-500 text-indigo-600", Default: "bg-white border-gray-300 text-gray-500 hover:bg-gray-50" */}
+            <div
+              aria-current="page"
+              className="relative z-10 inline-flex items-center border border-indigo-500 dark:border-slate-800 bg-indigo-50 dark:bg-slate-900/50 px-4 py-2 text-sm font-medium text-indigo-600 focus:z-20"
+            >
+              {currentPage}
+            </div>
+            <div onClick={() => { setCurrentPage(currentPage + 1) }}
+              className="relative inline-flex items-center rounded-r-md border dark:border-slate-800 dark:bg-slate-900/50 border-gray-300 bg-white px-2 py-2 text-sm font-medium text-gray-500 hover:bg-gray-50 focus:z-20"
+            >
+              <span className="sr-only">Next</span>
+              <ChevronRightIcon className="h-5 w-5" aria-hidden="true" />
+            </div>
+          </nav>
+        </div>
+      </div>
+    </div>
+
+
+
+
                 </section>
       </div>
     </div>
