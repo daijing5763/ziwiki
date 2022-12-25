@@ -18,9 +18,13 @@ function myfunction(id:string) {
   for (let i = 0; i < lines.length; i++) {
     buffer.push(lines[i].textContent)
   }
+  let res=buffer.join("")
+  if (res == "") {
+    res = element.innerText || element.textContent;
+  }
    // Copy the text inside the text field
   //navigator.clipboard.writeText(buffer.join(""));
-  navigator.clipboard.writeText(buffer.join("")).then(() => {
+  navigator.clipboard.writeText(res).then(() => {
     /* Resolved - text copied to clipboard */
     toast("Copied to clipboard", { type: toast.TYPE.SUCCESS, autoClose:500  });
   },() => {

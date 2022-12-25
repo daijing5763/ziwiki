@@ -87,6 +87,6 @@ function MermaidCode({ graphDefinition }) {
       }
     }
   },[])
-  return graphDefinition ? <div className="flex items-center justify-center"><div className="grow hidden dark:block" dangerouslySetInnerHTML={{ __html: darkhtml }} /> <div className="grow block dark:hidden" dangerouslySetInnerHTML={{ __html: lighthtml }} /></div> : null;
+  return graphDefinition ? <div className="flex items-center justify-center"><div className="grow hidden dark:block" dangerouslySetInnerHTML={{ __html: darkhtml }} /><div className="hidden cl">{graphDefinition }</div> <div className="grow block dark:hidden" dangerouslySetInnerHTML={{ __html: lighthtml }} /></div> : null;
 }
 export default MermaidCode;

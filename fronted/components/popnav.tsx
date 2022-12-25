@@ -154,9 +154,9 @@ return (
                             />
                     </Link>
 
-                    <RiLogoutBoxLine className={`block w-6 h-6  hover:text-sky-500 cursor-pointer ${!signin && "hidden"}` } onClick={handleSignOut}  />
+                    <RiLogoutBoxLine className={`block w-6 h-6  hover:text-sky-500 cursor-pointer ${(!signin || route!="/wiki" ) && "hidden"}` } onClick={handleSignOut}  />
 
-                    <Link href="/auth/login" className={`flex items-center ${(signin || route=="/auth/login") && "hidden"}`}>
+                    <Link href="/auth/login" className={`flex items-center ${(signin || route=="/auth/login")  && "hidden"}`}>
                         <RiLoginBoxLine className={`block w-6 h-6  hover:text-sky-500 cursor-pointer` } />
                     </Link>
 
@@ -229,7 +229,7 @@ return (
                     onClick={handleSignOut}
                     className={`block w-full bg-gray-100 dark:bg-slate-700 px-5 py-3 text-center 
                         font-medium  dark:text-slate-100 hover:bg-sky-100/[10]
-                        dark:hover:bg-slate-600 ${!signin && "hidden"}`}
+                        dark:hover:bg-slate-600 ${(!signin && route!="/wiki" ) && "hidden"}`}
                     >
                     Sign Out
                 </a>
