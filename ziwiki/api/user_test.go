@@ -136,8 +136,7 @@ func TestCreateUserAPI(t *testing.T) {
 			body: gin.H{
 				"username": user.Username,
 				"password": password,
-
-				"email": "invalid-email",
+				"email":    "invalid-email",
 			},
 			buildStubs: func(store *mockdb.MockStore) {
 				store.EXPECT().

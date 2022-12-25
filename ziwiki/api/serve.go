@@ -50,6 +50,8 @@ func (server *Server) setupRouter() {
 	// })
 
 	authRoutes := router.Group("/").Use(authMiddleware(server.tokenMaker))
+	authRoutes.POST("/list_users", server.listUsers)
+	authRoutes.POST("/ban_user", server.banUser)
 	authRoutes.POST("/create_repo", server.createRepo)
 	authRoutes.POST("/get_repo", server.getRepo)
 	authRoutes.POST("/pull_repo", server.pullRepo)

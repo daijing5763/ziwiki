@@ -36,6 +36,21 @@ func (m *MockStore) EXPECT() *MockStoreMockRecorder {
 	return m.recorder
 }
 
+// BanUser mocks base method.
+func (m *MockStore) BanUser(arg0 context.Context, arg1 db.BanUserParams) (db.User, error) {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "BanUser", arg0, arg1)
+	ret0, _ := ret[0].(db.User)
+	ret1, _ := ret[1].(error)
+	return ret0, ret1
+}
+
+// BanUser indicates an expected call of BanUser.
+func (mr *MockStoreMockRecorder) BanUser(arg0, arg1 interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "BanUser", reflect.TypeOf((*MockStore)(nil).BanUser), arg0, arg1)
+}
+
 // CreateMarkdown mocks base method.
 func (m *MockStore) CreateMarkdown(arg0 context.Context, arg1 db.CreateMarkdownParams) (db.Markdown, error) {
 	m.ctrl.T.Helper()
@@ -270,6 +285,21 @@ func (m *MockStore) ListRepos(arg0 context.Context, arg1 db.ListReposParams) ([]
 func (mr *MockStoreMockRecorder) ListRepos(arg0, arg1 interface{}) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "ListRepos", reflect.TypeOf((*MockStore)(nil).ListRepos), arg0, arg1)
+}
+
+// ListUsers mocks base method.
+func (m *MockStore) ListUsers(arg0 context.Context, arg1 db.ListUsersParams) ([]db.User, error) {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "ListUsers", arg0, arg1)
+	ret0, _ := ret[0].([]db.User)
+	ret1, _ := ret[1].(error)
+	return ret0, ret1
+}
+
+// ListUsers indicates an expected call of ListUsers.
+func (mr *MockStoreMockRecorder) ListUsers(arg0, arg1 interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "ListUsers", reflect.TypeOf((*MockStore)(nil).ListUsers), arg0, arg1)
 }
 
 // QueryMarkdownRepo mocks base method.

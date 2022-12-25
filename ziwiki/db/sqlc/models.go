@@ -49,5 +49,6 @@ type User struct {
 	Username       string    `json:"username"`
 	Email          string    `json:"email"`
 	HashedPassword string    `json:"hashed_password"`
+	IsLocked       bool      `json:"is_locked"`
 	CreatedAt      time.Time `json:"created_at"`
 }

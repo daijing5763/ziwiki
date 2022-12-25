@@ -1,7 +1,7 @@
 import { backend_base_url,server_side_url,use_https_url } from "./env_variable"
 
 
-async function fetch_post(values: { [key: string]: string }, url: string, access_token: string) {
+async function fetch_post(values, url: string, access_token: string) {
   if (use_https_url == "false"){
     const options = {
       method: "POST",
@@ -76,4 +76,16 @@ export async function fetch_pull_repo(values: { [key: string]: string }, access_
 
 export async function fetch_register(values: { [key: string]: string }, access_token: string) {
   return fetch_post(values,`${backend_base_url}users`,access_token)
+}
+
+export async function fetch_list_users(values: { [key: string]: string }, access_token: string) {
+  return fetch_post(values,`${backend_base_url}list_users`,access_token)
+}
+
+interface banvalues {
+  id: number;
+  is_locked: boolean;
+}
+export async function fetch_ban_user(values, access_token: string) {
+  return fetch_post(values as banvalues,`${backend_base_url}ban_user`,access_token)
 }

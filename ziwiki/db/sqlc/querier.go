@@ -11,6 +11,7 @@ import (
 )
 
 type Querier interface {
+	BanUser(ctx context.Context, arg BanUserParams) (User, error)
 	CreateMarkdown(ctx context.Context, arg CreateMarkdownParams) (Markdown, error)
 	CreateRepo(ctx context.Context, arg CreateRepoParams) (Repo, error)
 	CreateSession(ctx context.Context, arg CreateSessionParams) (Session, error)
@@ -27,6 +28,7 @@ type Querier interface {
 	GetUser(ctx context.Context, username string) (User, error)
 	GetUserForUpdate(ctx context.Context, id int64) (User, error)
 	ListRepos(ctx context.Context, arg ListReposParams) ([]Repo, error)
+	ListUsers(ctx context.Context, arg ListUsersParams) ([]User, error)
 	QueryMarkdownRepo(ctx context.Context, arg QueryMarkdownRepoParams) ([]QueryMarkdownRepoRow, error)
 	QueryMarkdownUser(ctx context.Context, arg QueryMarkdownUserParams) ([]QueryMarkdownUserRow, error)
 	UpdateMarkdown(ctx context.Context, arg UpdateMarkdownParams) (Markdown, error)

@@ -2,6 +2,7 @@ package api
 
 import (
 	"database/sql"
+	"errors"
 	"net/http"
 	"time"
 
@@ -9,6 +10,7 @@ import (
 	"github.com/google/uuid"
 	"github.com/lib/pq"
 	db "github.com/zdlpsina/ziwiki/db/sqlc"
+	"github.com/zdlpsina/ziwiki/token"
 	"github.com/zdlpsina/ziwiki/util"
 )
 
@@ -44,6 +46,19 @@ func (server *Server) createUser(ctx *gin.Context) {
 	hashedPassword, err := util.HashPassword(req.Password)
 	if err != nil {
 		ctx.JSON(http.StatusInternalServerError, errorResponse(err))
+		return
+	}
+
+	admin_user, err := server.store.GetUser(ctx, "admin")
+	if err != nil {
+		if err != sql.ErrNoRows {
+			ctx.JSON(http.StatusInternalServerError, errorResponse(err))
+			return
+		}
+	}
+	if admin_user.IsLocked {
+		err = errors.New("currently, register is not open")
+		ctx.JSON(http.StatusUnauthorized, errorResponse(err))
 		return
 	}
 
@@ -107,6 +122,14 @@ func (server *Server) loginUser(ctx *gin.Context) {
 		return
 	}
 
+	if user.Username != "admin" {
+		if user.IsLocked {
+			err = errors.New("currently user is be locked")
+			ctx.JSON(http.StatusUnauthorized, errorResponse(err))
+			return
+		}
+	}
+
 	accessToken, accessPayload, err := server.tokenMaker.CreateToken(
 		user.ID,
 		server.config.AccessTokenDuration,
@@ -148,4 +171,73 @@ func (server *Server) loginUser(ctx *gin.Context) {
 		User:                  newUserResponse(user),
 	}
 	ctx.JSON(http.StatusOK, rsp)
+}
+
+type listUsersRequest struct {
+	PageID   int32 `json:"page_id" binding:"required,min=1"`
+	PageSize int32 `json:"page_size" binding:"required,min=5,max=10"`
+}
+
+func (server *Server) listUsers(ctx *gin.Context) {
+	var req listUsersRequest
+	if err := ctx.ShouldBindJSON(&req); err != nil {
+		ctx.JSON(http.StatusBadRequest, errorResponse(err))
+		return
+	}
+	admin_user, err := server.store.GetUser(ctx, "admin")
+	if err != nil {
+		ctx.JSON(http.StatusUnauthorized, errorResponse(err))
+		return
+	}
+	authPayload := ctx.MustGet(authorizationPayloadKey).(*token.Payload)
+	if authPayload.UserID != admin_user.ID {
+		err := errors.New("current user is not admin user")
+		ctx.JSON(http.StatusUnauthorized, errorResponse(err))
+		return
+	}
+	arg := db.ListUsersParams{
+		Limit:  req.PageSize,
+		Offset: (req.PageID - 1) * req.PageSize,
+	}
+
+	repos, err := server.store.ListUsers(ctx, arg)
+	if err != nil {
+		ctx.JSON(http.StatusInternalServerError, errorResponse(err))
+		return
+	}
+	ctx.JSON(http.StatusOK, repos)
+}
+
+type banUserRequest struct {
+	ID        int64 `json:"id" binding:"required,min=1"`
+	IS_LOCKED *bool `json:"is_locked" binding:"required"`
+}
+
+func (server *Server) banUser(ctx *gin.Context) {
+	var req banUserRequest
+	if err := ctx.ShouldBindJSON(&req); err != nil {
+		ctx.JSON(http.StatusBadRequest, errorResponse(err))
+		return
+	}
+	admin_user, err := server.store.GetUser(ctx, "admin")
+	if err != nil {
+		ctx.JSON(http.StatusUnauthorized, errorResponse(err))
+		return
+	}
+	authPayload := ctx.MustGet(authorizationPayloadKey).(*token.Payload)
+	if authPayload.UserID != admin_user.ID {
+		err := errors.New("current user is not admin user")
+		ctx.JSON(http.StatusUnauthorized, errorResponse(err))
+		return
+	}
+	arg := db.BanUserParams{
+		ID:       req.ID,
+		IsLocked: *req.IS_LOCKED,
+	}
+	repos, err := server.store.BanUser(ctx, arg)
+	if err != nil {
+		ctx.JSON(http.StatusInternalServerError, errorResponse(err))
+		return
+	}
+	ctx.JSON(http.StatusOK, repos)
 }
