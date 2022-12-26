@@ -5,18 +5,44 @@ import { authOptions } from './api/auth/[...nextauth]'
 import { unstable_getServerSession } from "next-auth/next"
 import { toast } from "react-toastify";
 import Search from "../components/search"
+import UserTable from "../components/usertable"
+import  Map from '../components/map'
 import {AiFillLock,AiFillUnlock} from "react-icons/ai"
-import { fetch_list_users, fetch_ban_user } from "../utils/web_fetch"
+import { fetch_list_users, fetch_ban_user,fetch_list_sessions,fetch_list_active_sessions,fetch_ban_session } from "../utils/web_fetch"
 import { ChevronLeftIcon, ChevronRightIcon } from '@heroicons/react/20/solid'
+import SessionTable from "../components/sessiontable";
 export default ({ session }) => {
   const [useSearch, setUseSearch] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
+  const [currentsessionPage, setsessionpage] = useState(1);
+  const [currentactivesessionPage, setactivesessionpage] = useState(1);
   const [userlist, setuserlist] = useState([])
-  const [changeuser,setchangeuser] = useState(false)
+  const [sessionlist, setsessionlist] = useState([])
+  const [activesessionlist, setactivesessionlist] = useState([])
+  const [changeuser, setchangeuser] = useState(false)
+  const [changesession, setchangesession] = useState(false)
+  const [changeactivesession,setchangeactivesession] = useState(false)
   async function getUserList(values) {
     fetch_list_users(values, session.access_token).then(data => {
       if (data && !data.error) {
         setuserlist(data);
+      }
+    })
+  }
+
+  async function getSessionList(values) {
+    fetch_list_sessions(values, session.access_token).then(data => {
+      if (data && !data.error) {
+        console.log("session:",data)
+        setsessionlist(data);
+      }
+    })
+  }
+
+  async function getActiveSessionList(values) {
+    fetch_list_active_sessions(values, session.access_token).then(data => {
+      if (data && !data.error) {
+        setactivesessionlist(data);
       }
     })
   }
@@ -33,9 +59,27 @@ export default ({ session }) => {
     })
   }
 
+  async function banSession(values) {
+    const id = toast("正在更新会话状态...", { type: toast.TYPE.INFO, isLoading: true });
+    fetch_ban_session(values, session.access_token).then(data => {
+      if (data && data.error) {
+        toast.update(id, { render: "更新失败:" + data.error, type: toast.TYPE.ERROR, isLoading: false, autoClose: 2000 });
+      } else {
+        toast.update(id, { render: "更新成功", type: toast.TYPE.SUCCESS, isLoading: false, autoClose: 1000 });
+        setchangesession(!changesession)
+      }
+    })
+  }
+
   useEffect(() => { 
-    getUserList( { "page_id": currentPage, "page_size": 10 })
-  },[changeuser,currentPage]);
+    getUserList({ "page_id": currentPage, "page_size": 10 })
+  }, [changeuser, currentPage]);
+  useEffect(() => { 
+    getSessionList({ "page_id": currentsessionPage, "page_size": 10 })
+  }, [changesession,changeactivesession, currentsessionPage]);
+  useEffect(() => { 
+    getActiveSessionList( { "page_id": currentsessionPage, "page_size": 10 })
+  },[changesession,changeactivesession,currentactivesessionPage]);
   
   
   const [open, setOpen] = useState(false)
@@ -71,136 +115,15 @@ return (
               </div>
               <div className="lg:col-span-5 xl:col-span-6 flex flex-col">
                 <div className="relative z-10 rounded-xl bg-white shadow-xl ring-1 ring-slate-900/5 overflow-hidden my-auto xl:mt-18 dark:bg-slate-800">
-                <section>
-                  <header className="rounded-t-xl text-lg h-36 space-y-4 p-4 sm:px-8 sm:py-6 lg:p-4 xl:px-8 xl:py-6 dark:highlight-white/10">
-                    <div className="flex items-center justify-between">
-                      <h2 className="font-semibold text-slate-900 dark:text-white">
-                        Projects
-                      </h2>
-                      <div  onClick={showCreateRepo}  className="group flex items-center rounded-md bg-blue-500 text-white text-sm font-medium pl-2 pr-3 py-2 cursor-pointer shadow-sm hover:bg-blue-400">
-                        <svg width="20" height="20" fill="currentColor" className="mr-2">
-                          <path d="M10 5a1 1 0 0 1 1 1v3h3a1 1 0 1 1 0 2h-3v3a1 1 0 1 1-2 0v-3H6a1 1 0 1 1 0-2h3V6a1 1 0 0 1 1-1Z">
-                          </path>
-                        </svg>
-                        New
-                      </div>
-                    </div>
-                    <div className="group relative rounded-md dark:bg-slate-700 dark:highlight-white/10 dark:focus-within:bg-transparent">
-                    <button onClick={()=>{setUseSearch(!useSearch)}} type="button" className="flex w-full  items-center text-sm leading-6 text-slate-400 rounded-md ring-1 ring-slate-900/10 shadow-sm py-1.5 pl-2 pr-3 hover:ring-slate-300 dark:hover:ring-slate-700 dark:bg-slate-700 dark:highlight-white/5 dark:hover:bg-slate-700">
-                      <svg width="24" height="24" fill="none" aria-hidden="true" className="mr-3 flex-none"><path d="m19 19-3.5-3.5" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"></path><circle cx="11" cy="11" r="6" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"></circle></svg>
-                      Quick search...
-                      <span className="ml-auto pl-3 flex-none text-xs font-semibold">⌘K</span>
-                    </button>
-                    </div>
-                </header>
 
+              <UserTable userlist={userlist} banUser={banUser} currentPage={currentPage} setCurrentPage={setCurrentPage} />
+              <SessionTable sessionlist={sessionlist} banSession={banSession} currentPage={currentsessionPage} setCurrentPage={setsessionpage} />
+              <SessionTable sessionlist={activesessionlist} banSession={banSession} currentPage={currentactivesessionPage} setCurrentPage={setactivesessionpage} />
 
-
-
-                <div className="overflow-x-auto px-1 md:px-8 flex -mx-4 sm:-mx-6 md:mx-0">
-                  <div className="flex-none min-w-full px-4 sm:px-6 md:px-0 overflow-hidden lg:overflow-auto scrollbar:!w-1.5 scrollbar:!h-1.5 scrollbar:bg-transparent scrollbar-track:!bg-slate-100 scrollbar-thumb:!rounded scrollbar-thumb:!bg-slate-300 scrollbar-track:!rounded dark:scrollbar-track:!bg-slate-500/[0.16] dark:scrollbar-thumb:!bg-slate-500/50">
-                    <table className="w-full text-left border-collapse">
-                      <thead>
-                        <tr>
-                          <th className="sticky z-10 top-0 text-sm leading-6 font-semibold text-slate-700 bg-white p-0 dark:bg-slate-900 dark:text-slate-300">
-                            <div className="py-2 pl-2 border-b border-slate-200 dark:border-slate-400/20">
-                              username
-                            </div>
-                          </th>
-                          <th className="sticky z-10 top-0 text-sm leading-6 font-semibold text-slate-700 bg-white p-0 dark:bg-slate-900 dark:text-slate-300">
-                            <div className="py-2 pl-2 border-b border-slate-200 dark:border-slate-400/20">
-                              email
-                            </div>
-                          </th>
-                          <th className="sticky z-10 top-0 text-sm leading-6 font-semibold text-slate-700 bg-white p-0 dark:bg-slate-900 dark:text-slate-300">
-                            <div className="py-2 pl-2 border-b border-slate-200 dark:border-slate-400/20">
-                              is_locked
-                            </div>
-                          </th>
-                          <th className="sticky z-10 top-0 text-sm leading-6 font-semibold text-slate-700 bg-white p-0 dark:bg-slate-900 dark:text-slate-300">
-                            <div className="py-2 pl-2 border-b border-slate-200 dark:border-slate-400/20">
-                              用户状态
-                            </div>
-                          </th>
-                        </tr>
-                      </thead>
-                      <tbody className="align-baseline">
-                      {userlist.map((user, index) => (
-                        <tr key={index}>
-                          <td translate="no" className="py-2 pr-2 font-mono font-medium text-xs leading-6 text-sky-500 whitespace-nowrap dark:text-sky-400">
-                            {user.username}
-                          </td>
-                          <td translate="no" className="py-2 pr-2 font-mono font-medium text-xs leading-6 text-sky-500 whitespace-nowrap dark:text-sky-400">
-                            {user.email}
-                          </td>
-                          <td translate="no" className="py-2 pr-2 font-mono font-medium text-xs leading-6 text-sky-500 whitespace-nowrap dark:text-sky-400">
-                            {user.is_locked.toString()}
-                          </td>
-                          <td translate="no" className="py-2 pr-2 font-mono font-medium text-xs leading-6 text-sky-500 whitespace-nowrap dark:text-sky-400">
-                            
-                          <AiFillLock onClick={() => { banUser({ "id": user.id,"is_locked":false })}} className={`${!user.is_locked && "hidden"}`} />
-                          <AiFillUnlock onClick={() => { banUser({ "id": user.id,"is_locked":true })}}  className={`${user.is_locked && "hidden"}`} />
-                          </td>
-                      </tr>
-                    ))}
-                      </tbody>
-                    </table>
-                    <div className="sticky bottom-0 h-px -mt-px bg-slate-200 dark:bg-slate-400/20">
-                    </div>
-                  </div>
-                </div>
-
-                <div className="flex items-center justify-between  bg-transparent px-4 py-3 sm:px-6">
-      <div className="flex flex-1 justify-between sm:hidden">
-      <div
-          onClick={()=>{ if(currentPage>1){setCurrentPage(currentPage-1)} }}
-          className="relative inline-flex items-center rounded-md border dark:border-slate-800 dark:bg-slate-900/50 border-gray-300 bg-white dark:bg-slate-500 px-4 py-2 text-sm font-medium text-gray-700 dark:text-slate-300 hover:bg-gray-50"
-        >
-          Previous
-                    </div>
-        <div
-          
-          className="relative inline-flex items-center rounded-md border dark:border-slate-800 dark:bg-slate-900/50 border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-700 dark:text-slate-300 hover:bg-gray-50"
-        >
-          {currentPage}
-                    </div>      
-        <div
-          onClick={() => { setCurrentPage(currentPage + 1) }}
-          className="relative ml-3 inline-flex items-center rounded-md border border-gray-300 dark:border-slate-800 dark:bg-slate-900/50 bg-white px-4 py-2 text-sm font-medium text-gray-700 dark:text-slate-300 hover:bg-gray-50"
-        >
-          Next
-        </div>
-      </div>
-      <div className="hidden sm:flex sm:flex-1 sm:items-center sm:justify-center">
-        <div>
-          <nav className="isolate inline-flex -space-x-px rounded-md shadow-sm" aria-label="Pagination">
-            <div onClick={()=>{ if(currentPage>1){setCurrentPage(currentPage-1)} }}
-              className="relative inline-flex items-center rounded-l-md border border-gray-300 dark:border-slate-800 bg-white dark:bg-slate-900/50 px-2 py-2 text-sm font-medium text-gray-500 hover:bg-gray-50 focus:z-20"
-            >
-              <span className="sr-only">Previous</span>
-              <ChevronLeftIcon className="h-5 w-5" aria-hidden="true" />
+              <div className="hidden md:flex pt-4 ">
+                <Map/>
+              </div>
             </div>
-            {/* Current: "z-10 bg-indigo-50 border-indigo-500 text-indigo-600", Default: "bg-white border-gray-300 text-gray-500 hover:bg-gray-50" */}
-            <div
-              aria-current="page"
-              className="relative z-10 inline-flex items-center border border-indigo-500 dark:border-slate-800 bg-indigo-50 dark:bg-slate-900/50 px-4 py-2 text-sm font-medium text-indigo-600 focus:z-20"
-            >
-              {currentPage}
-            </div>
-            <div onClick={() => { setCurrentPage(currentPage + 1) }}
-              className="relative inline-flex items-center rounded-r-md border dark:border-slate-800 dark:bg-slate-900/50 border-gray-300 bg-white px-2 py-2 text-sm font-medium text-gray-500 hover:bg-gray-50 focus:z-20"
-            >
-              <span className="sr-only">Next</span>
-              <ChevronRightIcon className="h-5 w-5" aria-hidden="true" />
-            </div>
-          </nav>
-        </div>
-      </div>
-    </div>
-
-
-                </section>
-      </div>
     </div>
   </div>
   </div>
