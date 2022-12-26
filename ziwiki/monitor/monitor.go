@@ -8,11 +8,17 @@ import (
 	"strconv"
 	"strings"
 
+	"github.com/Jeffail/tunny"
 	"github.com/dietsche/rfsnotify"
 	db "github.com/zdlpsina/ziwiki/db/sqlc"
 	genlayout "github.com/zdlpsina/ziwiki/jsonlayout"
 	render "github.com/zdlpsina/ziwiki/markdown/render"
 )
+
+type RenderPara struct {
+	path string
+	op   uint32
+}
 
 func RenderLayout(UserID string, RepoID string, store db.Store) bool {
 	user_id, err := strconv.ParseInt(UserID, 10, 64)
@@ -32,29 +38,35 @@ func RenderLayout(UserID string, RepoID string, store db.Store) bool {
 		return false
 	}
 
-	arg := db.CreateMarkdownParams{
+	arg_isexist := db.GetMarkdownParams{
 		Mdhref: "layout.json",
 		UserID: user_id,
 		RepoID: repo_id,
-		Mdtext: string_layout,
 	}
-	Markdown, err := store.CreateMarkdown(context.Background(), arg)
-	_ = Markdown
+	_, err = store.GetMarkdown(context.Background(), arg_isexist)
 	if err != nil {
-		fmt.Println(err) //create fail may exist
+		//not exist & create
+		arg := db.CreateMarkdownParams{
+			Mdhref: "layout.json",
+			UserID: user_id,
+			RepoID: repo_id,
+			Mdtext: string_layout,
+		}
+		_, err = store.CreateMarkdown(context.Background(), arg)
+		if err != nil {
+			return false
+		}
+	} else {
 		arg_update := db.UpdateMarkdownParams{
 			Mdhref: "layout.json",
 			Mdtext: string_layout,
 			UserID: user_id,
 			RepoID: repo_id,
 		}
-		Markdown, err := store.UpdateMarkdown(context.Background(), arg_update)
-		_ = Markdown
+		_, err = store.UpdateMarkdown(context.Background(), arg_update)
 		if err != nil {
-			fmt.Println(err) //create fail may exist
 			return false
 		}
-		return true
 	}
 	return true
 }
@@ -97,7 +109,7 @@ func RenderLogic(path string, op uint32, store db.Store) bool {
 	}
 	return false
 }
-func iterFS(path string, mdtype int, store db.Store) {
+func iterFS(p *tunny.Pool, path string, mdtype int, store db.Store) {
 	files, err := os.ReadDir(path)
 	if err != nil {
 		log.Fatal(err)
@@ -105,13 +117,15 @@ func iterFS(path string, mdtype int, store db.Store) {
 	for _, f := range files {
 		if f.Type().IsRegular() && strings.HasSuffix(f.Name(), ".md") {
 			if mdtype == 1 {
-				RenderLogic(path+"/"+f.Name(), 1, store)
+				p.Process(RenderPara{path: path + "/" + f.Name(), op: 1})
+				//RenderLogic(path+"/"+f.Name(), 1, store)
 			} else if mdtype == 3 {
-				RenderLogic(path+"/"+f.Name(), 3, store)
+				p.Process(RenderPara{path: path + "/" + f.Name(), op: 3})
+				//RenderLogic(path+"/"+f.Name(), 3, store)
 			}
 		}
 		if f.IsDir() {
-			iterFS(path+"/"+f.Name(), mdtype, store)
+			iterFS(p, path+"/"+f.Name(), mdtype, store)
 		}
 	}
 }
@@ -121,7 +135,15 @@ func MonitorFS(store db.Store, wiki_path string) {
 	if err != nil {
 		log.Fatal("NewWatcher failed: ", err)
 	}
+
 	defer watcher.Close()
+
+	numCPUs := 10
+	p := tunny.NewFunc(numCPUs, func(payload interface{}) interface{} {
+		para := payload.(RenderPara)
+		return RenderLogic(para.path, para.op, store)
+	})
+	defer p.Close()
 
 	done := make(chan bool)
 	go func() {
@@ -138,13 +160,14 @@ func MonitorFS(store db.Store, wiki_path string) {
 				} else {
 					if event.Op == 1 {
 						//create folder
-						iterFS(event.Name, 1, store)
+						iterFS(p, event.Name, 1, store)
 					} else if event.Op == 3 {
 						// delete folder
-						iterFS(event.Name, 3, store)
+						iterFS(p, event.Name, 3, store)
 					}
 				}
-				RenderLogic(event.Name, uint32(event.Op), store)
+				p.Process(RenderPara{path: event.Name, op: uint32(event.Op)})
+				//RenderLogic(event.Name, uint32(event.Op), store)
 			case err, ok := <-watcher.Errors:
 				if !ok {
 					return
