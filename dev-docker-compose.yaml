@@ -13,7 +13,9 @@ services:
   #     - api
   #     - nextapp
   postgres:
-    image: postgres_image_alpine
+    build:
+      context: ./build_image_on_alpine
+      dockerfile: ./postgres.Dockerfile
     environment:
       - POSTGRES_USER=root
       - POSTGRES_PASSWORD=secret
@@ -23,10 +25,9 @@ services:
     ports:
       - "5432:5432"
   api:
-    # image: run_image_alpine
     build:
       context: ./
-      dockerfile: ./build_image_on_alpine/DockerfileRun
+      dockerfile: ./build_image_on_alpine/api.Dockerfile
     expose:
       - "8080"
     ports:
@@ -70,10 +71,9 @@ services:
   #   # ports:
   #   #   - 80:3000
   monitor:
-    # image: monitor_image_alpine
     build:
       context: ./
-      dockerfile: ./build_image_on_alpine/DockerfileMonitor
+      dockerfile: ./build_image_on_alpine/monitor.Dockerfile
     environment:
       - DB_SOURCE=postgresql://root:secret@postgres:5432/ziwiki?sslmode=disable
     depends_on:

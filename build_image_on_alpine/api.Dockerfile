@@ -13,7 +13,7 @@ RUN export GOPROXY=https://goproxy.cn/ \
 FROM alpine:3.16
 WORKDIR /app
 COPY --from=builder /app/bazel-bin/cmd/server/server_/server .
-COPY ./build_image_on_alpine/migrate.linux-amd64 /usr/bin/migrate
+COPY ./build_image_on_alpine/util/migrate.linux-amd64 /usr/bin/migrate
 COPY ziwiki/app.env .
 COPY ziwiki/start.sh .
 COPY ziwiki/wait-for.sh .
