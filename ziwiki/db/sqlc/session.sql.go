@@ -12,6 +12,34 @@ import (
 	"github.com/google/uuid"
 )
 
+const banSession = `-- name: BanSession :one
+UPDATE sessions
+SET is_blocked = $2
+WHERE id = $1
+RETURNING id, user_id, refresh_token, user_agent, client_ip, is_blocked, expires_at, created_at
+`
+
+type BanSessionParams struct {
+	ID        uuid.UUID `json:"id"`
+	IsBlocked bool      `json:"is_blocked"`
+}
+
+func (q *Queries) BanSession(ctx context.Context, arg BanSessionParams) (Session, error) {
+	row := q.db.QueryRowContext(ctx, banSession, arg.ID, arg.IsBlocked)
+	var i Session
+	err := row.Scan(
+		&i.ID,
+		&i.UserID,
+		&i.RefreshToken,
+		&i.UserAgent,
+		&i.ClientIp,
+		&i.IsBlocked,
+		&i.ExpiresAt,
+		&i.CreatedAt,
+	)
+	return i, err
+}
+
 const createSession = `-- name: CreateSession :one
 INSERT INTO sessions (
   id,
@@ -79,4 +107,93 @@ func (q *Queries) GetSession(ctx context.Context, id uuid.UUID) (Session, error)
 		&i.CreatedAt,
 	)
 	return i, err
+}
+
+const listActiveSessions = `-- name: ListActiveSessions :many
+SELECT id, user_id, refresh_token, user_agent, client_ip, is_blocked, expires_at, created_at FROM sessions
+WHERE is_blocked = false and  expires_at > NOW()
+ORDER BY id
+LIMIT $1
+OFFSET $2
+`
+
+type ListActiveSessionsParams struct {
+	Limit  int32 `json:"limit"`
+	Offset int32 `json:"offset"`
+}
+
+func (q *Queries) ListActiveSessions(ctx context.Context, arg ListActiveSessionsParams) ([]Session, error) {
+	rows, err := q.db.QueryContext(ctx, listActiveSessions, arg.Limit, arg.Offset)
+	if err != nil {
+		return nil, err
+	}
+	defer rows.Close()
+	items := []Session{}
+	for rows.Next() {
+		var i Session
+		if err := rows.Scan(
+			&i.ID,
+			&i.UserID,
+			&i.RefreshToken,
+			&i.UserAgent,
+			&i.ClientIp,
+			&i.IsBlocked,
+			&i.ExpiresAt,
+			&i.CreatedAt,
+		); err != nil {
+			return nil, err
+		}
+		items = append(items, i)
+	}
+	if err := rows.Close(); err != nil {
+		return nil, err
+	}
+	if err := rows.Err(); err != nil {
+		return nil, err
+	}
+	return items, nil
+}
+
+const listSessions = `-- name: ListSessions :many
+SELECT id, user_id, refresh_token, user_agent, client_ip, is_blocked, expires_at, created_at FROM sessions
+ORDER BY id
+LIMIT $1
+OFFSET $2
+`
+
+type ListSessionsParams struct {
+	Limit  int32 `json:"limit"`
+	Offset int32 `json:"offset"`
+}
+
+func (q *Queries) ListSessions(ctx context.Context, arg ListSessionsParams) ([]Session, error) {
+	rows, err := q.db.QueryContext(ctx, listSessions, arg.Limit, arg.Offset)
+	if err != nil {
+		return nil, err
+	}
+	defer rows.Close()
+	items := []Session{}
+	for rows.Next() {
+		var i Session
+		if err := rows.Scan(
+			&i.ID,
+			&i.UserID,
+			&i.RefreshToken,
+			&i.UserAgent,
+			&i.ClientIp,
+			&i.IsBlocked,
+			&i.ExpiresAt,
+			&i.CreatedAt,
+		); err != nil {
+			return nil, err
+		}
+		items = append(items, i)
+	}
+	if err := rows.Close(); err != nil {
+		return nil, err
+	}
+	if err := rows.Err(); err != nil {
+		return nil, err
+	}
+	return items, nil
 }

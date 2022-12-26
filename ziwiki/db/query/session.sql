@@ -14,3 +14,22 @@ INSERT INTO sessions (
 -- name: GetSession :one
 SELECT * FROM sessions
 WHERE id = $1 LIMIT 1;
+
+-- name: ListActiveSessions :many
+SELECT * FROM sessions
+WHERE is_blocked = false and  expires_at > NOW()
+ORDER BY id
+LIMIT $1
+OFFSET $2;
+
+-- name: ListSessions :many
+SELECT * FROM sessions
+ORDER BY id
+LIMIT $1
+OFFSET $2;
+
+-- name: BanSession :one
+UPDATE sessions
+SET is_blocked = $2
+WHERE id = $1
+RETURNING *;
