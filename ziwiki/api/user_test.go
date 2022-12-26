@@ -51,6 +51,7 @@ func EqCreateUserParams(arg db.CreateUserParams, password string) gomock.Matcher
 
 func TestCreateUserAPI(t *testing.T) {
 	user, password := randomUser(t)
+	admin_user, _ := adminUser(t)
 
 	testCases := []struct {
 		name          string
@@ -71,9 +72,14 @@ func TestCreateUserAPI(t *testing.T) {
 					Email:    user.Email,
 				}
 				store.EXPECT().
+					GetUser(gomock.Any(), "admin").
+					Times(1).
+					Return(admin_user, nil)
+				store.EXPECT().
 					CreateUser(gomock.Any(), EqCreateUserParams(arg, password)).
 					Times(1).
 					Return(user, nil)
+
 			},
 			checkResponse: func(recorder *httptest.ResponseRecorder) {
 				require.Equal(t, http.StatusOK, recorder.Code)
@@ -88,6 +94,10 @@ func TestCreateUserAPI(t *testing.T) {
 				"email":    user.Email,
 			},
 			buildStubs: func(store *mockdb.MockStore) {
+				store.EXPECT().
+					GetUser(gomock.Any(), "admin").
+					Times(1).
+					Return(admin_user, nil)
 				store.EXPECT().
 					CreateUser(gomock.Any(), gomock.Any()).
 					Times(1).
@@ -105,6 +115,10 @@ func TestCreateUserAPI(t *testing.T) {
 				"email":    user.Email,
 			},
 			buildStubs: func(store *mockdb.MockStore) {
+				store.EXPECT().
+					GetUser(gomock.Any(), "admin").
+					Times(1).
+					Return(admin_user, nil)
 				store.EXPECT().
 					CreateUser(gomock.Any(), gomock.Any()).
 					Times(1).
@@ -321,6 +335,19 @@ func randomUser(t *testing.T) (user db.User, password string) {
 
 	user = db.User{
 		Username:       util.RandomUsername(),
+		HashedPassword: hashedPassword,
+		Email:          util.RandomEmail(),
+	}
+	return
+}
+
+func adminUser(t *testing.T) (user db.User, password string) {
+	password = util.RandomString(6)
+	hashedPassword, err := util.HashPassword(password)
+	require.NoError(t, err)
+
+	user = db.User{
+		Username:       "admin",
 		HashedPassword: hashedPassword,
 		Email:          util.RandomEmail(),
 	}
