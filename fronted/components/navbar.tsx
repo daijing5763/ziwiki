@@ -51,7 +51,7 @@ export default function NavBar({ NavBarOpen, setNavBarOpen, useSearch, setUseSea
       if (repo_info && !repo_info.error) {
         set_repo_from(repo_info.repo_from)
         set_repo_git(repo_info.repo_git)
-        console.log(repo_from)
+        // console.log(repo_from)
       }
     })
   }

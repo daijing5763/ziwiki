@@ -2,6 +2,8 @@ package api
 
 import (
 	"fmt"
+	"log"
+	"net/http"
 	"strconv"
 
 	"github.com/gin-contrib/cors"
@@ -45,6 +47,18 @@ func (server *Server) setupRouter() {
 	router.POST("/users/login", server.loginUser)
 	router.POST("/tokens/renew_access", server.renewAccessToken)
 	router.Static("/static_get", "/tmp/wiki")
+
+	router.MaxMultipartMemory = 8 << 20 // 8 MiB
+	router.POST("/upload", func(c *gin.Context) {
+		// single file
+		file, _ := c.FormFile("file")
+		log.Println(file.Filename)
+		dst := "/tmp/wiki/"
+		// Upload the file to specific dst.
+		c.SaveUploadedFile(file, dst)
+
+		c.String(http.StatusOK, fmt.Sprintf("'%s' uploaded!", file.Filename))
+	})
 	// router.GET("/static", func(c *gin.Context) {
 	// 	c.File("/tmp/wiki/0/4/case1.md")
 	// })
@@ -52,6 +66,7 @@ func (server *Server) setupRouter() {
 	authRoutes := router.Group("/").Use(authMiddleware(server.tokenMaker))
 	authRoutes.POST("/list_users", server.listUsers)
 	authRoutes.POST("/ban_user", server.banUser)
+	authRoutes.POST("/update_user", server.updateUser)
 	authRoutes.POST("/list_active_sessions", server.listActiveSession)
 	authRoutes.POST("/list_sessions", server.listSession)
 	authRoutes.POST("/ban_session", server.banSession)

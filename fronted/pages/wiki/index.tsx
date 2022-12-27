@@ -1,16 +1,17 @@
 import Link from "next/link";
-import { getSession } from 'next-auth/react'
-import PopNav from "../../components/popnav"
-import CreateRepo from '../../components/createrepo'
-import { Fragment, useRef, useState,useEffect } from 'react'
-import { AiFillGithub, AiFillGitlab ,AiFillDelete,AiOutlineDelete,AiOutlineSync,AiOutlineEdit} from "react-icons/ai"
+import dynamic from 'next/dynamic'
+import { useState,useEffect } from 'react'
+import PopNav from "../../components/popnav";
+import CreateRepo from "../../components/createrepo";
+const Search = dynamic(() => import('../../components/search'))
+const UpdateRepo = dynamic(() => import('../../components/updaterepo'))
+
+import { AiFillGithub, AiFillGitlab,AiOutlineDelete,AiOutlineSync,AiOutlineEdit} from "react-icons/ai"
 import { SiGitee } from "react-icons/si"
 import { authOptions } from '../api/auth/[...nextauth]'
 import { unstable_getServerSession } from "next-auth/next"
 import { toast } from "react-toastify";
 import { ChevronLeftIcon, ChevronRightIcon } from '@heroicons/react/20/solid'
-import Search from "../../components/search"
-import UpdateRepo from "../../components/updaterepo";
 import {fetch_repo_list,fetch_sync_repo,fetch_delete_repo,fetch_update_repo} from "../../utils/web_fetch"
 export default ({ session }) => {
   const [useSearch, setUseSearch] = useState(false);
@@ -18,7 +19,6 @@ export default ({ session }) => {
   const [repolistcount, setrepolistcount] = useState(0)
   const [openUpdateRepo, setOpenUpdateRepo] = useState(false); 
   const [currentPage, setCurrentPage] = useState(1);
-
   const [repo_id_, set_repo_id] = useState(0); 
   const [repo_describe_, set_repo_describe] = useState(''); 
   const [repo_from_, set_repo_from] = useState(''); 
@@ -251,7 +251,6 @@ return (
               <span className="sr-only">Previous</span>
               <ChevronLeftIcon className="h-5 w-5" aria-hidden="true" />
             </div>
-            {/* Current: "z-10 bg-indigo-50 border-indigo-500 text-indigo-600", Default: "bg-white border-gray-300 text-gray-500 hover:bg-gray-50" */}
             <div
               aria-current="page"
               className="relative z-10 inline-flex items-center border border-indigo-500 dark:border-slate-800 bg-indigo-50 dark:bg-slate-900/50 px-4 py-2 text-sm font-medium text-indigo-600 focus:z-20"
@@ -296,6 +295,10 @@ export async function getServerSideProps(context) {
         }
     }
   }
+  context.res.setHeader(
+    'Cache-Control',
+    'public, s-maxage=10, stale-while-revalidate=59'
+  )
   return {
     props: {
       session,

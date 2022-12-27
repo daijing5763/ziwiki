@@ -241,3 +241,31 @@ func (server *Server) banUser(ctx *gin.Context) {
 	}
 	ctx.JSON(http.StatusOK, repos)
 }
+
+type updateUserRequest struct {
+	Bio   string `json:"bio" binding:"required"`
+	Email string `json:"email" binding:"required"`
+}
+
+func (server *Server) updateUser(ctx *gin.Context) {
+	var req updateUserRequest
+	if err := ctx.ShouldBindJSON(&req); err != nil {
+		ctx.JSON(http.StatusBadRequest, errorResponse(err))
+		return
+	}
+
+	authPayload := ctx.MustGet(authorizationPayloadKey).(*token.Payload)
+
+	arg := db.UpdateUserParams{
+		ID:    authPayload.UserID,
+		Bio:   req.Bio,
+		Email: req.Email,
+	}
+
+	repos, err := server.store.UpdateUser(ctx, arg)
+	if err != nil {
+		ctx.JSON(http.StatusInternalServerError, errorResponse(err))
+		return
+	}
+	ctx.JSON(http.StatusOK, repos)
+}

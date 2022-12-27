@@ -1,26 +1,20 @@
 import React, { useState, useEffect } from 'react';
-import { Popover, Transition } from '@headlessui/react'
-import { Fragment } from 'react'
 import Link from 'next/link'
-import { MdDarkMode, MdLightMode ,MdLogin,MdLogout,MdMenu,MdClose} from "react-icons/md"
+import Image from 'next/image'
+import { MdDarkMode, MdLightMode,MdOutlineAdminPanelSettings} from "react-icons/md"
 import { AiFillGithub, AiOutlineUser } from "react-icons/ai"
-import {RiLogoutBoxFill,RiLoginBoxFill,RiLogoutBoxLine,RiLoginBoxLine} from "react-icons/ri"
-import { getSession, useSession, signOut } from "next-auth/react"
+import {RiLogoutBoxLine,RiLoginBoxLine} from "react-icons/ri"
+import {useSession, signOut } from "next-auth/react"
 import { useRouter } from 'next/router'
-import {GoSignIn,GoSignOut} from "react-icons/go"
-import { t } from '@lingui/macro'
-const availableLanguageNames = {
-    en: t`English`,
-    sv: t`Chinese`,
-  }
-  function handleSignOut(){
+function handleSignOut(){
     signOut({ callbackUrl: `/` })
-  }
+}
 
 export default function PopNav() {
-
     const [themeDark, setTheme] = useState(true);
-    const [signin, setsignin] = useState(false);
+    const [signinPage, setsigninPage] = useState(false);
+    const [userpage, setuserpage] = useState(false);
+    const [adminPage, setadminPage] = useState(false);
     const { locale, locales, route } = useRouter()
     const otherLocale = locales?.find((cur) => cur !== locale)
     const { data: session } = useSession()
@@ -41,39 +35,40 @@ export default function PopNav() {
             document.body.style.backgroundColor = "#0B1120";
         }
         if (session && session.access_token) {
-            setsignin(true)
+            setuserpage(true)
+            if (session.username == "admin" && route == "/wiki") {
+                setadminPage(true)
+            } else {
+                setadminPage(false)
+            }
         } else {
-            setsignin(false)
+            setuserpage(false)
+            if (route == "/" || route == "/auth/register") {
+                setsigninPage(true)
+            } else {
+                setsigninPage(false)
+            }
         }
     },[]);
 
-    const navigation = [
-        { name: 'Wiki', href: '/wiki' },
-        { name: 'Docs', href: '#' },
-        { name: 'AIINFITE', href: '#' },
-        { name: 'GITHUB', href: '#' },
-    ]
-
-
-
 return (
-    <div className="sticky top-0 z-50 w-full backdrop-blur flex-none transition-colors 
-        duration-500  lg:border-b lg:border-slate-900/10 
+    <div className="sticky top-0 z-50 w-full backdrop-blur flex-none 
+        lg:border-b lg:border-slate-900/10 
         supports-backdrop-blur:bg-white/60
         dark:border-slate-50/[0.06] bg-transparent text-slate-500 dark:text-slate-200">  
-        <Popover>
-            <div className="flex flex-row justify-between items-center py-2 
+        <div className="flex flex-row justify-between items-center py-2 
                 border-b border-slate-900/10 lg:px-8 lg:border-0
                 mx-3 md:mx-4 dark:border-slate-300/10 ">
-                
                 <div className="flex flex-row items-center"> 
                     <div className="flex flex-row items-center pl-2  pr-1.5 md:pl-4 md:pr-3.5">
                         <Link href="/" className="md:mr-1 flex-none w-[1.8rem] overflow-hidden md:w-auto" >
-           
-                                <picture>
-                                    <img src="/logo.svg" className=" w-6 h-6 md:w-9 md:h-9" alt="LOGO"/>
-                                </picture>
-         
+                            <Image
+                                    src="/logo.svg"
+                                    alt="LOGO"
+                                    width={500}
+                                    height={500}
+                                    className=" w-6 h-6 md:w-9 md:h-9"
+                                />
                         </Link>
                         <Link href="/">
                             <h1 className="font-bold text-xl md:text-2xl cursor-pointer">
@@ -82,22 +77,7 @@ return (
                         </Link>
                     </div>
                 </div>
-
-                <div className="relative hidden md:flex items-center ml-auto ">
-                    <nav className="text-sm leading-6 font-semibold  ">
-                        <ul className="flex space-x-8">
-                            {navigation.map((value,index) => (<li key={index}>
-                                <Link href={value.href} className="hover:text-sky-500">
-                                 {value.name}
-                                </Link>
-                            </li>))
-                            }
-                        </ul>
-                    </nav>
-                </div>
-
                 <div className="flex  gap-x-3	 justify-center items-center px-3 md:px-6	 mx-3  md:mx-6  md:border-l border-slate-300 dark:border-slate-400 ">
-
                     <Link href={route} locale={otherLocale} >
                         <svg stroke="currentColor" fill="currentColor" strokeWidth="0" viewBox="0 0 1024 1024" className={`block w-6 h-6  hover:text-sky-500 cursor-pointer false  ${otherLocale=="en" && "hidden"}`} height="1em" width="1em" xmlns="http://www.w3.org/2000/svg">
                             <path
@@ -111,10 +91,6 @@ return (
                             <path d="M684.56626087 541.38434783h114.86608696v-30.45286957h-114.86608696V450.02573913h122.34573913v-30.45286956h-158.14121739v219.04695652h162.94956522V608.16695652h-127.15408696v-66.78260869z m239.88313043-65.71408696c-9.61669565 0-18.16486957 1.60278261-26.1787826 5.87686956-7.47965217 3.73982609-14.95930435 9.61669565-20.83617392 17.09634783V479.94434783h-34.72695652v158.67547826h34.72695652v-95.63269566c1.06852174-12.82226087 5.3426087-22.43895652 12.82226087-29.38434782 6.41113043-5.87686957 13.89078261-9.08243478 22.43895652-9.08243478 24.04173913 0 35.79547826 12.82226087 35.79547826 39.00104347v94.56417392h34.72695653v-97.76973913c1.06852174-43.27513043-19.2333913-64.64556522-58.76869566-64.64556522z" p-id="5671"></path>
                         </svg>
                     </Link>
-
-
-
-                
                     <MdLightMode
                         className={`  block w-6 h-6  hover:text-sky-500 cursor-pointer ${themeDark && "hidden"}`}
                         onClick={() => {
@@ -133,7 +109,6 @@ return (
                     <MdDarkMode
                         className={`  block w-6 h-6  hover:text-sky-500 cursor-pointer ${!themeDark && "hidden"}`}
                         onClick={() => {
-                            
                             localStorage.setItem('themeDark', JSON.stringify(!themeDark));
                             if (!themeDark == true) {
                                 document.documentElement.classList.add('dark')
@@ -143,111 +118,26 @@ return (
                                 document.body.style.backgroundColor = "white";
                             }
                             setTheme(!themeDark);
-
                             }
                         }
                     />
-                    
                     <Link href="https://github.com/zdlpsina/ziwiki">
                         <AiFillGithub 
                             className="  block w-6 h-6  hover:text-sky-500 cursor-pointer"
                             />
                     </Link>
-
-                    <RiLogoutBoxLine className={`block w-6 h-6  hover:text-sky-500 cursor-pointer ${(!signin || route!="/wiki" ) && "hidden"}` } onClick={handleSignOut}  />
-
-                    <Link href="/auth/login" className={`flex items-center ${(signin || route=="/auth/login")  && "hidden"}`}>
+                    <RiLogoutBoxLine className={`block w-6 h-6  hover:text-sky-500 cursor-pointer ${signinPage && "hidden"}` } onClick={handleSignOut}  />
+                    <Link href="/auth/login" className={`flex items-center ${!signinPage  && "hidden"}`}>
                         <RiLoginBoxLine className={`block w-6 h-6  hover:text-sky-500 cursor-pointer` } />
                     </Link>
-
-                    <Link href="/wiki" className={`flex items-center ${(!signin || route=="/wiki") && "hidden"}`}>
+                    <Link href="/admin" className={`flex items-center  ${!adminPage  && "hidden"}  `}>
+                        <MdOutlineAdminPanelSettings className={`block w-6 h-6  hover:text-sky-500 cursor-pointer` } />
+                    </Link>
+                    <Link href="/wiki" className={`flex items-center ${(!userpage || route=="/wiki")  && "hidden"}`}>
                         <AiOutlineUser className={`block w-6 h-6  hover:text-sky-500 cursor-pointer` } />
                     </Link>
-                    <div className="md:hidden inline-flex items-center justify-center rounded-md    cursor-pointer">
-                        <Popover.Button className="focus:outline-none focus:ring-0">
-                            <MdMenu className="block w-6 h-6 rounded-md" />
-                        </Popover.Button>
-                    </div>
                 </div>
             </div>
-            
-            <Transition
-                as={Fragment}
-                enter="duration-150 ease-out"
-                enterFrom="opacity-0 scale-95"
-                enterTo="opacity-100 scale-100"
-                leave="duration-100 ease-in"
-                leaveFrom="opacity-100 scale-100"
-                leaveTo="opacity-0 scale-95"
-            >
-            <Popover.Panel
-            focus
-            className="absolute inset-x-0 top-0 z-10 origin-top-right transform p-0 transition md:hidden"
-            >
-            <div className="absolute z-20 top-0 inset-x-0 flex justify-center overflow-hidden pointer-events-none">
-                <div className="w-[108rem] flex-none flex justify-end">
-                    <img src="/bg.avif" alt="" className="w-[90rem] flex-none max-w-none  block" decoding="async" />
-                </div>
-            </div>
-            <div className="overflow-hidden 
-                bg-white supports-backdrop-blur:bg-white/60
-                dark:border-slate-50/[0.06] dark:bg-slate-900 text-slate-500 dark:text-slate-200
-                shadow-md ring-1 ring-black ring-opacity-5">
-                <div className="flex items-center justify-between px-5 pt-4">
-                <div>
-                    <img
-                    className="h-8 w-auto"
-                    src="/logo.svg"
-                    alt=""
-                    />
-                </div>
-                <div className="-mr-2">
-                    <Popover.Button className="inline-flex items-center justify-center rounded-md
-                    dark:bg-transparent p-2 text-gray-400 hover:bg-gray-100
-                    hover:text-gray-500 focus:outline-none  focus:ring-inset
-                    dark:hover:bg-slate-900/[10] ring-0 ring-text-slate-500 focus:ring-0
-                    ">
-                    <span className="sr-only">Close main menu</span>
-                        <MdClose className="h-6 w-6" aria-hidden="true" />
-                    </Popover.Button>
-                </div>
-                </div>
-                <div className="space-y-1 px-2 pt-2 pb-3">
-                {navigation.map((item) => (
-                    <Link
-                    key={item.name}
-                    href={item.href}
-                    className="block rounded-md px-3 py-2 text-base font-medium text-slate-500
-                        dark:text-slate-200 hover:bg-gray-100
-                        dark:hover:bg-slate-900/[10] hover:text-gray-900"
-                    >
-                    {item.name}
-                    </Link>
-                ))}
-                </div>
-                <a
-                    onClick={handleSignOut}
-                    className={`block w-full bg-gray-100 dark:bg-slate-700 px-5 py-3 text-center 
-                        font-medium  dark:text-slate-100 hover:bg-sky-100/[10]
-                        dark:hover:bg-slate-600 ${(!signin && route!="/wiki" ) && "hidden"}`}
-                    >
-                    Sign Out
-                </a>
-                        
-                <Link
-                    href="/auth/login"
-                    className={`block w-full bg-gray-100 dark:bg-slate-700 px-5 py-3 text-center 
-                        font-medium  dark:text-slate-100 hover:bg-sky-100/[10]
-                        dark:hover:bg-slate-600 ${(signin || route=="/auth/login") && "hidden"}`}
-                    >
-                    Sign In
-                </Link>
-                        
-
-            </div>
-            </Popover.Panel>
-        </Transition>
-        </Popover>
     </div>
 )
 }

@@ -1,7 +1,6 @@
 import { Fragment, useRef, useState,useEffect } from 'react'
 import { Dialog, Transition } from '@headlessui/react'
 import { useFormik } from 'formik';
-import { backend_base_url } from "../utils/env_variable"
 import { toast } from "react-toastify";
 import { createrepo_validate } from '../utils/validate';
 import { useSession } from "next-auth/react"
@@ -50,7 +49,7 @@ export default function CreateRepo({ repolistcount,setrepolistcount,open, setOpe
         <div className="fixed inset-0 bg-transparent backdrop-blur-sm backdrop-brightness-75 bg-opacity-75 transition-opacity" />
         </Transition.Child>
 
-        <div className="fixed overflow-auto inset-0 z-50 backdrop-blur-sm backdrop-brightness-75  dark:text-slate-300  xs:px-4 pt-20  md:p-20 lg:p-28">
+        <div className="fixed overflow-auto lg:overflow-hidden inset-0 z-50 backdrop-blur-sm backdrop-brightness-75  dark:text-slate-300  xs:px-4 pt-20  md:p-20 lg:p-28">
           <div className="mx-0 md:mx-[max(0px,calc(50%-25rem))]">
             <Transition.Child
               as={Fragment}
@@ -61,11 +60,11 @@ export default function CreateRepo({ repolistcount,setrepolistcount,open, setOpe
               leaveFrom="opacity-100 translate-y-0 sm:scale-100"
               leaveTo="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
             >
-              <Dialog.Panel className="flex overflow-auto flex-col  border-slate-200/5 dark:border-slate-800/75 border md:rounded-lg bg-white dark:bg-slate-800/75">
+              <Dialog.Panel className="flex md:overflow-hidden overflow-auto flex-col  border-slate-200/5 dark:border-slate-800/75 border md:rounded-lg bg-white dark:bg-slate-800/75">
               
           <header className=' justify-center px-4 py-4 overflow-auto relative flex text-slate-500 flex-row items-center border-b border-slate-300/75 dark:border-slate-800/75'>
                 
-            <form  className="flex grow  justify-center overflow-auto  items-center " onSubmit={formik.handleSubmit}>
+            <form  className="flex lg:block md:overflow-hidden grow  justify-center overflow-auto  items-center " onSubmit={formik.handleSubmit}>
               <div className="sm:overflow-hidden sm:rounded-md">
                 <div className="grid grid-cols-6 gap-4 gap-x-8 p-2">
                   <div className="col-span-6 justify-center flex-center">

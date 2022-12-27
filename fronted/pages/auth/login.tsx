@@ -1,17 +1,17 @@
 import Link from 'next/link'
+import Image from 'next/image'
 import { useState } from 'react';
-import { signIn, signOut } from "next-auth/react"
+import { signIn } from "next-auth/react"
 import { useFormik } from 'formik';
 import { login_validate } from '../../utils/validate';
 import { useRouter } from 'next/router';
-import PopNav from "../../components/popnav"
+import PopNav from '../../components/popnav';
 import { toast } from "react-toastify";
 import { authOptions } from '../api/auth/[...nextauth]'
-import { HiAtSymbol, HiFingerPrint, HiOutlineUser } from "react-icons/hi";
-import { backend_base_url, home_url } from "../../utils/env_variable"
-import { getSession, SessionContext } from 'next-auth/react'
+import { HiFingerPrint, HiOutlineUser } from "react-icons/hi";
 import { Trans } from '@lingui/macro';
 import { unstable_getServerSession } from "next-auth/next"
+import { t } from "@lingui/macro"
 export default function Login() {
 
   const [show, setShow] = useState(false)
@@ -28,7 +28,7 @@ export default function Login() {
 
 
   async function onSubmit(values) {
-    const id = toast("正在登录...", { type: toast.TYPE.INFO, isLoading: true });
+    const id = toast(t`Log in...`, { type: toast.TYPE.INFO, isLoading: true });
     const status = await signIn('credentials', {
       redirect: false,
       username: values.username,
@@ -36,9 +36,9 @@ export default function Login() {
       callbackUrl: "/wiki"
     })
     if (status && status.error) {
-      toast.update(id, { render: "登录失败:" + status.error, type: toast.TYPE.ERROR, isLoading: false, autoClose: 2000 });
+      toast.update(id, { render: t`Log In Fail:` + status.error, type: toast.TYPE.ERROR, isLoading: false, autoClose: 1000 });
     } else if (status && status.error == null) {
-      toast.update(id, { render: "登录成功", type: toast.TYPE.SUCCESS, isLoading: false, autoClose: 1000 });
+      toast.update(id, { render: t`Log In Success`, type: toast.TYPE.SUCCESS, isLoading: false, autoClose: 500 });
       router.push(`/wiki`)
     }
   }
@@ -49,20 +49,22 @@ export default function Login() {
       <div className="overflow-hidden">
         <div className='mx-3 md:mx-4 sm:px-6 md:px-8'>
           <div className="bg-white dark:bg-transparent pt-10 flex items-center justify-center">
-
             <div className="absolute z-20 top-0 inset-x-0 flex justify-center overflow-hidden pointer-events-none">
               <div className="w-[108rem] flex-none flex justify-end">
                 <img src="/bg.avif" alt="" className="w-[90rem] flex-none max-w-none  block" decoding="async" />
               </div>
             </div>
-
-
             <div className=" text-[#002D74] dark:text-slate-200 dark:backdrop-blur  flex  max-w-3xl p-5 items-center">
 
               <div className="md:w-1/2 px-8 md:px-16">
-                <picture>
-                  <img src="/logo.svg" className="mx-auto h-12 w-auto" alt="LOGO" />
-                </picture>
+              <Image
+                    src="/logo.svg"
+                    alt="LOGO"
+                    width={500}
+                    height={500}
+                    className="mx-auto h-12 w-auto"
+                />
+
                 <Link href="/">
                   <div className="flex justify-center  items-center flex-shrink-0">
                     <h1 className="font-bold text-xl cursor-pointer">
@@ -79,7 +81,7 @@ export default function Login() {
                       <input
                         type="text"
                         name='username'
-                        placeholder='username'
+                        placeholder={t`username`}
                         className={`p-2 rounded-md border dark:text-slate-800 ${formik.errors.username && "border-pink-500 text-pink-600 focus:border-pink-500 focus:ring-pink-500"} focus:ring-1 `}
                         {...formik.getFieldProps('username')}
                       />
@@ -96,7 +98,7 @@ export default function Login() {
                       <input
                         type={`${show ? "text" : "password"}`}
                         name='password'
-                        placeholder='password'
+                        placeholder={t`password`}
                         autoComplete="on"
                         className={`p-2 rounded-md border dark:text-slate-800 ${formik.errors.password && "border-pink-500 text-pink-600 focus:border-pink-500 focus:ring-pink-500"} focus:ring-1 `}
                         {...formik.getFieldProps('password')}
@@ -124,9 +126,13 @@ export default function Login() {
                 </div>
               </div>
               <div className="md:block hidden w-1/2">
-                <picture>
-                  <img src="/login.svg" className=" " alt="Login" />
-                </picture>
+                <Image
+                      src="/login.svg"
+                      alt="LOGO"
+                      width={500}
+                      height={500}
+                      
+                  />
               </div>
             </div>
           </div>
@@ -147,6 +153,10 @@ export async function getServerSideProps(context) {
       }
     }
   }
+  context.res.setHeader(
+    'Cache-Control',
+    'public, s-maxage=10, stale-while-revalidate=59'
+  )
   return {
     props: {
     },

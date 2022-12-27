@@ -13,13 +13,29 @@ msgstr ""
 "Language-Team: \n"
 "Plural-Forms: \n"
 
+#: pages/auth/register.tsx:141
+msgid "Already have one account?"
+msgstr "Already have one account?"
+
 #: components/popnav.tsx:14
-msgid "Chinese"
-msgstr "Chinese"
+#~ msgid "Chinese"
+#~ msgstr "Chinese"
+
+#: pages/auth/register.tsx:124
+msgid "Confirm Password"
+msgstr "Confirm Password"
+
+#: pages/auth/register.tsx:92
+msgid "Email"
+msgstr "Email"
 
 #: components/popnav.tsx:13
-msgid "English"
-msgstr "English"
+#~ msgid "English"
+#~ msgstr "English"
+
+#: pages/auth/register.tsx:138
+msgid "Forget Password?"
+msgstr "Forget Password?"
 
 #: pages/lang.tsx:13
 msgid "Go to page 2"
@@ -29,78 +45,123 @@ msgstr "Go to page 2"
 msgid "Hello World."
 msgstr "Hello World."
 
-#: pages/auth/login.tsx:73
-#~ msgid "Log In"
-#~ msgstr "Log In"
+#: pages/auth/register.tsx:143
+msgid "Log In"
+msgstr "Log In"
+
+#: pages/auth/login.tsx:39
+msgid "Log In Fail:"
+msgstr "Log In Fail:"
+
+#: pages/auth/login.tsx:41
+msgid "Log In Success"
+msgstr "Log In Success"
+
+#: pages/auth/login.tsx:31
+msgid "Log in..."
+msgstr "Log in..."
+
+#: pages/auth/register.tsx:134
+msgid "Register"
+msgstr "Register"
+
+#: pages/auth/register.tsx:32
+msgid "Register Failed:"
+msgstr "Register Failed:"
+
+#: pages/auth/register.tsx:34
+msgid "Register Success"
+msgstr "Register Success"
+
+#: pages/auth/register.tsx:29
+msgid "Register..."
+msgstr "Register..."
+
+#: pages/auth/register.tsx:77
+msgid "Username"
+msgstr "Username"
 
 #: pages/auth/login.tsx:74
 #~ msgid "if you already have accout,please sign in"
 #~ msgstr "if you already have accout,please sign in"
 
-#: pages/index.tsx:22
+#: pages/index.tsx:21
 msgid "index_0"
 msgstr "From the creators of"
 
-#: pages/index.tsx:25
+#: pages/index.tsx:24
 msgid "index_1"
 msgstr "Over"
 
-#: pages/index.tsx:69
+#: pages/index.tsx:68
 msgid "index_10"
 msgstr "Try it by Register Now"
 
-#: pages/index.tsx:72
+#: pages/index.tsx:71
 msgid "index_11"
 msgstr "Sign In"
 
-#: pages/index.tsx:25
+#: pages/index.tsx:24
 msgid "index_2"
 msgstr "copies sold"
 
-#: pages/index.tsx:28
+#: pages/index.tsx:27
 msgid "index_3"
 msgstr "Over"
 
-#: pages/index.tsx:28
+#: pages/index.tsx:27
 msgid "index_4"
 msgstr "github stars"
 
-#: pages/index.tsx:37
+#: pages/index.tsx:36
 msgid "index_5"
 msgstr "Make your ideas look awesome, without relying on a designer."
 
-#: pages/index.tsx:40
+#: pages/index.tsx:39
 msgid "index_6"
 msgstr "Learn how to design beautiful user interfaces by yourself using specific tactics explained from a developer's point-of-view."
 
-#: pages/index.tsx:44
+#: pages/index.tsx:43
 msgid "index_8"
 msgstr "Try it by Register Now"
 
-#: pages/index.tsx:47
+#: pages/index.tsx:46
 msgid "index_9"
 msgstr "Sign In"
 
-#: pages/auth/login.tsx:73
+#: pages/auth/login.tsx:75
 msgid "login_1"
 msgstr "Log In"
 
-#: pages/auth/login.tsx:74
+#: pages/auth/login.tsx:76
 msgid "login_2"
 msgstr "sign in if you own an account"
 
-#: pages/auth/login.tsx:112
+#: pages/auth/login.tsx:114
 msgid "login_3"
 msgstr "Log In"
 
-#: pages/auth/login.tsx:117
+#: pages/auth/login.tsx:119
 msgid "login_4"
 msgstr "Forget Password?"
 
-#: pages/auth/login.tsx:120
+#: pages/auth/login.tsx:122
 msgid "login_5"
 msgstr "need an account?"
 
-#: pages/auth/login.tsx:122
+#: pages/auth/login.tsx:124
 msgid "login_6"
 msgstr "Register"
+
+#: pages/auth/login.tsx:101
+#: pages/auth/register.tsx:107
+msgid "password"
+msgstr "password"
+
+#: pages/auth/login.tsx:84
+msgid "username"
+msgstr "username"
+
+#: pages/auth/login.tsx:31
+#~ msgid "正在登录..."
+#~ msgstr "正在登录..."

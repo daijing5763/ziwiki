@@ -1,10 +1,9 @@
-import NavBar from "../../../components/navbar"
-
+import NavBar from '../../../components/navbar'
+import SideBar from '../../../components/sidebar'
+import Search from '../../../components/search'
 import { MathJaxContext } from "better-react-mathjax";
 import React, { useState, useEffect } from 'react';
 
-import SideBar from "../../../components/sidebar"
-import Search from "../../../components/search"
 import parse from 'html-react-parser';
 import { authOptions } from '../../api/auth/[...nextauth]'
 import { unstable_getServerSession } from "next-auth/next"
@@ -196,6 +195,10 @@ export async function getServerSideProps(context) {
         }
     }
   }
+  context.res.setHeader(
+    'Cache-Control',
+    'public, s-maxage=10, stale-while-revalidate=59'
+  )
   return {
     props: {
       session,

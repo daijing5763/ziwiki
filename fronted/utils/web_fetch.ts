@@ -92,3 +92,13 @@ export async function fetch_list_active_sessions(values: { [key: string]: string
 export async function fetch_ban_session(values, access_token: string) {
   return fetch_post(values,`${backend_base_url}ban_session`,access_token)
 }
+
+
+export async function fetch_geo(ip) {
+  const options = {
+    method: "GET",
+  }
+  const response = await fetch(`http://ip-api.com/json/${ip}`, options)
+  const data = await response.json();
+  return data;
+}

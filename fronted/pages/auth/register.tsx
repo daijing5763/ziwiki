@@ -1,4 +1,5 @@
 import Link from 'next/link'
+import Image from 'next/image'
 import { useState } from 'react';
 import { useFormik } from 'formik';
 import { useRouter } from 'next/router';
@@ -6,10 +7,11 @@ import { HiAtSymbol, HiFingerPrint, HiOutlineUser } from "react-icons/hi";
 import { registerValidate } from '../../utils/validate'
 import PopNav from "../../components/popnav"
 import { toast } from "react-toastify";
-import { backend_base_url, home_url } from "../../utils/env_variable"
 import { unstable_getServerSession } from "next-auth/next"
 import { authOptions } from '../api/auth/[...nextauth]'
 import { fetch_register } from '../../utils/web_fetch';
+import { t } from "@lingui/macro"
+import { Trans } from '@lingui/macro';
 export default function Register() {
   const [show, setShow] = useState({ password: false, cpassword: false })
   const router = useRouter()
@@ -24,12 +26,12 @@ export default function Register() {
     onSubmit: onSubmit
   })
   async function onSubmit(values) {
-    const id = toast("正在注册...", { type: toast.TYPE.INFO, isLoading: true });
+    const id = toast(t`Register...`, { type: toast.TYPE.INFO, isLoading: true });
     fetch_register(values, '').then(data => {
       if (data.error) {
-        toast.update(id, { render: "注册失败:" + data.error, type: toast.TYPE.ERROR, isLoading: false, autoClose: 2000 });
+        toast.update(id, { render: t`Register Failed:` + data.error, type: toast.TYPE.ERROR, isLoading: false, autoClose: 2000 });
       } else {
-        toast.update(id, { render: "注册成功:", type: toast.TYPE.SUCCESS, isLoading: false, autoClose: 1000 });
+        toast.update(id, { render: t`Register Success`, type: toast.TYPE.SUCCESS, isLoading: false, autoClose: 1000 });
         router.push(`/`)
       }
     })
@@ -50,9 +52,13 @@ export default function Register() {
 
             <div className=" text-[#002D74] dark:text-slate-200 dark:backdrop-blur  flex  max-w-3xl p-5 items-center">
               <div className="md:w-1/2 px-8 md:px-16">
-                <picture>
-                  <img src="/logo.svg" className="mx-auto h-12 w-auto" alt="LOGO" />
-                </picture>
+                <Image
+                    src="/logo.svg"
+                    alt="LOGO"
+                    width={500}
+                    height={500}
+                    className="mx-auto h-12 w-auto"
+                />
                 <Link href="/">
                   <div className="flex justify-center  items-center flex-shrink-0">
                     <h1 className="font-bold text-xl cursor-pointer">
@@ -68,7 +74,7 @@ export default function Register() {
                         className={`p-2 rounded-md border dark:text-slate-800 ${formik.errors.username && "border-pink-500 text-pink-600 focus:border-pink-500 focus:ring-pink-500"} focus:ring-1 `}
                         type="text"
                         name='Username'
-                        placeholder='Username'
+                        placeholder={t`Username`}
                         {...formik.getFieldProps('username')}
                       />
                       <span className='icon flex items-center px-4'>
@@ -83,7 +89,7 @@ export default function Register() {
                         className={`p-2 rounded-md border dark:text-slate-800 ${formik.errors.email && "border-pink-500 text-pink-600 focus:border-pink-500 focus:ring-pink-500"} focus:ring-1 `}
                         type="email"
                         name='email'
-                        placeholder='Email'
+                        placeholder={t`Email`}
                         {...formik.getFieldProps('email')}
                       />
                       <span className='icon flex items-center px-4'>
@@ -98,7 +104,7 @@ export default function Register() {
                         className={`p-2 rounded-md border dark:text-slate-800 ${formik.errors.password && "border-pink-500 text-pink-600 focus:border-pink-500 focus:ring-pink-500"} focus:ring-1 `}
                         type={`${show.password ? "text" : "password"}`}
                         name='password'
-                        placeholder='password'
+                        placeholder={t`password`}
                         autoComplete="on"
                         {...formik.getFieldProps('password')}
                       />
@@ -115,7 +121,7 @@ export default function Register() {
                         type={`${show.cpassword ? "text" : "password"}`}
                         name='cpassword'
                         autoComplete="on"
-                        placeholder='Confirm Password'
+                        placeholder={t`Confirm Password`}
                         {...formik.getFieldProps('cpassword')}
                       />
                       <span className='icon flex items-center px-4' onClick={() => setShow({ ...show, cpassword: !show.cpassword })}>
@@ -125,38 +131,34 @@ export default function Register() {
                     {formik.errors.cpassword && formik.touched.cpassword ? <span className='text-pink-600 text-sm'>{formik.errors.cpassword as string}</span> : <></>}
                   </div>
                   <button className="bg-[#002D74]  rounded-xl text-white py-2 mt-2 hover:scale-105 duration-300" type='submit' >
-                    注册
+                  <Trans>Register</Trans>
                   </button>
-                  {/* </div> */}
                 </form>
                 <div className="mt-5 text-xs border-b border-[#002D74] dark:border-slate-300 py-4 ">
-                  <Link href="/auth/forgetPassword"><p className="font-medium  hover:text-indigo-500">忘记密码?</p></Link>
+                  <Link href="/auth/forgetPassword"><p className="font-medium  hover:text-indigo-500"><Trans>Forget Password?</Trans></p></Link>
                 </div>
-
-
                 <div className="mt-3 text-xs flex justify-between items-center ">
-                  <p>已经注册账户?</p>
+                  <p><Trans>Already have one account?</Trans></p>
                   <Link href="/auth/login">
-                    <button className="py-2 px-5 text-white rounded-xl hover:scale-110 duration-300 bg-[#002D74]">登录</button>
+                    <button className="py-2 px-5 text-white rounded-xl hover:scale-110 duration-300 bg-[#002D74]"><Trans>Log In</Trans></button>
                   </Link>
                 </div>
               </div>
               <div className="md:block hidden w-1/2">
-                <picture>
-                  <img src="/login.svg" className=" " alt="Login" />
-                </picture>
+                <Image
+                    src="/login.svg"
+                    alt="Login"
+                    width={500}
+                    height={500}
+                />
               </div>
             </div>
           </div>
         </div>
       </div>
     </div>
-
   )
 }
-
-
-
 export async function getServerSideProps(context) {
   const session = await unstable_getServerSession(context.req, context.res, authOptions)
   if (session) {

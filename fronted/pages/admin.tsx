@@ -1,18 +1,19 @@
 import Link from "next/link";
-import PopNav from "../components/popnav"
-import { Fragment, useRef, useState,useEffect } from 'react'
+import dynamic from 'next/dynamic'
+
+import PopNav from "../components/popnav";
+const SessionTable = dynamic(() => import('../components/sessiontable'))
+const UserTable = dynamic(() => import('../components/usertable'))
+const Map = dynamic(() => import('../components/map'))
+
+
+import { useState,useEffect } from 'react'
 import { authOptions } from './api/auth/[...nextauth]'
 import { unstable_getServerSession } from "next-auth/next"
 import { toast } from "react-toastify";
-import Search from "../components/search"
-import UserTable from "../components/usertable"
-import  Map from '../components/map'
-import {AiFillLock,AiFillUnlock} from "react-icons/ai"
+import {GiEgyptianProfile} from "react-icons/gi"
 import { fetch_list_users, fetch_ban_user,fetch_list_sessions,fetch_list_active_sessions,fetch_ban_session } from "../utils/web_fetch"
-import { ChevronLeftIcon, ChevronRightIcon } from '@heroicons/react/20/solid'
-import SessionTable from "../components/sessiontable";
 export default ({ session }) => {
-  const [useSearch, setUseSearch] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
   const [currentsessionPage, setsessionpage] = useState(1);
   const [currentactivesessionPage, setactivesessionpage] = useState(1);
@@ -33,7 +34,6 @@ export default ({ session }) => {
   async function getSessionList(values) {
     fetch_list_sessions(values, session.access_token).then(data => {
       if (data && !data.error) {
-        console.log("session:",data)
         setsessionlist(data);
       }
     })
@@ -54,6 +54,7 @@ export default ({ session }) => {
         toast.update(id, { render: "更新失败:" + data.error, type: toast.TYPE.ERROR, isLoading: false, autoClose: 2000 });
       } else {
         toast.update(id, { render: "更新成功", type: toast.TYPE.SUCCESS, isLoading: false, autoClose: 1000 });
+        
         setchangeuser(!changeuser)
       }
     })
@@ -67,6 +68,7 @@ export default ({ session }) => {
       } else {
         toast.update(id, { render: "更新成功", type: toast.TYPE.SUCCESS, isLoading: false, autoClose: 1000 });
         setchangesession(!changesession)
+        setchangeactivesession(!changeactivesession)
       }
     })
   }
@@ -78,7 +80,7 @@ export default ({ session }) => {
     getSessionList({ "page_id": currentsessionPage, "page_size": 10 })
   }, [changesession,changeactivesession, currentsessionPage]);
   useEffect(() => { 
-    getActiveSessionList( { "page_id": currentsessionPage, "page_size": 10 })
+    getActiveSessionList( { "page_id": currentactivesessionPage, "page_size": 10 })
   },[changesession,changeactivesession,currentactivesessionPage]);
   
   
@@ -94,42 +96,51 @@ return (
   <div className="overflow-hidden">
     <div className='mx-3 md:mx-4 sm:px-6 md:px-8'>
             <div className="overflow-hidden " >
-              <div className="w-full h-56 border-collapse pt-5 text-xl" >
-                  <figure className="relative flex flex-col-reverse bg-slate-50 rounded-lg px-16 py-6 dark:bg-slate-800 dark:highlight-white/5">
-                    <blockquote className="mt-6 text-slate-700 dark:text-slate-300">
-                      <p>I feel like an idiot for not using Tailwind CSS until now.</p>
-                    </blockquote>
+              <div className="w-full h-40 border-collapse pt-5 text-xl" >
+                  <figure className="relative flex flex-col-reverse bg-slate-100 rounded-lg px-4 mx:px-16 py-6 dark:bg-slate-800 dark:highlight-white/5">
                     <figcaption className="flex items-center space-x-4">
-                      <img src="/profile.png" alt="" className="flex-none w-24 h-24 rounded-full object-cover" loading="lazy" decoding="async"/>
-                        <div className="flex-auto">
+                      <GiEgyptianProfile className="w-14 h-14 md:w-20 md:h-20 text-slate-600 dark:text-slate-400"/>    
+                      <div className="flex-auto">
                           <div className="text-2xl text-slate-900 font-semibold dark:text-slate-300">
                               <span className="absolute inset-0"></span>{session.username}
                           </div>
                           <div className="mt-0.5">
                             {session.email}
                           </div>
-                        </div>
+                      </div>
                     </figcaption>
                 </figure>
                 
               </div>
-              <div className="lg:col-span-5 xl:col-span-6 flex flex-col">
-                <div className="relative z-10 rounded-xl bg-white shadow-xl ring-1 ring-slate-900/5 overflow-hidden my-auto xl:mt-18 dark:bg-slate-800">
+              <div className="lg:col-span-5 xl:col-span-6 flex flex-col pb-10">
+                <div className="relative z-10 rounded-xl bg-slate-100 shadow-xl ring-1 ring-slate-900/5 overflow-hidden my-auto xl:mt-18 dark:bg-slate-800">
 
               <UserTable userlist={userlist} banUser={banUser} currentPage={currentPage} setCurrentPage={setCurrentPage} />
-              <SessionTable sessionlist={sessionlist} banSession={banSession} currentPage={currentsessionPage} setCurrentPage={setsessionpage} />
-              <SessionTable sessionlist={activesessionlist} banSession={banSession} currentPage={currentactivesessionPage} setCurrentPage={setactivesessionpage} />
-
+              <SessionTable sessionlist={sessionlist} banSession={banSession} currentPage={currentsessionPage} setCurrentPage={setsessionpage} type="session" />
+              <SessionTable sessionlist={activesessionlist} banSession={banSession} currentPage={currentactivesessionPage} setCurrentPage={setactivesessionpage}type="activesession"  />
+            <section className="hidden md:block pt-4 pb-14">
+              <header id="header" className="py-6 px-4 md:py-10  md:px-8 relative z-20">
+                <div>
+                  <p className="mb-2 text-sm leading-6 font-semibold text-sky-500 dark:text-sky-400">定位</p>
+                  <div className="flex items-center">
+                    <h1 className={` inline-block text-2xl sm:text-3xl font-extrabold text-slate-900 tracking-tight dark:text-slate-200`}>
+                      在线会话统计定位
+                    </h1>
+                  </div>
+                </div>
+                <p className={` mt-2 text-lg text-slate-700 dark:text-slate-400`}>
+                  所有当前在线用户会话地址
+                </p>
+              </header>
               <div className="hidden md:flex pt-4 ">
-                <Map/>
+                  <Map fetch_iplist={activesessionlist} />
               </div>
+            </section>
             </div>
     </div>
   </div>
   </div>
     </div>
-    {useSearch && (<Search useSearch={useSearch} setUseSearch={setUseSearch}/>)}
-
 </div>
 
   )
@@ -146,6 +157,10 @@ export async function getServerSideProps(context) {
         }
     }
   }
+  context.res.setHeader(
+    'Cache-Control',
+    'public, s-maxage=10, stale-while-revalidate=59'
+  )
   return {
     props: {
       session,

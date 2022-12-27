@@ -71,10 +71,9 @@ func TestUpdateUser(t *testing.T) {
 	user1 := createRandomUser(t)
 
 	arg := UpdateUserParams{
-		ID:             user1.ID,
-		Username:       util.RandomUsername(),
-		Email:          util.RandomEmail(),
-		HashedPassword: util.RandomString(6),
+		ID:    user1.ID,
+		Bio:   util.RandomString(6),
+		Email: util.RandomEmail(),
 	}
 	user2, err := testQueries.UpdateUser(context.Background(), arg)
 
@@ -82,6 +81,5 @@ func TestUpdateUser(t *testing.T) {
 	require.NotEmpty(t, user2)
 	require.Equal(t, user2.ID, arg.ID)
 	require.Equal(t, user2.Email, arg.Email)
-	require.Equal(t, user2.Username, arg.Username)
-	require.Equal(t, user2.HashedPassword, arg.HashedPassword)
+	require.Equal(t, user2.Bio, arg.Bio)
 }

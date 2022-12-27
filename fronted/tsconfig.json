@@ -15,7 +15,7 @@
     "jsx": "preserve",
     "incremental": true
   },
-  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", "pages/_document.tsx", "pages/wiki/[repoid]/[...slug].tsx", "pages/index.tsx","mermaid/index.tsx", "pages/s2.js", "pages/auth/register.tsx", "pages/auth/login.tsx",  "components/createrepo.tsx", "utils/json_parser_config.tsx"],
+  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", "pages/_document.tsx", "pages/wiki/[repoid]/[...slug].tsx", "pages/index.tsx","mermaid/index.tsx",  "pages/auth/register.tsx", "pages/auth/login.tsx",  "components/createrepo.tsx", "utils/json_parser_config.tsx"],
   
 
   "exclude": ["node_modules"]

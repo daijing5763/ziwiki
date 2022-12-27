@@ -13,13 +13,29 @@ msgstr ""
 "Language-Team: \n"
 "Plural-Forms: \n"
 
+#: pages/auth/register.tsx:141
+msgid "Already have one account?"
+msgstr "已经有账号？"
+
 #: components/popnav.tsx:14
-msgid "Chinese"
-msgstr "中文"
+#~ msgid "Chinese"
+#~ msgstr "中文"
+
+#: pages/auth/register.tsx:124
+msgid "Confirm Password"
+msgstr "确认密码"
+
+#: pages/auth/register.tsx:92
+msgid "Email"
+msgstr "邮箱"
 
 #: components/popnav.tsx:13
-msgid "English"
-msgstr "英文"
+#~ msgid "English"
+#~ msgstr "英文"
+
+#: pages/auth/register.tsx:138
+msgid "Forget Password?"
+msgstr "忘记密码？"
 
 #: pages/lang.tsx:13
 msgid "Go to page 2"
@@ -29,78 +45,119 @@ msgstr "前往第二个页面"
 msgid "Hello World."
 msgstr "你好，世界。"
 
-#: pages/auth/login.tsx:73
-#~ msgid "Log In"
-#~ msgstr "登陆"
+#: pages/auth/register.tsx:143
+msgid "Log In"
+msgstr "登陆"
+
+#: pages/auth/login.tsx:39
+msgid "Log In Fail:"
+msgstr "登陆失败"
+
+#: pages/auth/login.tsx:41
+msgid "Log In Success"
+msgstr "登陆成功"
+
+#: pages/auth/login.tsx:31
+msgid "Log in..."
+msgstr "登陆中"
+
+#: pages/auth/register.tsx:134
+msgid "Register"
+msgstr "注册"
+
+#: pages/auth/register.tsx:32
+msgid "Register Failed:"
+msgstr "注册失败："
+
+#: pages/auth/register.tsx:34
+msgid "Register Success"
+msgstr "注册成功"
+
+#: pages/auth/register.tsx:29
+msgid "Register..."
+msgstr "注册中..."
+
+#: pages/auth/register.tsx:77
+msgid "Username"
+msgstr "用户名"
 
 #: pages/auth/login.tsx:74
 #~ msgid "if you already have accout,please sign in"
 #~ msgstr "如果您已经有账号，请登陆"
 
-#: pages/index.tsx:22
+#: pages/index.tsx:21
 msgid "index_0"
 msgstr "创建者是"
 
-#: pages/index.tsx:25
+#: pages/index.tsx:24
 msgid "index_1"
 msgstr "超过"
 
-#: pages/index.tsx:69
+#: pages/index.tsx:68
 msgid "index_10"
 msgstr "立刻注册尝试！"
 
-#: pages/index.tsx:72
+#: pages/index.tsx:71
 msgid "index_11"
 msgstr "登陆"
 
-#: pages/index.tsx:25
+#: pages/index.tsx:24
 msgid "index_2"
 msgstr "份售出"
 
-#: pages/index.tsx:28
+#: pages/index.tsx:27
 msgid "index_3"
 msgstr "超过"
 
-#: pages/index.tsx:28
+#: pages/index.tsx:27
 msgid "index_4"
 msgstr "github stars"
 
-#: pages/index.tsx:37
+#: pages/index.tsx:36
 msgid "index_5"
 msgstr "无需设计师，即可实现你伟大的想法"
 
-#: pages/index.tsx:40
+#: pages/index.tsx:39
 msgid "index_6"
 msgstr "从开发者视角，学习如何设计出好看的用户界面"
 
-#: pages/index.tsx:44
+#: pages/index.tsx:43
 msgid "index_8"
 msgstr "立刻注册尝试！"
 
-#: pages/index.tsx:47
+#: pages/index.tsx:46
 msgid "index_9"
 msgstr "登陆"
 
-#: pages/auth/login.tsx:73
+#: pages/auth/login.tsx:75
 msgid "login_1"
 msgstr "登陆"
 
-#: pages/auth/login.tsx:74
+#: pages/auth/login.tsx:76
 msgid "login_2"
 msgstr "如果您已经有账号，请登陆"
 
-#: pages/auth/login.tsx:112
+#: pages/auth/login.tsx:114
 msgid "login_3"
 msgstr "登陆"
 
-#: pages/auth/login.tsx:117
+#: pages/auth/login.tsx:119
 msgid "login_4"
 msgstr "忘记密码?"
 
-#: pages/auth/login.tsx:120
+#: pages/auth/login.tsx:122
 msgid "login_5"
 msgstr "需要注册账号？"
 
-#: pages/auth/login.tsx:122
+#: pages/auth/login.tsx:124
 msgid "login_6"
 msgstr "注册"
+
+#: pages/auth/login.tsx:101
+#: pages/auth/register.tsx:107
+msgid "password"
+msgstr "密码"
+
+#: pages/auth/login.tsx:84
+msgid "username"
+msgstr "用户名"
