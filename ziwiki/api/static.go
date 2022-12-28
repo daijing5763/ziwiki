@@ -3,6 +3,7 @@ package api
 import (
 	"fmt"
 	"net/http"
+	"os"
 	"strconv"
 
 	"github.com/gin-gonic/gin"
@@ -26,19 +27,27 @@ import (
 // }
 
 func (server *Server) uploadProfile(ctx *gin.Context) {
-	authPayload := ctx.MustGet(authorizationPayloadKey).(*token.Payload)
-	path := "/tmp/wiki/" + strconv.FormatInt(authPayload.UserID, 10) + "/" + "profile.png"
-	ctx.File(path)
 
 	file, err := ctx.FormFile("file")
 	if err != nil {
-		fmt.Println("err:", err)
+		fmt.Println("err read:", err)
 		return
 	}
+	authPayload := ctx.MustGet(authorizationPayloadKey).(*token.Payload)
+	path := "/tmp/wiki/" + strconv.FormatInt(authPayload.UserID, 10) + "/" + "profile.png"
+	_, err = os.Stat(path)
+	if err != nil {
+		if os.IsExist(err) {
+			os.Remove(path)
+		}
+	}
+
+	// ctx.File(path)
 	err = ctx.SaveUploadedFile(file, path)
 	if err != nil {
-		fmt.Println("err:", err)
+		fmt.Println("err save:", err)
 		return
 	}
+
 	ctx.String(http.StatusOK, fmt.Sprintf("'%s' uploaded!", file.Filename))
 }

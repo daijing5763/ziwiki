@@ -94,6 +94,7 @@ export async function fetch_ban_session(values, access_token: string) {
 }
 
 
+
 export async function fetch_geo(ip) {
   const options = {
     method: "GET",
@@ -103,12 +104,18 @@ export async function fetch_geo(ip) {
   return data;
 }
 
-export function fetch_upload(value,access_token) {
-  fetch(`${backend_base_url}upload`, {
+export function fetch_upload(values, access_token) {
+  let formdata = new FormData()
+  formdata.append("file",values.file)
+  const options = {
     method: 'POST',
     headers: {
       'Authorization': `Bearer ${access_token}`
     },
-    body:value
-  })
+    body:formdata
+  }
+  delete options.headers['Content-Type'];
+
+  console.log("options is:",options)
+  fetch(`${backend_base_url}upload`,options)
 }

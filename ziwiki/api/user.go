@@ -3,7 +3,10 @@ package api
 import (
 	"database/sql"
 	"errors"
+	"fmt"
 	"net/http"
+	"os"
+	"strconv"
 	"time"
 
 	"github.com/gin-gonic/gin"
@@ -80,7 +83,10 @@ func (server *Server) createUser(ctx *gin.Context) {
 		ctx.JSON(http.StatusInternalServerError, errorResponse(err))
 		return
 	}
-
+	err = os.MkdirAll("/tmp/wiki/"+strconv.FormatInt(user.ID, 10), os.ModePerm) //create user wiki folder
+	if err != nil {
+		fmt.Println("create user folder failed:", err)
+	}
 	rsp := newUserResponse(user)
 	ctx.JSON(http.StatusOK, rsp)
 }
