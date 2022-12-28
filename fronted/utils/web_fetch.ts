@@ -102,3 +102,13 @@ export async function fetch_geo(ip) {
   const data = await response.json();
   return data;
 }
+
+export function fetch_upload(value,access_token) {
+  fetch(`${backend_base_url}upload`, {
+    method: 'POST',
+    headers: {
+      'Authorization': `Bearer ${access_token}`
+    },
+    body:value
+  })
+}

@@ -3,6 +3,7 @@ import dynamic from 'next/dynamic'
 import { useState,useEffect } from 'react'
 import PopNav from "../../components/popnav";
 import CreateRepo from "../../components/createrepo";
+import UploadProfile from "../../components/uploadprofile";
 const Search = dynamic(() => import('../../components/search'))
 const UpdateRepo = dynamic(() => import('../../components/updaterepo'))
 
@@ -123,7 +124,8 @@ return (
                     </figcaption>
                 </figure>
                 
-              </div>
+          </div>
+          <UploadProfile/>
               <div className="lg:col-span-5 xl:col-span-6 flex flex-col">
                 <div className="relative z-10 rounded-xl bg-white shadow-xl ring-1 ring-slate-900/5 overflow-hidden my-auto xl:mt-18 dark:bg-slate-800">
                 <section>
@@ -197,12 +199,7 @@ return (
                                   <p className=" text-base">{repo.repo_describe}</p>
                               </div>
                             </Link>
-
-
-                            
                           </dl>
-                        
-    
                           </li>
                       ))}
 
