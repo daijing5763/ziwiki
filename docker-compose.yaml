@@ -13,7 +13,9 @@ services:
       - api
       - nextapp
   postgres:
-    image: postgres_image_alpine
+    build:
+      context: ./build_image_on_alpine
+      dockerfile: ./postgres.Dockerfile
     environment:
       - POSTGRES_USER=root
       - POSTGRES_PASSWORD=secret
@@ -23,17 +25,14 @@ services:
     ports:
       - "5432:5432"
   api:
-    # image: run_image_alpine
     build:
       context: ./
-      dockerfile: ./build_image_on_alpine/DockerfileRun
+      dockerfile: ./build_image_on_alpine/api.Dockerfile
     expose:
       - "8080"
-    # ports:
-    #   - 8080:8080
     environment:
       - DB_SOURCE=postgresql://root:secret@postgres:5432/ziwiki?sslmode=disable
-      - USE_HTTPS=${NEXT_PUBLIC_DEV_USE_HTTPS}
+      - USE_HTTPS=${NEXT_PUBLIC_USE_HTTPS}
     depends_on:
       - postgres
     volumes:
@@ -48,7 +47,6 @@ services:
     command: [ "/app/server" ]
   nextapp:
     container_name: nextapp
-    # image: nextprod
     build:
       context: ./fronted
       dockerfile: prod.Dockerfile
@@ -57,7 +55,7 @@ services:
         NEXT_PUBLIC_BACKEND_URL: ${NEXT_PUBLIC_BACKEND_URL}
         NEXT_PUBLIC_SERVER_URL: ${NEXT_PUBLIC_SERVER_URL}
         NEXT_PUBLIC_USE_HTTPS: ${NEXT_PUBLIC_USE_HTTPS}
-        NEXT_PUBLIC_NEXTAUTH_URL: ${NEXT_PUBLIC_NEXTAUTH_URL}
+        NEXTAUTH_URL: ${NEXT_PUBLIC_NEXTAUTH_URL}
     restart: always
     expose:
       - "3000"
@@ -65,27 +63,24 @@ services:
       - api
     depends_on:
       - api
-    # ports:
-    #   - 80:3000
   monitor:
-    image: monitor_image_alpine
-    # build:
-    #   context: .
-    #   dockerfile: ./build_image_on_alpine/DockerfileRun
-    environment:
-      - DB_SOURCE=postgresql://root:secret@postgres:5432/ziwiki?sslmode=disable
-    depends_on:
-      - postgres
-      - api
-    volumes:
-      - wiki_data:/tmp/wiki
-    entrypoint:
-      [
-        "/app/wait-for.sh",
-        "postgres:5432",
-        "--",
-        "/app/start_monitor.sh"
-      ]
-    command: [ "/app/monitor" ]
+      build:
+        context: ./
+        dockerfile: ./build_image_on_alpine/monitor.Dockerfile
+      environment:
+        - DB_SOURCE=postgresql://root:secret@postgres:5432/ziwiki?sslmode=disable
+      depends_on:
+        - postgres
+        - api
+      volumes:
+        - wiki_data:/tmp/wiki
+      entrypoint:
+        [
+          "/app/wait-for.sh",
+          "postgres:5432",
+          "--",
+          "/app/start_monitor.sh"
+        ]
+      command: [ "/app/monitor" ]
 volumes:
   wiki_data:
