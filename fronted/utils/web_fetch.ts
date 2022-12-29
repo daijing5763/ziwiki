@@ -82,6 +82,9 @@ export async function fetch_list_users(values: { [key: string]: string }, access
 export async function fetch_ban_user(values, access_token: string) {
   return fetch_post(values,`${backend_base_url}ban_user`,access_token)
 }
+export async function fetch_update_user(values, access_token: string) {
+  return fetch_post(values,`${backend_base_url}update_user`,access_token)
+}
 
 export async function fetch_list_sessions(values: { [key: string]: string }, access_token: string) {
   return fetch_post(values,`${backend_base_url}list_sessions`,access_token)
@@ -114,8 +117,5 @@ export function fetch_upload(values, access_token) {
     },
     body:formdata
   }
-  delete options.headers['Content-Type'];
-
-  console.log("options is:",options)
   fetch(`${backend_base_url}upload`,options)
 }

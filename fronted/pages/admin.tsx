@@ -1,6 +1,6 @@
 import Link from "next/link";
 import dynamic from 'next/dynamic'
-
+import Profile from "../components/profile"
 import PopNav from "../components/popnav";
 const SessionTable = dynamic(() => import('../components/sessiontable'))
 const UserTable = dynamic(() => import('../components/usertable'))
@@ -11,7 +11,6 @@ import { useState,useEffect } from 'react'
 import { authOptions } from './api/auth/[...nextauth]'
 import { unstable_getServerSession } from "next-auth/next"
 import { toast } from "react-toastify";
-import {GiEgyptianProfile} from "react-icons/gi"
 import { fetch_list_users, fetch_ban_user,fetch_list_sessions,fetch_list_active_sessions,fetch_ban_session } from "../utils/web_fetch"
 export default ({ session }) => {
   const [currentPage, setCurrentPage] = useState(1);
@@ -22,7 +21,8 @@ export default ({ session }) => {
   const [activesessionlist, setactivesessionlist] = useState([])
   const [changeuser, setchangeuser] = useState(false)
   const [changesession, setchangesession] = useState(false)
-  const [changeactivesession,setchangeactivesession] = useState(false)
+  const [changeactivesession, setchangeactivesession] = useState(false)
+  const [openUpdateProfile, setOpenUpdateProfile] = useState(false); 
   async function getUserList(values) {
     fetch_list_users(values, session.access_token).then(data => {
       if (data && !data.error) {
@@ -30,7 +30,7 @@ export default ({ session }) => {
       }
     })
   }
-
+  console.log("session is:",session)
   async function getSessionList(values) {
     fetch_list_sessions(values, session.access_token).then(data => {
       if (data && !data.error) {
@@ -96,24 +96,7 @@ return (
   <div className="overflow-hidden">
     <div className='mx-3 md:mx-4 sm:px-6 md:px-8'>
             <div className="overflow-hidden  my-5" >
-              <div className="w-full h-56 border-collapse pt-5 text-xl" >
-                  <figure className="relative flex flex-col-reverse bg-slate-100 rounded-lg px-4 mx:px-16 py-6 dark:bg-slate-800 dark:highlight-white/5">
-                    <blockquote className="mt-6 text-slate-700 dark:text-slate-300">
-                      <p>I feel like an idiot for not using Tailwind CSS until now.</p>
-                    </blockquote>
-                    <figcaption className="flex items-center space-x-4">
-                    <img src={`http://localhost:8080/static_get/${session.user_id}/profile.png`} alt="" className="flex-none w-24 h-24 rounded-full object-cover" loading="lazy" decoding="async"/>
-                      <div className="flex-auto">
-                          <div className="text-2xl text-slate-900 font-semibold dark:text-slate-300">
-                              <span className="absolute inset-0"></span>{session.username}
-                          </div>
-                          <div className="mt-0.5">
-                            {session.email}
-                          </div>
-                      </div>
-                    </figcaption>
-                </figure>
-              </div>
+            <Profile openUpdateProfile={openUpdateProfile} setOpenUpdateProfile={setOpenUpdateProfile} />
               <div className="lg:col-span-5 xl:col-span-6 flex flex-col pb-10 pt-10">
                 <div className="relative z-10 rounded-xl bg-slate-100 shadow-xl ring-1 ring-slate-900/5 overflow-hidden my-auto xl:mt-18 dark:bg-slate-800">
 

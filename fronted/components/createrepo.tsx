@@ -24,7 +24,6 @@ export default function CreateRepo({ repolistcount,setrepolistcount,open, setOpe
 
   async function onSubmit(values) {
     const id = toast("正在创建仓库...", { type: toast.TYPE.INFO, isLoading: true });
-    
     fetch_create_repo(values, session.access_token).then(data => {
       if (data && data.error) {
         toast.update(id, { render: "创建失败:"+data.error, type: toast.TYPE.ERROR, isLoading: false ,autoClose:2000 });
@@ -46,10 +45,10 @@ export default function CreateRepo({ repolistcount,setrepolistcount,open, setOpe
           leaveFrom="opacity-100"
           leaveTo="opacity-0"
         >
-        <div className="fixed inset-0 bg-transparent backdrop-blur-sm backdrop-brightness-75 bg-opacity-75 transition-opacity" />
+          <div className="fixed inset-0 bg-transparent backdrop-blur-sm backdrop-brightness-75 bg-opacity-75 transition-opacity" />
         </Transition.Child>
 
-        <div className="fixed overflow-auto lg:overflow-hidden inset-0 z-50 backdrop-blur-sm backdrop-brightness-75  dark:text-slate-300  xs:px-4 pt-20  md:p-20 lg:p-28">
+        <div className="fixed overflow-auto lg:overflow-hidden inset-0 z-50 backdrop-blur-sm backdrop-brightness-75  dark:text-slate-300  sm:px-4 sm:py-16  md:p-20 lg:pt-8">
           <div className="mx-0 md:mx-[max(0px,calc(50%-25rem))]">
             <Transition.Child
               as={Fragment}

@@ -7,6 +7,7 @@ import UploadProfile from "../../components/uploadprofile";
 const Search = dynamic(() => import('../../components/search'))
 const UpdateRepo = dynamic(() => import('../../components/updaterepo'))
 import Image from 'next/image'
+import Profile from "../../components/profile"
 import { AiFillGithub, AiFillGitlab,AiOutlineDelete,AiOutlineSync,AiOutlineEdit} from "react-icons/ai"
 import { SiGitee } from "react-icons/si"
 import { authOptions } from '../api/auth/[...nextauth]'
@@ -101,33 +102,15 @@ export default ({ session }) => {
 return (
 
 <div className="antialiased text-slate-500 dark:text-slate-400 bg-white dark:bg-slate-900 min-h-screen">
-  <PopNav />
+    <PopNav />
+    
     <CreateRepo repolistcount={repolistcount} setrepolistcount={setrepolistcount} open={open} setOpen={setOpen} />
     <UpdateRepo open={openUpdateRepo} setOpen={setOpenUpdateRepo} repo_id={repo_id_} repo_name={repo_name_} repo_git={repo_git_} repo_describe={repo_describe_} repo_from={repo_from_} repo_access_type={repo_access_type_} repo_user_name={repo_user_name_} repo_access_token={repo_access_token_} />
     <UploadProfile open={openUpdateProfile} setOpen={setOpenUpdateProfile} />
   <div className="overflow-hidden">
     <div className='mx-3 md:mx-4 sm:px-6 md:px-8'>
             <div className="overflow-hidden " >
-              <div className="w-full h-56 border-collapse pt-5 text-xl" >
-                  <figure className="relative flex flex-col-reverse bg-slate-100 rounded-lg px-4 md:px-16 py-6 dark:bg-slate-800 dark:highlight-white/5">
-                  <blockquote className="mt-6 text-slate-700 dark:text-slate-300">
-                      <p>I feel like an idiot for not using Tailwind CSS until now.</p>
-                    </blockquote>
-                    <figcaption onClick={() => { console.log("click image"); setOpenUpdateProfile(!openUpdateProfile) }} className="flex items-center space-x-4">
-                <img src={`http://localhost:8080/static_get/${session.user_id}/profile.png`} alt="" className="flex-none w-24 h-24 rounded-full object-cover" loading="lazy" decoding="async"/>
-                        
-                        <div className="flex-auto">
-                          <div className="text-2xl text-slate-900 font-semibold dark:text-slate-300">
-                              <span className="absolute inset-0"></span>{session.username}
-                          </div>
-                          <div className="mt-0.5">
-                            {session.email}
-                          </div>
-                        </div>
-                    </figcaption>
-                </figure>
-                
-          </div>
+            <Profile openUpdateProfile={openUpdateProfile} setOpenUpdateProfile={setOpenUpdateProfile} />
           
               <div className="lg:col-span-5 xl:col-span-6 flex flex-col">
                 <div className="relative z-10 rounded-xl bg-white shadow-xl ring-1 ring-slate-900/5 overflow-hidden my-auto xl:mt-18 dark:bg-slate-800">
