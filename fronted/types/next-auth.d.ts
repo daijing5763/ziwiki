@@ -10,7 +10,7 @@ declare module "next-auth" {
     username:string,
     email:string,
     created_at: string,
-    user_id:string,
+    user_id: string,
   }
 }
 
@@ -23,7 +23,7 @@ declare module "next-auth" {
     access_token: string
     username: string
     email: string
-    user_id:string
+    user_id: string
     user: {
       /** The user's postal address. */
       address: string

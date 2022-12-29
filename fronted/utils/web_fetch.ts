@@ -79,10 +79,14 @@ export async function fetch_register(values: { [key: string]: string }, access_t
 export async function fetch_list_users(values: { [key: string]: string }, access_token: string) {
   return fetch_post(values,`${backend_base_url}list_users`,access_token)
 }
+export async function fetch_user_info(values: { [key: string]: string }, access_token: string) {
+  return fetch_post(values,`${backend_base_url}user_info`,access_token)
+}
 export async function fetch_ban_user(values, access_token: string) {
   return fetch_post(values,`${backend_base_url}ban_user`,access_token)
 }
 export async function fetch_update_user(values, access_token: string) {
+  console.log("update user bio:",values)
   return fetch_post(values,`${backend_base_url}update_user`,access_token)
 }
 

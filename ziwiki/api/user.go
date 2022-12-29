@@ -249,8 +249,7 @@ func (server *Server) banUser(ctx *gin.Context) {
 }
 
 type updateUserRequest struct {
-	Bio   string `json:"bio" binding:"required"`
-	Email string `json:"email" binding:"required"`
+	Bio string `json:"bio" binding:"required"`
 }
 
 func (server *Server) updateUser(ctx *gin.Context) {
@@ -263,9 +262,8 @@ func (server *Server) updateUser(ctx *gin.Context) {
 	authPayload := ctx.MustGet(authorizationPayloadKey).(*token.Payload)
 
 	arg := db.UpdateUserParams{
-		ID:    authPayload.UserID,
-		Bio:   req.Bio,
-		Email: req.Email,
+		ID:  authPayload.UserID,
+		Bio: req.Bio,
 	}
 
 	repos, err := server.store.UpdateUser(ctx, arg)
@@ -274,4 +272,29 @@ func (server *Server) updateUser(ctx *gin.Context) {
 		return
 	}
 	ctx.JSON(http.StatusOK, repos)
+}
+
+type UserInfoRequest struct {
+	Username string `json:"username" binding:"required"`
+}
+
+func (server *Server) getUserInfo(ctx *gin.Context) {
+	var req UserInfoRequest
+	if err := ctx.ShouldBindJSON(&req); err != nil {
+		ctx.JSON(http.StatusBadRequest, errorResponse(err))
+		return
+	}
+	authPayload := ctx.MustGet(authorizationPayloadKey).(*token.Payload)
+
+	user, err := server.store.GetUser(ctx, req.Username)
+	if authPayload.UserID != user.ID {
+		err := errors.New("current user is not the user")
+		ctx.JSON(http.StatusUnauthorized, errorResponse(err))
+		return
+	}
+	if err != nil {
+		ctx.JSON(http.StatusInternalServerError, errorResponse(err))
+		return
+	}
+	ctx.JSON(http.StatusOK, user)
 }

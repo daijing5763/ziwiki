@@ -55,6 +55,7 @@ func (server *Server) setupRouter() {
 	authRoutes.POST("/upload", server.uploadProfile)
 	authRoutes.POST("/ban_user", server.banUser)
 	authRoutes.POST("/update_user", server.updateUser)
+	authRoutes.POST("/user_info", server.getUserInfo)
 	authRoutes.POST("/list_active_sessions", server.listActiveSession)
 	authRoutes.POST("/list_sessions", server.listSession)
 	authRoutes.POST("/ban_session", server.banSession)
