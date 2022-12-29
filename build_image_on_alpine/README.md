@@ -12,9 +12,21 @@ docker build -t deps_image_alpine -f ./deps.Dockerfile .
 
 ## 2. api 镜像
 
+从ziwiki目录:
+
+```shell
+docker build -t local_api -f ./build_image_on_alpine/api.Dockerfile .
+```
+
 docker-compose中构建
 
 ## 3. monitor 镜像
+
+从ziwiki目录:
+
+```shell
+docker build -t local_monitor -f ./build_image_on_alpine/monitor.Dockerfile .
+```
 
 docker-compose中构建
 
@@ -27,7 +39,7 @@ docker-compose中构建
 front fronted:
 
 ```shell
-docker build -t nextdev . -f dev.Dockerfile
+docker build -t nextdev . -f prod.Dockerfile
 ```
 
 ## postgres

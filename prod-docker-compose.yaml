@@ -23,9 +23,10 @@ services:
     expose:
       - "5342"
   api:
-    build:
-      context: ./
-      dockerfile: ./build_image_on_alpine/api.Dockerfile
+    image: local_api
+    # build:
+    #   context: ./
+    #   dockerfile: ./build_image_on_alpine/api.Dockerfile
     expose:
       - "8080"
     environment:
@@ -62,9 +63,10 @@ services:
     depends_on:
       - api
   monitor:
-    build:
-      context: ./
-      dockerfile: ./build_image_on_alpine/monitor.Dockerfile
+    image: local_monitor
+    # build:
+    #   context: ./
+    #   dockerfile: ./build_image_on_alpine/monitor.Dockerfile
     environment:
       - DB_SOURCE=postgresql://root:secret@postgres:5432/ziwiki?sslmode=disable
     depends_on:
