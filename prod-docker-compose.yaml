@@ -22,8 +22,6 @@ services:
       - POSTGRES_DB=ziwiki
     expose:
       - "5342"
-    ports:
-      - "5432:5432"
   api:
     build:
       context: ./
@@ -55,14 +53,10 @@ services:
         NEXT_PUBLIC_BACKEND_URL: ${NEXT_PUBLIC_BACKEND_URL}
         NEXT_PUBLIC_SERVER_URL: ${NEXT_PUBLIC_SERVER_URL}
         NEXT_PUBLIC_USE_HTTPS: ${NEXT_PUBLIC_USE_HTTPS}
-        NEXT_PUBLIC_NEXTAUTH_URL: https://www.zizdlp.com/
-        NEXTAUTH_URL: https://www.zizdlp.com/
-        HELLO: https://www.zizdlp.com/
+        NEXTAUTH_URL: ${NEXTAUTH_URL}
     restart: always
     expose:
       - "3000"
-    ports:
-      - 3000:3000
     links:
       - api
     depends_on:

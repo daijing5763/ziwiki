@@ -1,17 +1,5 @@
 version: "3.3"
 services:
-  # nginx:
-  #   container_name: nginx
-  #   build: ./docker_nginx
-  #   ports:
-  #     - 80:80
-  #     - 443:443
-  #   links:
-  #     - api
-  #     - nextapp
-  #   depends_on:
-  #     - api
-  #     - nextapp
   postgres:
     build:
       context: ./build_image_on_alpine
@@ -34,7 +22,7 @@ services:
       - 8080:8080
     environment:
       - DB_SOURCE=postgresql://root:secret@postgres:5432/ziwiki?sslmode=disable
-      - USE_HTTPS=${NEXT_PUBLIC_DEV_USE_HTTPS}
+      - USE_HTTPS=${NEXT_PUBLIC_USE_HTTPS}
     depends_on:
       - postgres
     volumes:
@@ -47,27 +35,26 @@ services:
         "/app/start.sh"
       ]
     command: [ "/app/server" ]
-  # nextapp:
-  #   container_name: nextapp
-  #   # image: nextprod
-  #   build:
-  #     context: ./fronted
-  #     dockerfile: prod.Dockerfile
-  #     args:
-  #       NEXT_PUBLIC_HOME_URL: ${NEXT_PUBLIC_DEV_HOME_URL}
-  #       NEXT_PUBLIC_BACKEND_URL: ${NEXT_PUBLIC_DEV_BACKEND_URL}
-  #       NEXT_PUBLIC_SERVER_URL: ${NEXT_PUBLIC_DEV_SERVER_URL}
-  #       NEXT_PUBLIC_USE_HTTPS: ${NEXT_PUBLIC_DEV_USE_HTTPS}
-  #       NEXTAUTH_URL: ${NEXT_PUBLIC_DEV_NEXTAUTH_URL}
-  #   restart: always
-  #   expose:
-  #     - "3000"
-  #   ports:
-  #     - 3000:3000
-  #   links:
-  #     - api
-  #   depends_on:
-  #     - api
+  nextapp:
+    container_name: nextapp
+    build:
+      context: ./fronted
+      dockerfile: prod.Dockerfile
+      args:
+        NEXT_PUBLIC_HOME_URL: ${NEXT_PUBLIC_HOME_URL}
+        NEXT_PUBLIC_BACKEND_URL: ${NEXT_PUBLIC_BACKEND_URL}
+        NEXT_PUBLIC_SERVER_URL: ${NEXT_PUBLIC_SERVER_URL}
+        NEXT_PUBLIC_USE_HTTPS: ${NEXT_PUBLIC_USE_HTTPS}
+        NEXTAUTH_URL: ${NEXTAUTH_URL}
+    restart: always
+    expose:
+      - "3000"
+    ports:
+      - 3000:3000
+    links:
+      - api
+    depends_on:
+      - api
   monitor:
     build:
       context: ./
