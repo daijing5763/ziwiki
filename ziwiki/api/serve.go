@@ -34,6 +34,7 @@ func NewServer(config util.Config, store db.Store) (*Server, error) {
 	return server, nil
 }
 func (server *Server) setupRouter() {
+	gin.SetMode(gin.ReleaseMode)
 	router := gin.Default()
 	router.Use(cors.New(cors.Config{
 		AllowOrigins: []string{"*"},

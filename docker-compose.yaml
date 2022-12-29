@@ -59,28 +59,30 @@ services:
     restart: always
     expose:
       - "3000"
+    ports:
+      - 3000:3000
     links:
       - api
     depends_on:
       - api
   monitor:
-      build:
-        context: ./
-        dockerfile: ./build_image_on_alpine/monitor.Dockerfile
-      environment:
-        - DB_SOURCE=postgresql://root:secret@postgres:5432/ziwiki?sslmode=disable
-      depends_on:
-        - postgres
-        - api
-      volumes:
-        - wiki_data:/tmp/wiki
-      entrypoint:
-        [
-          "/app/wait-for.sh",
-          "postgres:5432",
-          "--",
-          "/app/start_monitor.sh"
-        ]
-      command: [ "/app/monitor" ]
+    build:
+      context: ./
+      dockerfile: ./build_image_on_alpine/monitor.Dockerfile
+    environment:
+      - DB_SOURCE=postgresql://root:secret@postgres:5432/ziwiki?sslmode=disable
+    depends_on:
+      - postgres
+      - api
+    volumes:
+      - wiki_data:/tmp/wiki
+    entrypoint:
+      [
+        "/app/wait-for.sh",
+        "postgres:5432",
+        "--",
+        "/app/start_monitor.sh"
+      ]
+    command: [ "/app/monitor" ]
 volumes:
   wiki_data:
