@@ -44,5 +44,11 @@ docker build -t nextdev . -f prod.Dockerfile
 
 ## postgres
 
+从build_image_on_alpine目录:
+
+```shell
+docker build -t local_postgres -f ./postgres.Dockerfile .
+```
+
 1. 选择database:
 \psql ziwiki

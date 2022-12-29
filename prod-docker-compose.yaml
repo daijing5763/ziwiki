@@ -13,9 +13,10 @@ services:
       - api
       - nextapp
   postgres:
-    build:
-      context: ./build_image_on_alpine
-      dockerfile: ./postgres.Dockerfile
+    image: local_postgres
+    # build:
+    #   context: ./build_image_on_alpine
+    #   dockerfile: ./postgres.Dockerfile
     environment:
       - POSTGRES_USER=root
       - POSTGRES_PASSWORD=secret
