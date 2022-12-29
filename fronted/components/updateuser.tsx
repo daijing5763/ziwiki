@@ -11,7 +11,6 @@ export default function UpdateUser({ open, setOpen, bio }) {
   };
   
   const { data: session } = useSession()
-  console.log("session:",session)
   const cancelButtonRef = useRef(null)
   const formik = useFormik({
     initialValues: {

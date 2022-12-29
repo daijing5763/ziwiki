@@ -30,7 +30,6 @@ export default ({ session }) => {
       }
     })
   }
-  console.log("session is:",session)
   async function getSessionList(values) {
     fetch_list_sessions(values, session.access_token).then(data => {
       if (data && !data.error) {

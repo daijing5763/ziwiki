@@ -86,7 +86,6 @@ export async function fetch_ban_user(values, access_token: string) {
   return fetch_post(values,`${backend_base_url}ban_user`,access_token)
 }
 export async function fetch_update_user(values, access_token: string) {
-  console.log("update user bio:",values)
   return fetch_post(values,`${backend_base_url}update_user`,access_token)
 }
 
