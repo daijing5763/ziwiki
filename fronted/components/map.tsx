@@ -6,7 +6,7 @@ import { useState } from 'react'
 import { fetch_geo } from "../utils/web_fetch"
 import {use_https_url} from "../utils/env_variable"
 export default function Map({fetch_iplist}) {
-  const iplist=["111.192.244.71","172.104.187.223","152.104.187.203","172.18.0.1"]
+  const iplist=["152.104.187.203"]
   const [geolist, setgeolist] = useState([])
   const ref = useRef()
   useEffect(() => {
@@ -28,7 +28,13 @@ export default function Map({fetch_iplist}) {
     fetch_iplist.map((obj) => {
       let ip=obj.client_ip
       fetch_geo(ip).then(data => {
-        if (data && data.status && data.status == "success") {
+        if (use_https_url != "false") {
+          if (data && data.longitude) {
+            console.log("location:",data)
+            setgeolist((geolist) => [...geolist, { "lat": data.latitude, "long": data.longitude }])
+          }
+        }
+        else if (data && data.status && data.status == "success") {
           setgeolist((geolist) => [...geolist, { "lat": data.lat, "long": data.lon }])
         }
       })
