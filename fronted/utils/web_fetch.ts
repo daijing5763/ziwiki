@@ -105,7 +105,12 @@ export async function fetch_geo(ip) {
   const options = {
     method: "GET",
   }
-  const response = await fetch(`http://ip-api.com/json/${ip}`, options)
+  
+  var url = `http://ip-api.com/json/${ip}`
+  if (use_https_url != "false") {
+    url = `https://api.ipgeolocation.io/ipgeo?apiKey=340460ae63bf44edbe9210420a14534e&ip=${ip}`
+  }
+  const response = await fetch(url, options)
   const data = await response.json();
   return data;
 }
