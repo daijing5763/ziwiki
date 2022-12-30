@@ -35,26 +35,26 @@ services:
         "/app/start.sh"
       ]
     command: [ "/app/server" ]
-  nextapp:
-    container_name: nextapp
-    build:
-      context: ./fronted
-      dockerfile: prod.Dockerfile
-      args:
-        NEXT_PUBLIC_HOME_URL: ${NEXT_PUBLIC_HOME_URL}
-        NEXT_PUBLIC_BACKEND_URL: ${NEXT_PUBLIC_BACKEND_URL}
-        NEXT_PUBLIC_SERVER_URL: ${NEXT_PUBLIC_SERVER_URL}
-        NEXT_PUBLIC_USE_HTTPS: ${NEXT_PUBLIC_USE_HTTPS}
-        NEXTAUTH_URL: ${NEXTAUTH_URL}
-    restart: always
-    expose:
-      - "3000"
-    ports:
-      - 3000:3000
-    links:
-      - api
-    depends_on:
-      - api
+  # nextapp:
+  #   container_name: nextapp
+  #   build:
+  #     context: ./fronted
+  #     dockerfile: prod.Dockerfile
+  #     args:
+  #       NEXT_PUBLIC_HOME_URL: ${NEXT_PUBLIC_HOME_URL}
+  #       NEXT_PUBLIC_BACKEND_URL: ${NEXT_PUBLIC_BACKEND_URL}
+  #       NEXT_PUBLIC_SERVER_URL: ${NEXT_PUBLIC_SERVER_URL}
+  #       NEXT_PUBLIC_USE_HTTPS: ${NEXT_PUBLIC_USE_HTTPS}
+  #       NEXTAUTH_URL: ${NEXTAUTH_URL}
+  #   restart: always
+  #   expose:
+  #     - "3000"
+  #   ports:
+  #     - 3000:3000
+  #   links:
+  #     - api
+  #   depends_on:
+  #     - api
   monitor:
     build:
       context: ./

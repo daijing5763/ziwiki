@@ -3,34 +3,25 @@ import { Dialog, Transition } from '@headlessui/react'
 import { useFormik } from 'formik';
 import { toast } from "react-toastify";
 import { useSession } from "next-auth/react"
-import { fetch_update_user } from "../utils/web_fetch"
+import { fetch_delete_repo } from "../utils/web_fetch"
 import { Trans } from '@lingui/macro';
 import { t } from "@lingui/macro"
-export default function UpdateUser({ open, setOpen, bio,updatebio,setupdatebio }) {
-  const reloadSession = () => {
-    const event = new Event("visibilitychange");
-    document.dispatchEvent(event);
-  };
-  
+import {useRouter} from 'next/router'
+
+export default function DeleteRepo({ open, setOpen,repo_id }) {
   const { data: session } = useSession()
+  const router = useRouter()
   const cancelButtonRef = useRef(null)
-  const formik = useFormik({
-    initialValues: {
-      bio:bio,
-    },
-    onSubmit:onSubmit
-  })
-  async function onSubmit(values) {
-    const id = toast(t`bio updating ...`, { type: toast.TYPE.INFO, isLoading: true });
-    fetch_update_user(values, session.access_token).then(data => {
+  async function deleteRepo(values) {
+    const id = toast(t`Delete Repo...`, { type: toast.TYPE.INFO, isLoading: true });
+    fetch_delete_repo(values, session.access_token).then(data => {
       if (data && data.error) {
-        toast.update(id, { render: t`Update Failed:` + data.error, type: toast.TYPE.ERROR, isLoading: false, autoClose: 2000 });
+        toast.update(id, { render: t`Delete Failed:`+data.error, type: toast.TYPE.ERROR, isLoading: false,autoClose:2000 });
       } else {
-        toast.update(id, { render: t`Update Succeed`, type: toast.TYPE.SUCCESS, isLoading: false, autoClose: 1000 });
-        setupdatebio(!updatebio)
+        toast.update(id, { render: t`Delete Succeed`, type: toast.TYPE.SUCCESS, isLoading: false,autoClose:1000 });
       }
     })
-}
+  }
   return (
     <Transition.Root show={open} as={Fragment}>
       <Dialog as="div" className="relative z-50" initialFocus={cancelButtonRef} onClose={setOpen}>
@@ -59,35 +50,21 @@ export default function UpdateUser({ open, setOpen, bio,updatebio,setupdatebio }
             >
               <Dialog.Panel className="flex overflow-auto flex-col  border-slate-200/5 dark:border-slate-800/75 border md:rounded-lg bg-white dark:bg-slate-800/75">
               
+          
+                
               <header className=' justify-center px-4 py-4 overflow-auto relative flex text-slate-500 flex-row items-center border-b border-slate-300/75 dark:border-slate-800/75'>
                 
-                <form  className="flex grow  justify-center overflow-auto  items-center " onSubmit={formik.handleSubmit}>
+                <div  className="flex grow  justify-center overflow-auto  items-center ">
                   <div className="sm:overflow-hidden sm:rounded-md">
                     <div className="grid grid-cols-6 gap-4 gap-x-8 p-2">
                       <div className="col-span-6 justify-center flex-center">
                           <label htmlFor="repo_name" className="block text-center pt-2 pb-6 text-2xl font-bold text-gray-700 dark:text-slate-50">
-                            <Trans>Update Bio</Trans>
+                            <Trans>Aree You Sure Delete Repo ?</Trans>
                           </label>
                       </div>
     
     
-                    <div className="col-span-6 sm:col-span-6">
-                          <label htmlFor="repo_name" className="block text-sm font-medium text-gray-700 dark:text-slate-200">
-                            <Trans>Bio Text:</Trans>
-                          </label>
-                          <div className="flex content-center	">
-                            <input
-                            type="text"
-                            id="bio"
-                            autoComplete="bio"
-                            name='bio'
-                            placeholder={t`please write some bio info`}
-                            
-                            className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm dark:placeholder-slate-600 dark:text-slate-300 appearance-none dark:bg-slate-800/50  focus:outline-none  dark:border-gray-700 placeholder-slate-400"
-                            {...formik.getFieldProps('bio')}
-                                />
-                              </div>
-                    </div>
+
     
                     </div>
                       <div className="grid grid-cols-2 gap-x-4 sm:gap-x-6 lg:gap-x-4 xl:gap-x-6 p-4 sm:px-6 sm:py-5 lg:p-4 xl:px-6 xl:py-5">
@@ -102,14 +79,17 @@ export default function UpdateUser({ open, setOpen, bio,updatebio,setupdatebio }
                           <button
                           type='submit'
                           className="text-base font-medium rounded-lg bg-sky-500 dark:bg-sky-800 text-white py-3 text-center cursor-pointer dark:highlight-white/20"
-                              onClick={() => setOpen(false) }
+                          onClick={() => { deleteRepo({ "repo_id": repo_id }); router.push("/wiki" ); setOpen(false) } }
                           >
-                          <Trans>Accept</Trans>
+                          <Trans>Yes</Trans>
                         </button>
                       </div>
                   </div>
-                </form> 
-                </header>
+                </div> 
+
+</header>
+
+
               </Dialog.Panel>
             </Transition.Child>
           </div>

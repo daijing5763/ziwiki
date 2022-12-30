@@ -1,13 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import {RiMenu4Line,RiMenuLine} from  "react-icons/ri"
-import { MdDarkMode, MdLightMode ,MdLogin,MdMenu,MdClose,MdContentCopy} from "react-icons/md"
+import { MdDarkMode, MdLightMode} from "react-icons/md"
 import { AiFillGithub,AiOutlineSearch,AiOutlineUser,AiFillGitlab } from "react-icons/ai"
-import { CgProfile } from "react-icons/cg"
 import Link from 'next/link'
 import { useRouter } from 'next/router'
-import { getSession, useSession, signOut } from "next-auth/react"
-import {fetch_repo_info,fetch_markdown} from "../utils/web_fetch"
-import { RiLogoutBoxFill, RiLoginBoxFill, RiLogoutBoxLine, RiLoginBoxLine } from "react-icons/ri"
+import {  useSession, signOut } from "next-auth/react"
+import {fetch_repo_info} from "../utils/web_fetch"
+import { RiLogoutBoxLine } from "react-icons/ri"
 import { SiGitee } from "react-icons/si"
 function handleSignOut(){
   signOut({ callbackUrl: `/` })

@@ -3,7 +3,11 @@ import SideBar from '../../../components/sidebar'
 import Search from '../../../components/search'
 import { MathJaxContext } from "better-react-mathjax";
 import React, { useState, useEffect } from 'react';
-
+import Link from "next/link";
+import { Trans } from '@lingui/macro';
+import { t } from "@lingui/macro"
+import { SiGitee } from "react-icons/si"
+import { AiFillGithub, AiFillGitlab,AiOutlineDelete,AiOutlineSync,AiOutlineEdit} from "react-icons/ai"
 import parse from 'html-react-parser';
 import { authOptions } from '../../api/auth/[...nextauth]'
 import { unstable_getServerSession } from "next-auth/next"
@@ -12,13 +16,13 @@ import { useRouter } from "next/router"
 import { mathjax_config } from "../../../utils/mathjax_config"
 import {fetch_repo_info,fetch_markdown} from "../../../utils/web_fetch"
 import {html_parser_options_list,get_html_parser_option} from "../../../utils/json_parser_config"
-
+import UpdateRepo from '../../../components/updaterepo';
 
 export default function Home({ session }) {
   const router = useRouter();
   const slugs = router.query.slug;
   const repo_id = parseInt(Array.isArray(router.query.repoid) ? router.query.repoid[0] : router.query.repoid)
-  
+  const [openUpdateRepo, setOpenUpdateRepo] = useState(false); 
   const [repo_created_at, set_repo_created_at] = useState(''); 
   const [repo_describe, set_repo_describe] = useState(''); 
   const [repo_from, set_repo_from] = useState(''); 
@@ -61,7 +65,16 @@ export default function Home({ session }) {
       }
     })
   }
-
+  function showUpdateRepo(repo_name, repo_git, repo_describe, repo_from, repo_access_type, repo_user_name, repo_access_token) {
+    set_repo_name(repo_name)
+    set_repo_git(repo_git)
+    set_repo_describe(repo_describe)
+    set_repo_from(repo_from)
+    set_repo_access_token(repo_access_token)
+    set_repo_access_type(repo_access_type)
+    set_repo_user_name(repo_user_name)
+    setOpenUpdateRepo(!openUpdateRepo)
+  }
   async function getMarkdown(values) {
     fetch_markdown(values, session.access_token).then(data => {
       if (data && !data.error) {
@@ -117,7 +130,7 @@ return (
   <div className="antialiased  text-slate-500 dark:text-slate-400 bg-white dark:bg-slate-900 min-h-screen">
 
   <NavBar NavBarOpen={NavBarOpen} setNavBarOpen={setNavBarOpen} useSearch={useSearch} setUseSearch={setUseSearch} />
-
+  <UpdateRepo open={openUpdateRepo} setOpen={setOpenUpdateRepo} repo_id={repo_id}  repo_name={repo_name} repo_git={repo_git} repo_describe={repo_describe} repo_from={repo_from} repo_access_type={repo_access_type} repo_user_name={repo_user_name} repo_access_token={repo_access_token} />
     <div className="overflow-hidden">
     <div className={`xl:hidden fixed bottom-5 z-50 right-0 h-16 w-16 rounded-md `}>
           <RiMenuLine className={`${NavBarOpen && "hidden"} mr-2 md:mr-3 block w-10 h-10  dark:text-slate-200  hover:text-sky-500  cursor-pointer`} onClick={() => { localStorage.setItem('NavBarOpen', JSON.stringify(!NavBarOpen));setNavBarOpen(!NavBarOpen); }} />
@@ -141,26 +154,44 @@ return (
                 {parse(markdowntext, html_parser_options)}
                 {
                   ishome &&
-                  <div>
-                      <h1 className='text-3xl font-black text-slate-900 tracking-tight text-center dark:text-slate-200  pb-6 my-3'>{repo_name}</h1>
-                      <h5 className='text-base font-bold 	  text-slate-900 tracking-tight  dark:text-slate-200  py-1' id="hello-4">
-                        仓库创建日期:
-                        <span className=' pl-2 my-2  text-base  text-slate-700 dark:text-slate-400'>{ repo_created_at}</span>
-                      </h5>
 
-                      <h5 className='text-base font-bold 	  text-slate-900 tracking-tight  dark:text-slate-200  py-1' id="hello-4">
-                        仓库类型:
-                        <span className=' pl-2 my-2  text-base  text-slate-700 dark:text-slate-400'>{ repo_from}</span>
-                      </h5>
-                      <h5 className='text-base font-bold 	  text-slate-900 tracking-tight  dark:text-slate-200  py-1' id="hello-4">
-                        仓库git地址:
-                        <span className=' pl-2 my-2  text-base  text-slate-700 dark:text-slate-400'>{ repo_git}</span>
-                      </h5>
-                      <h5 className='text-base font-bold 	  text-slate-900 tracking-tight  dark:text-slate-200  py-1' id="hello-4">
-                        仓库描述:
-                        <span className=' pl-2 my-2  text-base  text-slate-700 dark:text-slate-400'>{ repo_describe}</span>
-                      </h5>
-                    </div>
+      <section className="py-5 w-full border-collapse text-xl">
+        <div className="relative flex flex-col-reverse bg-slate-100 rounded-lg px-4 md:px-16 py-6 dark:bg-slate-800 dark:highlight-white/5">
+          <blockquote className="mt-6 pl-4 text-slate-700 dark:text-slate-300">
+            <p><Trans><span className='font-bold'>Describe:</span></Trans> {repo_describe}</p>
+          </blockquote>
+          <blockquote className="mt-6 pl-4 text-slate-700 dark:text-slate-300">
+            <p><Trans><span className='font-bold'>Git:</span></Trans> {repo_git}</p>
+          </blockquote>
+        <div className="flex items-center space-x-4">
+          <AiFillGithub className={`w-24 h-24 ${repo_from!="github" &&"hidden"}  `} />
+          <AiFillGitlab className={`w-24 h-24 ${repo_from!="gitlab" &&"hidden"} `} />
+          <SiGitee className={`w-24 h-24  ${repo_from!="gitee" &&"hidden"} ` }/>
+          <div className="flex-auto">
+            <div className="text-2xl text-slate-900 font-semibold dark:text-slate-300">
+              {repo_name}
+            </div>
+            <Link href="#" onClick={()=>showUpdateRepo(repo_name,repo_git,repo_describe,"d","e",repo_user_name,repo_access_token )}>
+                <AiOutlineEdit className={`w-10 h-10 p-2 `} />
+              </Link>
+          </div>
+        </div>
+      </div>
+    </section>
+                
+
+
+
+
+
+
+
+
+
+
+
+
+
                 }
 
             </MathJaxContext>
@@ -179,7 +210,7 @@ return (
       </div>
 
   </div>
-  {useSearch && (<Search useSearch={useSearch} setUseSearch={setUseSearch}/>)}
+    {useSearch && (<Search useSearch={useSearch} setUseSearch={setUseSearch} repo_id={repo_id as number} />)}
 
 </div>
   )
@@ -195,10 +226,6 @@ export async function getServerSideProps(context) {
         }
     }
   }
-  context.res.setHeader(
-    'Cache-Control',
-    'public, s-maxage=10, stale-while-revalidate=59'
-  )
   return {
     props: {
       session,

@@ -13,9 +13,30 @@ msgstr ""
 "Language-Team: \n"
 "Plural-Forms: \n"
 
+#: pages/wiki/[repoid]/[...slug].tsx:161
+msgid "<0>Describe:</0>"
+msgstr "<0>描述:</0>"
+
+#: pages/wiki/[repoid]/[...slug].tsx:164
+msgid "<0>Git:</0>"
+msgstr "<0>Git:</0>"
+
+#: components/updateuser.tsx:107
+#: components/uploadprofile.tsx:88
+msgid "Accept"
+msgstr "提交"
+
 #: pages/auth/register.tsx:141
 msgid "Already have one account?"
 msgstr "已经有账号？"
+
+#: components/deleterepo.tsx:62
+msgid "Aree You Sure Delete Repo ?"
+msgstr "确定删除仓库？"
+
+#: components/updateuser.tsx:76
+msgid "Bio Text:"
+msgstr "个性签名："
 
 #: components/popnav.tsx:14
 #~ msgid "Chinese"
@@ -24,6 +45,32 @@ msgstr "已经有账号？"
 #: pages/auth/register.tsx:124
 msgid "Confirm Password"
 msgstr "确认密码"
+
+#: pages/wiki/index.tsx:179
+msgid "Create Repo"
+msgstr "新建仓库"
+
+#: components/deleterepo.tsx:77
+#: components/updateuser.tsx:100
+#: components/uploadprofile.tsx:81
+msgid "Decline"
+msgstr "取消"
+
+#: components/deleterepo.tsx:19
+msgid "Delete Failed:"
+msgstr "删除失败："
+
+#: components/sidebar.tsx:59
+msgid "Delete Repo"
+msgstr "删除仓库"
+
+#: components/deleterepo.tsx:16
+msgid "Delete Repo..."
+msgstr "删除仓库..."
+
+#: components/deleterepo.tsx:21
+msgid "Delete Succeed"
+msgstr "删除成功"
 
 #: pages/auth/register.tsx:92
 msgid "Email"
@@ -61,6 +108,28 @@ msgstr "登陆成功"
 msgid "Log in..."
 msgstr "登陆中"
 
+#: pages/wiki/index.tsx:107
+msgid "New"
+msgstr "新建"
+
+#: components/pagebar.tsx:22
+msgid "Next"
+msgstr "下一页"
+
+#: components/pagebar.tsx:11
+msgid "Previous"
+msgstr "上一页"
+
+#: pages/wiki/index.tsx:100
+msgid "Projects"
+msgstr "所有项目"
+
+#: components/sidebar.tsx:41
+#: pages/wiki/index.tsx:114
+msgid "Quick search..."
+msgstr "快速搜索..."
+
+#: pages/auth/register.tsx:69
 #: pages/auth/register.tsx:134
 msgid "Register"
 msgstr "注册"
@@ -77,13 +146,87 @@ msgstr "注册成功"
 msgid "Register..."
 msgstr "注册中..."
 
+#: components/sidebar.tsx:66
+msgid "Repo Info"
+msgstr "仓库信息"
+
+#: components/search.tsx:113
+msgid "Search Document"
+msgstr "搜索文档"
+
+#: components/search.tsx:123
+msgid "Search all documents of current repo"
+msgstr "搜索当前仓库的所有文档"
+
+#: components/search.tsx:121
+msgid "Search all documents of current user"
+msgstr "搜索当前用户所有仓库的文档"
+
+#: components/search.tsx:146
+msgid "Searched By"
+msgstr "搜索提供商:"
+
+#: components/sidebar.tsx:18
+#: pages/wiki/index.tsx:52
+msgid "Sync Failed:"
+msgstr "同步失败:"
+
+#: components/sidebar.tsx:53
+msgid "Sync Repo"
+msgstr "同步仓库"
+
+#: pages/wiki/index.tsx:49
+msgid "Sync Repo..."
+msgstr "同步仓库..."
+
+#: components/sidebar.tsx:20
+#: pages/wiki/index.tsx:54
+msgid "Sync Succeed"
+msgstr "同步成功"
+
+#: components/updateuser.tsx:69
+msgid "Update Bio"
+msgstr "更新个性签名"
+
+#: components/updateuser.tsx:27
+msgid "Update Failed:"
+msgstr "更新失败:"
+
+#: components/uploadprofile.tsx:60
+msgid "Update Profile"
+msgstr "上传头像"
+
+#: components/sidebar.tsx:15
+msgid "Update Repo..."
+msgstr "更新仓库..."
+
+#: components/updateuser.tsx:29
+msgid "Update Succeed"
+msgstr "更新成功"
+
 #: pages/auth/register.tsx:77
 msgid "Username"
 msgstr "用户名"
 
+#: components/deleterepo.tsx:84
+msgid "Yes"
+msgstr "确认"
+
+#: components/updateuser.tsx:24
+msgid "bio updating ..."
+msgstr "个性签名更新中"
+
 #: pages/auth/login.tsx:74
 #~ msgid "if you already have accout,please sign in"
 #~ msgstr "如果您已经有账号，请登陆"
+
+#: components/search.tsx:122
+msgid "in current repo"
+msgstr "的文档"
+
+#: components/search.tsx:120
+msgid "in current user"
+msgstr "的文档"
 
 #: pages/index.tsx:21
 msgid "index_0"
@@ -153,10 +296,23 @@ msgstr "需要注册账号？"
 msgid "login_6"
 msgstr "注册"
 
+#: components/search.tsx:120
+#: components/search.tsx:122
+msgid "not found document includes:"
+msgstr "未搜索到包含:"
+
 #: pages/auth/login.tsx:101
 #: pages/auth/register.tsx:107
 msgid "password"
 msgstr "密码"
+
+#: components/updateuser.tsx:84
+msgid "please write some bio info"
+msgstr "写一些东西吧"
+
+#: components/uploadprofile.tsx:15
+msgid "upload Profile Done, may need refresh page"
+msgstr "上传成功，可能需要刷新页面才能显示"
 
 #: pages/auth/login.tsx:84
 msgid "username"

@@ -45,6 +45,13 @@ export async function fetch_markdown(values: { [key: string]: string }, access_t
 export async function fetch_markdown_user(values: { [key: string]: string }, access_token: string) {
   return fetch_post(values,`${backend_base_url}query_markdown_user`,access_token)
 }
+interface mdrepo {
+  plainto_tsquery: string;
+  repo_id:number
+}
+export async function fetch_markdown_repo(values:mdrepo, access_token: string) {
+  return fetch_post(values,`${backend_base_url}query_markdown_repo`,access_token)
+}
 
 export async function fetch_repo_list(values: { [key: string]: string }, access_token: string) {
   return fetch_post(values,`${backend_base_url}get_repo_list`,access_token)

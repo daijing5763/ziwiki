@@ -13,6 +13,7 @@ import { unstable_getServerSession } from "next-auth/next"
 import { toast } from "react-toastify";
 import { fetch_list_users, fetch_ban_user,fetch_list_sessions,fetch_list_active_sessions,fetch_ban_session } from "../utils/web_fetch"
 export default ({ session }) => {
+  const [imagekey, setimagekey] = useState(1);
   const [currentPage, setCurrentPage] = useState(1);
   const [currentsessionPage, setsessionpage] = useState(1);
   const [currentactivesessionPage, setactivesessionpage] = useState(1);
@@ -94,8 +95,8 @@ return (
   <PopNav />
   <div className="overflow-hidden">
     <div className='mx-3 md:mx-4 sm:px-6 md:px-8'>
-            <div className="overflow-hidden  my-5" >
-            <Profile openUpdateProfile={openUpdateProfile} setOpenUpdateProfile={setOpenUpdateProfile} />
+        <div className="overflow-hidden  my-5" >
+            <Profile openUpdateProfile={openUpdateProfile} setOpenUpdateProfile={setOpenUpdateProfile} imagekey={imagekey} />
               <div className="lg:col-span-5 xl:col-span-6 flex flex-col pb-10 pt-10">
                 <div className="relative z-10 rounded-xl bg-slate-100 shadow-xl ring-1 ring-slate-900/5 overflow-hidden my-auto xl:mt-18 dark:bg-slate-800">
 

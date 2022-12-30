@@ -1,21 +1,24 @@
 import Link from "next/link";
-import dynamic from 'next/dynamic'
 import { useState,useEffect } from 'react'
 import PopNav from "../../components/popnav";
+import DeleteRepo from "../../components/deleterepo";
 import CreateRepo from "../../components/createrepo";
 import UploadProfile from "../../components/uploadprofile";
-const Search = dynamic(() => import('../../components/search'))
-const UpdateRepo = dynamic(() => import('../../components/updaterepo'))
-import Image from 'next/image'
+import Search from '../../components/search'
+import UpdateRepo from '../../components/updaterepo'
 import Profile from "../../components/profile"
+import PageBar from "../../components/pagebar";
 import { AiFillGithub, AiFillGitlab,AiOutlineDelete,AiOutlineSync,AiOutlineEdit} from "react-icons/ai"
 import { SiGitee } from "react-icons/si"
 import { authOptions } from '../api/auth/[...nextauth]'
 import { unstable_getServerSession } from "next-auth/next"
 import { toast } from "react-toastify";
-import { ChevronLeftIcon, ChevronRightIcon } from '@heroicons/react/20/solid'
-import {fetch_repo_list,fetch_sync_repo,fetch_delete_repo,fetch_update_repo} from "../../utils/web_fetch"
+import { Trans } from '@lingui/macro';
+import { t } from "@lingui/macro"
+import {fetch_repo_list,fetch_sync_repo,fetch_delete_repo} from "../../utils/web_fetch"
 export default ({ session }) => {
+  const [deleteopen, setdeleteopen] = useState(false);
+  const [imagekey, setimagekey] = useState(1);
   const [useSearch, setUseSearch] = useState(false);
   const [repolist, setrepolist] = useState([])
   const [repolistcount, setrepolistcount] = useState(0)
@@ -43,34 +46,12 @@ export default ({ session }) => {
   }
 
   async function syncRepo(values) {
-    const id = toast("正在同步仓库...", { type: toast.TYPE.INFO, isLoading: true });
+    const id = toast(t`Sync Repo...`, { type: toast.TYPE.INFO, isLoading: true });
     fetch_sync_repo(values, session.access_token).then(data => {
       if (data && data.error) {
-        toast.update(id, { render: "同步失败:"+data.error, type: toast.TYPE.ERROR, isLoading: false,autoClose:2000 });
+        toast.update(id, { render: t`Sync Failed:`+data.error, type: toast.TYPE.ERROR, isLoading: false,autoClose:2000 });
       } else {
-        toast.update(id, { render: "同步成功", type: toast.TYPE.SUCCESS, isLoading: false,autoClose:1000 });
-      }
-    })
-  }
-
-  async function deleteRepo(values) {
-    const id = toast("正在删除仓库...", { type: toast.TYPE.INFO, isLoading: true });
-    fetch_delete_repo(values, session.access_token).then(data => {
-      if (data && data.error) {
-        toast.update(id, { render: "删除失败:"+data.error, type: toast.TYPE.ERROR, isLoading: false,autoClose:2000 });
-      } else {
-        toast.update(id, { render: "删除成功", type: toast.TYPE.SUCCESS, isLoading: false,autoClose:1000 });
-      }
-    })
-  }
-
-  async function updateRepo(values) {
-    const id = toast("正在更新仓库...", { type: toast.TYPE.INFO, isLoading: true });
-    fetch_update_repo(values, session.access_token).then(data => {
-      if (data && data.error) {
-        toast.update(id, { render: "更新失败:"+data.error, type: toast.TYPE.ERROR, isLoading: false,autoClose:2000 });
-      } else {
-        toast.update(id, { render: "更新成功", type: toast.TYPE.SUCCESS, isLoading: false,autoClose:1000 });
+        toast.update(id, { render: t`Sync Succeed`, type: toast.TYPE.SUCCESS, isLoading: false,autoClose:1000 });
       }
     })
   }
@@ -103,44 +84,40 @@ return (
 
 <div className="antialiased text-slate-500 dark:text-slate-400 bg-white dark:bg-slate-900 min-h-screen">
     <PopNav />
-    
+    <DeleteRepo  open={deleteopen} setOpen={setdeleteopen} repo_id={repo_id_} /> 
     <CreateRepo repolistcount={repolistcount} setrepolistcount={setrepolistcount} open={open} setOpen={setOpen} />
     <UpdateRepo open={openUpdateRepo} setOpen={setOpenUpdateRepo} repo_id={repo_id_} repo_name={repo_name_} repo_git={repo_git_} repo_describe={repo_describe_} repo_from={repo_from_} repo_access_type={repo_access_type_} repo_user_name={repo_user_name_} repo_access_token={repo_access_token_} />
-    <UploadProfile open={openUpdateProfile} setOpen={setOpenUpdateProfile} />
+    <UploadProfile open={openUpdateProfile} setOpen={setOpenUpdateProfile} imagekey={imagekey} setimagekey={setimagekey} />
   <div className="overflow-hidden">
     <div className='mx-3 md:mx-4 sm:px-6 md:px-8'>
             <div className="overflow-hidden " >
-            <Profile openUpdateProfile={openUpdateProfile} setOpenUpdateProfile={setOpenUpdateProfile} />
+            <Profile openUpdateProfile={openUpdateProfile} setOpenUpdateProfile={setOpenUpdateProfile} imagekey={imagekey} />
           
-              <div className="lg:col-span-5 xl:col-span-6 flex flex-col">
-                <div className="relative z-10 rounded-xl bg-white shadow-xl ring-1 ring-slate-900/5 overflow-hidden my-auto xl:mt-18 dark:bg-slate-800">
-                <section>
-                  <header className="rounded-t-xl text-lg h-36 space-y-4 p-4 sm:px-8 sm:py-6 lg:p-4 xl:px-8 xl:py-6 dark:highlight-white/10">
+                <section className="mb-5 rounded-xl bg-slate-100 shadow-xl ring-1 ring-slate-900/5 overflow-hidden xl:mt-18 dark:bg-slate-800">
+                  <header className="rounded-t-xl  text-lg h-36 space-y-4 p-4 sm:px-8 sm:py-6 lg:p-4 xl:px-8 xl:py-6  dark:highlight-white/10">
                     <div className="flex items-center justify-between">
                       <h2 className="font-semibold text-slate-900 dark:text-white">
-                        Projects
+                        <Trans>Projects</Trans>
                       </h2>
                       <div  onClick={showCreateRepo}  className="group flex items-center rounded-md bg-blue-500 text-white text-sm font-medium pl-2 pr-3 py-2 cursor-pointer shadow-sm hover:bg-blue-400">
                         <svg width="20" height="20" fill="currentColor" className="mr-2">
                           <path d="M10 5a1 1 0 0 1 1 1v3h3a1 1 0 1 1 0 2h-3v3a1 1 0 1 1-2 0v-3H6a1 1 0 1 1 0-2h3V6a1 1 0 0 1 1-1Z">
                           </path>
                         </svg>
-                        New
+                        <Trans>New</Trans>
                       </div>
                     </div>
                     <div className="group relative rounded-md dark:bg-slate-700 dark:highlight-white/10 dark:focus-within:bg-transparent">
-                      {/* <svg width="20" height="20" fill="currentColor" className="absolute left-3 top-1/2 -mt-2.5 text-slate-400 pointer-events-none group-focus-within:text-blue-500 dark:text-slate-500">
-                        <path fillRule="evenodd" clipRule="evenodd" d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z"></path>
-                    </svg> */}
-                    <button onClick={()=>{setUseSearch(!useSearch)}} type="button" className="flex w-full  items-center text-sm leading-6 text-slate-400 rounded-md ring-1 ring-slate-900/10 shadow-sm py-1.5 pl-2 pr-3 hover:ring-slate-300 dark:hover:ring-slate-700 dark:bg-slate-700 dark:highlight-white/5 dark:hover:bg-slate-700">
+
+                    <button onClick={()=>{setUseSearch(!useSearch)}} type="button" className="flex w-full  items-center text-sm leading-6 text-slate-400 rounded-md ring-1 ring-slate-900/10 shadow-sm py-1.5 pl-2 pr-3 bg-white hover:ring-slate-300 dark:hover:ring-slate-700 dark:bg-slate-700 dark:highlight-white/5 dark:hover:bg-slate-700">
                       <svg width="24" height="24" fill="none" aria-hidden="true" className="mr-3 flex-none"><path d="m19 19-3.5-3.5" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"></path><circle cx="11" cy="11" r="6" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"></circle></svg>
-                      Quick search...
+                      <Trans>Quick search...</Trans>
                       <span className="ml-auto pl-3 flex-none text-xs font-semibold">⌘K</span>
                     </button>
-                      {/* <button onClick={()=>{setUseSearch(!useSearch)}} aria-label="Filter projects" placeholder="Filter projects..." className="appearance-none w-full text-sm leading-6 bg-transparent text-slate-900 placeholder:text-slate-400 rounded-md py-2 pl-10 ring-1 ring-slate-200 shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 dark:text-slate-100 dark:placeholder:text-slate-500 dark:ring-0 dark:focus:ring-2"/> */}
+                      
                     </div>
                   </header>
-                  <ul className="bg-slate-50 p-4 sm:px-8 sm:pt-6 sm:pb-8 lg:p-4 xl:px-8 xl:pt-6 xl:pb-8 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3  lg:grid-cols-4 3xl:grid-cols-5 gap-4 text-sm leading-6 dark:bg-slate-900/40 dark:ring-1 dark:ring-white/5">
+                  <ul className=" p-4 sm:px-8 sm:pt-6 sm:pb-8 lg:p-4 xl:px-8 xl:pt-6 xl:pb-8 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3  lg:grid-cols-4 3xl:grid-cols-5 gap-4 text-sm leading-6 dark:bg-slate-900/40 dark:ring-1 dark:ring-white/5 ">
                       {repolist.map((repo,index) => (
                           <li key={index} className="group cursor-pointer rounded-md p-3 bg-white ring-1 ring-slate-200
                           shadow-sm hover:ring-2 hover:ring-blue-500 hover:shadow-md
@@ -161,7 +138,7 @@ return (
                               </Link>
                               <div className="col-start-2 row-start-1 row-end-3">
                                 <dd className="flex justify-end sm:justify-end lg:justify-end xl:justify-end -space-x-1.5">
-                                  <Link href="#" onClick={()=>deleteRepo( { "repo_id": repo.id  })}>
+                                  <Link href="#" onClick={() => { set_repo_id(repo.id); setdeleteopen(true);getRepoList( { "page_id": currentPage, "page_size": 10 }) }}>
                                     <AiOutlineDelete className={`w-10 h-10 p-2 `} />
                                   </Link>
                                   <Link href="#" onClick={()=>syncRepo( { "repo_id": repo.id  })}>
@@ -170,7 +147,7 @@ return (
 
                                   <Link href="#" onClick={()=>showUpdateRepo(repo.id,repo.repo_name,repo.repo_git,repo.repo_describe,"d","e",repo.repo_user_name,repo.repo_access_token )}>
                                     <AiOutlineEdit className={`w-10 h-10 p-2 `} />
-                                    </Link>
+                                  </Link>
                                 </dd>
                               </div>
                             </div>
@@ -199,68 +176,17 @@ return (
                           <path d="M10 5a1 1 0 0 1 1 1v3h3a1 1 0 1 1 0 2h-3v3a1 1 0 1 1-2 0v-3H6a1 1 0 1 1 0-2h3V6a1 1 0 0 1 1-1Z">
                           </path>
                         </svg>
-                          新建仓库
+                          <Trans>Create Repo</Trans>
                         </div>
                       </li>
                 </ul>
-                
-                <div className="flex items-center justify-between  bg-transparent px-4 py-3 sm:px-6">
-      <div className="flex flex-1 justify-between sm:hidden">
-      <div
-          onClick={()=>{ if(currentPage>1){setCurrentPage(currentPage-1)} }}
-          className="relative inline-flex items-center rounded-md border dark:border-slate-800 dark:bg-slate-900/50 border-gray-300 bg-white dark:bg-slate-500 px-4 py-2 text-sm font-medium text-gray-700 dark:text-slate-300 hover:bg-gray-50"
-        >
-          Previous
-                    </div>
-        <div
-          
-          className="relative inline-flex items-center rounded-md border dark:border-slate-800 dark:bg-slate-900/50 border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-700 dark:text-slate-300 hover:bg-gray-50"
-        >
-          {currentPage}
-                    </div>      
-        <div
-          onClick={() => { setCurrentPage(currentPage + 1) }}
-          className="relative ml-3 inline-flex items-center rounded-md border border-gray-300 dark:border-slate-800 dark:bg-slate-900/50 bg-white px-4 py-2 text-sm font-medium text-gray-700 dark:text-slate-300 hover:bg-gray-50"
-        >
-          Next
-        </div>
-      </div>
-      <div className="hidden sm:flex sm:flex-1 sm:items-center sm:justify-center">
-        <div>
-          <nav className="isolate inline-flex -space-x-px rounded-md shadow-sm" aria-label="Pagination">
-            <div onClick={()=>{ if(currentPage>1){setCurrentPage(currentPage-1)} }}
-              className="relative inline-flex items-center rounded-l-md border border-gray-300 dark:border-slate-800 bg-white dark:bg-slate-900/50 px-2 py-2 text-sm font-medium text-gray-500 hover:bg-gray-50 focus:z-20"
-            >
-              <span className="sr-only">Previous</span>
-              <ChevronLeftIcon className="h-5 w-5" aria-hidden="true" />
-            </div>
-            <div
-              aria-current="page"
-              className="relative z-10 inline-flex items-center border border-indigo-500 dark:border-slate-800 bg-indigo-50 dark:bg-slate-900/50 px-4 py-2 text-sm font-medium text-indigo-600 focus:z-20"
-            >
-              {currentPage}
-            </div>
-            <div onClick={() => { setCurrentPage(currentPage + 1) }}
-              className="relative inline-flex items-center rounded-r-md border dark:border-slate-800 dark:bg-slate-900/50 border-gray-300 bg-white px-2 py-2 text-sm font-medium text-gray-500 hover:bg-gray-50 focus:z-20"
-            >
-              <span className="sr-only">Next</span>
-              <ChevronRightIcon className="h-5 w-5" aria-hidden="true" />
-            </div>
-          </nav>
-        </div>
-      </div>
-    </div>
+                <PageBar currentPage={currentPage} setCurrentPage={setCurrentPage}  />
+  </section>
 
-
-
-
-                </section>
-      </div>
-    </div>
   </div>
   </div>
     </div>
-    {useSearch && (<Search useSearch={useSearch} setUseSearch={setUseSearch}/>)}
+    {useSearch && (<Search useSearch={useSearch} setUseSearch={setUseSearch} repo_id={-1} />)}
 
 </div>
 
@@ -278,10 +204,7 @@ export async function getServerSideProps(context) {
         }
     }
   }
-  context.res.setHeader(
-    'Cache-Control',
-    'public, s-maxage=10, stale-while-revalidate=59'
-  )
+
   return {
     props: {
       session,

@@ -2,11 +2,17 @@ import { useFormik } from 'formik';
 import { Fragment, useRef, useState,useEffect } from 'react'
 import { fetch_upload } from "../utils/web_fetch"
 import { useSession } from "next-auth/react"
+import { toast } from "react-toastify";
 import { Dialog, Transition } from '@headlessui/react'
-export default function UploadProfile({ open, setOpen }) {
+import { t } from "@lingui/macro"
+import { Trans } from '@lingui/macro';
+import Placeholder from 'react-select/dist/declarations/src/components/Placeholder';
+export default function UploadProfile({ open, setOpen,imagekey,setimagekey }) {
   const { data: session } = useSession()
   function handleSubmit(values) {
-    fetch_upload(values,session.access_token)
+    fetch_upload(values, session.access_token)
+    setimagekey(imagekey + 1)
+    toast(t`upload Profile Done, may need refresh page`, { type: toast.TYPE.INFO, autoClose:500 });
   }
   const formik = useFormik({
     initialValues: {
@@ -51,14 +57,16 @@ export default function UploadProfile({ open, setOpen }) {
                 <div className="grid grid-cols-6 gap-2 gap-x-8 p-2">
                   <div className="col-span-6 justify-center flex-center">
                       <label htmlFor="repo_name" className="block text-center pt-2 pb-6 text-2xl font-bold text-gray-700 dark:text-slate-50">
-                        更新肖像
+                        <Trans>Update Profile</Trans>
                       </label>
                   </div>
                 <div className="col-span-6 sm:col-span-6">
                       <div className="flex content-center	">
-                      <input 
-                        type="file" onChange={(event) => {
+                            <input 
+                            title = "Choose a video please"
+                          type="file" onChange={(event) => {
                           formik.setFieldValue("file", event.currentTarget.files[0]);
+                                
                         }} className="block w-full text-sm text-slate-500 file:text-sm file:font-semibold file:py-2 file:px-4 file:bg-sky-50 dark:file:bg-slate-700 file:text-sky-700 dark:file:text-slate-200 file:rounded-full file:border-0 file:mr-4 hover:file:bg-sky-100 focus:none focus:outline-sky-200 focus:rounded-full dark:focus:outline-1 dark:focus:outline-slate-700	focus:outline-dashed" />
                           </div>
                           </div>
@@ -70,14 +78,14 @@ export default function UploadProfile({ open, setOpen }) {
                         className="text-base font-medium rounded-lg bg-slate-100 text-slate-900 py-3 text-center cursor-pointer dark:bg-gray-700/75 dark:text-slate-200 dark:highlight-white/10"
                         onClick={() => setOpen(false)}
                       >
-                      Decline
+                      <Trans>Decline</Trans>
                     </button>
                       <button
                       type='submit'
                       className="text-base font-medium rounded-lg bg-sky-500 dark:bg-sky-800 text-white py-3 text-center cursor-pointer dark:highlight-white/20"
                           onClick={() => setOpen(false) }
                       >
-                      Accept
+                      <Trans>Accept</Trans> 
                     </button>
                   </div>
               </div>

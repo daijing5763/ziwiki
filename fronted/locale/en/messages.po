@@ -13,9 +13,30 @@ msgstr ""
 "Language-Team: \n"
 "Plural-Forms: \n"
 
+#: pages/wiki/[repoid]/[...slug].tsx:161
+msgid "<0>Describe:</0>"
+msgstr "<0>Describe:</0>"
+
+#: pages/wiki/[repoid]/[...slug].tsx:164
+msgid "<0>Git:</0>"
+msgstr "<0>Git:</0>"
+
+#: components/updateuser.tsx:107
+#: components/uploadprofile.tsx:88
+msgid "Accept"
+msgstr "Accept"
+
 #: pages/auth/register.tsx:141
 msgid "Already have one account?"
 msgstr "Already have one account?"
+
+#: components/deleterepo.tsx:62
+msgid "Aree You Sure Delete Repo ?"
+msgstr "Aree You Sure Delete Repo ?"
+
+#: components/updateuser.tsx:76
+msgid "Bio Text:"
+msgstr "Bio Text:"
 
 #: components/popnav.tsx:14
 #~ msgid "Chinese"
@@ -24,6 +45,32 @@ msgstr "Already have one account?"
 #: pages/auth/register.tsx:124
 msgid "Confirm Password"
 msgstr "Confirm Password"
+
+#: pages/wiki/index.tsx:179
+msgid "Create Repo"
+msgstr "Create Repo"
+
+#: components/deleterepo.tsx:77
+#: components/updateuser.tsx:100
+#: components/uploadprofile.tsx:81
+msgid "Decline"
+msgstr "Decline"
+
+#: components/deleterepo.tsx:19
+msgid "Delete Failed:"
+msgstr "Delete Failed:"
+
+#: components/sidebar.tsx:59
+msgid "Delete Repo"
+msgstr "Delete Repo"
+
+#: components/deleterepo.tsx:16
+msgid "Delete Repo..."
+msgstr "Delete Repo..."
+
+#: components/deleterepo.tsx:21
+msgid "Delete Succeed"
+msgstr "Delete Succeed"
 
 #: pages/auth/register.tsx:92
 msgid "Email"
@@ -61,6 +108,28 @@ msgstr "Log In Success"
 msgid "Log in..."
 msgstr "Log in..."
 
+#: pages/wiki/index.tsx:107
+msgid "New"
+msgstr "New"
+
+#: components/pagebar.tsx:22
+msgid "Next"
+msgstr "Next"
+
+#: components/pagebar.tsx:11
+msgid "Previous"
+msgstr "Previous"
+
+#: pages/wiki/index.tsx:100
+msgid "Projects"
+msgstr "Projects"
+
+#: components/sidebar.tsx:41
+#: pages/wiki/index.tsx:114
+msgid "Quick search..."
+msgstr "Quick search..."
+
+#: pages/auth/register.tsx:69
 #: pages/auth/register.tsx:134
 msgid "Register"
 msgstr "Register"
@@ -77,13 +146,87 @@ msgstr "Register Success"
 msgid "Register..."
 msgstr "Register..."
 
+#: components/sidebar.tsx:66
+msgid "Repo Info"
+msgstr "Repo Info"
+
+#: components/search.tsx:113
+msgid "Search Document"
+msgstr "Search Document"
+
+#: components/search.tsx:123
+msgid "Search all documents of current repo"
+msgstr "Search all documents of current repo"
+
+#: components/search.tsx:121
+msgid "Search all documents of current user"
+msgstr "Search all documents of current user"
+
+#: components/search.tsx:146
+msgid "Searched By"
+msgstr "Searched By"
+
+#: components/sidebar.tsx:18
+#: pages/wiki/index.tsx:52
+msgid "Sync Failed:"
+msgstr "Sync Failed:"
+
+#: components/sidebar.tsx:53
+msgid "Sync Repo"
+msgstr "Sync Repo"
+
+#: pages/wiki/index.tsx:49
+msgid "Sync Repo..."
+msgstr "Sync Repo..."
+
+#: components/sidebar.tsx:20
+#: pages/wiki/index.tsx:54
+msgid "Sync Succeed"
+msgstr "Sync Succeed"
+
+#: components/updateuser.tsx:69
+msgid "Update Bio"
+msgstr "Update Bio"
+
+#: components/updateuser.tsx:27
+msgid "Update Failed:"
+msgstr "Update Failed:"
+
+#: components/uploadprofile.tsx:60
+msgid "Update Profile"
+msgstr "Update Profile"
+
+#: components/sidebar.tsx:15
+msgid "Update Repo..."
+msgstr "Update Repo..."
+
+#: components/updateuser.tsx:29
+msgid "Update Succeed"
+msgstr "Update Succeed"
+
 #: pages/auth/register.tsx:77
 msgid "Username"
 msgstr "Username"
 
+#: components/deleterepo.tsx:84
+msgid "Yes"
+msgstr "Yes"
+
+#: components/updateuser.tsx:24
+msgid "bio updating ..."
+msgstr "bio updating ..."
+
 #: pages/auth/login.tsx:74
 #~ msgid "if you already have accout,please sign in"
 #~ msgstr "if you already have accout,please sign in"
+
+#: components/search.tsx:122
+msgid "in current repo"
+msgstr "in current repo"
+
+#: components/search.tsx:120
+msgid "in current user"
+msgstr "in current user"
 
 #: pages/index.tsx:21
 msgid "index_0"
@@ -153,10 +296,23 @@ msgstr "need an account?"
 msgid "login_6"
 msgstr "Register"
 
+#: components/search.tsx:120
+#: components/search.tsx:122
+msgid "not found document includes:"
+msgstr "not found document includes:"
+
 #: pages/auth/login.tsx:101
 #: pages/auth/register.tsx:107
 msgid "password"
 msgstr "password"
+
+#: components/updateuser.tsx:84
+msgid "please write some bio info"
+msgstr "please write some bio info"
+
+#: components/uploadprofile.tsx:15
+msgid "upload Profile Done, may need refresh page"
+msgstr "upload Profile Done, may need refresh page"
 
 #: pages/auth/login.tsx:84
 msgid "username"

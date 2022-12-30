@@ -66,7 +66,7 @@ export default function Register() {
                     </h1>
                   </div>
                 </Link>
-                <h2 className="font-bold  mt-5 text-2xl ">注册</h2>
+                <h2 className="font-bold  mt-5 text-2xl "><Trans>Register</Trans></h2>
                 <form className='flex flex-col gap-4' onSubmit={formik.handleSubmit}>
                   <div>
                     <div className="flex justify-center items-center mt-8 " >

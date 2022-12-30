@@ -107,7 +107,7 @@ return (
                         }
                     />
                     <MdDarkMode
-                        className={`  block w-6 h-6  hover:text-sky-500 cursor-pointer ${!themeDark && "hidden"}`}
+                        className={`block w-6 h-6  hover:text-sky-500 cursor-pointer ${!themeDark && "hidden"}`}
                         onClick={() => {
                             localStorage.setItem('themeDark', JSON.stringify(!themeDark));
                             if (!themeDark == true) {
