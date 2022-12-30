@@ -46,6 +46,14 @@ func (server *Server) setupRouter() {
 	router.POST("/users/login", server.loginUser)
 	router.POST("/tokens/renew_access", server.renewAccessToken)
 	router.Static("/static_get", "/tmp/wiki")
+	router.RemoteIPHeaders = append(router.RemoteIPHeaders, "True-Client-IP")
+	router.ForwardedByClientIP = true
+
+	router.GET("/ip", func(c *gin.Context) {
+		ip := c.ClientIP()
+		c.String(200, ip)
+		fmt.Println("ip is:", ip)
+	})
 
 	// Set a lower memory limit for multipart forms (default is 32 MiB)
 	router.MaxMultipartMemory = 1 << 19 // 512kb
