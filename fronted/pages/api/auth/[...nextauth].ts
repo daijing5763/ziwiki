@@ -6,29 +6,30 @@ export const authOptions: NextAuthOptions = {
     providers: [
         CredentialsProvider({
             credentials: {
-                username: { label: "username", type: "text", placeholder: "username" },
-                password: { label: "password ", type: "text", placeholder: "password" },
+                id: { label: "id", type: "text",  },
+                session_id: { label: "session_id", type: "text", },
+                access_token: { label: "access_token", type: "text", },
+                access_token_expires_at: { label: "access_token_expires_at", type: "text",  },
+                refresh_token: { label: "refresh_token", type: "text", },
+                refresh_token_expires_at: { label: "refresh_token_expires_at", type: "text", },
+                username: { label: "username", type: "text", },
+                email: { label: "email", type: "text",  },
+                created_at: { label: "created_at", type: "text",  },
+                user_id: { label: "user_id", type: "text",  },
             },
             name: "Credentials",
             async authorize(credentials) {
-                const result = await fetch_login(credentials,'')
-                if (!result) {
-                    throw new Error("something wrong may net work not connected")
-                }
-                if (result.error) {
-                    throw new Error(result.error)
-                }
                 let user = {
-                    id: result.user.id,
-                    session_id: result.session_id as string,
-                    access_token: result.access_token as string,
-                    access_token_expires_at: new Date(result.access_token_expires_at).getTime(),
-                    refresh_token: result.refresh_token as string,
-                    refresh_token_expires_at: new Date(result.refresh_token_expires_at).getTime(),
-                    username: result.user.username as string,
-                    email: result.user.email as string,
-                    created_at: result.user.created_at as string,
-                    user_id: result.user.id as string,
+                    id: credentials.id,
+                    session_id: credentials.session_id as string,
+                    access_token: credentials.access_token as string,
+                    access_token_expires_at: new Date(credentials.access_token_expires_at).getTime(),
+                    refresh_token: credentials.refresh_token as string,
+                    refresh_token_expires_at: new Date(credentials.refresh_token_expires_at).getTime(),
+                    username: credentials.username as string,
+                    email: credentials.email as string,
+                    created_at: credentials.created_at as string,
+                    user_id: credentials.id as string,
                 }
                 return user;
             }

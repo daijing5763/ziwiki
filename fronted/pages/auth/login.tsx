@@ -12,6 +12,7 @@ import { HiFingerPrint, HiOutlineUser } from "react-icons/hi";
 import { Trans } from '@lingui/macro';
 import { unstable_getServerSession } from "next-auth/next"
 import { t } from "@lingui/macro"
+import {fetch_renew_access,fetch_login} from "../../utils/web_fetch"
 export default function Login() {
 
   const [show, setShow] = useState(false)
@@ -29,10 +30,23 @@ export default function Login() {
 
   async function onSubmit(values) {
     const id = toast(t`Log in...`, { type: toast.TYPE.INFO, isLoading: true });
+    const result = await fetch_login(values, '')
+    if (result.error) {
+      toast.update(id, { render: t`Log In Fail:` + result.error, type: toast.TYPE.ERROR, isLoading: false, autoClose: 1000 });
+      return
+    }
     const status = await signIn('credentials', {
       redirect: false,
-      username: values.username,
-      password: values.password,
+      id: result.user.id,
+      session_id: result.session_id as string,
+      access_token: result.access_token as string,
+      access_token_expires_at: result.access_token_expires_at,
+      refresh_token: result.refresh_token as string,
+      refresh_token_expires_at: result.refresh_token_expires_at,
+      username: result.user.username as string,
+      email: result.user.email as string,
+      created_at: result.user.created_at as string,
+      user_id: result.user.id as string,
       callbackUrl: "/wiki"
     })
     if (status && status.error) {

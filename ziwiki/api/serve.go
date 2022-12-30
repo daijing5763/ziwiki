@@ -52,7 +52,6 @@ func (server *Server) setupRouter() {
 	router.GET("/ip", func(c *gin.Context) {
 		ip := c.ClientIP()
 		c.String(200, ip)
-		fmt.Println("ip is:", ip)
 	})
 
 	// Set a lower memory limit for multipart forms (default is 32 MiB)
