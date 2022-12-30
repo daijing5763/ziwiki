@@ -111,10 +111,6 @@ func (server *Server) loginUser(ctx *gin.Context) {
 		ctx.JSON(http.StatusBadRequest, errorResponse(err))
 		return
 	}
-	ip := ctx.ClientIP()
-	fmt.Println("ip is:", ip)
-	// ctx.String(200, ip)
-	// fmt.Println("login user ip is:", ip)
 	user, err := server.store.GetUser(ctx, req.Username)
 	if err != nil {
 		if err == sql.ErrNoRows {

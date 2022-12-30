@@ -49,11 +49,6 @@ func (server *Server) setupRouter() {
 	router.RemoteIPHeaders = append(router.RemoteIPHeaders, "True-Client-IP")
 	router.ForwardedByClientIP = true
 
-	router.GET("/ip", func(c *gin.Context) {
-		ip := c.ClientIP()
-		c.String(200, ip)
-	})
-
 	// Set a lower memory limit for multipart forms (default is 32 MiB)
 	router.MaxMultipartMemory = 1 << 19 // 512kb
 
