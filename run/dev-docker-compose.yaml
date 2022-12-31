@@ -2,7 +2,7 @@ version: "3.3"
 services:
   postgres:
     build:
-      context: ./build_image_on_alpine
+      context: ../build
       dockerfile: ./postgres.Dockerfile
     environment:
       - POSTGRES_USER=root
@@ -14,8 +14,8 @@ services:
       - "5432:5432"
   api:
     build:
-      context: ./
-      dockerfile: ./build_image_on_alpine/api.Dockerfile
+      context: ../
+      dockerfile: ./build/api.Dockerfile
     expose:
       - "8080"
     ports:
@@ -38,7 +38,7 @@ services:
   # nextapp:
   #   container_name: nextapp
   #   build:
-  #     context: ./fronted
+  #     context: ./nextapp
   #     dockerfile: prod.Dockerfile
   #     args:
   #       NEXT_PUBLIC_HOME_URL: ${NEXT_PUBLIC_HOME_URL}
@@ -57,8 +57,8 @@ services:
   #     - api
   monitor:
     build:
-      context: ./
-      dockerfile: ./build_image_on_alpine/monitor.Dockerfile
+      context: ../
+      dockerfile: ./build/monitor.Dockerfile
     environment:
       - DB_SOURCE=postgresql://root:secret@postgres:5432/ziwiki?sslmode=disable
     depends_on:

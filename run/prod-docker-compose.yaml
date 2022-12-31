@@ -4,7 +4,7 @@ services:
     container_name: nginx
     build: 
         context: ./
-        dockerfile: ./build_image_on_alpine/nginx.Dockerfile
+        dockerfile: ./build/nginx.Dockerfile
     ports:
       - 80:80
       - 443:443
@@ -15,10 +15,10 @@ services:
       - api
       - nextapp
   postgres:
-    # image: local_postgres
-    build:
-      context: ./build_image_on_alpine
-      dockerfile: ./postgres.Dockerfile
+    image: local_postgres
+    # build:
+    #   context: ./build
+    #   dockerfile: ./postgres.Dockerfile
     environment:
       - POSTGRES_USER=root
       - POSTGRES_PASSWORD=secret
@@ -26,10 +26,10 @@ services:
     expose:
       - "5342"
   api:
-    # image: local_api
-    build:
-      context: ./
-      dockerfile: ./build_image_on_alpine/api.Dockerfile
+    image: local_api
+    # build:
+    #   context: ./
+    #   dockerfile: ./build/api.Dockerfile
     expose:
       - "8080"
     environment:
@@ -50,7 +50,7 @@ services:
   nextapp:
     container_name: nextapp
     build:
-      context: ./fronted
+      context: ./nextapp
       dockerfile: prod.Dockerfile
       args:
         NEXT_PUBLIC_HOME_URL: ${NEXT_PUBLIC_HOME_URL}
@@ -66,10 +66,10 @@ services:
     depends_on:
       - api
   monitor:
-    # image: local_monitor
-    build:
-      context: ./
-      dockerfile: ./build_image_on_alpine/monitor.Dockerfile
+    image: local_monitor
+    # build:
+    #   context: ./
+    #   dockerfile: ./build/monitor.Dockerfile
     environment:
       - DB_SOURCE=postgresql://root:secret@postgres:5432/ziwiki?sslmode=disable
     depends_on:

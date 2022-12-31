@@ -1,7 +1,7 @@
 # Build stage
 FROM deps_image_alpine AS builder
 WORKDIR /app
-COPY ziwiki .
+COPY backend .
 RUN export GOPROXY=https://goproxy.cn/ \
   && export PATH="$PATH:$HOME/bin" \
   && bazel run //:gazelle \
@@ -13,9 +13,9 @@ RUN export GOPROXY=https://goproxy.cn/ \
 FROM alpine:3.16
 WORKDIR /app
 COPY --from=builder /app/bazel-bin/cmd/monitor/monitor_/monitor .
-COPY ziwiki/app.env .
-COPY ziwiki/start_monitor.sh .
-COPY ziwiki/wait-for.sh .
+COPY backend/app.env .
+COPY backend/start_monitor.sh .
+COPY backend/wait-for.sh .
 RUN chmod +x ./start_monitor.sh \
   && chmod +x ./wait-for.sh 
 EXPOSE 8080
