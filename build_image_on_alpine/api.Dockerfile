@@ -17,8 +17,8 @@ COPY ./build_image_on_alpine/util/migrate.linux-amd64 /usr/bin/migrate
 COPY ziwiki/app.env .
 COPY ziwiki/start.sh .
 COPY ziwiki/wait-for.sh .
-COPY ziwiki/bundle.crt .
-COPY ziwiki/bundle.key .
+COPY cert/bundle.crt .
+COPY cert/bundle.key .
 COPY ziwiki/db/migration migration
 RUN chmod +x ./start.sh \
   && chmod +x ./wait-for.sh 
