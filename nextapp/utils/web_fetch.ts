@@ -1,4 +1,4 @@
-import { backend_base_url,server_side_url,use_https_url } from "./env_variable"
+import { backend_base_url,server_side_url,use_https_url,geo_key } from "./env_variable"
 
 async function fetch_post(values, url: string, access_token: string) {
   if (use_https_url == "false"){
@@ -115,7 +115,7 @@ export async function fetch_geo(ip) {
   
   var url = `http://ip-api.com/json/${ip}`
   if (use_https_url != "false") {
-    url = `https://api.ipgeolocation.io/ipgeo?apiKey=340460ae63bf44edbe9210420a14534e&ip=${ip}`
+    url = `https://api.ipgeolocation.io/ipgeo?apiKey=${geo_key}&ip=${ip}`
   }
   const response = await fetch(url, options)
   const data = await response.json();
